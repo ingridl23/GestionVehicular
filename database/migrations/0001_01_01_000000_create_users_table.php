@@ -13,10 +13,14 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('nombre');
+            $table->string('apellido');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
+            $table->string('contrasena');
+            $table->integer('legajo')->unique();
+            //$table->foreign('id_dependencia')->constrained('dependencia')->cascadeOnDelete();
+            $table->foreignId('id_dependencia')->references('id')->on('dependencias')->onDelete('cascade');
             $table->rememberToken();
             $table->timestamps();
         });

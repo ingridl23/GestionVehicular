@@ -18,9 +18,12 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'name',
+        'nombre',
+        'apellido',
+        'legajo',
         'email',
         'password',
+        'id_dependencia'
     ];
 
     /**
@@ -44,5 +47,17 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function dependencia() {
+        return $this->hasOne(Dependencia::class);
+    }
+
+    public function carnet() {
+        return $this->hasOne(Carnet::class);
+    }
+
+    public function reservas() {
+        return $this->hasMany(Reserva::class);
     }
 }
