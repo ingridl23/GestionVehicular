@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('contrasena');
             $table->integer('legajo')->unique();
             //$table->foreign('id_dependencia')->constrained('dependencia')->cascadeOnDelete();
-            $table->foreignId('id_dependencia')->references('id')->on('dependencias')->onDelete('cascade');
+            $table->foreignId('id_dependencia')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

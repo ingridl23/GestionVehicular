@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::Create('direcciones', function(Blueprint $table){
-            $table->id();
-            $table->string('calle');
-            $table->integer('altura');
-            $table->string('ciudad');
+        Schema::table('users', function (Blueprint $table) {
+            $table->foreign('id_dependencia')
+                ->references('id')
+                ->on('dependencias')
+                ->onDelete('cascade');
         });
     }
 
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('direccion');
+        Schema::dropIfExists('users');
     }
 };
