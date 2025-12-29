@@ -42,6 +42,6 @@ class Reserva extends Model
     }
 
     public function viaje(){
-        return $this->hasOne(Viaje::class);
+        return $this->hasMany(Viaje::class);
     }
 }

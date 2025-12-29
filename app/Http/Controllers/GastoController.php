@@ -5,30 +5,56 @@ namespace App\Http\Controllers;
 use App\Models\Gasto;
 use App\Models\Viaje;
 use Illuminate\Http\Request;
+use App\Services\GastoService;
+use Illuminate\Http\JsonResponse;
+use Exception;
 class GastoController extends Controller{
 
 
-    //tener relacion con viaje y auto
+    /**
+     * GastoController
+├── index()        // listado de gastos
+├── calcular()     // cálculo por viaje
+├── resumen()      // totales y estadísticas
+├── show($viaje)   // gasto de un viaje puntual
 
-    //si hubo un viaje traer combustible y kilometros.
-    //calcular gasto del viaje segun precio combustible actual
-    //guardar o crear ese gasto del viaje registrado vinculado a una fecha y un viaje con un auto y un usuario
-    //en una vista pasar cada viaje y sus gastos
-    public function indexGasto(){
-        $gastos = Gasto::all();
-        $viajes = Viaje::all();
-        return view("ui.gastos")->with('viajes',$viajes)->with('gasto',$gastos);
+     */
+
+
+    /**importe =
+    (litros_consumidos * valor_litro)
+
+     */
+    public function preview(int $viajeId, GastoService $service): JsonResponse
+    {
+        try {
+            $monto = $service->calcularGastoPorViaje($viajeId);
+
+            return response()->json([
+                'viaje_id' => $viajeId,
+                'monto_estimado' => $monto
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage()
+            ], 422);
+        }
     }
 
 
-    //seleccionar y eliminar un gasto registrado
-    public function deleteGasto($id){
+    public function calcular(int $viajeId, GastoService $service): JsonResponse
+    {
+        try {
+            $gasto = $service->generarGastoPorViaje($viajeId);
 
-        //el ususario selecciona un gasto
-        //se encuentra en el sistema
-        //y se elimina
-        //se actualiza la vista correspondiente a los gastos
-
+            return response()->json([
+                'message' => 'Gasto generado correctamente',
+                'gasto'   => $gasto
+            ], 201);
+        } catch (Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage()
+            ], 422);
+        }
     }
-
-    }
+}

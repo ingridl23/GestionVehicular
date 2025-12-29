@@ -35,4 +35,10 @@ return [
         ],
     ],
 
+    'alphacast' => [
+        'key' => env('ALPHACAST_API_KEY'),
+        'url' => env('ALPHACAST_BASE_URL'),
+    ],
+
+
 ];

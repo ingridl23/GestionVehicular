@@ -20,4 +20,13 @@ class Gasto extends Model
     public function user() {
         return $this->belongsTo(User::class, 'id_viaje');
     }
+    public function viajes()
+    {
+        return $this->belongsTo(Viaje::class, 'id_viaje');
+    }
+
+    public function estadoNafta()
+    {
+        return $this->belongsTo(Estados_nafta::class, 'id_estados_nafta');
+    }
 }

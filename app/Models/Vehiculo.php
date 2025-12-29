@@ -42,10 +42,10 @@ class Vehiculo extends Model
     }
 
     public function reservas() {
-        return $this->hasMany(Reserva::class);
+        return $this->hasMany(Reserva::class,'id_vehiculo');
     }
 
-    public function viaje(){
-        return $this->hasOne(Viaje::class);
+    public function viajes(){
+        return $this->hasMany(Viaje::class, 'id_vehiculo');
     }
 }
