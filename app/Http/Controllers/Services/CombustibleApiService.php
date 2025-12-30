@@ -23,6 +23,21 @@ class CombustibleApiService
             return null;
         }
 
-        return (float) ($response->json('data.price'));
+
+        $data = $response->json('data');
+
+        if (!$data) {
+            return null;
+        }
+
+        //activarlo para poder saber visualizarlo en la UI con datos
+       //|
+      // V
+        //dd($response->json());
+
+        // Ejemplo: tomar el precio de nafta SUPER
+        return isset($data['nafta_grado_2_super'])
+            ? (float) $data['nafta_grado_2_super']
+            : null;
     }
 }

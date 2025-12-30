@@ -17,29 +17,9 @@ class GastoService
         protected CalculoGastoService $calculoService
     ) {}
 
-    /**
-     *  SOLO cálculo (preview / simulación)
-     */
-    public function calcularGastoPorViaje(int $viajeId): float
-    {
-        $viaje = Viaje::findOrFail($viajeId);
-
-        $precioLitro = PrecioCombustible::where('fecha', Carbon::today())
-            ->value('precio_litro')
-            ?? $this->combustibleApi->obtenerPrecioActual();
-
-        if (!$precioLitro) {
-            throw new Exception('No hay precio de combustible disponible');
-        }
-
-        return $this->calculoService->calcular(
-            $viaje->kilometros,
-            $precioLitro
-        );
-    }
 
     /**
-     *  Calcula y GUARDA
+     *  Reglas + DB
      */
     public function generarGastoPorViaje(int $viajeId): Gasto
     {
@@ -47,7 +27,7 @@ class GastoService
 
             $viaje = Viaje::findOrFail($viajeId);
 
-            //  VALIDACIONES DE NEGOCIO (ACÁ)
+            //  VALIDACIONES DE NEGOCIO
 
             if (!$viaje->fecha_fin) {
                 throw new Exception('El viaje no está finalizado');
@@ -57,19 +37,37 @@ class GastoService
                 throw new Exception('El viaje no tiene kilómetros registrados');
             }
 
+            if (!$viaje->combustible_consumido) {
+                throw new Exception('El viaje no tiene combustible registrado');
+            }
+
             if (Gasto::where('id_viaje', $viajeId)->exists()) {
                 throw new Exception('El viaje ya tiene un gasto asociado');
             }
 
-            // CÁLCULO
-            $monto = $this->calcularGastoPorViaje($viajeId);
+            // CÁLCULO precio del combustible
+            $precioLitro = PrecioCombustible::where('fecha', Carbon::today())
+                ->value('precio_litro')
+                ?? $this->combustibleApi->obtenerPrecioActual();
 
-            //  PERSISTENCIA
+            if (!$precioLitro) {
+                throw new Exception('No hay precio de combustible disponible');
+            }
+
+            //calculo
+
+            $importe = $this->calculoService->calcularMonto(
+                $viaje->combustible_consumido,
+                $precioLitro
+            );
+
+            //Persistencia del gasto del viaje
+
             return Gasto::create([
-                'id_viaje'         => $viaje->id,
-                'kilometros'       => $viaje->kilometros,
-                'id_estados_nafta' => $viaje->id_estado_nafta,
-                'monto'            => $monto,
+                'id_viaje'     => $viaje->id,
+                'monto'        => $importe,
+                'valor_litro'  => $precioLitro,
+                'fecha_calculo' => now(),
             ]);
         });
     }

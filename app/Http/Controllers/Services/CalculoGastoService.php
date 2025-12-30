@@ -8,25 +8,9 @@ use Exception;
 
 class CalculoGastoService
 {
-public function calcular(Viaje $viaje, float $precioLitro): Gasto
-{
-if ($viaje->gasto) {
-throw new Exception('El viaje ya tiene un gasto calculado');
-}
+    public function calcularMonto(float $litrosConsumidos, float $precioLitro): float
+    {
+        return round($litrosConsumidos * $precioLitro, 2);
+    }
 
-if (!$viaje->combustible_consumido || !$viaje->kilometros) {
-throw new Exception('Faltan datos del viaje');
-}
-
-$importe = $viaje->combustible_consumido * $precioLitro;
-
-return DB::transaction(function () use ($viaje, $importe, $precioLitro) {
-return Gasto::create([
-'id_viaje' => $viaje->id,
-'importe' => $importe,
-'valor_litro' => $precioLitro,
-'fecha_calculo' => now(),
-]);
-});
-}
 }
