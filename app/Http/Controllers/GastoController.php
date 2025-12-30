@@ -31,7 +31,7 @@ class GastoController extends Controller{
     public function preview(int $viajeId, GastoService $service): JsonResponse
     {
         try {
-            $monto = $service->calcularGastoPorViaje($viajeId);
+            $monto = $service->generarGastoPorViaje($viajeId);
 
             return response()->json([
                 'viaje_id' => $viajeId,
