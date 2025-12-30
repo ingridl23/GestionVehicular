@@ -3,6 +3,8 @@
 namespace App\Services;
 
 use App\Models\Vehiculo;
+
+use App\Models\EstadosVehiculo;
 use Illuminate\Support\Facades\DB;
 use Exception;
 use Illuminate\Http\Request;
@@ -19,7 +21,8 @@ class VehiculoService
             if (Vehiculo::where('dominio', $data['dominio'])->exists()) {
                 throw new Exception('Ya existe un vehículo con ese dominio');
             }
-
+            // Estado fijo al crear
+            $data['id_estado_vehiculo'] = EstadosVehiculo::DISPONIBLE;
             return Vehiculo::create($data);
         });
     }
@@ -59,11 +62,24 @@ class VehiculoService
      */
     public function eliminar(Vehiculo $vehiculo): void
     {
+        //  Si está en uso
+        if ($vehiculo->id_estado_vehiculo === EstadosVehiculo::EN_USO) {
+            throw new Exception('No se puede dar de baja un vehículo en uso');
+        }
+
+        // Si ya está dado de baja
+        if ($vehiculo->id_estado_vehiculo === EstadosVehiculo::BAJA) {
+            throw new Exception('El vehículo ya está dado de baja');
+        }
         if ($vehiculo->reservas()->exists() || $vehiculo->viajes()->exists()) {
             throw new Exception('El vehículo tiene reservas o viajes asociados');
         }
 
-        $vehiculo->delete();
+        // ✅ Baja lógica
+        $vehiculo->update([
+            'id_estado_vehiculo' => EstadosVehiculo::BAJA
+        ]);
+
     }
 
 

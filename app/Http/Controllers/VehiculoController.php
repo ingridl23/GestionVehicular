@@ -38,7 +38,7 @@ class VehiculoController extends Controller
             'modelo' => 'required|string',
             'anio' => 'required|integer',
             'id_dependencia_duena' => 'required|exists:dependencias,id',
-            'id_estado_vehiculo' => 'required|exists:estados_vehiculo,id',
+            'id_estado_vehiculo', //lo define el sistema al crearlo (por defecto disponible)
             'VTV' => 'required|date'
         ]);
 
@@ -93,7 +93,7 @@ class VehiculoController extends Controller
         $service->eliminar($vehiculo);
 
         return response()->json([
-            'message' => 'Vehículo eliminado correctamente'
+            'message' => 'Vehículo dado de baja correctamente'
         ]);
     }
 }
