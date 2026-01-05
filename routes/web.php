@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GastoController;
 use App\Http\Controllers\VehiculoController;
+use App\Http\Controllers\AlertaController;
 use App\Services\CombustibleApiService;
 use App\Http\Controllers\Auth\ForcedPasswordController;
 
@@ -38,6 +39,18 @@ Route::post('/viajes/{viaje}/gasto', [GastoController::class, 'calcular']);
 
         // CU 3 – Eliminar vehículo
         Route::delete('/vehiculos/{vehiculo}', [VehiculoController::class, 'destroy']);
+
+
+
+        // Listar todas las alertas activas
+        Route::get('/alertas', [AlertaController::class, 'index']);
+
+        // Listar alertas activas por entidad
+        // Ej: /alertas/vehiculo/3
+        Route::get('/alertas/{tipo}/{id}', [AlertaController::class, 'porEntidad']);
+
+        // Resolver manualmente una alerta
+        Route::patch('/alertas/{id}/resolver', [AlertaController::class, 'resolver']);
     });
 
 //ruta para testear si se conecta a la api
@@ -47,4 +60,6 @@ Route::get('/test-combustible', function (App\Services\CombustibleApiService $se
         'resultado' => $service->obtenerPrecioActual()
     ]);
 });
+
+
 

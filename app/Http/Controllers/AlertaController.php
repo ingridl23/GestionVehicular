@@ -2,15 +2,8 @@
 
 namespace App\Http\Controllers;
 
-
-use Illuminate\Http\Request;
 use App\Models\Alerta;
-use App\Services\AlertaService;
 use Illuminate\Http\JsonResponse;
-use Exception;
-
-use function PHPUnit\Framework\isEmpty;
-
 
 class AlertaController extends Controller
 {
@@ -47,5 +40,3 @@ class AlertaController extends Controller
         ]);
     }
 }
-
-
