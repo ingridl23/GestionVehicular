@@ -13,7 +13,7 @@ class DireccionSeeder extends Seeder
      */
     public function run(): void
     {
-        direcciones::insert([
+        Direcciones::insert([
             [
                 'calle' => 'Avenida Rivadavia',
                 'altura' => '1',
@@ -139,6 +139,12 @@ class DireccionSeeder extends Seeder
                 'altura' => '440',
                 'ciudad' => 'Tres Arroyos',
             ],
+            [
+                'calle' => 'Dirección Salud',
+                'altura' => '0',
+                'ciudad' => 'Tres Arroyos',
+            ],
+
         ]);
     }
 }
