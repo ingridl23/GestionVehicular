@@ -20,6 +20,12 @@ class Reserva extends Model
         'id_dependencia_solicitante',
         'id_usuario'
     ];
+    protected $casts = [
+        'fecha_reserva' => 'datetime',
+        'fecha_inicio_reserva' => 'datetime',
+        'fecha_fin_reserva' => 'datetime',
+    ];
+
 
     public function vehiculo() {
         return $this->belongsTo(Vehiculo::class, 'id_vehiculo');

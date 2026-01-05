@@ -19,6 +19,11 @@ class Kernel extends ConsoleKernel
             ->onFailure(function () {
                 Log::error('Falló la actualización del precio de combustible');
             });
+
+        //  TODAS LAS ALERTAS
+        $schedule->command('app:verificar-alertas')
+            ->dailyAt('03:00')
+            ->withoutOverlapping();
     }
 
     /**

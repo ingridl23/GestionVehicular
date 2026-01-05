@@ -13,7 +13,13 @@ class Carnet extends Model
     protected $fillable = [
         'fecha_vencimiento',
         'fecha_emision',
-        'id_usuario'
+        'id_usuario',
+        'vigente'
+    ];
+    protected $casts = [
+        'fecha_vencimiento' => 'date',
+        'fecha_emision' => 'date',
+        'vigente' => 'boolean',
     ];
 
     public function user() {

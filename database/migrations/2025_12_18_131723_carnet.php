@@ -15,7 +15,9 @@ return new class extends Migration
             $table->id();
             $table->date('fecha_emision');
             $table->date('fecha_vencimiento');
+            $table->boolean('vigente')->default(true);
             $table->foreignId('id_usuario')->references('id')->on('users')->onDelete('cascade');
+            $table->timestamps();
         });
     }
 

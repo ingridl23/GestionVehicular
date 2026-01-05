@@ -11,6 +11,8 @@ use Illuminate\Notifications\Notifiable;
 class Vehiculo extends Model
 {
     use HasFactory, Notifiable;
+    protected $table = 'vehiculo';
+
 
     protected $fillable = [
         'dominio',

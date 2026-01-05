@@ -50,15 +50,22 @@ class User extends Authenticatable
         ];
     }
 
-    public function dependencia() {
-        return $this->hasOne(Dependencia::class);
+    public function dependencia()
+    {
+        return $this->belongsTo(Dependencia::class, 'id_dependencia');
     }
 
-    public function carnet() {
-        return $this->hasOne(Carnet::class);
+    public function carnet()
+    {
+        return $this->hasOne(Carnet::class, 'id_usuario');
     }
+
 
     public function reservas() {
         return $this->hasMany(Reserva::class);
+    }
+    public function puedeConducir(): bool
+    {
+        return $this->carnet && $this->carnet->vigente;
     }
 }

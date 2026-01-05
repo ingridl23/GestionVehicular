@@ -38,7 +38,6 @@ class VehiculoController extends Controller
             'modelo' => 'required|string',
             'anio' => 'required|integer',
             'id_dependencia_duena' => 'required|exists:dependencias,id',
-            'id_estado_vehiculo', //lo define el sistema al crearlo (por defecto disponible)
             'VTV' => 'required|date'
         ]);
 
@@ -58,7 +57,11 @@ class VehiculoController extends Controller
             'modelo' => 'sometimes|string',
             'anio' => 'sometimes|integer',
             'id_estado_vehiculo' => 'sometimes|exists:estados_vehiculo,id',
-            'VTV' => 'sometimes|date'
+            'VTV' => 'sometimes|date',
+            'habilitado_prestamo' => 'sometimes|boolean',
+            'condiciones_prestamo' => 'nullable|string',
+            'control_satelital' => 'sometimes|boolean',
+
         ]);
 
         $vehiculo = $service->actualizar($vehiculo, $data);
