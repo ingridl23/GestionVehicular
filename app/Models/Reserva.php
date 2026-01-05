@@ -26,7 +26,7 @@ class Reserva extends Model
     }
 
     public function estado_reserva() {
-        return $this->belongsTo(Estados_reserva::class, 'id_estado_reserva');
+        return $this->belongsTo(EstadosReserva::class, 'id_estado_reserva');
     }
 
     public function dependencia_duena() {

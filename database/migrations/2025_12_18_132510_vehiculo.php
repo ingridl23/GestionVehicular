@@ -21,10 +21,11 @@ return new class extends Migration
             $table->foreignId('id_estado_vehiculo')->references('id')->on('estados_vehiculo')->onDelete('restrict');
             $table->foreignId('id_dependencia_duena')->references('id')->on('dependencias')->onDelete('restrict');
             $table->foreignId('id_estado_nafta')->references('id')->on('estados_nafta')->onDelete('restrict');
-            $table->boolean('prestamo')->default(false);
+            $table->boolean('control_satelital')->default(false);
+            $table->boolean('habilitado_prestamo')->default(false);
             $table->string('condiciones_prestamo')->nullable();
             $table->integer('kilometros');
-            $table->integer('VTV');
+            $table->date('VTV');
             $table->timestamps();
         });
     }

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Estados_reserva extends Model
+class EstadosReserva extends Model
 {
     use hasFactory, Notifiable;
 
