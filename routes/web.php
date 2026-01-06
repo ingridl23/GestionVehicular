@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GastoController;
 use App\Http\Controllers\VehiculoController;
 use App\Http\Controllers\AlertaController;
+use App\Http\Controllers\ReporteController;
 use App\Services\CombustibleApiService;
 use App\Http\Controllers\Auth\ForcedPasswordController;
 
@@ -51,6 +52,12 @@ Route::post('/viajes/{viaje}/gasto', [GastoController::class, 'calcular']);
 
         // Resolver manualmente una alerta
         Route::patch('/alertas/{id}/resolver', [AlertaController::class, 'resolver']);
+
+
+        Route::get('/reportes', [ReporteController::class, 'index']);
+        Route::post('/reportes', [ReporteController::class, 'store']);
+        Route::get('/reportes/{reporte}', [ReporteController::class, 'show']);
+        Route::patch('/reportes/{reporte}/estado', [ReporteController::class, 'cambiarEstado']);
     });
 
 //ruta para testear si se conecta a la api
