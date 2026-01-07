@@ -6,78 +6,96 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+;
+use Spatie\Permission\PermissionRegistrar;
 
 class RoleAndPermissionsSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
+        app(PermissionRegistrar::class)->forgetCachedPermissions();
 
-         // --- Roles ---
-        $adminDependencia = Role::firstOrCreate(['name' => 'Administrador de Dependencia']);
-        $jefeOficina = Role::firstOrCreate(['name' => 'Jefe de Oficina']);
-        $conductor = Role::firstOrCreate(['name' => 'Conductor']);
-        $adminGeneral = Role::firstOrCreate(['name' => 'Administrador General']);
+        // ROLES
+        $adminDependencia = Role::firstOrCreate([
+            'name' => 'Administrador de Dependencia',
+            'guard_name' => 'web',
+        ]);
 
+        $jefeOficina = Role::firstOrCreate([
+            'name' => 'Jefe de Oficina',
+            'guard_name' => 'web',
+        ]);
 
-        // --- Permisos ---
+        $conductor = Role::firstOrCreate([
+            'name' => 'Conductor',
+            'guard_name' => 'web',
+        ]);
 
-        //Vehiculos
-        Permission::create(['name' => 'cargar_vehiculo']);
-        Permission::create(['name' => 'editar_vehiculo']);
-        Permission::create(['name' => 'eliminar_vehiculo']);
-        Permission::create(['name' => 'ver_vehiculos']);
-        Permission::create(['name' => 'cambiar_estado_vehiculo']);
-        Permission::create(['name' => 'registrar_datos_vehiculos']); //cargar kms, ultima ubicacion
-        Permission::create(['name' => 'modificar_asignacion_vehiculo']);
+        $adminGeneral = Role::firstOrCreate([
+            'name' => 'Administrador General',
+            'guard_name' => 'web',
+        ]);
 
-        //Reportes
-        Permission::create(['name' => 'ver_reportes_dependencia']);
-        Permission::create(['name' => 'ver_reportes_general']);
+        // PERMISOS
+        $permisos = [
+            // Vehículos
+            'cargar_vehiculo',
+            'editar_vehiculo',
+            'eliminar_vehiculo',
+            'ver_vehiculos',
+            'cambiar_estado_vehiculo',
+            'registrar_datos_vehiculos',
+            'modificar_asignacion_vehiculo',
 
-        //Auditoria
-        Permission::create(['name' => 'ver_auditoria']);
-        Permission::create(['name' => 'ver_gastos']);
+            // Reportes
+            'ver_reportes_dependencia',
+            'ver_reportes_general',
 
-        //Reservas
-        Permission::create(['name' => 'ver_reservas_internas']);
-        Permission::create(['name' => 'ver_reservas_prestamos']); //Muestra aprobadas, rechazadas y canceladas
-        Permission::create(['name' => 'ver_solicitudes_prestamos']); // Muestra las solicitudes pendientes
-        Permission::create(['name' => 'autorizar_prestamos']);
-        Permission::create(['name' => 'autorizar_reservas_internas']);
-        Permission::create(['name' => 'actualizar_reserva_interna']);
-        Permission::create(['name' => 'actualizar_prestamo']);
-        Permission::create(['name' => 'cancelar_reserva_interna']);
-        Permission::create(['name' => 'cancelar_prestamo']);
-        Permission::create(['name' => 'solicitar_reserva_interna']);
-        Permission::create(['name' => 'solicitar_prestamo']);
-        Permission::create(['name' => 'visualizar_reserva_asignada']);
+            // Auditoría
+            'ver_auditoria',
+            'ver_gastos',
 
-        //dependencias
-        Permission::create(['name' => 'ver_dependencias']);
-        Permission::create(['name' => 'crear_dependencia']);
-        Permission::create(['name' => 'editar_dependencia']);
-        permission::create(['name' => 'eliminar_dependencia']);
+            // Reservas
+            'ver_reservas_internas',
+            'ver_reservas_prestamos',
+            'ver_solicitudes_prestamos',
+            'autorizar_prestamos',
+            'autorizar_reservas_internas',
+            'actualizar_reserva_interna',
+            'actualizar_prestamo',
+            'cancelar_reserva_interna',
+            'cancelar_prestamo',
+            'solicitar_reserva_interna',
+            'solicitar_prestamo',
+            'visualizar_reserva_asignada',
 
-        //usuarios
-        Permission::create(['name' => 'crear_usuario']);
-        Permission::create(['name' => 'editar_usuario']);
-        Permission::create(['name' => 'eliminar_usuario']);
-        Permission::create(['name' => 'ver_usuario']);
-        Permission::create(['name' => 'ver_todos_usuarios']);
-        Permission::create(['name' => 'asignar_rol']);
-        Permission::create(['name' => 'ver_personal_dependencia']);
-        Permission::create(['name' => 'editar_personal_dependencia']);
-        Permission::create(['name' => 'eliminar_personal_dependencia']);
-        // En caso de tener que agregar una nueva persona en su dependencia necesitará solicitarlo al Administrador General
+            // Dependencias
+            'ver_dependencias',
+            'crear_dependencia',
+            'editar_dependencia',
+            'eliminar_dependencia',
 
+            // Usuarios
+            'crear_usuario',
+            'editar_usuario',
+            'eliminar_usuario',
+            'ver_usuario',
+            'ver_todos_usuarios',
+            'asignar_rol',
+            'ver_personal_dependencia',
+            'editar_personal_dependencia',
+            'eliminar_personal_dependencia',
+        ];
 
-        // Asignación de permisos
+        foreach ($permisos as $permiso) {
+            Permission::firstOrCreate([
+                'name' => $permiso,
+                'guard_name' => 'web',
+            ]);
+        }
 
-        $adminDependencia->givePermissionTo([
+        // ASIGNACIÓN
+        $adminDependencia->syncPermissions([
             'cargar_vehiculo',
             'editar_vehiculo',
             'eliminar_vehiculo',
@@ -101,11 +119,10 @@ class RoleAndPermissionsSeeder extends Seeder
             'visualizar_reserva_asignada',
             'ver_personal_dependencia',
             'editar_personal_dependencia',
-            'eliminar_personal_dependencia'
+            'eliminar_personal_dependencia',
         ]);
 
-
-        $jefeOficina->givePermissionTo([
+        $jefeOficina->syncPermissions([
             'solicitar_reserva_interna',
             'solicitar_prestamo',
             'ver_reservas_internas',
@@ -115,15 +132,12 @@ class RoleAndPermissionsSeeder extends Seeder
             'modificar_asignacion_vehiculo',
         ]);
 
-
-        $conductor->givePermissionTo([
+        $conductor->syncPermissions([
             'visualizar_reserva_asignada',
             'registrar_datos_vehiculos',
             'modificar_asignacion_vehiculo',
         ]);
 
-
-        $adminGeneral->givePermissionTo(Permission::all());
+        $adminGeneral->syncPermissions(Permission::all());
     }
 }
-
