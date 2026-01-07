@@ -75,7 +75,7 @@ class VehiculoService
             throw new Exception('El vehículo tiene reservas o viajes asociados');
         }
 
-        // ✅ Baja lógica
+        // Baja lógica
         $vehiculo->update([
             'id_estado_vehiculo' => EstadosVehiculo::BAJA
         ]);

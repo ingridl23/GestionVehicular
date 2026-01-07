@@ -4,24 +4,24 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Reportes extends Model
+class ReporteComentarios extends Model
 {
     protected $fillable = [
-        'titulo',
-        'descripcion',
+        'reporte_id',
         'id_usuario',
-        'entidad_tipo',
-        'entidad_id',
-        'estado'
+        'comentario'
     ];
+
+
 
     public function usuario()
     {
         return $this->belongsTo(User::class, 'id_usuario');
     }
-
-    public function comentarios()
+    public function reporte()
     {
-        return $this->hasMany(ReporteComentarios::class);
+        return $this->belongsTo(Reportes::class, 'reporte_id');
     }
 }
+
+

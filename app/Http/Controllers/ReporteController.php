@@ -12,7 +12,7 @@ class ReporteController extends Controller
     {
         return Reportes::with('usuario')
             ->orderBy('created_at', 'desc')
-            ->get();
+            ->paginate(20);
     }
 
     public function store(Request $request, ReporteService $service)
@@ -32,15 +32,43 @@ class ReporteController extends Controller
 
     public function show(Reportes $reporte)
     {
-        return $reporte->load('usuario');
+        return $reporte->load('usuario','comentarios.usuario');
     }
 
-    public function cambiarEstado(Request $request, Reportes $reporte, ReporteService $service)
+    /**Cambiar estado del reporte */
+    public function cambiarEstado(Request $request, Reportes $reporte)
     {
+        if (!$request->user()->hasRole('admin')) {
+            abort(403, 'No autorizado');
+        }
+
         $request->validate([
-            'estado' => 'required|string'
+            'estado' => 'required|in:pendiente,en_revision,atendido,cerrado'
         ]);
 
-        return $service->cambiarEstado($reporte, $request->estado);
+        $reporte->update([
+            'estado' => $request->estado
+        ]);
+
+        return response()->json(['message' => 'Estado actualizado']);
     }
+
+/***************************************************************************************************************** */
+    /**Seguimiento de Comentarios en Reportes */
+
+    public function agregarComentario(Request $request, Reportes $reporte)
+    {
+        $request->validate([
+            'comentario' => 'required|string'
+        ]);
+
+        $reporte->comentarios()->create([
+            'id_usuario' => $request->user()->id,
+            'comentario' => $request->comentario
+        ]);
+
+        return response()->json(['message' => 'Comentario agregado']);
+    }
+
+
 }

@@ -6,9 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
+
     public function up(): void
     {
         Schema::create('reportes', function (Blueprint $table) {
@@ -18,7 +16,7 @@ return new class extends Migration
             $table->text('descripcion');
 
             // quien reporta
-            $table->foreignId('id_usuario')
+            $table->foreignId('id_usuario')->nullable()
                 ->constrained('users')
                 ->onDelete('restrict');
 
