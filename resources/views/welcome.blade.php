@@ -8,7 +8,7 @@
 
 <body>
     <div class="min-h-screen w-full flex items-center justify-center bg-cover bg-center"
-        style="background-image: url('{{ Vite::asset('resources/imagenes/vehiculos.png') }}');">
+        style="background-image: url('{{ Vite::asset('resources/imagenes/flotavehicular.png') }}');">
 
         <div class="relative max-w-lg text-center px-4">
 
@@ -21,8 +21,7 @@
             </h2>
 
             <!-- CONTENEDOR FORM -->
-            <div class="backdrop-blur-xl bg-white/20 border border-white/40 shadow-2xl rounded-2xl p-6">
-
+            <div class="backdrop-blur-lg bg-white/30 shadow-xl rounded-xl p-6 border border-white/40">
 
                 <form method="POST">
                     @csrf
