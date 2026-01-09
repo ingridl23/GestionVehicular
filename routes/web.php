@@ -19,7 +19,11 @@ Route::middleware(['auth', 'force.password'])->group(
         Route::get('/force-password', [ForcedPasswordController::class, 'edit'])
             ->middleware('auth')
             ->name('password.force');
-Route::post('/viajes/{id}/gasto', [GastoController::class, 'calcular']);
+
+
+
+
+        Route::post('/viajes/{id}/gasto', [GastoController::class, 'calcular']);
 Route::get('/viajes/{viaje}/gasto/preview', [GastoController::class, 'preview']);
 Route::post('/viajes/{viaje}/gasto', [GastoController::class, 'calcular']);
 
