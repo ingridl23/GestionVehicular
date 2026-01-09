@@ -1,3 +1,1 @@
-module.exports = {
-    darkMode: "class",
-};
+module.exports = {};
