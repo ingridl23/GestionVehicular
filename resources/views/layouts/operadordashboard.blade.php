@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @vite(['resources/js/app.js', 'resources/css/app.css'])
-    <title>Dashboard- operador </title>
+    <title> Dashboard- operador </title>
+    <link href="{{ asset('css/operador.css') }}" rel="stylesheet" />
 </head>
 
 <body class="bg-gray-100 min-h-screen">
@@ -54,7 +55,6 @@
                     <button class="block w-full text-left px-3 py-2 hover:bg-gray-100">Cerrar sesión</button>
                 </div>
             </div>
-
         </div>
     </nav>
 
@@ -66,6 +66,40 @@
         <button class="block w-full text-left px-4 py-2 hover:bg-gray-100">Mis viajes</button>
         <button class="block w-full text-left px-4 py-2 hover:bg-gray-100">Mis reservas</button>
     </div>
+
+    <!--seccion de warnings proximos para el usuario -->
+
+    <!-- ALERTA -->
+    <div class="flex items-baseline gap-3 bg-yellow-50 border-l-4 border-yellow-500 rounded-md p-3 mb-8"> <span
+            class="text-yellow-600 text-lg">⚠️</span>
+        <div class="text-sm">
+            <div class="font-semibold text-yellow-800">Warning!</div>
+            <p class="text-yellow-700">Best check yo. Praesent commodo cursus magna.</p>
+        </div>
+    </div>
+
+
+
+    <section class="botones-rapidos">
+        <div class="btns-rapido1">
+            <button id="btn-rapido-reserva">Iniciar Reserva</button>
+            <button id="btn-rapido-reporte">Comenzar Reporte</button>
+            <button id="btn-rapido-conductor">Asignar Conductor</button>
+        </div>
+
+        <div class="btns-rapi2">
+            <button id="btn-iniciar-viaje">Iniciar Viaje</button>
+            <button id="btn-fin-viaje">Finalizar Viaje</button>
+
+        </div>
+
+    </section>
+
+
+
+
+
+
 
 
     <script>
@@ -110,5 +144,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
 
 </body>
+<footer></footer>
 
 </html>
