@@ -1,9 +1,17 @@
 @import "tailwindcss";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 @import "tailwindcss/theme";
+@import "bootstrap/dist/css/bootstrap.min.css";
+@import "@fortawesome/fontawesome-free/css/all.min.css";
 @source "../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php";
 @source "../../storage/framework/views/*.php";
 @source "../**/*.blade.php";
 @source "../**/*.js";
 @theme {
     --dark: true;
+}
+
+html {
+    font-family: 'Inter', sans-serif;
 }

@@ -5,12 +5,16 @@ use App\Http\Controllers\GastoController;
 use App\Http\Controllers\VehiculoController;
 use App\Http\Controllers\AlertaController;
 use App\Http\Controllers\ReporteController;
+use App\Http\Controllers\UserController;
+
 use App\Services\CombustibleApiService;
 use App\Http\Controllers\Auth\ForcedPasswordController;
 
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/operador', [UserController::class, 'operador']);
+
 
 Route::middleware(['auth', 'force.password'])->group(
     function () {
