@@ -6,7 +6,7 @@ use App\Http\Controllers\VehiculoController;
 use App\Http\Controllers\AlertaController;
 use App\Http\Controllers\ReporteController;
 use App\Http\Controllers\UserController;
-
+use App\Http\Controllers\HistorialController;
 use App\Services\CombustibleApiService;
 use App\Http\Controllers\Auth\ForcedPasswordController;
 
@@ -14,7 +14,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::get('/operador', [UserController::class, 'operador']);
-
 
 Route::middleware(['auth', 'force.password'])->group(
     function () {
@@ -24,12 +23,10 @@ Route::middleware(['auth', 'force.password'])->group(
             ->middleware('auth')
             ->name('password.force');
 
-
-
-
-        Route::post('/viajes/{id}/gasto', [GastoController::class, 'calcular']);
-Route::get('/viajes/{viaje}/gasto/preview', [GastoController::class, 'preview']);
-Route::post('/viajes/{viaje}/gasto', [GastoController::class, 'calcular']);
+        /** **VIAJES** */
+       Route::post('/viajes/{id}/gasto', [GastoController::class, 'calcular']);
+       Route::get('/viajes/{viaje}/gasto/preview', [GastoController::class, 'preview']);
+       Route::post('/viajes/{viaje}/gasto', [GastoController::class, 'calcular']);
 
         // CU 2 – Listado de vehículos (con filtros opcionales)
         Route::get('/vehiculos', [VehiculoController::class, 'index']);
@@ -50,6 +47,7 @@ Route::post('/viajes/{viaje}/gasto', [GastoController::class, 'calcular']);
         Route::delete('/vehiculos/{vehiculo}', [VehiculoController::class, 'destroy']);
 
 
+           /**  ALERTAS AUTOMATICAS */
 
         // Listar todas las alertas activas
         Route::get('/alertas', [AlertaController::class, 'index']);
@@ -61,11 +59,19 @@ Route::post('/viajes/{viaje}/gasto', [GastoController::class, 'calcular']);
         // Resolver manualmente una alerta
         Route::patch('/alertas/{id}/resolver', [AlertaController::class, 'resolver']);
 
+            /** REPORTES */
 
         Route::get('/reportes', [ReporteController::class, 'index']);
         Route::post('/reportes', [ReporteController::class, 'store']);
         Route::get('/reportes/{reporte}', [ReporteController::class, 'show']);
         Route::patch('/reportes/{reporte}/estado', [ReporteController::class, 'cambiarEstado']);
+
+         /** ***AUDITORIA*** */
+
+        Route::prefix('auditoria')->group(function () {
+            Route::get('/vtv', [HistorialController::class, 'listarVtv']);
+            Route::get('/vtv/resumen', [HistorialController::class, 'resumenVtv']);
+        });
     });
 
 //ruta para testear si se conecta a la api

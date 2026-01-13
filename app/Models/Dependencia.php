@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Models;
-
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Notifications\Notifiable;
@@ -29,7 +27,7 @@ class Dependencia extends Model
     }
 
     public function direccion() {
-        return $this->belongsTo(Direccion::class, 'id_direccion');
+        return $this->belongsTo(Direcciones::class, 'id_direccion');
     }
 
     public function vehiculos() {
