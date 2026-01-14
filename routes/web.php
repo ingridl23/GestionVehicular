@@ -7,6 +7,7 @@ use App\Http\Controllers\AlertaController;
 use App\Http\Controllers\ReporteController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\HistorialController;
+use App\Http\Controllers\DependenciaController;
 use App\Services\CombustibleApiService;
 use App\Http\Controllers\Auth\ForcedPasswordController;
 
@@ -14,6 +15,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::get('/operador', [UserController::class, 'operador']);
+Route::get('/dashboard', [DependenciaController::class, 'dashboard']);
+// CU 2 – Listado de vehículos (con filtros opcionales)
+Route::get('/listado-vehiculos', [VehiculoController::class, 'index']);
+Route::get('/vehiculos', [VehiculoController::class, 'sectionVehiculo']);
+// CU 2 – Detalle de un vehículo
+Route::get('/vehiculos/{vehiculo}', [VehiculoController::class, 'show']);
 
 Route::middleware(['auth', 'force.password'])->group(
     function () {
@@ -28,11 +35,7 @@ Route::middleware(['auth', 'force.password'])->group(
        Route::get('/viajes/{viaje}/gasto/preview', [GastoController::class, 'preview']);
        Route::post('/viajes/{viaje}/gasto', [GastoController::class, 'calcular']);
 
-        // CU 2 – Listado de vehículos (con filtros opcionales)
-        Route::get('/vehiculos', [VehiculoController::class, 'index']);
 
-        // CU 2 – Detalle de un vehículo
-        Route::get('/vehiculos/{vehiculo}', [VehiculoController::class, 'show']);
 
         // CU 5 – Agregar vehículo
         Route::post('/vehiculos', [VehiculoController::class, 'store']);

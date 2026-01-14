@@ -82,8 +82,9 @@ class VehiculoService
 
     public function eliminar(Vehiculo $vehiculo): void
     {
-        $enUso = $this->estadoId('EN_USO');
-        $baja  = $this->estadoId('BAJA');
+        $enUso = $this->estadoId('RESERVADO');
+        $baja  = $this->estadoId('NO DISPONIBLE');
+        $enMantenimiento = $this->estadoId('EN MANTENIMIENTO');
 
         if ($vehiculo->id_estado_vehiculo === $enUso) {
             throw new Exception('No se puede dar de baja un vehículo en uso');
@@ -91,6 +92,10 @@ class VehiculoService
 
         if ($vehiculo->id_estado_vehiculo === $baja) {
             throw new Exception('El vehículo ya está dado de baja');
+        }
+
+        if ($vehiculo->id_estado_vehiculo === $enMantenimiento){
+             throw new Exception ('No se puede utilizar, el vehiculo esta en mantenimiento');
         }
 
         if ($vehiculo->reservas()->exists() || $vehiculo->viajes()->exists()) {

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 use App\Models\Vehiculo;
+use App\Models\Dependencia;
+use App\Models\EstadosVehiculo;
 use Illuminate\Http\Request;
 use App\Services\VehiculoService;
 use Illuminate\Http\JsonResponse;
@@ -10,6 +12,11 @@ use Exception;
 class VehiculoController extends Controller
 {
 
+public function sectionVehiculo(){
+    $dependencias =Dependencia::all();
+    $estadosVehiculo =Vehiculo::with('id_estado_vehiculo');
+    return View('components.vehiculos', compact('dependencias','estadosVehiculo') );
+}
     // CU 2 – Listado
     public function index(Request $request, VehiculoService $service): JsonResponse
     {

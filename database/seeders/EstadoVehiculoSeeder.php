@@ -21,13 +21,13 @@ class EstadoVehiculoSeeder extends Seeder
                 'estado' => 'DISPONIBLE',
             ],
             [
-                'estado' => 'BAJA',
+                'estado' => 'NO DISPONIBLE',
             ],
             [
                 'estado' => 'EN MANTENIMIENTO',
             ],
             [
-                'estado' => 'EN USO',
+                'estado' => 'RESERVADO',
             ],
         ]);
     }
