@@ -14,7 +14,7 @@
         <div class="relative">
             <button @click="openUser = !openUser" class="flex items-center gap-2">
                 <i class="fa-solid fa-user-circle text-xl text-slate-600 dark:text-slate-200"></i>
-                <span class="text-sm text-slate-800 dark:text-slate-200">{{ auth()->user()->name ?? $mockUser->name }}</span>
+                <span class="text-sm text-slate-800 dark:text-slate-200">{{ auth()->user()->name }}</span>
             </button>
 
             <div x-show="openUser" @click.away="openUser=false" class="absolute right-0 mt-2 bg-white dark:bg-slate-700 border rounded shadow">
