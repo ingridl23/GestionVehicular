@@ -1,5 +1,4 @@
 <?php
-
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GastoController;
 use App\Http\Controllers\VehiculoController;
@@ -8,14 +7,17 @@ use App\Http\Controllers\ReporteController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\HistorialController;
 use App\Http\Controllers\DependenciaController;
+use App\Http\Controllers\Auth\LoginController;
 use App\Services\CombustibleApiService;
 use App\Http\Controllers\Auth\ForcedPasswordController;
 
 Route::get('/', function () {
     return view('welcome');
 });
+Route::view('/login', 'welcome')->name('login');
+
 Route::get('/operador', [UserController::class, 'operador']);
-Route::get('/dashboard', [DependenciaController::class, 'dashboard']);
+
 // CU 2 – Listado de vehículos (con filtros opcionales)
 Route::get('/listado-vehiculos', [VehiculoController::class, 'index']);
 Route::get('/vehiculos', [VehiculoController::class, 'sectionVehiculo']);
@@ -27,8 +29,12 @@ Route::middleware(['auth', 'force.password'])->group(
 
         /* Fuerzo a que actualice la contraseña la 1era vez que se loguea*/
         Route::get('/force-password', [ForcedPasswordController::class, 'edit'])
-            ->middleware('auth')
-            ->name('password.force');
+        ->middleware('auth')
+        ->name('password.force');
+
+
+        /**DASHBOARD  */
+       Route::get('/dashboard', [DependenciaController::class, 'dashboard']);
 
         /** **VIAJES** */
        Route::post('/viajes/{id}/gasto', [GastoController::class, 'calcular']);
@@ -69,12 +75,7 @@ Route::middleware(['auth', 'force.password'])->group(
         Route::get('/reportes/{reporte}', [ReporteController::class, 'show']);
         Route::patch('/reportes/{reporte}/estado', [ReporteController::class, 'cambiarEstado']);
 
-         /** ***AUDITORIA*** */
 
-        Route::prefix('auditoria')->group(function () {
-            Route::get('/vtv', [HistorialController::class, 'listarVtv']);
-            Route::get('/vtv/resumen', [HistorialController::class, 'resumenVtv']);
-        });
     });
 
 //ruta para testear si se conecta a la api

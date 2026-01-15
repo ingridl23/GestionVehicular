@@ -10,6 +10,16 @@ class UserController extends Controller
 {
 
 public function operador(){
-    return View('layouts/operadordashboard');
+    return View('ui.operadordashboard');
 }
+
+
+public function dashboard()
+{
+    $user = Auth::user();
+
+    return view('admin.auditoria.index', compact('user'));
+}
+
+
 }

@@ -8,22 +8,23 @@
 
 <body>
     <div class="min-h-screen w-full flex items-center justify-center bg-cover bg-center"
-        style="background-image: url('{{ Vite::asset('resources/imagenes/flotavehicular.png') }}');">
-
+      style="background-image: url('{{ Vite::asset('resources/assets/imagenes/flotavehicular.png') }}');">
         <div class="relative max-w-lg text-center px-4">
 
             <!-- TÍTULO -->
-            <h1 class="text-3xl font-bold text-blue-900 drop-shadow-md">
+            <h2 class="text-3xl font-bold text-blue-900 drop-shadow-md">
                 Gestión Vehicular
-            </h1>
-            <h2 class="text-gray-700 mb-6 drop-shadow-md">
-                Municipalidad de Tres Arroyos
             </h2>
+
+
+            <h3 class="text-gray-700 mb-6 drop-shadow-md">
+                Municipalidad de Tres Arroyos
+            </h3>
 
             <!-- CONTENEDOR FORM -->
             <div class="backdrop-blur-lg bg-white/30 shadow-xl rounded-xl p-6 border border-white/40">
 
-                <form method="POST">
+                <form method="POST" action="/login">
                     @csrf
 
                     <!-- EMAIL -->

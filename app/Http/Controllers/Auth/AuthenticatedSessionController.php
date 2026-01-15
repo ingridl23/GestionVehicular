@@ -16,7 +16,7 @@ class AuthenticatedSessionController extends Controller
      */
     public function create(): View
     {
-        return view('auth.login');
+        return view('welcome');
     }
 
     /**
@@ -33,7 +33,8 @@ class AuthenticatedSessionController extends Controller
             return redirect()->route('password.force');
         }
 
-        return redirect()->intended(route('home', absolute: false));
+        return redirect()->intended('/dashboard');
+
     }
 
     /**

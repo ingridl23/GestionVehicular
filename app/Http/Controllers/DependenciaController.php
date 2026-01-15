@@ -10,7 +10,6 @@ use function PHPUnit\Framework\isEmpty;
 class DependenciaController extends Controller{
 
 
-public function dashboard(){
-    return View('layouts.dashboardGeneral');
-}
+
+
 }
