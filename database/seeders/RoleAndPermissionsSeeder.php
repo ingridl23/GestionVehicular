@@ -17,17 +17,17 @@ class RoleAndPermissionsSeeder extends Seeder
 
         // ROLES
         $adminDependencia = Role::firstOrCreate([
-            'name' => 'Administrador de Dependencia',
+            'name' => 'Dueño Dependencia',
             'guard_name' => 'web',
         ]);
 
         $jefeOficina = Role::firstOrCreate([
-            'name' => 'Jefe de Oficina',
+            'name' => 'Jefe de Area',
             'guard_name' => 'web',
         ]);
 
         $conductor = Role::firstOrCreate([
-            'name' => 'Conductor',
+            'name' => 'Operativo',
             'guard_name' => 'web',
         ]);
 
