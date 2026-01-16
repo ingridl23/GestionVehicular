@@ -14,22 +14,22 @@ class Dependencia extends Model
     protected $fillable = [
         'nombre',
         'activa',
-        'id_dependencia',
+        'id_dependencia_padre',
         'id_direccion',
     ];
 
     // Dependencia padre
     public function dependenciaPadre() {
-        return $this->belongsTo(Dependencia::class, 'id_dependencia');
+        return $this->belongsTo(Dependencia::class, 'id_dependencia_padre');
     }
 
     // Dependencias hijas
     public function dependenciasHijas() {
-        return $this->hasMany(Dependencia::class, 'id_dependencia');
+        return $this->hasMany(Dependencia::class, 'id_dependencia_padre');
     }
 
     public function direccion() {
-        return $this->belongsTo(Direccion::class, 'id_direccion');
+        return $this->belongsTo(Direcciones::class, 'id_direccion');
     }
 
     public function vehiculos() {

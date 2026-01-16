@@ -6,6 +6,7 @@ use App\Http\Controllers\VehiculoController;
 use App\Http\Controllers\AlertaController;
 use App\Services\CombustibleApiService;
 use App\Http\Controllers\Auth\ForcedPasswordController;
+use App\Http\Controllers\DependenciaController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -51,6 +52,27 @@ Route::post('/viajes/{viaje}/gasto', [GastoController::class, 'calcular']);
 
         // Resolver manualmente una alerta
         Route::patch('/alertas/{id}/resolver', [AlertaController::class, 'resolver']);
+
+
+        //DEPENDENCIAS
+
+        //Editar dependencias
+        Route::get('dependencias/editar/{id}', [DependenciaController::class, 'datosParaEditarDependencia']); //formulario editar
+        Route::patch('/dependencias/{id}', [DependenciaController::class, 'editarDependencia']);
+
+        //crear dependencias
+        Route::get('/dependencias/crear', [DependenciaController::class, 'datosParaCrearDependencia']); //formulario crear
+        Route::post('/dependencias/crear-dependencia', [DependenciaController::class, 'crearDependencia']);
+
+        // Ver dependencias 
+        Route::get('/dependencias', [DependenciaController::class, 'verDependencias'])->name('dependencias.index');
+
+        Route::get('/dependencias/{id}', [DependenciaController::class, 'verDependencia']);
+
+        // Eliminar dependencias
+        Route::delete('/dependencias/{id}', [DependenciaController::class, 'eliminarDependencia']);
+        
+
     });
 
 //ruta para testear si se conecta a la api
@@ -60,6 +82,12 @@ Route::get('/test-combustible', function (App\Services\CombustibleApiService $se
         'resultado' => $service->obtenerPrecioActual()
     ]);
 });
+
+
+
+
+
+        
 
 
 

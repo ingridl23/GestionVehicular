@@ -1,0 +1,124 @@
+<?php
+
+namespace App\Services;
+use App\Models\Dependencia;
+use App\Models\Direcciones;
+use Illuminate\Validation\ValidationException;
+
+class DependenciaService{
+
+    protected DireccionService $direccionService;
+
+    public function __construct(DireccionService $direccionService)
+    {
+        $this->direccionService = $direccionService;
+    }
+
+    public function verDependencias(){
+        return Dependencia::with('direccion')->orderBy('nombre')->paginate(10);
+    }
+
+    public function datosFiltros(){
+        return [
+            'dependencias_filtros' => Dependencia::select('nombre', 'id')->orderBy('nombre')->get(),
+            'localidades'  => Direcciones::obtenerLocalidades(),
+        ];
+    }
+
+    //verDependencia muestra una dependencia con todos sus datos y las dependencias padre (no los datos, solo el nombre)
+    public function verDependencia($id){
+        $padre = Dependencia::with(['dependenciaPadre', 'direccion'])->findOrFail($id);
+        
+        $hijas = Dependencia::with(['dependenciasHijas' => function ($q) {$q->orderBy('nombre');}])->findOrFail($id);
+        return [
+            'dependencias_hijas' => $hijas,
+            'dependencia_padre' => $padre,
+        ];
+    }
+
+
+    public function eliminarDependencia($id){
+       $dependencia = Dependencia::findOrFail($id);
+
+       //Se comprueba que no tenga dependencias hijas
+        if ($dependencia->dependenciasHijas->isNotEmpty()) {
+             throw ValidationException::withMessages([
+                'dependencia' => 'No se puede eliminar esta dependencia porque existen otros registros que dependen de ella.',
+            ]);
+        }
+        $dependencia->delete();
+    }
+    
+
+    
+    public function cambiarActivaDependencia($id){
+        $dependencia = Dependencia::findOrFail($id);
+
+       //Se comprueba que no tenga dependencias hijas
+        if ($dependencia->dependenciasHijas->isNotEmpty()) {
+            throw ValidationException::withMessages([
+                'dependencia' => 'No se puede desactivar esta dependencia porque existen otros registros que dependen de ella.',
+            ]);
+        }
+
+        $valorActiva = ($dependencia->activa == true) ? false : true;
+        $dependencia->update(['activa' => $valorActiva]);
+    }
+
+
+
+    public function editarDependencia(array $data, $id){
+        $dependencia = Dependencia::findOrFail($id);
+
+         if ($data['id_direccion'] === 'nueva') {
+            $calle = $data['calle'];
+            $altura = $data['altura'];
+            $ciudad = $data['ciudad'];
+            $id_direccion = $this->direccionService->crearDireccion($calle, $altura, $ciudad);
+        } else {
+            $id_direccion = $data['id_direccion'];
+        }
+
+        $nombre = $data['nombre'];
+        $activa = filter_var($data['activa'], FILTER_VALIDATE_BOOLEAN);
+        $id_dependencia_padre = $data['id_dependencia_padre'];
+        $dependencia->update([
+            'nombre' => $nombre,
+            'id_dependencia_padre' => $id_dependencia_padre,
+            'id_direccion' => $id_direccion,
+            'activa' => $activa,
+        ]);
+    }
+
+    public function datosRelacionesDependencia($id = null){
+        return [
+            'dependencias' => Dependencia::orderBy('nombre')->get(),
+            'direcciones'  => Direcciones::orderBy('calle')->get(),
+            'dependencia_base_datos'  => $id ? Dependencia::with('direccion')->findOrFail($id) : null,
+        ];
+    }
+
+
+    public function crearDependencia(array $data){
+        if ($data['id_direccion'] === 'nueva') {
+            $calle = $data['calle'];
+            $altura = $data['altura'];
+            $ciudad = $data['ciudad'];
+            $id_direccion = $this->direccionService->crearDireccion($calle, $altura, $ciudad);
+        } else {
+            $id_direccion = $data['id_direccion'];
+        }
+        $nombre = $data['nombre'];
+        $activa = filter_var($data['activa'], FILTER_VALIDATE_BOOLEAN);
+
+        $id_dependencia_padre = intval($data['id_dependencia_padre']);
+        $dependencia = Dependencia::create([
+            'id_dependencia_padre' => $id_dependencia_padre,
+            'nombre' => $nombre,
+            'id_direccion' => $id_direccion,
+            'activa' => $activa,
+        ]);
+        dd($dependencia);
+    }
+
+}

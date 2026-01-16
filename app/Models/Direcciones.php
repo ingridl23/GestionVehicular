@@ -10,6 +10,8 @@ class Direcciones extends Model
 {
     use HasFactory, Notifiable;
 
+    public $timestamps = false;
+    
     protected $fillable = [
         'calle',
         'altura',
@@ -26,6 +28,10 @@ class Direcciones extends Model
 
     public function viaje() {
         return $this->hasMany(Viaje::class);
+    }
+
+    public static function obtenerLocalidades(){
+        return Direcciones::distinct()->get('ciudad');
     }
 
 
