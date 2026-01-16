@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Alerta;
+use App\Models\Reportes;
 use Carbon\Carbon;
 
 class AlertaService
@@ -29,6 +30,8 @@ class AlertaService
         );
     }
 
+
+
     public function resolver(
         string $tipo,
         string $entidadTipo,
@@ -44,4 +47,7 @@ class AlertaService
             'fecha_resuelta' => now()
         ]);
     }
+
+
+
 }

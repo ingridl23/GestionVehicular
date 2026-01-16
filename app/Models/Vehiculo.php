@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Models;
-
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
@@ -42,6 +40,7 @@ class Vehiculo extends Model
     public function estado_vehiculo(){
         return $this->belongsTo(EstadosVehiculo::class, 'id_estado_vehiculo');
     }
+
 
     public function direccion() {
         return $this->belongsTo(Direcciones::class, 'id_direccion_actual');

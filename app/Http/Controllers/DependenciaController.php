@@ -1,16 +1,24 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Dependencia;
+use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use Exception;
+use function PHPUnit\Framework\isEmpty;
 
 use App\Http\Requests\FiltroDependenciasRequest;
 use App\Http\Requests\EditarDependenciaRequest;
 use App\Http\Requests\CrearDependenciaRequest;
-use App\Models\Dependencia;
+
 use Illuminate\Validation\ValidationException;
 use App\Services\DependenciaService;
 use App\Services\DireccionService;
 
 class DependenciaController extends Controller{
+
+
+
 
     protected DependenciaService $service;
 
@@ -35,7 +43,7 @@ class DependenciaController extends Controller{
         return view('dependencias.dependencia', $dependencia);
     }
 
-    
+
     // permiso = eliminar dependencias
     public function eliminarDependencia($id){
         try {
@@ -126,7 +134,7 @@ class DependenciaController extends Controller{
             $query->whereHas('direccion', function ($q) use ($localidad) {
                 $q->where('ciudad', $localidad);
             });
-        }   
+        }
 
         /* ----------------------
          ORDENAMIENTO SEGURO
@@ -166,13 +174,17 @@ class DependenciaController extends Controller{
         else{
             $query->orderBy("nombre");
         }
-        
+
         /* ----------------------
          PAGINACIÓN
         ---------------------- */
        $dependencias = $query->paginate(10);
 
         return response()->json($dependencias);
-        
+
     }
 }
+
+
+
+
