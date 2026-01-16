@@ -4,6 +4,7 @@ use App\Http\Controllers\GastoController;
 use App\Http\Controllers\VehiculoController;
 use App\Http\Controllers\AlertaController;
 use App\Http\Controllers\ReporteController;
+use App\Http\Controllers\ReservaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\HistorialController;
 use App\Http\Controllers\HomeController;
@@ -35,15 +36,9 @@ Route::middleware(['auth'])->group(function () {
 
 
     // Listado de vehículos
-    Route::get('/listado-vehiculos', [VehiculoController::class, 'index']);
+    Route::get('/listado-vehiculos', [VehiculoController::class, 'index'])->name('vehiculos.index');
     Route::get('/vehiculos', [VehiculoController::class, 'sectionVehiculo']);
     Route::get('/vehiculos/{vehiculo}', [VehiculoController::class, 'show']);
-
-    // VIAJES Y GASTOS
-    Route::post('/viajes/{id}/gasto', [GastoController::class, 'calcular'])
-        ->name('viajes.gasto.calcular');
-    Route::get('/viajes/{viaje}/gasto/preview', [GastoController::class, 'preview'])
-        ->name('viajes.gasto.preview');
 
     // VEHÍCULOS (CRUD con permisos)
     Route::post('/vehiculos', [VehiculoController::class, 'store'])
@@ -61,6 +56,16 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/vehiculos/{vehiculo}', [VehiculoController::class, 'destroy'])
         ->middleware('permission:eliminar_vehiculo')
         ->name('vehiculos.destroy');
+
+        //RESERVAS CON PERMISOS
+         Route::get('/listado-reservas', [ReservaController::class, 'reservas'])->name('reservas.internas');
+                  Route::get('/listado-prestamos', [ReservaController::class, 'prestamos'])->name('reservas.prestamos');
+    // VIAJES Y GASTOS
+    Route::post('/viajes/{id}/gasto', [GastoController::class, 'calcular'])
+        ->name('viajes.gasto.calcular');
+    Route::get('/viajes/{viaje}/gasto/preview', [GastoController::class, 'preview'])
+        ->name('viajes.gasto.preview');
+
 
     // ALERTAS
     Route::get('/alertas', [AlertaController::class, 'index'])
