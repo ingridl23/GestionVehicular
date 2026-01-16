@@ -19,21 +19,25 @@ use App\Services\CombustibleApiService;
 // Ruta raíz redirige al login
 Route::get('/', [HomeController::class, 'inicio']);
 
-// RUTAS PÚBLICAS
-Route::get('/operador', [UserController::class, 'operador']);
 
-// Listado de vehículos
-Route::get('/listado-vehiculos', [VehiculoController::class, 'index']);
-Route::get('/vehiculos', [VehiculoController::class, 'sectionVehiculo']);
-Route::get('/vehiculos/{vehiculo}', [VehiculoController::class, 'show']);
 
 // RUTAS PROTEGIDAS (requieren autenticación)
+
+
+
+//*******************para admin general**************************
 Route::middleware(['auth'])->group(function () {
 
 
     // DASHBOARD
-    Route::get('/dashboard', [DependenciaController::class, 'dashboard'])
-        ->name('dashboard');
+    Route::get('/dashboard', [HomeController::class, 'dashboard'])
+    ->name('dashboard');
+
+
+    // Listado de vehículos
+    Route::get('/listado-vehiculos', [VehiculoController::class, 'index']);
+    Route::get('/vehiculos', [VehiculoController::class, 'sectionVehiculo']);
+    Route::get('/vehiculos/{vehiculo}', [VehiculoController::class, 'show']);
 
     // VIAJES Y GASTOS
     Route::post('/viajes/{id}/gasto', [GastoController::class, 'calcular'])
@@ -77,6 +81,24 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('/reportes/{reporte}/estado', [ReporteController::class, 'cambiarEstado'])
         ->name('reportes.cambiarEstado');
 });
+
+
+//crear grupo de rutas para operativo
+// Ruta principal para operador
+Route::get('/operador', [UserController::class, 'operador']);
+
+
+
+
+
+
+//para jefe de area
+
+//para dueño de dependencia
+
+
+
+
 
 // RUTA DE PRUEBA API
 Route::get('/test-combustible', function (CombustibleApiService $service) {
