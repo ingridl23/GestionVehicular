@@ -9,16 +9,13 @@ use Illuminate\Notifications\Notifiable;
 class EstadosVehiculo extends Model
 {
     use HasFactory, Notifiable;
+    protected $table = 'estados_vehiculo';
 
     protected $fillable = [
         'estado',
+
     ];
 
-    public const DISPONIBLE = 1;
-    public const EN_USO     = 2;
-    public const BAJA       = 3;
-    public const EN_MANTENIMIENTO = 4;
-    public const NO_DISPONIBLE = 5 ;
     public function vehiculos() {
         return $this->hasMany(Vehiculo::class);
     }

@@ -171,5 +171,12 @@ class ReservaController extends Controller{
        $dependencias = $query->paginate(10);
 
         return response()->json($dependencias);
+    }
+
+public function reservas(){
+    return View ('ui.reservas');
+}
+public function prestamos(){
+    return View ('ui.prestamos');
 }
 }

@@ -24,12 +24,16 @@ class ReservaService{
         return $this->user() ? mb_strtolower($this->user()->rol, 'UTF-8') : null;
     }
 
+
+    // El Administrador General puede ver todas las reservas independientemente de a que independencia pertenezca
+    // El Administrador de Dependencia y Jefe de Oficina solo pueden ver las reservas que pertenecen a la Dependencia 
+    // El Conductor visualiza las reservas donde esta involucrado
     public function verReservas(){
         $rol = $this->rol();
         $id_dependencia = $this->user()->dependencia;
         $query = Reserva::with('estado_reserva', 'vehiculo')->orderBy('fecha_inicio_reserva');
 
-        // Solo puede ver las  reservas que involucran a la dependencia
+
         if($rol == 'administrador de dependencia' || $rol == 'jefe de oficina'){
            $query->where(function ($q) use ($id_dependencia) {
                 $q->where('id', $id_dependencia)

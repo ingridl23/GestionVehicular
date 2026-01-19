@@ -6,9 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
+
     public function up(): void
     {
         Schema::create('vehiculo', function(Blueprint $table){
@@ -21,8 +19,8 @@ return new class extends Migration
             $table->foreignId('id_estado_vehiculo')->references('id')->on('estados_vehiculo')->onDelete('restrict');
             $table->foreignId('id_dependencia_duena')->references('id')->on('dependencias')->onDelete('restrict');
             $table->foreignId('id_estado_nafta')->references('id')->on('estados_nafta')->onDelete('restrict');
-            $table->boolean('control_satelital')->default(false);
-            $table->boolean('habilitado_prestamo')->default(false);
+            $table->boolean('control_satelital')->default(true); //por defecto al cargar primera vez
+            $table->boolean('habilitado_prestamo')->default(true); //por defecto al cargar primera vez
             $table->string('condiciones_prestamo')->nullable();
             $table->integer('kilometros');
             $table->date('VTV');
@@ -30,9 +28,7 @@ return new class extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
+
     public function down(): void
     {
         Schema::dropIfExists('vehiculo');
