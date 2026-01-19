@@ -7,6 +7,7 @@ use App\Http\Controllers\AlertaController;
 use App\Services\CombustibleApiService;
 use App\Http\Controllers\Auth\ForcedPasswordController;
 use App\Http\Controllers\DependenciaController;
+use App\Http\Controllers\ReservaController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -72,8 +73,12 @@ Route::post('/viajes/{viaje}/gasto', [GastoController::class, 'calcular']);
         // Eliminar dependencias
         Route::delete('/dependencias/{id}', [DependenciaController::class, 'eliminarDependencia']);
         
+        Route::get('/reservas', [ReservaController::class, 'verReservas']);
+        Route::get('/reservas/{id}', [ReservaController::class, 'verReserva']);
 
     });
+
+
 
 //ruta para testear si se conecta a la api
 
