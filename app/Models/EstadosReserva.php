@@ -20,6 +20,7 @@ class EstadosReserva extends Model
     public const EN_CURSO = 3;
     public const FINALIZADA = 4;
     public const CANCELADA = 5;
+    public const RECHAZADA = 6;
 
     public function reservas() {
         return $this->hasMany(Reserva::class);

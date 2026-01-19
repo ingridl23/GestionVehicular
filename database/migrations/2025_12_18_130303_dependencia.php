@@ -18,7 +18,7 @@ return new class extends Migration
 
             $table->foreignId('id_direccion')
                 ->constrained('direcciones')
-                ->cascadeOnDelete();
+                ->restrictOnDelete();
 
             $table->foreignId('id_dependencia_padre')
                 ->nullable()
