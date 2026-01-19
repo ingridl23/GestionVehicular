@@ -8,6 +8,16 @@ use Illuminate\Http\Request;
 
 class ReporteController extends Controller
 {
+
+public function __construct()
+{
+    $this->middleware('permission:ver_reportes_general')
+        ->only(['index', 'show']);
+
+    $this->middleware('permission:actualizar_reportes')
+        ->only(['update']);
+}
+
     public function index()
     {
         return Reportes::with('usuario')

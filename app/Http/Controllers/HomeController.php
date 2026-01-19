@@ -26,8 +26,8 @@ public function inicio(){
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function dashboard()
+  /*  public function dashboard()
     {
         return view('admin.auditoria.index');
-    }
+    }*/
 }
