@@ -107,7 +107,7 @@
     <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6">
         <div class="flex items-center justify-between mb-4">
             <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Vehículos Recientes</h2>
-            <a href="{{ route('vehiculos.index') }}" class="text-sm text-blue-600 dark:text-blue-400 hover:underline">
+            <a href="#"{{--    {{{ route('vehiculos') }} --}}  class="text-sm text-blue-600 dark:text-blue-400 hover:underline">
                 Ver todos
             </a>
         </div>
@@ -134,7 +134,7 @@
     <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6">
         <div class="flex items-center justify-between mb-4">
             <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Reservas Recientes</h2>
-            <a href="{{ route('reservas.internas') }}" class="text-sm text-blue-600 dark:text-blue-400 hover:underline">
+            <a href="#" {{--   {{ route('/reservas') }}   --}}  class="text-sm text-blue-600 dark:text-blue-400 hover:underline">
                 Ver todas
             </a>
         </div>

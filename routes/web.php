@@ -10,7 +10,6 @@ use App\Http\Controllers\HistorialController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\DependenciaController;
 use App\Http\Controllers\Auth\ForcedPasswordController;
-
 use App\Services\CombustibleApiService;
 
 // Fortify ya maneja estas rutas automáticamente:
@@ -27,14 +26,18 @@ Route::get('/', [HomeController::class, 'inicio']);
 
 
 
-//*******************para admin general**************************
+//*******************para todos los usuarios   **************************
 Route::middleware(['auth'])->group(function () {
 
+    Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard');
 
-    // DASHBOARD
-    Route::get('/dashboard', [HomeController::class, 'dashboard'])
-    ->name('dashboard');
+   // Route::get('/vehiculos', [VehiculoController::class, 'sectionVehiculo'])->middleware('permission:ver_vehiculos');
+    Route::get('/vehiculos', [VehiculoController::class, 'sectionVehiculo'])
+    ->middleware('permission:ver_vehiculos|ver_vehiculos_dentro_dependencia');
 
+    Route::get('/vehiculos/{vehiculo}', [VehiculoController::class, 'show'])
+        ->middleware('permission:ver_vehiculos');
+   // Route::get('/listado-vehiculos', [VehiculoController::class, 'index'])->name('vehiculos.index');
 
     // Listado de vehículos
     Route::get('/listado-vehiculos', [VehiculoController::class, 'index'])->name('vehiculos.index');
@@ -115,15 +118,14 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/editar-reserva/{id}', [ReservaController::class, 'mostrarFormulario'])->name('reservas.editar'); //FORMULARIO
     Route::get('/cancelar-reserva/{id}', [ReservaController::class, 'cancelarReserva'])->name('reservas.cancelar'); //FORMULARIO
 
+    Route::get('/alertas', [AlertaController::class, 'index'])->name('alertas.index');
+    Route::get('/alertas/{tipo}/{id}', [AlertaController::class, 'porEntidad'])->name('alertas.porEntidad');
 });
 
 
-//crear grupo de rutas para operativo
-// Ruta principal para operador
-Route::get('/operador', [UserController::class, 'operador']);
 
 
-        
+
 
 // RUTA DE PRUEBA API
 Route::get('/test-combustible', function (CombustibleApiService $service) {

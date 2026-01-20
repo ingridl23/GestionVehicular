@@ -7,21 +7,18 @@
         "dev": "vite"
     },
     "devDependencies": {
-        "@tailwindcss/postcss": "^4.1.18",
-        "@tailwindcss/vite": "^4.0.0",
         "autoprefixer": "^10.4.23",
         "axios": "^1.11.0",
         "concurrently": "^9.0.1",
         "laravel-vite-plugin": "^2.0.0",
         "postcss": "^8.5.6",
-        "tailwindcss": "^4.1.18",
+        "tailwindcss": "^3.4.19",
         "vite": "^7.0.7"
     },
     "dependencies": {
+        "@alpinejs/collapse": "^3.13.3",
         "@fortawesome/fontawesome-free": "^7.1.0",
-        "@popperjs/core": "^2.11.8",
-        "alpinejs": "^3.15.4",
-        "bootstrap": "^5.3.8",
+        "alpinejs": "^3.13.3",
         "chart.js": "^4.5.1",
         "lucide": "^0.562.0",
         "simple-datatables": "^10.2.0"

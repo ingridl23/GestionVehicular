@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use App\Services\VehiculoService;
 use Illuminate\Http\JsonResponse;
 use Exception;
-
+use App\Http\Controllers\UserController;
 class VehiculoController extends Controller
 {
 
@@ -20,6 +20,11 @@ public function sectionVehiculo(){
     // CU 2 – Listado
     public function index(Request $request, VehiculoService $service): JsonResponse
     {
+        if (auth()->user()->hasRole('Operativo')) {
+         $vehiculos = Vehiculo::where('dependencia_id', auth()->user()->dependencia_id)
+        ->get();
+}
+
         return response()->json(
             $service->listar($request)
         );
