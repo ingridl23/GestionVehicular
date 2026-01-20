@@ -13,12 +13,12 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+         $this->middleware('auth')->except(['inicio']);
     }
 
-public function inicio(){
-    return View('welcome');
-}
+    public function inicio(){
+        return View('welcome');
+    }
 
 
     /**

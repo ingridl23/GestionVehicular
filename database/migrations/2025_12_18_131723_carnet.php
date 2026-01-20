@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('carnet', function(Blueprint $table){
+        Schema::create('carnets', function(Blueprint $table){
             $table->id();
             $table->date('fecha_emision');
             $table->date('fecha_vencimiento');
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('carnet');
+        Schema::dropIfExists('carnets');
     }
 };

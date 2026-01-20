@@ -2,10 +2,13 @@
 
 namespace App\Services;
 
+use App\Models\Carnet;
 use App\Models\EstadosReserva;
 use App\Models\Reserva;
+use App\Models\User;
 use App\Models\Vehiculo;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Models\Role;
 
 class ReservaService{
 
@@ -21,31 +24,71 @@ class ReservaService{
     }
 
     protected function rol(){
-        return $this->user() ? mb_strtolower($this->user()->rol, 'UTF-8') : null;
+        $rol = $this->user()->getRoleNames();
+        return $rol[0] ;
+    }
+
+
+    // El Administrador General puede ver todas las reservas independientemente de a que independencia pertenezca
+    // El Administrador de Dependencia y Jefe de Oficina solo pueden ver las reservas que pertenecen a la Dependencia 
+    // El Conductor visualiza las reservas donde esta involucrado (id_usuario)
+    public function verReservasInternas(){
+        $rol = $this->rol();
+        $id_dependencia = $this->user()->dependencia->id;
+        $query = Reserva::with('estado_reserva', 'vehiculo', 'usuario', 'dependencia_solicitante')->orderBy('fecha_inicio_reserva');
+
+
+        if($rol == 'Dueño Dependencia' || $rol == 'Jefe de Area'){
+            $query->obtenerDependenciasInternas($id_dependencia);
+        }
+
+        else if($rol == 'Operativo'){
+            $query->obtenerDependenciasInternas($id_dependencia)->where('id_usuario', $this->user()->id);
+        }
+        else{
+            $query->soloInternas();
+        }
+
+        $reservas = $query->paginate(10);
+        return $reservas;
+    }
+
+    public function verReserva($id , User $user){
+        if($user->can('ver_reservas_internas') || $user->can('ver_reservas_prestamos')){
+            $reserva = Reserva::with('estado_reserva', 'vehiculo.nafta', 'usuario.carnet', 'dependencia_solicitante.direccion', 'dependencia_duena.direccion')
+            ->find($id);
+            $vtvVigente = Vehiculo::vtv_vigente($reserva->vehiculo->id);
+            $carnetVigente = Carnet::carnetVigente($reserva->usuario->id);
+
+            return [
+            'reserva' => $reserva,
+            'vtv'  => $vtvVigente,
+            'carnet_vigente' => $carnetVigente,
+            ];
+            return $reserva;
+        }
+        return null;
     }
 
 
     // El Administrador General puede ver todas las reservas independientemente de a que independencia pertenezca
     // El Administrador de Dependencia y Jefe de Oficina solo pueden ver las reservas que pertenecen a la Dependencia 
     // El Conductor visualiza las reservas donde esta involucrado
-    public function verReservas(){
+    public function verReservasExternas(){
         $rol = $this->rol();
-        $id_dependencia = $this->user()->dependencia;
-        $query = Reserva::with('estado_reserva', 'vehiculo')->orderBy('fecha_inicio_reserva');
+        $id_dependencia = $this->user()->dependencia->id;
+        $query = Reserva::with('estado_reserva', 'vehiculo', 'usuario', 'dependencia_solicitante')->orderBy('fecha_inicio_reserva');
 
 
-        if($rol == 'administrador de dependencia' || $rol == 'jefe de oficina'){
-           $query->where(function ($q) use ($id_dependencia) {
-                $q->where('id', $id_dependencia)
-                ->orWhere('id_dependencia_duena', $id_dependencia)
-                ->orWhere('id_dependencia_solicitante', $id_dependencia);
-            });
+        if($rol == 'Dueño Dependencia' || $rol == 'Jefe de Area'){
+            $query->obtenerDependenciasExternas($id_dependencia);
         }
-        else if($rol == 'conductor'){
-            //Ver si trae las reservas relacionandas o no
-            //Falta paginacion (ver si se incluye aca o en otro lado)
-            $reservas = $this->user()->reservas;
-            return $reservas;
+
+        else if($rol == 'Operativo'){
+            $query->obtenerDependenciasExternas($id_dependencia)->where('id_usuario', $this->user()->id);
+        }
+        else{
+            $query->soloExternas();
         }
 
         $reservas = $query->paginate(10);
@@ -53,9 +96,7 @@ class ReservaService{
     }
 
 
-    public function verReserva($id){
-        
-    }
+
 
 
     public function cancelarReserva($id){

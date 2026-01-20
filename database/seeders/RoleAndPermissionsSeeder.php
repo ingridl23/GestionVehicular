@@ -67,7 +67,6 @@ class RoleAndPermissionsSeeder extends Seeder
             'cancelar_prestamo',
             'solicitar_reserva_interna',
             'solicitar_prestamo',
-            'visualizar_reserva_asignada',
 
             // Dependencias
             'ver_dependencias',
@@ -116,7 +115,6 @@ class RoleAndPermissionsSeeder extends Seeder
             'solicitar_prestamo',
             'ver_auditoria',
             'ver_gastos',
-            'visualizar_reserva_asignada',
             'ver_personal_dependencia',
             'editar_personal_dependencia',
             'eliminar_personal_dependencia',
@@ -128,14 +126,14 @@ class RoleAndPermissionsSeeder extends Seeder
             'ver_reservas_internas',
             'ver_reservas_prestamos',
             'ver_reportes_dependencia',
-            'visualizar_reserva_asignada',
             'modificar_asignacion_vehiculo',
         ]);
 
         $conductor->syncPermissions([
-            'visualizar_reserva_asignada',
             'registrar_datos_vehiculos',
             'modificar_asignacion_vehiculo',
+            'ver_reservas_prestamos',
+            'ver_reservas_internas',
         ]);
 
         $adminGeneral->syncPermissions(Permission::all());

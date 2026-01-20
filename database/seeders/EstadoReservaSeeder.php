@@ -6,7 +6,7 @@ use App\Models\EstadosReserva;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class EstadoNaftaSeeder extends Seeder
+class EstadoReservaSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -16,14 +16,23 @@ class EstadoNaftaSeeder extends Seeder
 
 
         EstadosReserva::insert([
+             [
+                'estado' => 'APROBADA',
+            ],
             [
                 'estado' => 'EN CURSO',
             ],
             [
-                'estado' => 'TERMINADA',
+                'estado' => 'FINALIZADA',
             ],
             [
                 'estado' => 'PENDIENTE',
+            ],
+            [
+                'estado' => 'CANCELADA',
+            ],
+            [
+                'estado' => 'RECHAZADA',
             ],
         ]);
     }

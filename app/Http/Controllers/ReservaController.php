@@ -15,20 +15,32 @@ class ReservaController extends Controller{
         $this->service = $service;
     }
 
-    // permiso = ver dependencias
-    public function verReservas(){
-         $data = array_merge(
-            ['reservas' => $this->service->verReservas()],
+    // permiso = ver_reservas_internas
+    public function verReservasInternas(){
+        $data = array_merge(
+            ['reservas' => $this->service->verReservasInternas()],
             $this->service->datosFiltros()
         );
-        return view('reservas.reservas', $data);
+        return view('ui.reservas.reservas', $data);
+    }
+
+        // permiso = ver_reservas_prestamos
+    public function verReservasExternas(){
+        $data = array_merge(
+            ['reservas' => $this->service->verReservasExternas()],
+            $this->service->datosFiltros()
+        );
+        return view('ui.reservas.reservas', $data);
     }
 
 
-    // permiso = ver dependencias
+    // permiso = ver_reservas_internas
     public function verReserva($id){
-        $reserva = $this->service->verReserva($id);
-        return view('reservas.reserva', $reserva);
+        $datos = $this->service->verReserva($id, Auth::user());
+        if(!$datos){
+            abort(403);
+        }
+        return view('ui.reservas.reserva', $datos);
     }
 
     

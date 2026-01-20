@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\EstadosReserva;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -19,6 +20,9 @@ class DatabaseSeeder extends Seeder
     DependenciaSeeder::class,
     RoleAndPermissionsSeeder::class,
     UserSeeder::class,
+    EstadoNaftaSeeder::class,
+    EstadoVehiculoSeeder::class,
+    EstadoReservaSeeder::class
             ]
         );
     }

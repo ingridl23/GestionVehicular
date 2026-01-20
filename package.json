@@ -20,6 +20,7 @@
     "dependencies": {
         "@fortawesome/fontawesome-free": "^7.1.0",
         "@popperjs/core": "^2.11.8",
+        "alpinejs": "^3.15.4",
         "bootstrap": "^5.3.8",
         "chart.js": "^4.5.1",
         "lucide": "^0.562.0",

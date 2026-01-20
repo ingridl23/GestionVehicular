@@ -3,8 +3,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
-
-
+use Illuminate\Support\Facades\Date;
 
 class Vehiculo extends Model
 {
@@ -52,5 +51,16 @@ class Vehiculo extends Model
 
     public function viajes(){
         return $this->hasMany(Viaje::class, 'id_vehiculo');
+    }
+
+    public static function vtv_vigente($id){
+        $vehiculo = Vehiculo::find($id);
+
+        if (!$vehiculo || !$vehiculo->fecha_vtv) {
+            return false;
+        }
+        
+        $fecha_hoy = Date::now();
+        return $fecha_hoy->lessThanOrEqualTo($vehiculo->vtv);
     }
 }

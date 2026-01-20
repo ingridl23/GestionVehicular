@@ -50,4 +50,100 @@ class Reserva extends Model
     public function viaje(){
         return $this->hasMany(Viaje::class);
     }
+
+
+    public function scopeObtenerDependenciasInternas($query, $id_dependencia){
+        return $query->where('id_dependencia_duena', $id_dependencia) // Solo para reservas internas
+            ->where(function ($q) use ($id_dependencia) {
+                $q->where('id_dependencia_solicitante', $id_dependencia) // dependencia solicitante es la misma que la dependencia dueña
+                ->orWhereHas('dependencia_solicitante', function ($q2) use ($id_dependencia) {
+                    $q2->where('id_dependencia_padre', $id_dependencia); // La dependencia solicitante es hija de la dependencia dueña
+                });
+            });
+    }
+
+    public function scopeObtenerDependenciasExternas($query, $id_dependencia){
+        // Mi dependencia o mis hijas participan
+        return $query->where(function ($q) use ($id_dependencia) {
+            $q->where('id_dependencia_duena', $id_dependencia)
+            ->orWhere('id_dependencia_solicitante', $id_dependencia)
+            ->orWhereHas('dependencia_duena', function ($q2) use ($id_dependencia) {
+                $q2->where('id_dependencia_padre', $id_dependencia);
+            })
+            ->orWhereHas('dependencia_solicitante', function ($q2) use ($id_dependencia) {
+                $q2->where('id_dependencia_padre', $id_dependencia);
+            });
+        })
+
+        // No puede ser la misma dependencia en ambos campos
+        ->whereColumn('id_dependencia_duena', '!=', 'id_dependencia_solicitante')
+
+        // Excluir el caso: padre dueño → hija solicitante
+        ->where(function ($q) use ($id_dependencia) {
+            $q->where(function ($q1) use ($id_dependencia) {
+                $q1->where('id_dependencia_duena', '!=', $id_dependencia);
+            })
+            ->orWhere(function ($q1) use ($id_dependencia) {
+                $q1->whereDoesntHave('dependencia_solicitante', function ($q2) use ($id_dependencia) {
+                    $q2->where('id_dependencia_padre', $id_dependencia);
+                });
+            });
+        });
+    }
+
+    public function scopeSoloInternas($query){
+        return $query->where(function ($q) {
+
+            // Misma dependencia (dueña = solicitante)
+            $q->whereColumn(
+                'id_dependencia_duena',
+                'id_dependencia_solicitante'
+            )
+
+            // Solicitante es hija de la dueña
+            ->orWhereHas('dependencia_solicitante', function ($q2) {
+                $q2->whereColumn(
+                    'dependencias.id_dependencia_padre',
+                    'reservas.id_dependencia_duena'
+                );
+            })
+
+            // Dueña es hija de la solicitante
+            ->orWhereHas('dependencia_duena', function ($q3) {
+                $q3->whereColumn(
+                    'dependencias.id_dependencia_padre',
+                    'reservas.id_dependencia_solicitante'
+                );
+            });
+
+        });
+    }
+
+    public function scopeSoloExternas($query){
+        return $query->where(function ($q) {
+
+            // Misma dependencia (dueña = solicitante)
+            $q->whereColumn(
+                'id_dependencia_duena', '!=',
+                'id_dependencia_solicitante'
+            )
+
+            // Solicitante no es hija de la dueña
+            ->whereDoesntHave('dependencia_solicitante', function ($q2) {
+                $q2->whereColumn(
+                    'dependencias.id_dependencia_padre',
+                    'reservas.id_dependencia_duena'
+                );
+            })
+
+            // Dueña no es hija de la solicitante
+            ->whereDoesntHave('dependencia_duena', function ($q3) {
+                $q3->whereColumn(
+                    'dependencias.id_dependencia_padre',
+                    'reservas.id_dependencia_solicitante'
+                );
+            });
+
+        });
+    }
 }

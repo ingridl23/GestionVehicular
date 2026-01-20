@@ -58,9 +58,7 @@ Route::middleware(['auth'])->group(function () {
         ->middleware('permission:eliminar_vehiculo')
         ->name('vehiculos.destroy');
 
-        //RESERVAS CON PERMISOS
-         Route::get('/listado-reservas', [ReservaController::class, 'reservas'])->name('reservas.internas');
-                  Route::get('/listado-prestamos', [ReservaController::class, 'prestamos'])->name('reservas.prestamos');
+
     // VIAJES Y GASTOS
     Route::post('/viajes/{id}/gasto', [GastoController::class, 'calcular'])
         ->name('viajes.gasto.calcular');
@@ -108,8 +106,14 @@ Route::middleware(['auth'])->group(function () {
 
 
     //RESERVAS
-    Route::get('/reservas', [ReservaController::class, 'verReservas']);
-    Route::get('/reservas/{id}', [ReservaController::class, 'verReserva']);
+    Route::get('/listado-reservas', [ReservaController::class, 'verReservasInternas'])->name('reservas.internas');
+    Route::get('/listado-prestamos', [ReservaController::class, 'verReservasExternas'])->name('reservas.prestamos');
+    Route::get('/autorizar-prestamos', [ReservaController::class, 'verReservasExternas'])->name('reservas.autorizar-prestamos');
+
+    Route::get('/listado-reservas/{id}', [ReservaController::class, 'verReserva'])->name('reservas.reserva'); //Vista individual
+
+    Route::get('/editar-reserva/{id}', [ReservaController::class, 'mostrarFormulario'])->name('reservas.editar'); //FORMULARIO
+    Route::get('/cancelar-reserva/{id}', [ReservaController::class, 'cancelarReserva'])->name('reservas.cancelar'); //FORMULARIO
 
 });
 
