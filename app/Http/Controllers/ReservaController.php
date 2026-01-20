@@ -31,9 +31,10 @@ class ReservaController extends Controller{
         return view('reservas.reserva', $reserva);
     }
 
-    
+
     // permiso = eliminar dependencias
     public function cancelarReserva($id){
+
             $this->service->cancelarReserva($id);
             return redirect()->route('reservas.reservas')->with('success', 'La dependencia fue eliminada correctamente.');
     }
@@ -124,7 +125,7 @@ class ReservaController extends Controller{
             $query->whereHas('direccion', function ($q) use ($localidad) {
                 $q->where('ciudad', $localidad);
             });
-        }   
+        }
 
         /* ----------------------
          ORDENAMIENTO SEGURO
@@ -164,7 +165,7 @@ class ReservaController extends Controller{
         else{
             $query->orderBy("nombre");
         }
-        
+
         /* ----------------------
          PAGINACIÓN
         ---------------------- */
