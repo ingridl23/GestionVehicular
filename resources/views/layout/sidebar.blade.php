@@ -121,15 +121,6 @@
         @endcan
 
     </nav>
-<x-nav-item
-    icon="fa-chart-bar"
-    label="Estadísticas"
-    route="estadisticas.index"
-    :active="request()->routeIs('estadisticas.*')"
-/>
-
-
-
 
     <!-- User Profile (bottom) -->
     <div x-show="sidebarOpen" class="border-t border-gray-200 dark:border-gray-700 p-4">

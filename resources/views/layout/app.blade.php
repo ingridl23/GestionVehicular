@@ -23,7 +23,33 @@
     </style>
 </head>
 <body class="bg-gray-50 dark:bg-gray-900 antialiased">
-    <div x-data="{ sidebarOpen: true, userMenuOpen: false }" class="flex h-screen overflow-hidden">
+    <div
+        x-data="{
+            sidebarOpen: localStorage.getItem('sidebarOpen') === 'true',
+            darkMode: localStorage.getItem('darkMode') === 'true',
+            toggleSidebar() {
+                this.sidebarOpen = !this.sidebarOpen;
+                localStorage.setItem('sidebarOpen', this.sidebarOpen);
+            },
+            toggleDarkMode() {
+                this.darkMode = !this.darkMode;
+                localStorage.setItem('darkMode', this.darkMode);
+            }
+        }"
+        x-init="
+            if (darkMode) {
+                document.documentElement.classList.add('dark');
+            }
+            $watch('darkMode', value => {
+                if (value) {
+                    document.documentElement.classList.add('dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                }
+            })
+        "
+        class="flex h-screen overflow-hidden"
+    >
 
         @auth
             <!-- Sidebar -->
@@ -48,6 +74,6 @@
 
     </div>
 
-    @stack('scriptsDashboard')
+    @stack('scripts')
 </body>
 </html>
