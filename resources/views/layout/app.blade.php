@@ -48,6 +48,6 @@
 
     </div>
 
-    @stack('scripts')
+    @stack('scriptsDashboard')
 </body>
 </html>

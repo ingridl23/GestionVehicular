@@ -1,7 +1,7 @@
 @extends('layout.app')
 
 @section('page-title', 'Dashboard')
-@section('page-description', 'Resumen general del sistema de gestión vehicular')
+@section('page-description', 'Auditoria')
 
 @section('content')
 
