@@ -22,7 +22,7 @@
         body { font-family: 'Inter', system-ui, -apple-system, sans-serif; }
     </style>
 </head>
-<body class="bg-gray-50 dark:bg-gray-900 antialiased">
+<body class="bg-gray-50    dark:bg-gray-900 antialiased">
     <div
         x-data="{
             sidebarOpen: localStorage.getItem('sidebarOpen') === 'true',

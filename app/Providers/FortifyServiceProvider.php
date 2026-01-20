@@ -14,6 +14,9 @@ use Illuminate\Support\Str;
 use Laravel\Fortify\Fortify;
 use Laravel\Fortify\Contracts\LoginResponse;
 use Laravel\Fortify\Contracts\LogoutResponse;
+use Laravel\Fortify\Contracts\LoginViewResponse;
+
+use App\Http\Responses\LoginResponse as CustomLoginResponse;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -23,15 +26,15 @@ class FortifyServiceProvider extends ServiceProvider
     public function register(): void
     {
         // Registrar respuestas personalizadas
-        $this->app->singleton(
-            \Laravel\Fortify\Contracts\LoginViewResponse::class,
-            \Laravel\Fortify\Http\Responses\LoginViewResponse::class
-        );
+          $this->app->singleton(
+        LoginViewResponse::class,
 
-        $this->app->singleton(
-            \Laravel\Fortify\Contracts\LoginResponse::class,
-            \App\Http\Responses\LoginResponse::class
-        );
+    );
+
+    $this->app->singleton(
+        LoginResponse::class,
+        CustomLoginResponse::class
+    );
     }
 
     /**
