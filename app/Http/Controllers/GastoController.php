@@ -1,11 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Models\Gasto;
 use App\Models\Viaje;
 use Illuminate\Http\Request;
 use App\Services\GastoService;
+use App\Policies\GastoPolicy;
 use Illuminate\Http\JsonResponse;
 use Exception;
 
@@ -47,6 +47,7 @@ class GastoController extends Controller{
 
     public function calcular(int $viajeId, GastoService $service): JsonResponse
     {
+        $this->authorize('create', Gasto::class);
         try {
             $gasto = $service->generarGastoPorViaje($viajeId);
 
@@ -64,25 +65,20 @@ class GastoController extends Controller{
 
     //show
 
-    public function show ($viajeId){
-    try{
+    public function show ($viajeId, GastoPolicy $GastoP){
 
-        if($viajeId > 0 && $viajeId != 0){
-                $viaje = Gasto::where('id_viaje', $viajeId)->first();
 
-                if(!$viaje){
-                    return response()->json([
-                        'error' => 'El viaje no tiene gasto asociado'
-                    ], 404);
-                 }
-                return response()->json($viaje);
-        }
-    }catch (Exception $e){
-            return response()->json([
-                'error' => $e->getMessage()
-            ], 404);
+         $gasto = Gasto::where('id_viaje', $viajeId)->first();
+
+        if (! $gasto) {
+        return response()->json([
+            'error' => 'El viaje no tiene gasto asociado'
+        ], 404);
     }
 
+    $this->authorize('view', $gasto);
+
+    return response()->json($gasto);
 
 
     }
@@ -93,6 +89,8 @@ class GastoController extends Controller{
 
     public function index(): JsonResponse
     {
+         $this->authorize('viewAny', Gasto::class);
+
         return response()->json(
             Gasto::with('viaje')->get()
         );
@@ -102,8 +100,9 @@ class GastoController extends Controller{
 
     //resumen
 
-    public function resumen(): JsonResponse
+    public function resumen( GastoPolicy $GastoP): JsonResponse
     {
+        $this->authorize('viewResumen', Gasto::class);
         return response()->json([
             'cantidad_gastos' => Gasto::count(),
             'gasto_total' => Gasto::sum('monto'),

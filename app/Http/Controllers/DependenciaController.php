@@ -13,7 +13,7 @@ use App\Http\Requests\CrearDependenciaRequest;
 
 use Illuminate\Validation\ValidationException;
 use App\Services\DependenciaService;
-
+use App\Policies\DependenciaPolicy;
 
 class DependenciaController extends Controller{
 
@@ -28,7 +28,8 @@ class DependenciaController extends Controller{
     }
 
     // permiso = ver dependencias
-    public function verDependencias(){
+    public function verDependencias( DependenciaPolicy $DependenciaP){
+     $this->authorize('view', Dependencia::class);
          $data = array_merge(
             ['dependencias' => $this->service->verDependencias()],
             $this->service->datosFiltros()
@@ -38,15 +39,23 @@ class DependenciaController extends Controller{
 
 
     // permiso = ver dependencias
-    public function verDependencia($id){
+    public function verDependencia($id,DependenciaPolicy $DependenciaP){
+
         $dependencia = $this->service->verDependencia($id);
+
+        $this->authorize('view', $dependencia);
+
         return view('dependencias.dependencia', $dependencia);
     }
 
 
     // permiso = eliminar dependencias
-    public function eliminarDependencia($id){
+    public function eliminarDependencia($id,DependenciaPolicy $DependenciaP){
         try {
+
+            $dependencia = $this->service->verDependencia($id);
+
+            $this->authorize('delete', $dependencia);
             $this->service->eliminarDependencia($id);
             return redirect()->route('dependencias.index')->with('success', 'La dependencia fue eliminada correctamente.');
         } catch (ValidationException $e) {
@@ -57,39 +66,92 @@ class DependenciaController extends Controller{
 
     // permiso = ver dependencias
     // Actualiza el estado de la dependencia, alternando entre activa (1) e inactiva (0) según su estado actual.
-    public function cambiarActivaDependencia($id){
-        $this->service->cambiarActivaDependencia($id);
+    public function cambiarActivaDependencia($id,DependenciaPolicy $DependenciaP){
+     $dependencia = $this->service->verDependencia($id);
+
+    $this->authorize('toggle', $dependencia);
+
+    $this->service->cambiarActivaDependencia($id);
     }
 
 
     // permiso = crear dependencias
     // datosRelacionDependencia = Recupera la información de las tablas relacionadas a la entidad Dependencia
-    public function datosParaCrearDependencia(){
-        return view('dependencias.formulario-crear-editar.formCrear',$this->service->datosRelacionesDependencia());
+  public function datosParaCrearDependencia(Request $request)
+{
+    $dependenciaPadre = null;
+
+    if ($request->filled('id_dependencia_padre')) {
+        $dependenciaPadre = Dependencia::findOrFail(
+            $request->id_dependencia_padre
+        );
     }
+
+    $this->authorize('create', [Dependencia::class, $dependenciaPadre]);
+
+    return view(
+        'dependencias.formulario-crear-editar.formCrear',
+        $this->service->datosRelacionesDependencia()
+    );
+}
+
 
     // permiso = crear dependencias
-    public function crearDependencia(CrearDependenciaRequest $request){
-        $this->service->crearDependencia($request->validated());
-        return redirect()->route('dependencias.index')->with('success', 'La dependencia fue creada correctamente.');
+  public function crearDependencia(CrearDependenciaRequest $request)
+{
+    $dependenciaPadre = null;
 
+    if ($request->filled('id_dependencia_padre')) {
+        $dependenciaPadre = Dependencia::findOrFail(
+            $request->id_dependencia_padre
+        );
     }
+
+    $this->authorize('create', [Dependencia::class, $dependenciaPadre]);
+
+    $this->service->crearDependencia($request->validated());
+
+    return redirect()
+        ->route('dependencias.index')
+        ->with('success', 'La dependencia fue creada correctamente.');
+}
+
 
     // permiso = editar dependencias
-    public function datosParaEditarDependencia($id){
-        return view('dependencias.formulario-crear-editar.formEditar',$this->service->datosRelacionesDependencia($id));
-    }
+   public function datosParaEditarDependencia($id)
+{
+    $dependencia = $this->service->verDependencia($id);
+
+    $this->authorize('update', $dependencia);
+
+    return view(
+        'dependencias.formulario-crear-editar.formEditar',
+        $this->service->datosRelacionesDependencia($id)
+    );
+}
+
 
     // permiso = editar dependencias
-    public function editarDependencia(EditarDependenciaRequest $request, $id){
-        $this->service->editarDependencia($request->validated(), $id);
-        return redirect()->route('dependencias.index')->with('success', 'La dependencia fue actualizada correctamente.');
-    }
+   public function editarDependencia(EditarDependenciaRequest $request,$id) {
+    $dependencia = $this->service->verDependencia($id);
+
+    $this->authorize('update', $dependencia);
+
+    $this->service->editarDependencia(
+        $request->validated(),
+        $id
+    );
+
+    return redirect()
+        ->route('dependencias.index')
+        ->with('success', 'La dependencia fue actualizada correctamente.');
+}
+
 
 
     // permiso = ver dependencias
-    public function filtrarDependencias(FiltroDependenciasRequest $request){
-
+    public function filtrarDependencias(FiltroDependenciasRequest $request, DependenciaPolicy $DependenciaP){
+$this->authorize('view', Dependencia::class);
         $query = Dependencia::with(['dependenciaPadre','direccion']);
 
         /* ----------------------

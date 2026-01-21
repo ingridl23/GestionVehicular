@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Policies;
-
 use App\Models\Reportes;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
@@ -11,6 +10,7 @@ class ReportePolicy
     /**
      * Administrador General → acceso total
      */
+
     public function before(User $user, $ability)
     {
         if ($user->hasRole('Administrador General')) {
@@ -19,50 +19,57 @@ class ReportePolicy
     }
 
     /**
-     *  Quien puede ver reportes
+     * Ver reportes
      */
-    public function ShowReport(User $user, Reportes $reportes): bool
+    public function showReport(User $user): bool
     {
-
-    return $user->hasAnyPermission([
-             'ver_reportes_dependencia',
-             'ver_reportes_general',
-             'ver_reporte_iniciado',
-             'ver_reportes_operativos',
+        return $user->hasAnyPermission([
+            'ver_reportes_dependencia',
+            'ver_reportes_general',
+            'ver_reporte_iniciado',
+            'ver_reportes_operativos',
         ]);
-        return false;
     }
 
     /**
-     * Quien puede crear reportes
+     * Crear reporte
      */
     public function createReport(User $user): bool
     {
-         return $user->hasAnyPermission([
+        return $user->hasPermissionTo('iniciar_reporte_interno');
+    }
+
+    /**
+     * Agregar mensajes / comentarios
+     */
+    public function createMessage(User $user): bool
+    {
+        return $user->hasAnyPermission([
             'iniciar_reporte_interno',
+            'ver_reportes_dependencia',
+            'ver_reportes_general',
+            'ver_reporte_iniciado',
+            'ver_reportes_operativos',
         ]);
-        return false;
-
     }
 
     /**
-     * Quien puede modificar reportes
+     * Actualizar estado del reporte
      */
-    public function update(User $user, Reportes $reportes): bool
+    public function update(User $user, Reportes $reporte): bool
     {
-         return $user->hasAnyPermission([
-               'actualizar_reportes'
-        ]);
-        return false;
+        return $user->hasPermissionTo('actualizar_reportes');
     }
 
     /**
-     * QUien puede dar de baja un reporte
+     * Eliminar reporte (por ahora nadie)
      */
-    public function delete(User $user, Reportes $reportes): bool
+    public function delete(User $user, Reportes $reporte): bool
     {
         return false;
     }
+
+
 
 
 

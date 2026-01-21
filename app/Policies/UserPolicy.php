@@ -3,11 +3,10 @@
 namespace App\Policies;
 
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class UserPolicy
 {
-      /**
+    /**
      * Administrador General → acceso total
      */
     public function before(User $user, $ability)
@@ -18,57 +17,80 @@ class UserPolicy
     }
 
     /**
-     * Quien puede ver listado del personal
+     * Ver listado general de usuarios
+     * - Dueño Dependencia: solo personal de su dependencia
      */
-    public function showUsers(User $user, User $User): bool
+    public function showUsers(User $user): bool
     {
+        return $user->can('ver_personal_dependencia')
+            || $user->can('ver_todos_usuarios');
+    }
 
-    //solo de su dependendencia
-    if ($user->hasRole('Dueño Dependencia') ) {
-        return $User->dependencia_id === $user->dependencia_id;
-
+    /**
+     * Ver un usuario puntual
+     */
+    public function showUser(User $user, User $objetivo): bool
+    {
+        // Dueño Dependencia → solo su dependencia
+        if ($user->hasRole('Dueño Dependencia')) {
+            return $objetivo->id_dependencia === $user->id_dependencia;
         }
 
         return false;
     }
 
     /**
-     * Quien puede agregar personal a una dependencia
+     * Crear usuario
      */
-    public function createUsers(User $user,  User  $User): bool
+    public function createUser(User $user, int $dependenciaId): bool
     {
-         //solo de su dependendencia
-    if ($user->hasRole('Dueño Dependencia') ) {
-        return $User->dependencia_id === $user->dependencia_id;
-
+        // Dueño Dependencia → solo puede crear en su dependencia
+        if ($user->hasRole('Dueño Dependencia')) {
+            return $user->id_dependencia === $dependenciaId
+                && $user->can('crear_usuario');
         }
+
         return false;
     }
 
     /**
-     * Quien puede actualizar personal de una dependencia
+     * Actualizar usuario
      */
-    public function updateUsers(User $user, User  $User): bool
+    public function updateUser(User $user, User $objetivo): bool
     {
-         //solo de su dependendencia
-    if ($user->hasRole('Dueño Dependencia') ) {
-        return $User->dependencia_id === $user->dependencia_id;
-
+        if ($user->hasRole('Dueño Dependencia')) {
+            return $objetivo->id_dependencia === $user->id_dependencia
+                && $user->can('editar_personal_dependencia');
         }
+
         return false;
     }
 
     /**
-     * Quien puede eliminar personal de una dependencia
+     * Eliminar usuario
      */
-    public function deleteUser(User $user, User $User): bool
+    public function deleteUser(User $user, User $objetivo): bool
     {
-         //solo de su dependendencia
-    if ($user->hasRole('Dueño Dependencia') ) {
-        return $User->dependencia_id === $user->dependencia_id;
-
+        if ($user->hasRole('Dueño Dependencia')) {
+            return $objetivo->id_dependencia === $user->id_dependencia
+                && $user->can('eliminar_personal_dependencia');
         }
+
         return false;
     }
 
+    /**
+     * Asignar rol a un usuario
+     */
+    public function assignRole(User $user, User $objetivo, string $rol): bool
+    {
+        // Dueño Dependencia NO puede escalar roles críticos
+        if ($user->hasRole('Dueño Dependencia')) {
+            return !in_array($rol, [
+                'Administrador General',
+            ]);
+        }
+
+        return false;
+    }
 }

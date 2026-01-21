@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Policies;
-
 use App\Models\Gasto;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
@@ -9,12 +8,6 @@ use Illuminate\Auth\Access\Response;
 class GastoPolicy
 {
     /**
-    'ver_auditoria',
-    'ver_gastos',
-    'descargar_datos',
-
-     */
-   /**
      * Administrador General → acceso total
      */
     public function before(User $user, $ability)
@@ -25,45 +18,48 @@ class GastoPolicy
     }
 
     /**
-     * Determine whether the user can view the model.
+     * Ver listado de gastos
      */
-    public function viewAuditoria(User $user, Gasto $gasto): bool
+    public function viewAny(User $user): bool
     {
-          return $user->hasAnyPermission([
-
-
-             'ver_auditoria',
-             'ver_gastos',
+        return $user->hasAnyPermission([
+            'ver_auditoria',
+            'ver_gastos',
         ]);
-        return false;
     }
 
     /**
-     * Quien puede cargar un gasto (en relacion al viaje)
+     * Ver gasto puntual
+     */
+    public function view(User $user, Gasto $gasto): bool
+    {
+        return $user->hasAnyPermission([
+            'ver_auditoria',
+            'ver_gastos',
+        ]);
+    }
+
+    /**
+     * Generar gasto (desde viaje)
      */
     public function create(User $user): bool
     {
-           return $user->hasAnyPermission([
-
-         'registrar_datos_vehiculos',
-           ]);
-        return false;
+        return $user->hasPermissionTo('registrar_datos_vehiculos');
     }
 
     /**
-     *Quien puede modificar un gasto
+     * Modificar gasto
      */
     public function update(User $user, Gasto $gasto): bool
     {
-          return $user->hasAnyPermission([
-         'registrar_datos_vehiculos',
-         'ver_gastos'
-           ]);
-        return false;
+        return $user->hasAnyPermission([
+            'registrar_datos_vehiculos',
+            'ver_gastos',
+        ]);
     }
 
     /**
-     * QUien puede dar de baja un gasto
+     * Eliminar gasto
      */
     public function delete(User $user, Gasto $gasto): bool
     {
@@ -71,19 +67,13 @@ class GastoPolicy
     }
 
     /**
-     * QUien puede descargar estadistica o resumen de gastos del sistema.
+     * Ver resumen / estadísticas
      */
-    public function restore(User $user, Gasto $gasto): bool
+    public function viewResumen(User $user): bool
     {
-
-          return $user->hasAnyPermission([
-
-             'ver_auditoria',
-             'ver_gastos',
+        return $user->hasAnyPermission([
+            'ver_auditoria',
+            'ver_gastos',
         ]);
-
-        return false;
     }
-
-
 }

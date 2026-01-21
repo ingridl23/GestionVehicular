@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\FiltroReservasRequest;
 use App\Models\Reserva;
 use App\Services\ReservaService;
+use App\Policies\ReservaPolicy;
 use Illuminate\Support\Facades\Auth;
 
 class ReservaController extends Controller{
@@ -16,28 +17,36 @@ class ReservaController extends Controller{
     }
 
     // permiso = ver dependencias
-    public function verReservas(){
+    public function verReservas(ReservaPolicy $ReservaP){
+
+     if($this->authorize('view', $ReservaP)){
+
          $data = array_merge(
             ['reservas' => $this->service->verReservas()],
             $this->service->datosFiltros()
         );
         return view('reservas.reservas', $data);
+     }
     }
 
 
     // permiso = ver dependencias
-    public function verReserva($id){
+    public function verReserva($id , ReservaPolicy $ReservaP){
+         if($this->authorize('view', $ReservaP)){
         $reserva = $this->service->verReserva($id);
         return view('reservas.reserva', $reserva);
+         }
     }
 
 
     // permiso = eliminar dependencias
-    public function cancelarReserva($id){
+    public function cancelarReserva($id, ReservaPolicy $ReservaP){
 
+       if($this->authorize('finalizar', $ReservaP)){
             $this->service->cancelarReserva($id);
             return redirect()->route('reservas.reservas')->with('success', 'La dependencia fue eliminada correctamente.');
-    }
+         }
+            }
 
 
 
