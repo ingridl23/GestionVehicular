@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\FiltroReservasRequest;
 use App\Models\Reserva;
 use App\Services\ReservaService;
+use App\Policies\ReservaPolicy;
 use Illuminate\Support\Facades\Auth;
 
 class ReservaController extends Controller{
@@ -15,6 +16,7 @@ class ReservaController extends Controller{
         $this->service = $service;
     }
 
+<<<<<<< HEAD
     // permiso = ver_reservas_internas
     public function verReservasInternas(){
         $data = array_merge(
@@ -41,14 +43,39 @@ class ReservaController extends Controller{
             abort(403);
         }
         return view('ui.reservas.reserva', $datos);
+=======
+    // permiso = ver dependencias
+    public function verReservas(ReservaPolicy $ReservaP){
+
+     if($this->authorize('view', $ReservaP)){
+
+         $data = array_merge(
+            ['reservas' => $this->service->verReservas()],
+            $this->service->datosFiltros()
+        );
+        return view('reservas.reservas', $data);
+     }
     }
 
-    
+
+    // permiso = ver dependencias
+    public function verReserva($id , ReservaPolicy $ReservaP){
+         if($this->authorize('view', $ReservaP)){
+        $reserva = $this->service->verReserva($id);
+        return view('reservas.reserva', $reserva);
+         }
+>>>>>>> ingrid
+    }
+
+
     // permiso = eliminar dependencias
-    public function cancelarReserva($id){
+    public function cancelarReserva($id, ReservaPolicy $ReservaP){
+
+       if($this->authorize('finalizar', $ReservaP)){
             $this->service->cancelarReserva($id);
             return redirect()->route('reservas.reservas')->with('success', 'La dependencia fue eliminada correctamente.');
-    }
+         }
+            }
 
 
 
@@ -136,7 +163,7 @@ class ReservaController extends Controller{
             $query->whereHas('direccion', function ($q) use ($localidad) {
                 $q->where('ciudad', $localidad);
             });
-        }   
+        }
 
         /* ----------------------
          ORDENAMIENTO SEGURO
@@ -176,7 +203,7 @@ class ReservaController extends Controller{
         else{
             $query->orderBy("nombre");
         }
-        
+
         /* ----------------------
          PAGINACIÓN
         ---------------------- */
