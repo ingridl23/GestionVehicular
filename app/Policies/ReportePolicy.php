@@ -9,58 +9,61 @@ use Illuminate\Auth\Access\Response;
 class ReportePolicy
 {
     /**
-     * Determine whether the user can view any models.
+     * Administrador General → acceso total
      */
-    public function viewAny(User $user): bool
+    public function before(User $user, $ability)
     {
+        if ($user->hasRole('Administrador General')) {
+            return true;
+        }
+    }
+
+    /**
+     *  Quien puede ver reportes
+     */
+    public function ShowReport(User $user, Reportes $reportes): bool
+    {
+
+    return $user->hasAnyPermission([
+             'ver_reportes_dependencia',
+             'ver_reportes_general',
+             'ver_reporte_iniciado',
+             'ver_reportes_operativos',
+        ]);
         return false;
     }
 
     /**
-     * Determine whether the user can view the model.
+     * Quien puede crear reportes
      */
-    public function view(User $user, Reportes $reportes): bool
+    public function createReport(User $user): bool
     {
+         return $user->hasAnyPermission([
+            'iniciar_reporte_interno',
+        ]);
         return false;
+
     }
 
     /**
-     * Determine whether the user can create models.
-     */
-    public function create(User $user): bool
-    {
-        return false;
-    }
-
-    /**
-     * Determine whether the user can update the model.
+     * Quien puede modificar reportes
      */
     public function update(User $user, Reportes $reportes): bool
     {
+         return $user->hasAnyPermission([
+               'actualizar_reportes'
+        ]);
         return false;
     }
 
     /**
-     * Determine whether the user can delete the model.
+     * QUien puede dar de baja un reporte
      */
     public function delete(User $user, Reportes $reportes): bool
     {
         return false;
     }
 
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Reportes $reportes): bool
-    {
-        return false;
-    }
 
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Reportes $reportes): bool
-    {
-        return false;
-    }
+
 }

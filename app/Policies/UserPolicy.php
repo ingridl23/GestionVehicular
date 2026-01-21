@@ -7,59 +7,68 @@ use Illuminate\Auth\Access\Response;
 
 class UserPolicy
 {
-    /**
-     * Determine whether the user can view any models.
+      /**
+     * Administrador General → acceso total
      */
-    public function viewAny(User $user): bool
+    public function before(User $user, $ability)
     {
+        if ($user->hasRole('Administrador General')) {
+            return true;
+        }
+    }
+
+    /**
+     * Quien puede ver listado del personal
+     */
+    public function showUsers(User $user, User $User): bool
+    {
+
+    //solo de su dependendencia
+    if ($user->hasRole('Dueño Dependencia') ) {
+        return $User->dependencia_id === $user->dependencia_id;
+
+        }
+
         return false;
     }
 
     /**
-     * Determine whether the user can view the model.
+     * Quien puede agregar personal a una dependencia
      */
-    public function view(User $user, User $model): bool
+    public function createUsers(User $user,  User  $User): bool
     {
+         //solo de su dependendencia
+    if ($user->hasRole('Dueño Dependencia') ) {
+        return $User->dependencia_id === $user->dependencia_id;
+
+        }
         return false;
     }
 
     /**
-     * Determine whether the user can create models.
+     * Quien puede actualizar personal de una dependencia
      */
-    public function create(User $user): bool
+    public function updateUsers(User $user, User  $User): bool
     {
+         //solo de su dependendencia
+    if ($user->hasRole('Dueño Dependencia') ) {
+        return $User->dependencia_id === $user->dependencia_id;
+
+        }
         return false;
     }
 
     /**
-     * Determine whether the user can update the model.
+     * Quien puede eliminar personal de una dependencia
      */
-    public function update(User $user, User $model): bool
+    public function deleteUser(User $user, User $User): bool
     {
+         //solo de su dependendencia
+    if ($user->hasRole('Dueño Dependencia') ) {
+        return $User->dependencia_id === $user->dependencia_id;
+
+        }
         return false;
     }
 
-    /**
-     * Determine whether the user can delete the model.
-     */
-    public function delete(User $user, User $model): bool
-    {
-        return false;
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, User $model): bool
-    {
-        return false;
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, User $model): bool
-    {
-        return false;
-    }
 }

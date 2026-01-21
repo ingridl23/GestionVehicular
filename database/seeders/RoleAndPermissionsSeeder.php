@@ -50,10 +50,11 @@ class RoleAndPermissionsSeeder extends Seeder
     'ver_reportes_general',
     'ver_reporte_iniciado',
     'actualizar_viaje',
-
+    'iniciar_reporte_interno',
     // Auditoría
     'ver_auditoria',
     'ver_gastos',
+    'descargar_datos',
 
     // Reservas
     'ver_reservas_internas',
@@ -160,7 +161,8 @@ $adminDependencia->syncPermissions([
     'actualizar_reserva_operativa',
     'asignar_conductor_en_reserva_activa',
     'ver_reportes_operativos',
-    'finalizar_reserva_interna'
+    'finalizar_reserva_interna',
+    'descargar_datos'
 
 ]);
 
@@ -176,6 +178,7 @@ $adminDependencia->syncPermissions([
             'ver_vehiculos_dentro_dependencia',
             'ver_reservas_dependencia_en_curso',
             'ver_reportes_operativos',
+            'descargar_datos'
 
         ]);
 

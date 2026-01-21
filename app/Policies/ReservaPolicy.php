@@ -92,13 +92,27 @@ class ReservaPolicy
 
     /**
      * Ver estado de una reserva
+     *  (cualquier usuario puede ver un estado de reserva  que tenga estos permisos asignados)
      */
     public function verEstado(User $user, Reserva $reserva): bool
     {
-        return $this->view($user, $reserva);
+          return $user->hasAnyPermission([
+
+            'ver_reservas_internas',
+            'ver_reservas_prestamos',
+            'ver_solicitudes_prestamos',
+            'autorizar_prestamos',
+            'autorizar_reservas_internas',
+            'actualizar_reserva_interna',
+            'actualizar_prestamo',
+            'visualizar_reserva_asignada',
+
+        ]);
+
+        return false;
     }
 
 }
 
 
-/** se puede hacer una version por permisos pero igual ambas maneras se complementan  */
+

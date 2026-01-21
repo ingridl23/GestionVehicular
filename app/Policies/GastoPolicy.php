@@ -9,39 +9,61 @@ use Illuminate\Auth\Access\Response;
 class GastoPolicy
 {
     /**
-     * Determine whether the user can view any models.
+    'ver_auditoria',
+    'ver_gastos',
+    'descargar_datos',
+
      */
-    public function viewAny(User $user): bool
+   /**
+     * Administrador General → acceso total
+     */
+    public function before(User $user, $ability)
     {
-        return false;
+        if ($user->hasRole('Administrador General')) {
+            return true;
+        }
     }
 
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Gasto $gasto): bool
+    public function viewAuditoria(User $user, Gasto $gasto): bool
     {
+          return $user->hasAnyPermission([
+
+
+             'ver_auditoria',
+             'ver_gastos',
+        ]);
         return false;
     }
 
     /**
-     * Determine whether the user can create models.
+     * Quien puede cargar un gasto (en relacion al viaje)
      */
     public function create(User $user): bool
     {
+           return $user->hasAnyPermission([
+
+         'registrar_datos_vehiculos',
+           ]);
         return false;
     }
 
     /**
-     * Determine whether the user can update the model.
+     *Quien puede modificar un gasto
      */
     public function update(User $user, Gasto $gasto): bool
     {
+          return $user->hasAnyPermission([
+         'registrar_datos_vehiculos',
+         'ver_gastos'
+           ]);
         return false;
     }
 
     /**
-     * Determine whether the user can delete the model.
+     * QUien puede dar de baja un gasto
      */
     public function delete(User $user, Gasto $gasto): bool
     {
@@ -49,18 +71,19 @@ class GastoPolicy
     }
 
     /**
-     * Determine whether the user can restore the model.
+     * QUien puede descargar estadistica o resumen de gastos del sistema.
      */
     public function restore(User $user, Gasto $gasto): bool
     {
+
+          return $user->hasAnyPermission([
+
+             'ver_auditoria',
+             'ver_gastos',
+        ]);
+
         return false;
     }
 
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Gasto $gasto): bool
-    {
-        return false;
-    }
+
 }
