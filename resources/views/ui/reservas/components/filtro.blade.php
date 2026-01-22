@@ -1,5 +1,5 @@
-<form action="api/filtrar-reservas" method="get" id="formFiltrosReservas"
-      class="mb-6 rounded-lg bg-white dark:bg-gray-800 shadow-md p-4">
+
+    <form action="/filtrar-reservas" data-busqueda="{{$ubicacion}}" method="get" id="formFiltrosReservas" class="mb-6 rounded-lg bg-white dark:bg-gray-800 shadow-md p-4">
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
 
@@ -22,7 +22,7 @@
                    class="mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">
                 Fecha inicio
             </label>
-            <input type="datetime-local" name="fecha_inicio" id="fecha-inicio"
+            <input type="date" name="fecha_inicio" id="fecha-inicio"
                    class="rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700
                           px-3 py-2 text-sm text-gray-700 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500">
         </div>
@@ -33,7 +33,7 @@
                    class="mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">
                 Fecha fin
             </label>
-            <input type="datetime-local" name="fecha_fin" id="fecha-fin"
+            <input type="date" name="fecha_fin" id="fecha-fin"
                    class="rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700
                           px-3 py-2 text-sm text-gray-700 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500">
         </div>
@@ -81,3 +81,4 @@
 
     </div>
 </form>
+

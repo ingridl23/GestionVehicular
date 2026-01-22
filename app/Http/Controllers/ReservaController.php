@@ -21,7 +21,8 @@ class ReservaController extends Controller{
         $this->authorize('viewAny', Reserva::class);
         $data = array_merge(
             ['reservas' => $this->service->verReservasInternas()],
-            $this->service->datosFiltrosInternas()
+            $this->service->datosFiltrosInternas(),
+            ['ubicacion' => 'interna'],
         );
         return view('ui.reservas.reservas', $data);
     }
@@ -30,7 +31,8 @@ class ReservaController extends Controller{
     public function verReservasExternas(){
         $data = array_merge(
             ['reservas' => $this->service->verReservasExternas()],
-            $this->service->datosFiltrosExternas()
+            $this->service->datosFiltrosExternas(),
+            ['ubicacion' => 'externa'],
         );
         return view('ui.reservas.reservas', $data);
     }
@@ -59,7 +61,6 @@ class ReservaController extends Controller{
             $this->service->cancelarReserva($id);
             return redirect()->route('reservas.reservas')->with('success', 'La dependencia fue eliminada correctamente.');
         }
-        
     }
 
 
@@ -87,10 +88,7 @@ class ReservaController extends Controller{
     //     return redirect()->route('dependencias.index')->with('success', 'La dependencia fue actualizada correctamente.');
     // }
 
-
-     // permiso = filtrar_reservas_internas
-     // permiso = filtrar_prestamos
-    public function filtrarReservas(FiltroReservasRequest $request){
+    public function filtrarReservasInternas(FiltroReservasRequest $request){
         $rol = $this->service->rol();
         $id_dependencia = $this->service->user()->dependencia->id;
         $query = Reserva::with('estado_reserva', 'vehiculo', 'usuario', 'dependencia_solicitante')->orderBy('fecha_inicio_reserva');
@@ -106,6 +104,30 @@ class ReservaController extends Controller{
         else{
             $query->soloInternas();
         }
+        return $this->filtrarReservas($request, $query);
+    }
+
+    public function filtrarReservasExternas(FiltroReservasRequest $request){
+        $rol = $this->service->rol();
+        $id_dependencia = $this->service->user()->dependencia->id;
+        $query = Reserva::with('estado_reserva', 'vehiculo', 'usuario', 'dependencia_solicitante')->orderBy('fecha_inicio_reserva');
+
+        if($rol == 'Dueño Dependencia' || $rol == 'Jefe de Area'){
+            $query->obtenerDependenciasExternas($id_dependencia);
+        }
+
+        else if($rol == 'Operativo'){
+            $query->obtenerDependenciasExternas($id_dependencia)->where('id_usuario', $this->service->user()->id);
+        }
+        else{
+            $query->soloExternas();
+        }
+        return $this->filtrarReservas($request, $query);
+    }
+
+     // permiso = filtrar_reservas_internas
+     // permiso = filtrar_prestamos
+    public function filtrarReservas($request, $query){
 
         /* ----------------------
          FILTRO POR NOMBRE DE LA DEPENDENCIA SOLICITANTE O POR NOMBRE O APELLIDO DEL CONDUCTOR
@@ -158,7 +180,7 @@ class ReservaController extends Controller{
 
         if (!empty($request->filled('fecha_inicio')) && $request->input('fecha_inicio') != '') {
             $fecha_inicio = $request->input('fecha_inicio');
-            $query->where('fecha_inicio_reserva', $fecha_inicio);
+            $query->whereDate('fecha_inicio_reserva', $fecha_inicio);
         }   
 
         /* ----------------------
@@ -167,7 +189,7 @@ class ReservaController extends Controller{
 
         if (!empty($request->filled('fecha_fin')) && $request->input('fecha_fin') != '') {
             $fecha_fin = $request->input('fecha_fin');
-            $query->where('fecha_fin_reserva', $fecha_fin);
+            $query->whereDate('fecha_fin_reserva', $fecha_fin);
         }   
 
         /* ----------------------

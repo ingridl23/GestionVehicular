@@ -63,7 +63,7 @@
                   </td>
 
                   <td class="border-b border-gray-200 dark:border-gray-700 bg-gray-100 dark:bg-gray-900 px-2 py-5 text-center text-base font-medium text-gray-700 dark:text-gray-200">
-                    {{ $reserva->fecha_inicio_reserva->format('d/m/Y H:i') }}
+                    {{ $reserva->fecha_fin_reserva->format('d/m/Y H:i') }}
                   </td>
 
                   <td class="border-b border-gray-200 dark:border-gray-700 bg-gray-100 dark:bg-gray-900 px-2 py-5 text-center text-base font-medium text-gray-700 dark:text-gray-200">

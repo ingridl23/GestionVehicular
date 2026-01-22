@@ -19,16 +19,23 @@ document.addEventListener('DOMContentLoaded', () => {
             page
         };
 
-
         // Limpiar vacíos / default
         Object.keys(filtros).forEach(key => {
             if (!filtros[key] || filtros[key] === 'default') {
                 delete filtros[key];
             }
         });
+        let busqueda = form.dataset.busqueda;
+        let url;
+        if(busqueda == "interna"){
+            url = "/filtrar-reservas-internas"
+        }
+        else{
+            url = "/filtrar-reservas-externas"
+        }
 
         try {
-            const res = await fetch("/filtrar-reservas", {
+            const res = await fetch(`${url}`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -58,24 +65,24 @@ document.addEventListener('DOMContentLoaded', () => {
         contenedor.innerHTML = '';
         reservas.forEach(res => {
             let fecha_inicio = new Date(res.fecha_inicio_reserva);
-            
-            console.log(res.fecha_inicio_reserva);
             let fechaInicioFormateada = fecha_inicio.toLocaleString('es-AR', {
                 year: 'numeric',
                 month: '2-digit',
                 day: '2-digit',
                 hour: '2-digit',
                 minute: '2-digit',
+                hour12: false
             });
 
+
             let fecha_fin = new Date(res.fecha_fin_reserva);
-            console.log(fecha_fin);
             let fechaFinFormateada = fecha_fin.toLocaleString('es-AR', {
                 year: 'numeric',
                 month: '2-digit',
                 day: '2-digit',
                 hour: '2-digit',
                 minute: '2-digit',
+                hour12: false
             });
 
             let acciones = '';
