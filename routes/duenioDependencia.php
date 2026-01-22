@@ -3,7 +3,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ReporteController;
 use App\Http\Controllers\ReservaController;
 use App\Http\Controllers\VehiculoController;
-Route::middleware(['auth', 'role:Dueño Dependencia'])
+Route::middleware(['auth', 'role:Dueño Dependencia|Jefe de Area'])
     ->prefix('dependencia')
     ->name('dependencia.')
     ->group(function () {
@@ -12,8 +12,7 @@ Route::middleware(['auth', 'role:Dueño Dependencia'])
         //tambien los responde y actualiza a los reportes
         Route::post('/reportes/{id}/actualizar', [ReporteController::class, 'update'])->middleware('permission:actualizar_reportes');
 
-        Route::get('/reservas', [ReservaController::class, 'reservas'])->middleware('permission:ver_reservas_internas');
-
+        Route::get('/reservas', [ReservaController::class, 'reservas'])->middleware('permission:ver_reservas_internas')->name('reservas.index');
 
         Route::post('/reservas/solicitar', [ReservaController::class, 'store'])
                     ->middleware('permission:solicitar_reserva_interna');
@@ -23,7 +22,6 @@ Route::middleware(['auth', 'role:Dueño Dependencia'])
 
         Route::post('/reservas/{id}/rechazar', [ReservaController::class, 'rechazar'])
        ->middleware('permission:rechazar_reservas_internas');
-
 
 
      // Vehículos de su dependencia

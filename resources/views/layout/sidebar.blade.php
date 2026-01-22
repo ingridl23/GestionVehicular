@@ -22,6 +22,7 @@
     <!-- Navigation -->
     <nav class="flex-1 overflow-y-auto px-3 py-4 space-y-1">
 
+
         <!-- Dashboard -->
         @can('ver_auditoria')
             <x-nav-item
@@ -53,62 +54,122 @@
         @endcan
 
         <!-- Reservas (con submenú) -->
-        @can('ver_reservas_internas')
-            <div x-data="{ open: {{ request()->routeIs('reservas.*') ? 'true' : 'false' }} }">
-                <button
-                    @click="open = !open"
-                    class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-                >
-                    <i class="fas fa-calendar-check w-5 text-center"></i>
-                    <span x-show="sidebarOpen" class="flex-1 text-left text-sm font-medium">Reservas</span>
-                    <i x-show="sidebarOpen" :class="open ? 'fa-chevron-up' : 'fa-chevron-down'" class="fas text-xs"></i>
-                </button>
+@canany(['ver_reservas_internas', 'ver_prestamos'])
 
-                <div x-show="open && sidebarOpen" x-collapse class="ml-8 mt-1 space-y-1">
-                    <a href="{{ route('reservas.internas') }}"
-                       class="block px-3 py-2 rounded-lg text-sm {{ request()->routeIs('reservas.internas') ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700' }}">
-                        Internas
-                    </a>
-                    <a href="{{ route('reservas.prestamos') }}"
-                       class="block px-3 py-2 rounded-lg text-sm {{ request()->routeIs('reservas.prestamos') ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700' }}">
-                        Préstamos
-                    </a>
-                </div>
-            </div>
+<div x-data="{ open: {{ request()->is('*reservas*') ? 'true' : 'false' }} }">
+
+    <button
+        @click="open = !open"
+        class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg">
+        <i class="fas fa-calendar-check w-5 text-center"></i>
+        <span x-show="sidebarOpen">Reservas</span>
+    </button>
+
+    <div x-show="open && sidebarOpen" x-collapse class="ml-8 mt-1 space-y-1">
+
+        @can('ver_reservas_globales')
+            <a href="{{ route('admin.reservas.index') }}">Reservas Administración</a>
         @endcan
+
+        @can('ver_reservas_internas')
+            <a href="{{ route('dependencia.reservas.index') }}">Reservas Internas</a>
+        @endcan
+
+        @can('ver_reservas_prestamos')
+            <a href="{{ route('dependencia.prestamos.index') }}">Préstamos</a>
+        @endcan
+
+        @can('ver_reservas_internas')
+            <a href="{{ route('operativo.reservas.index') }}">Mis Reservas</a>
+        @endcan
+
+    </div>
+</div>
+
+@endcanany
+
 
         <!-- Reportes -->
-        @can('ver_reportes_dependencia')
-            <x-nav-item
-                icon="fa-chart-line"
-                label="Reportes"
-                route="reportes.index"
-                :active="request()->routeIs('reportes.*')"
-            />
-        @endcan
+ @can('ver_reportes_globales')
+    <x-nav-item
+        icon="fa-chart-line"
+        label="Reportes"
+        route="admin.reportes.index"
+        :active="request()->routeIs('admin.reportes.*')"
+    />
+@endcan
+
+@can('ver_reportes_dependencia')
+    <x-nav-item
+        icon="fa-chart-line"
+        label="Reportes"
+        route="dependencia.reportes.index"
+        :active="request()->routeIs('dependencia.reportes*')"
+    />
+    @if(auth()->user()->hasRole('operativo'))
+        <x-nav-item
+            route="dependencia.reportes"
+            label="Mis reportes"
+        />
+    @endif
+@endcan
+
+
+
+
 
         <!-- Divider -->
         <div class="border-t border-gray-200 dark:border-gray-700 my-2"></div>
 
         <!-- Dependencias -->
-        @can('ver_dependencias')
-            <x-nav-item
-                icon="fa-building"
-                label="Dependencias"
-                route="dependencias.index"
-                :active="request()->routeIs('dependencias.*')"
-            />
-        @endcan
+       @role('Administrador General')
+    @can('ver_todos_usuarios')
+        <x-nav-item
+            icon="fa-users"
+            label="Usuarios"
+            route="admin.usuarios.index"
+            :active="request()->routeIs('admin.usuarios.*')"
+        />
+    @endcan
+@endrole
+
+@role('Dueño Dependencia')
+    @can('ver_personal_dependencia')
+        <x-nav-item
+            icon="fa-users"
+            label="Usuarios"
+            route="dependencia.usuarios"
+            :active="request()->routeIs('dependencia.usuarios')"
+        />
+    @endcan
+@endrole
+
 
         <!-- Usuarios -->
-        @can('ver_todos_usuarios')
-            <x-nav-item
-                icon="fa-users"
-                label="Usuarios"
-                route="usuarios.index"
-                :active="request()->routeIs('usuarios.*')"
-            />
-        @endcan
+       {{-- ADMIN --}}
+@role('Administrador General')
+    @can('ver_todos_usuarios')
+        <x-nav-item
+            icon="fa-users"
+            label="Usuarios"
+            route="admin.usuarios.index"
+            :active="request()->routeIs('admin.usuarios.*')"
+        />
+    @endcan
+@endrole
+
+{{-- DUEÑO --}}
+@role('Dueño Dependencia')
+    @can('ver_usuarios_dependencia')
+        <x-nav-item
+            icon="fa-users"
+            label="Usuarios"
+            route="dependencia.usuarios"
+            :active="request()->routeIs('dependencia.usuarios')"
+        />
+    @endcan
+@endrole
+
 
         <!-- Alertas -->
         @can('ver_auditoria')

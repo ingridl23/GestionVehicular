@@ -7,6 +7,10 @@ use App\Models\Reportes;
 
 class HistorialController extends Controller{
 
+public function index(){
+    return View ('admin.auditoria.index');
+}
+
     public function resumen()
     {
         return Reportes::select('estado')

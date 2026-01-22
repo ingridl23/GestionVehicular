@@ -1,12 +1,12 @@
 <?php
 
 namespace Database\Seeders;
-
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
+
 
 class UserSeeder extends Seeder
 {
@@ -17,8 +17,8 @@ class UserSeeder extends Seeder
     {
         //Se obtienen los roles (en caso de no existir se crean)
         $roleAdminDependencia = Role::firstOrCreate(['name' => 'Administrador de Dependencia']);
-        $roleJefeOficina = Role::firstOrCreate(['name' => 'Jefe de Oficina']);
-        $roleConductor = Role::firstOrCreate(['name' => 'Conductor']);
+        $roleJefeOficina = Role::firstOrCreate(['name' => 'Jefe de Area']);
+        $roleOperativo = Role::firstOrCreate(['name' => 'Operativo']);
         $roleAdminGeneral = Role::firstOrCreate(['name' => 'Administrador General']);
 
         //Se crean los usuarios
@@ -65,7 +65,7 @@ class UserSeeder extends Seeder
 
         $adminDependenciaUser->assignRole($roleAdminDependencia);
         $jefeDeOficina->assignRole($roleJefeOficina);
-        $conductor->assignRole($roleConductor);
+        $conductor->assignRole($roleOperativo);
         $administradorGeneral->assignRole($roleAdminGeneral);
 
 

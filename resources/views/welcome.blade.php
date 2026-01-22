@@ -112,7 +112,7 @@
 
                     <!-- LINK RECUPERAR CONTRASEÑA -->
                     @if (Route::has('password.request'))
-                        <a href="{{ route('password.request') }}" class="block mt-3 text-sm text-blue-700 hover:underline">
+                        <a href="{{ route('auth.passwords.reset') }}" class="block mt-3 text-sm text-blue-700 hover:underline">
                             ¿Olvidaste tu contraseña?
                         </a>
                     @endif
@@ -125,5 +125,13 @@
     <script>
         const BASE_URL = "{{ url('/') }}";
     </script>
+
+    <footer class="w-full text-center text-sm text-gray-500 py-4 mt-6">
+    <div class="border-t pt-3">
+        © {{ date('Y') }} Gestión Vehicular · Todos los derechos reservados
+    </div>
+</footer>
+
 </body>
+
 </html>

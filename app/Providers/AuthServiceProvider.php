@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Providers;
-
 use App\Models\Dependencia;
 use App\Models\Reserva;
 use App\Models\Reportes;

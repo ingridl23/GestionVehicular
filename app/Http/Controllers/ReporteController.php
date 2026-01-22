@@ -11,7 +11,7 @@ class ReporteController extends Controller
 {
 
 
-    public function index(ReportePolicy $ReporteP)
+    public function index()
     {
          $this->authorize('showReport', Reportes::class);
         return Reportes::with('usuario')
@@ -19,7 +19,7 @@ class ReporteController extends Controller
             ->paginate(20);
     }
 
-    public function store(Request $request, ReporteService $service, ReportePolicy $ReporteP)
+    public function store(Request $request, ReporteService $service)
     {
         $this->authorize('createReport', Reportes::class);
         $data = $request->validate([
@@ -35,14 +35,14 @@ class ReporteController extends Controller
         return $service->crear($data);
     }
 
-    public function show(Reportes $reporte, ReportePolicy $ReporteP)
+    public function show(Reportes $reporte)
     {
          $this->authorize('showReport', Reportes::class);
         return $reporte->load('usuario','comentarios.usuario');
     }
 
     /**Cambiar estado del reporte */
-    public function cambiarEstado(Request $request, Reportes $reporte, ReportePolicy $ReporteP)
+    public function cambiarEstado(Request $request, Reportes $reporte)
     {
          $this->authorize('update', $reporte);
 
@@ -61,7 +61,7 @@ class ReporteController extends Controller
 /***************************************************************************************************************** */
     /**Seguimiento de Comentarios en Reportes */
 
-    public function agregarComentario(Request $request, Reportes $reporte, ReportePolicy $ReporteP)
+    public function agregarComentario(Request $request, Reportes $reporte)
     {
       $this->authorize('createMessage', Reportes::class);
 

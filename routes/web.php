@@ -19,7 +19,7 @@ use App\Services\CombustibleApiService;
 
 // Ruta raíz redirige al login
 Route::get('/', [HomeController::class, 'inicio']);
-
+Route::get('/reset', [HomeController::class, 'reset'])->name('auth.passwords.reset');
 
 
 // RUTAS PROTEGIDAS (requieren autenticación)
@@ -31,16 +31,43 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard');
 
+    Route::get('/auditoria', [HistorialController::class, 'index'])
+        ->name('auditoria.index');
    // Route::get('/vehiculos', [VehiculoController::class, 'sectionVehiculo'])->middleware('permission:ver_vehiculos');
     Route::get('/vehiculos', [VehiculoController::class, 'sectionVehiculo'])
-    ->middleware('permission:ver_vehiculos|ver_vehiculos_dentro_dependencia');
+    ->middleware('permission:ver_vehiculos|ver_vehiculos_dentro_dependencia')->name('vehiculos.index');
 
     Route::get('/vehiculos/{vehiculo}', [VehiculoController::class, 'show'])
         ->middleware('permission:ver_vehiculos');
-   // Route::get('/listado-vehiculos', [VehiculoController::class, 'index'])->name('vehiculos.index');
+
+    Route::get('/dependencias/personal', [UserController::class, 'usuariosPorDependencia'])->middleware('permission:ver_personal_dependencia')->name('personal.index');
 
     Route::get('/alertas', [AlertaController::class, 'index'])->name('alertas.index');
     Route::get('/alertas/{tipo}/{id}', [AlertaController::class, 'porEntidad'])->name('alertas.porEntidad');
+
+    Route::middleware(['auth'])
+    ->prefix('dependencia')
+    ->name('dependencia.')
+    ->group(function () {
+
+        // Préstamos (usa ReservaController)
+        Route::get('/prestamos', [ReservaController::class, 'prestamos'])
+            ->name('prestamos.index')
+            ->middleware('permission:ver_prestamos');
+    });
+
+
+Route::middleware(['auth'])
+    ->prefix('dependencia')
+    ->name('dependencia.')
+    ->group(function () {
+
+        Route::resource('reportes', ReporteController::class)
+            ->only(['index', 'show'])
+            ->middleware('permission:ver_reportes_dependencia');
+    });
+
+
 });
 
 

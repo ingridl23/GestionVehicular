@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('modelo');
             $table->integer('anio');
             $table->foreignId('id_direccion_actual')->references('id')->on('direcciones')->onDelete('restrict');
-            $table->foreignId('id_estado_vehiculo')->references('id')->on('estados_vehiculo')->onDelete('restrict');
+            $table->foreignId('id_estado_vehiculo')->references('id')->on('estados_vehiculos')->onDelete('restrict');
             $table->foreignId('id_dependencia_duena')->references('id')->on('dependencias')->onDelete('restrict');
             $table->foreignId('id_estado_nafta')->references('id')->on('estados_nafta')->onDelete('restrict');
             $table->boolean('control_satelital')->default(true); //por defecto al cargar primera vez
