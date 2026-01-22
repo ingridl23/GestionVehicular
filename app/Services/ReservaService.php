@@ -99,10 +99,13 @@ class ReservaService{
 
     public function cancelarReserva($id){
        $reserva = Reserva::findOrFail($id);
-
-       // Se busca el id del estado : CANCELADA
-        $estado_cancelado = EstadosReserva::select("id")->where("estado", "CANCELADA")->get();
-        $reserva->update(['id_estado_Reserva' => $estado_cancelado]);
+        if(!$reserva){
+            return null;
+        }
+       
+        // Se busca el id del estado : CANCELADA
+        $estado_cancelado = EstadosReserva::where("estado", "CANCELADA")->value('id');
+        $reserva->update(['id_estado_reserva' => $estado_cancelado]);
     }
     
 
@@ -119,6 +122,8 @@ class ReservaService{
         
     }
 
+    //Datos que se muestran en los inputs de los filtros (los vehiculos que son usados por las dependencias que se muestran y
+    // el estado de las reservas)
     public function datosFiltrosInternas(){
         $rol = $this->rol();
         $id_dependencia = $this->user()->dependencia->id;
@@ -143,6 +148,7 @@ class ReservaService{
             }
 
         })
+
         //Carga las reservas de cada vehiculo pero que cumplan con las condiciones
         ->with(['reservas' => function ($q) use ($rol, $id_dependencia, $id_usuario) {
 
@@ -166,7 +172,8 @@ class ReservaService{
     }
 
 
-
+    //Datos que se muestran en los inputs de los filtros (los vehiculos que son usados por las dependencias que se muestran y
+    // el estado de las reservas)
     public function datosFiltrosExternas(){
         $rol = $this->rol();
         $id_dependencia = $this->user()->dependencia->id;

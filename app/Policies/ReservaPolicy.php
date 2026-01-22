@@ -64,25 +64,15 @@ class ReservaPolicy
     }
 
     /**
-     * Finalizar reserva antes de tiempo
+     * Cancelar reserva
      */
-    public function finalizar(User $user, Reserva $reserva): bool
+    public function cancelar(User $user): bool
     {
-        if (!$user->hasPermissionTo('finalizar_reserva_interna') || !$user->hasPermissionTo('cancelar_prestamo')) {
-        return false;
-    }
+        if (!$user->hasPermissionTo('cancelar_reserva_interna') || !$user->hasPermissionTo('cancelar_prestamo')) {
+            return false;
+        }
 
-    // Operativo → solo su reserva
-    if ($user->hasRole('Operativo')) {
-        return $reserva->user_id === $user->id;
-    }
-
-    // Dueño Dependencia → reservas de su dependencia
-    if ($user->hasRole('Dueño Dependencia')) {
-        return $reserva->dependencia_id === $user->dependencia_id;
-    }
-
-    return false;
+        return true;
     }
 
     //SOLICITAR RESERVA EXTERNAS E INTERNAS

@@ -46,47 +46,18 @@ class ReservaController extends Controller{
     }
 
 
-    // permiso = cancelar_reserva_interna
-    public function cancelarReservaInterna($id, ReservaPolicy $ReservaP){
-       if($this->authorize('finalizar', $ReservaP)){
-            $this->service->cancelarReserva($id);
-            return redirect()->route('reservas.reservas')->with('success', 'La dependencia fue eliminada correctamente.');
-        }
-
-    }
-
-    //'cancelar_prestamo'
-    public function cancelarReservaExterna($id, ReservaPolicy $ReservaP){
-       if($this->authorize('finalizar', $ReservaP)){
-            $this->service->cancelarReserva($id);
-            return redirect()->route('reservas.reservas')->with('success', 'La dependencia fue eliminada correctamente.');
-        }
+    // permiso = cancelar_reserva_interna || 'cancelar_prestamo'
+    public function cancelarReserva($id){
+        //$this->authorize('cancelar');
+        $this->service->cancelarReserva($id);
+         return response()->json([
+        'success' => true,
+        'message' => 'La reserva fue cancelada correctamente'
+    ]);
+        //return redirect()->route('reservas.internas')->with('success', 'La dependencia fue cancelada correctamente.');
     }
 
 
-    // // permiso = crear dependencias
-    // // datosRelacionDependencia = Recupera la información de las tablas relacionadas a la entidad Dependencia
-    // public function datosParaCrearDependencia(){
-    //     return view('dependencias.formulario-crear-editar.formCrear',$this->service->datosRelacionesDependencia());
-    // }
-
-    // // permiso = crear dependencias
-    // public function crearDependencia(CrearDependenciaRequest $request){
-    //     $this->service->crearDependencia($request->validated());
-    //     return redirect()->route('dependencias.index')->with('success', 'La dependencia fue creada correctamente.');
-
-    // }
-
-    // // permiso = editar dependencias
-    // public function datosParaEditarDependencia($id){
-    //     return view('dependencias.formulario-crear-editar.formEditar',$this->service->datosRelacionesDependencia($id));
-    // }
-
-    // // permiso = editar dependencias
-    // public function editarDependencia(EditarDependenciaRequest $request, $id){
-    //     $this->service->editarDependencia($request->validated(), $id);
-    //     return redirect()->route('dependencias.index')->with('success', 'La dependencia fue actualizada correctamente.');
-    // }
 
     public function filtrarReservasInternas(FiltroReservasRequest $request){
         $rol = $this->service->rol();
@@ -151,7 +122,6 @@ class ReservaController extends Controller{
 
         });
         }
-
 
         /* ----------------------
          FILTRO POR SI EL ESTADO DE LA RESERVA
