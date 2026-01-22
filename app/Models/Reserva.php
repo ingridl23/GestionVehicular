@@ -53,6 +53,27 @@ class Reserva extends Model
 
 
     public function scopeObtenerDependenciasInternas($query, $id_dependencia){
+        return $query
+        ->where('id_dependencia_duena', $id_dependencia)
+        ->where(function ($q) use ($id_dependencia) {
+
+            // Mismo nivel (misma dependencia)
+            $q->where('id_dependencia_solicitante', $id_dependencia)
+
+            // Solicitante es hija de la dueña
+            ->orWhereHas('dependencia_solicitante', function ($q2) use ($id_dependencia) {
+                $q2->where('id_dependencia_padre', $id_dependencia);
+            })
+
+            // Solicitante es padre de la dueña
+            ->orWhereHas('dependencia_solicitante', function ($q3) use ($id_dependencia) {
+                $q3->whereHas('dependenciasHijas', function ($q4) use ($id_dependencia) {
+                    $q4->where('id', $id_dependencia);
+                });
+            });
+        });
+
+
         return $query->where('id_dependencia_duena', $id_dependencia) // Solo para reservas internas
             ->where(function ($q) use ($id_dependencia) {
                 $q->where('id_dependencia_solicitante', $id_dependencia) // dependencia solicitante es la misma que la dependencia dueña

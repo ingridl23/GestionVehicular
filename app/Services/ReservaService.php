@@ -19,11 +19,11 @@ class ReservaService{
         $this->direccionService = $direccionService;
     }
 
-    protected function user(){
+    public function user(){
         return Auth::user();
     }
 
-    protected function rol(){
+    public function rol(){
         $rol = $this->user()->getRoleNames();
         return $rol[0] ;
     }
@@ -97,8 +97,6 @@ class ReservaService{
 
 
 
-
-
     public function cancelarReserva($id){
        $reserva = Reserva::findOrFail($id);
 
@@ -121,9 +119,93 @@ class ReservaService{
         
     }
 
-    public function datosFiltros(){
+    public function datosFiltrosInternas(){
+        $rol = $this->rol();
+        $id_dependencia = $this->user()->dependencia->id;
+        $id_usuario = $this->user()->id;
+
+        //whereHas -> vehiculos que tengan al menos una reserva que cumpla con las condiciones (FILTRA)
+        $query = Vehiculo::whereHas('reservas', function ($q) use ($rol, $id_dependencia, $id_usuario) {
+
+            //Internas de su dependencia
+            if ($rol === 'Dueño Dependencia' || $rol === 'Jefe de Area') {
+                $q->obtenerDependenciasInternas($id_dependencia);
+            } 
+
+            // Sus reservas
+            elseif ($rol === 'Operativo') {
+                $q->obtenerDependenciasInternas($id_dependencia)->where('id_usuario', $id_usuario);
+            } 
+
+            // Todas las reservas que sean internas
+            else {
+                $q->soloInternas();
+            }
+
+        })
+        //Carga las reservas de cada vehiculo pero que cumplan con las condiciones
+        ->with(['reservas' => function ($q) use ($rol, $id_dependencia, $id_usuario) {
+
+            if ($rol === 'Dueño Dependencia' || $rol === 'Jefe de Area') {
+                $q->obtenerDependenciasInternas($id_dependencia);
+            } 
+            elseif ($rol === 'Operativo') {
+                $q->obtenerDependenciasInternas($id_dependencia)
+                ->where('id_usuario', $id_usuario);
+            } 
+            else {
+                $q->soloInternas();
+            }
+
+        }]);
+
         return [
-            'vehiculos_filtros' => Vehiculo::whereHas('reservas')->orderBy('dominio')->get(),
+            'vehiculos_filtros' => $query->orderBy('dominio')->get(),
+            'estados_filtros' => EstadosReserva::orderBy('estado')->get(),
+        ];
+    }
+
+
+
+    public function datosFiltrosExternas(){
+        $rol = $this->rol();
+        $id_dependencia = $this->user()->dependencia->id;
+        $id_usuario = $this->user()->id;
+
+        //whereHas -> vehiculos que tengan al menos una reserva que cumpla con las condiciones (FILTRA)
+        $query = Vehiculo::whereHas('reservas', function ($q) use ($rol, $id_dependencia, $id_usuario) {
+
+            //Internas de su dependencia
+            if($rol == 'Dueño Dependencia' || $rol == 'Jefe de Area'){
+            $q->obtenerDependenciasExternas($id_dependencia)->groupBy('id_vehiculo');
+            }
+
+            else if($rol == 'Operativo'){
+                $q->obtenerDependenciasExternas($id_dependencia)->where('id_usuario', $this->user()->id)->groupBy('id_vehiculo');
+            }
+            else{
+                $q->soloExternas()->groupBy('id_vehiculo');
+            }
+        })
+        //Carga las reservas de cada vehiculo pero que cumplan con las condiciones
+        ->with(['reservas' => function ($q) use ($rol, $id_dependencia, $id_usuario) {
+
+            if($rol == 'Dueño Dependencia' || $rol == 'Jefe de Area'){
+            $q->obtenerDependenciasExternas($id_dependencia)->groupBy('id_vehiculo');
+        }
+
+            else if($rol == 'Operativo'){
+                $q->obtenerDependenciasExternas($id_dependencia)->where('id_usuario', $this->user()->id)->groupBy('id_vehiculo');
+            }
+            else{
+                $q->soloExternas()->groupBy('id_vehiculo');
+            }
+
+        }]);
+
+        return [
+            'vehiculos_filtros' => $query->orderBy('dominio')->get(),
+            'estados_filtros' => EstadosReserva::orderBy('estado')->get(),
         ];
     }
 }

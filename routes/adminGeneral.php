@@ -12,21 +12,20 @@ use App\Http\Controllers\HistorialController;
 use App\Http\Controllers\ReservaController;
 
 Route::middleware(['auth', 'role:Administrador General'])
-    ->prefix('admin')
-    ->name('admin.')
+    //->prefix('admin')
+    //->name('admin.')
     ->group(function () {
 
         Route::resource('/usuarios', UserController::class);
 
         Route::resource('/vehiculos', VehiculoController::class)->only(['store','update','destroy']);
 
-        Route::resource('/reservas', ReservaController::class);
 
         Route::post('/reservas/{id}/rechazar', [ReservaController::class, 'rechazar'])
        ->middleware('permission:rechazar_reservas_global');
 
        Route::get('/auditoria', [HistorialController::class,'index'])
-       ->middleware('permission:ver_auditoria');
+       ->middleware('permission:ver_auditoria')->name('auditoria.index');
 
 
       // Reportes globales

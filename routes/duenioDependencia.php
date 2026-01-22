@@ -13,8 +13,6 @@ Route::middleware(['auth', 'role:Dueño Dependencia'])
         //tambien los responde y actualiza a los reportes
         Route::post('/reportes/{id}/actualizar', [ReporteController::class, 'update'])->middleware('permission:actualizar_reportes');
 
-        Route::get('/reservas', [ReservaController::class, 'reservas'])->middleware('permission:ver_reservas_internas');
-
 
         Route::post('/reservas/solicitar', [ReservaController::class, 'store'])
                     ->middleware('permission:solicitar_reserva_interna');

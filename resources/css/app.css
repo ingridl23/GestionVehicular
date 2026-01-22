@@ -63,3 +63,7 @@ a {
 button {
     @apply transition-all duration-200;
 }
+
+.bg-flota {
+    background-image: url('../assets/imagenes/flotavehicular.png');
+}

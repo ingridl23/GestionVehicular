@@ -19,16 +19,16 @@ class ReservaController extends Controller{
     public function verReservasInternas(){
         $data = array_merge(
             ['reservas' => $this->service->verReservasInternas()],
-            $this->service->datosFiltros()
+            $this->service->datosFiltrosInternas()
         );
         return view('ui.reservas.reservas', $data);
     }
 
-        // permiso = ver_reservas_prestamos
+    // permiso = ver_reservas_prestamos
     public function verReservasExternas(){
         $data = array_merge(
             ['reservas' => $this->service->verReservasExternas()],
-            $this->service->datosFiltros()
+            $this->service->datosFiltrosExternas()
         );
         return view('ui.reservas.reservas', $data);
     }
@@ -46,8 +46,8 @@ class ReservaController extends Controller{
     
     // permiso = eliminar dependencias
     public function cancelarReserva($id){
-            $this->service->cancelarReserva($id);
-            return redirect()->route('reservas.reservas')->with('success', 'La dependencia fue eliminada correctamente.');
+        $this->service->cancelarReserva($id);
+        return redirect()->route('reservas.reservas')->with('success', 'La dependencia fue eliminada correctamente.');
     }
 
 
@@ -79,63 +79,83 @@ class ReservaController extends Controller{
 
 
     public function filtrarReservas(FiltroReservasRequest $request){
+        $rol = $this->service->rol();
+        $id_dependencia = $this->service->user()->dependencia->id;
+        $query = Reserva::with('estado_reserva', 'vehiculo', 'usuario', 'dependencia_solicitante')->orderBy('fecha_inicio_reserva');
 
-        $query = Reserva::with(['vehiculo','dependencia_duena', 'estado_reserva']);
 
-        $rol = mb_strtolower(Auth::user()->rol , 'UTF-8');
+        if($rol == 'Dueño Dependencia' || $rol == 'Jefe de Area'){
+            $query->obtenerDependenciasInternas($id_dependencia);
+        }
 
-        // Solo puede ver las  reservas que involucran a la dependencia
-        if($rol == 'administrador de dependencia'){
-            $id = $request->input('id');
-           $query->where(function ($q) use ($id) {
-                $q->where('id', $id)
-                ->orWhere('id_dependencia_duena', $id)
-                ->orWhere('id_dependencia_solicitante', $id);
-            });
+        else if($rol == 'Operativo'){
+            $query->obtenerDependenciasInternas($id_dependencia)->where('id_usuario', $this->service->user()->id);
+        }
+        else{
+            $query->soloInternas();
         }
 
         /* ----------------------
-         FILTRO POR NOMBRE DE LA DEPENDENCIA
+         FILTRO POR NOMBRE DE LA DEPENDENCIA SOLICITANTE O POR NOMBRE O APELLIDO DEL CONDUCTOR
         ---------------------- */
 
         //filled se fija que exista y no este vacio
         if(!empty($request->filled('nombre')) && $request->input('nombre') != ''){
             $nombre = $request->input('nombre');
-            $query->where('nombre', 'LIKE', "%{$nombre}%");
-        }
+            $query->where(function ($q) use ($nombre) {
 
-        /* ----------------------
-         FILTRO POR DEPENDENCIA PADRE
-        ---------------------- */
-        //Obtiene la dependencia por la que se busca (el orWhere) y los sectores donde esta es una jerarquia superior
-        // No incluye las áreas donde esta dependencia actúa como jerarquia indirecta (es decir, niveles inferiores más profundos)
+            // Dependencia solicitante
+            $q->whereHas('dependencia_solicitante', function ($q2) use ($nombre) {
+                $q2->where('nombre', 'LIKE', "%{$nombre}%");
+            })
 
-        if (!empty($request->filled('dependencia_padre')) && $request->input('dependencia_padre') != 'default') {
-            $dependencia_padre = $request->input('dependencia_padre');
-            $query->where(function ($q) use ($dependencia_padre) {
-                $q->where('id_dependencia_padre', $dependencia_padre)
-                ->orWhere('id', $dependencia_padre);
+            // OR Usuario
+            ->orWhereHas('usuario', function ($q3) use ($nombre) {
+                $q3->where('name', 'LIKE', "%{$nombre}%")
+                ->orWhere('lastname', 'LIKE', "%{$nombre}%");
             });
+
+        });
+        }
+
+
+        /* ----------------------
+         FILTRO POR SI EL ESTADO DE LA RESERVA
+        ---------------------- */
+
+        if (!empty($request->filled('estado')) && $request->input('estado') != 'default') {
+            $activa = $request->input('estado');
+            $query->where('id_estado_reserva', $activa);
         }
 
         /* ----------------------
-         FILTRO POR SI ESTA ACTIVA
+         VEHICULO
         ---------------------- */
 
-        if (!empty($request->filled('activa')) && $request->input('activa') != 'default') {
-            $activa = $request->input('activa');
-            $query->where('activa', $activa);
-        }
+        if (!empty($request->filled('vehiculo')) && $request->input('vehiculo') != 'default') {
+            $vehiculo = $request->input('vehiculo');
+            $query->where('id_vehiculo', $vehiculo);
+            // $query->whereHas('direccion', function ($q) use ($localidad) {
+            //     $q->where('ciudad', $localidad);
+            // });
+        }   
 
         /* ----------------------
-         LOCALIDAD
+         FECHA DE INICIO
         ---------------------- */
 
-        if (!empty($request->filled('localidad')) && $request->input('localidad') != 'default') {
-            $localidad = $request->input('localidad');
-            $query->whereHas('direccion', function ($q) use ($localidad) {
-                $q->where('ciudad', $localidad);
-            });
+        if (!empty($request->filled('fecha_inicio')) && $request->input('fecha_inicio') != '') {
+            $fecha_inicio = $request->input('fecha_inicio');
+            $query->where('fecha_inicio_reserva', $fecha_inicio);
+        }   
+
+        /* ----------------------
+         FECHA DE FIN
+        ---------------------- */
+
+        if (!empty($request->filled('fecha_fin')) && $request->input('fecha_fin') != '') {
+            $fecha_fin = $request->input('fecha_fin');
+            $query->where('fecha_fin_reserva', $fecha_fin);
         }   
 
         /* ----------------------
@@ -143,38 +163,20 @@ class ReservaController extends Controller{
         ---------------------- */
 
         //Campo por el que se ordena
-        $sortField = $request->input('sort_field', 'nombre');
+        $sortField = $request->input('sort_field', 'fecha_inicio_reserva');
 
         //Como se ordena
         $sortOrder = $request->input('sort_order', 'asc');
 
-        $allowedSorts = ['nombre', 'activa'];
+        $allowedSorts = ['fecha_inicio_reserva', 'fecha_reserva'];
         $allowedOrders = ['asc', 'des'];
 
         if (!in_array($sortField, $allowedSorts)) {
-            $sortField = 'nombre';
+            $sortField = 'fecha_inicio';
         }
 
         if (!in_array($sortOrder, $allowedOrders)) {
             $sortOrder = 'asc';
-        }
-
-
-        // Fuerza que la dependencia padre por la cual se filtra aparezca en primer lugar del resultado.
-        // El resto de los registros se ordenan por nombre.
-
-        // Si no se filtra por dependencia_padre, TODOS los registros se ordenan por nombre.
-        if(!empty($request->filled('dependencia_padre'))){
-
-            $prioridadId = $request->input('dependencia_padre');
-
-            $query->orderByRaw(
-                "CASE WHEN id = ? THEN 0 ELSE 1 END",
-                [$prioridadId]
-            )->orderBy('nombre');
-        }
-        else{
-            $query->orderBy("nombre");
         }
         
         /* ----------------------
@@ -185,10 +187,5 @@ class ReservaController extends Controller{
         return response()->json($dependencias);
     }
 
-public function reservas(){
-    return View ('ui.reservas');
-}
-public function prestamos(){
-    return View ('ui.prestamos');
-}
+
 }

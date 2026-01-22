@@ -31,6 +31,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard');
 
+
    // Route::get('/vehiculos', [VehiculoController::class, 'sectionVehiculo'])->middleware('permission:ver_vehiculos');
     Route::get('/vehiculos', [VehiculoController::class, 'sectionVehiculo'])
     ->middleware('permission:ver_vehiculos|ver_vehiculos_dentro_dependencia');
@@ -109,11 +110,15 @@ Route::middleware(['auth'])->group(function () {
 
 
     //RESERVAS
-    Route::get('/listado-reservas', [ReservaController::class, 'verReservasInternas'])->name('reservas.internas');
+    // Se deja listado de reservas en web ya que es algo que, sin importar el rol, debe verse (ya que datos se muestran, eso se filtra en el back)
+    Route::get('/listado-reservas', [ReservaController::class, 'verReservasInternas'])->middleware('permission:ver_reservas_internas')->name('reservas.internas');
     Route::get('/listado-prestamos', [ReservaController::class, 'verReservasExternas'])->name('reservas.prestamos');
+    Route::get('/listado-reservas/{id}', [ReservaController::class, 'verReserva'])->name('reservas.reserva'); //Vista individual
+
+    Route::post('/filtrar-reservas', [ReservaController::class, 'filtrarReservas'])->middleware('web');
     Route::get('/autorizar-prestamos', [ReservaController::class, 'verReservasExternas'])->name('reservas.autorizar-prestamos');
 
-    Route::get('/listado-reservas/{id}', [ReservaController::class, 'verReserva'])->name('reservas.reserva'); //Vista individual
+    
 
     Route::get('/editar-reserva/{id}', [ReservaController::class, 'mostrarFormulario'])->name('reservas.editar'); //FORMULARIO
     Route::get('/cancelar-reserva/{id}', [ReservaController::class, 'cancelarReserva'])->name('reservas.cancelar'); //FORMULARIO

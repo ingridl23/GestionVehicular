@@ -8,9 +8,6 @@ Route::middleware(['auth', 'role:Operativo|Jefe de Area'])
     ->name('operativo.')
     ->group(function () {
 
-        Route::get('/reservas', [ReservaController::class, 'index'])
-            ->middleware('permission:ver_reservas_internas');
-
         Route::post('/reservas/solicitar', [ReservaController::class, 'store'])
             ->middleware('permission:solicitar_reserva_interna');
 

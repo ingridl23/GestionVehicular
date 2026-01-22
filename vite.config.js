@@ -7,6 +7,8 @@ export default defineConfig({
             input: [
                 'resources/css/app.css',
                 'resources/js/app.js',
+                'resources/js/filtros/filtrosReservas.js',
+                'resources/css/filtrosReservas.css',
             ],
             refresh: true,
         }),
