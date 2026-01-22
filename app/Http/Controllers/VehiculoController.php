@@ -9,6 +9,9 @@ use App\Services\VehiculoService;
 use Illuminate\Http\JsonResponse;
 use Exception;
 use App\Http\Controllers\UserController;
+use App\Policies\VehiculoPolicy;
+
+
 class VehiculoController extends Controller
 {
 
@@ -20,10 +23,7 @@ public function sectionVehiculo(){
     // CU 2 – Listado
     public function index(Request $request, VehiculoService $service): JsonResponse
     {
-        if (auth()->user()->hasRole('Operativo')) {
-         $vehiculos = Vehiculo::where('dependencia_id', auth()->user()->dependencia_id)
-        ->get();
-}
+        $this->authorize('viewAny', Vehiculo::class);
 
         return response()->json(
             $service->listar($request)
@@ -33,6 +33,7 @@ public function sectionVehiculo(){
     // CU 2 – Detalle
     public function show(Vehiculo $vehiculo): JsonResponse
     {
+       $this->authorize('view', $vehiculo);
         return response()->json([
             'id' => $vehiculo->id,
             'dominio' => $vehiculo->dominio,
@@ -67,6 +68,7 @@ public function sectionVehiculo(){
     // CU 5 – Crear
     public function store(Request $request, VehiculoService $service): JsonResponse
     {
+         $this->authorize('create', Vehiculo::class);
         $data = $request->validate([
             'dominio' => 'required|string|unique:vehiculo,dominio',
             'marca' => 'required|string',
@@ -92,6 +94,7 @@ public function sectionVehiculo(){
     // CU 4 – Modificar
     public function update(Request $request, Vehiculo $vehiculo, VehiculoService $service): JsonResponse
     {
+        $this->authorize('update', $vehiculo);
         $data = $request->validate([
             'marca' => 'sometimes|string',
             'modelo' => 'sometimes|string',
@@ -118,6 +121,7 @@ public function sectionVehiculo(){
     // CU 17 – Reasignar
     public function updateAsignacion(Request $request, Vehiculo $vehiculo, VehiculoService $service): JsonResponse
     {
+          $this->authorize('modificarAsignacion', $vehiculo);
         $request->validate([
             'id_dependencia_duena' => 'required|exists:dependencias,id'
         ]);
@@ -136,6 +140,8 @@ public function sectionVehiculo(){
     // CU 3 – Eliminar
     public function destroy(Vehiculo $vehiculo, VehiculoService $service): JsonResponse
     {
+
+       $this->authorize('delete', $vehiculo);
         $service->eliminar($vehiculo);
 
         return response()->json([

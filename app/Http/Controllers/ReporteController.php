@@ -4,29 +4,24 @@ namespace App\Http\Controllers;
 
 use App\Models\Reportes;
 use App\Services\ReporteService;
+use App\Policies\ReportePolicy;
 use Illuminate\Http\Request;
 
 class ReporteController extends Controller
 {
 
-public function __construct()
-{
-    $this->middleware('permission:ver_reportes_general')
-        ->only(['index', 'show']);
 
-    $this->middleware('permission:actualizar_reportes')
-        ->only(['update']);
-}
-
-    public function index()
+    public function index(ReportePolicy $ReporteP)
     {
+         $this->authorize('showReport', Reportes::class);
         return Reportes::with('usuario')
             ->orderBy('created_at', 'desc')
             ->paginate(20);
     }
 
-    public function store(Request $request, ReporteService $service)
+    public function store(Request $request, ReporteService $service, ReportePolicy $ReporteP)
     {
+        $this->authorize('createReport', Reportes::class);
         $data = $request->validate([
             'titulo'       => 'required|string',
             'descripcion'  => 'required|string',
@@ -40,44 +35,47 @@ public function __construct()
         return $service->crear($data);
     }
 
-    public function show(Reportes $reporte)
+    public function show(Reportes $reporte, ReportePolicy $ReporteP)
     {
+         $this->authorize('showReport', Reportes::class);
         return $reporte->load('usuario','comentarios.usuario');
     }
 
     /**Cambiar estado del reporte */
-    public function cambiarEstado(Request $request, Reportes $reporte)
+    public function cambiarEstado(Request $request, Reportes $reporte, ReportePolicy $ReporteP)
     {
-        if (!$request->user()->hasRole('admin')) {
-            abort(403, 'No autorizado');
-        }
+         $this->authorize('update', $reporte);
 
-        $request->validate([
-            'estado' => 'required|in:pendiente,en_revision,atendido,cerrado'
-        ]);
+    $request->validate([
+        'estado' => 'required|in:pendiente,en_revision,atendido,cerrado'
+    ]);
 
-        $reporte->update([
-            'estado' => $request->estado
-        ]);
+    $reporte->update([
+        'estado' => $request->estado
+    ]);
 
-        return response()->json(['message' => 'Estado actualizado']);
+    return response()->json(['message' => 'Estado actualizado']);
     }
+
 
 /***************************************************************************************************************** */
     /**Seguimiento de Comentarios en Reportes */
 
-    public function agregarComentario(Request $request, Reportes $reporte)
+    public function agregarComentario(Request $request, Reportes $reporte, ReportePolicy $ReporteP)
     {
-        $request->validate([
-            'comentario' => 'required|string'
-        ]);
+      $this->authorize('createMessage', Reportes::class);
 
-        $reporte->comentarios()->create([
-            'id_usuario' => $request->user()->id,
-            'comentario' => $request->comentario
-        ]);
+       $request->validate([
+        'comentario' => 'required|string'
+    ]);
 
-        return response()->json(['message' => 'Comentario agregado']);
+    $reporte->comentarios()->create([
+        'id_usuario' => $request->user()->id,
+        'comentario' => $request->comentario
+    ]);
+
+    return response()->json(['message' => 'Comentario agregado']);
+
     }
 
 
