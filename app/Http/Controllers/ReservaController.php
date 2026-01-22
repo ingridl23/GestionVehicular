@@ -17,51 +17,50 @@ class ReservaController extends Controller{
     }
 
     // permiso = ver_reservas_internas
-    public function verReservasInternas(ReservaPolicy $ReservaP){
-        if($this->authorize('view', $ReservaP)){
-            $data = array_merge(
-                ['reservas' => $this->service->verReservasInternas()],
-                $this->service->datosFiltrosInternas()
-            );
-            return view('ui.reservas.reservas', $data);
-        }
-        //Agregar caso donde no tiene permisos
+    public function verReservasInternas(){
+        $this->authorize('viewAny', Reserva::class);
+        $data = array_merge(
+            ['reservas' => $this->service->verReservasInternas()],
+            $this->service->datosFiltrosInternas()
+        );
+        return view('ui.reservas.reservas', $data);
     }
 
     // permiso = ver_reservas_prestamos
-    public function verReservasExternas(ReservaPolicy $ReservaP){
-        if($this->authorize('view', $ReservaP)){
-            $data = array_merge(
-                ['reservas' => $this->service->verReservasExternas()],
-                $this->service->datosFiltrosExternas()
-            );
-            return view('ui.reservas.reservas', $data);
-        }
-        //agregar caso donde no tiene permisos
+    public function verReservasExternas(){
+        $data = array_merge(
+            ['reservas' => $this->service->verReservasExternas()],
+            $this->service->datosFiltrosExternas()
+        );
+        return view('ui.reservas.reservas', $data);
     }
 
 
     // permiso = ver_reservas_internas
-    public function verReserva($id , ReservaPolicy $ReservaP){
-        if($this->authorize('view', $ReservaP)){
-            $reserva = $this->service->verReserva($id, Auth::user());
-            if(!$datos){
-                abort(403);
-            }
-            return view('reservas.reserva', $reserva);
-        }
+    public function verReserva($id){
+        $reserva = $this->service->verReserva($id, Auth::user());
+        //$this->authorize('view', $reserva); No toma $reserva
+        return view('ui.reservas.reserva', $reserva);
     }
 
 
-    // permiso = eliminar dependencias
-    public function cancelarReserva($id, ReservaPolicy $ReservaP){
+    // permiso = cancelar_reserva_interna
+    public function cancelarReservaInterna($id, ReservaPolicy $ReservaP){
        if($this->authorize('finalizar', $ReservaP)){
             $this->service->cancelarReserva($id);
             return redirect()->route('reservas.reservas')->with('success', 'La dependencia fue eliminada correctamente.');
         }
-        //Agregar caso donde no tiene permisos
+
     }
 
+    //'cancelar_prestamo'
+    public function cancelarReservaExterna($id, ReservaPolicy $ReservaP){
+       if($this->authorize('finalizar', $ReservaP)){
+            $this->service->cancelarReserva($id);
+            return redirect()->route('reservas.reservas')->with('success', 'La dependencia fue eliminada correctamente.');
+        }
+        
+    }
 
 
     // // permiso = crear dependencias
@@ -89,7 +88,8 @@ class ReservaController extends Controller{
     // }
 
 
-
+     // permiso = filtrar_reservas_internas
+     // permiso = filtrar_prestamos
     public function filtrarReservas(FiltroReservasRequest $request){
         $rol = $this->service->rol();
         $id_dependencia = $this->service->user()->dependencia->id;

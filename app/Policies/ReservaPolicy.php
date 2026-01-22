@@ -18,6 +18,24 @@ class ReservaPolicy
     }
 
     /**
+     * Listado de reservas internas
+     */
+
+    public function viewAny(User $user): bool
+    {
+        return $user->hasPermissionTo('ver_reservas_internas');
+    }
+
+    /**
+     * Listado de reservas externas
+     */
+
+    public function viewAnyLoan(User $user): bool
+    {
+        return $user->hasPermissionTo('ver_reservas_prestamos');
+    }
+
+    /**
      * Ver una reserva
      */
     public function view(User $user, Reserva $reserva): bool
@@ -29,7 +47,7 @@ class ReservaPolicy
 
         // Dueño Dependencia: reservas de su dependencia
         if ($user->hasRole('Dueño Dependencia','Jefe De Area')) {
-            return $reserva->dependencia_id === $user->dependencia_id;
+            return $reserva->id_dependencia_solicitante === $user->id_dependencia;
         }
 
         return false;
