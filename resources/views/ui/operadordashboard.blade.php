@@ -22,14 +22,13 @@
 <!-- CONTENIDO -->
 <main class="max-w-md mx-auto px-4 mt-6">
 
-<!-- ALERTA --> <div class="flex items-baseline gap-3 bg-yellow-50 border-l-4 border-yellow-500 rounded-md p-3 mb-8">
-    <span class="text-yellow-600 text-lg">⚠️</span>
-     <div class="text-sm">
-        <div class="font-semibold text-yellow-800">Advertencia!</div>
-    <p class="text-yellow-700">Tu licencia de conducir esta proxima a vencer, actualizala lo antes posible
-        para no perder tu próximo viaje.</p>
-</div>
- </div>
+
+
+    <!-- seccion donde se renderiza la alerta segun gravedad del usuario
+    {{-- ALERTAS DEL USUARIO --}}
+@foreach ($alertas as $alerta)
+    <x-alerta-card :alerta="$alerta" />
+@endforeach
 
 
 

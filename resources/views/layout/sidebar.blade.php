@@ -114,7 +114,13 @@
     @endif
 @endcan
 
-
+{{-- ver alertas --}}
+ <x-nav-item
+        icon="fa-chart-line"
+        label="Alertas"
+        route="alertas.index"
+        :active="request()->routeIs('alertas.*')"
+    />
 
 
 

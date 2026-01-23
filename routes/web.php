@@ -28,6 +28,8 @@ Route::get('/reset', [HomeController::class, 'reset'])->name('auth.passwords.res
 
 // *******************  para todos los usuarios   **************************
  Route::middleware(['auth'])->group(function () {
+    Route::get('/alertas/recientes', [AlertaController::class, 'recientes'])
+    ->middleware('auth');
 
     Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard');
 

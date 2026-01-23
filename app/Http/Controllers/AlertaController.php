@@ -1,9 +1,8 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use App\Models\Alerta;
 use Illuminate\Http\JsonResponse;
+use App\Enums\TipoAlerta;
 
 class AlertaController extends Controller
 {
@@ -39,4 +38,19 @@ class AlertaController extends Controller
             'message' => 'Alerta resuelta correctamente'
         ]);
     }
+public function recientes()
+{
+    return response()->json(
+        Alerta::where('activa', true)
+            ->where('entidad_tipo', TipoAlertaa::TIPOALERTA)
+            ->where('entidad_id', auth()->id())
+            ->latest('fecha_generada')
+            ->limit(5)
+            ->get()
+    );
+}
+
+
+
+
 }

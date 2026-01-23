@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Models\Reportes;
 use App\Services\ReporteService;
 use App\Policies\ReportePolicy;

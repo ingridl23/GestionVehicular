@@ -11,17 +11,38 @@
         <div class="flex items-center gap-4">
 
             <!-- NOTIFICACIONES -->
-            <div class="relative">
-                <button id="notifBtn" class="focus:outline-none">
-                    <i class="fas fa-bell"></i>
-                </button>
+        <div class="relative">
 
-                <div id="notifPopup"
-                    class="hidden absolute right-0 top-8 w-56 bg-white text-gray-800 rounded shadow p-3 text-xs">
-                    <p class="font-semibold mb-1">Notificaciones</p>
-                    <p>Hace 2m — Nueva reserva</p>
-                </div>
-            </div>
+    <!-- BOTÓN -->
+    <button id="notifBtn"
+        class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700
+               text-gray-600 dark:text-gray-300 relative">
+
+        <i class="far fa-bell text-lg"></i>
+
+        <!-- PUNTO ROJO -->
+        <span id="notifDot"
+      class="{{ $alertas->count() ? '' : 'hidden' }}
+             absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full">
+</span>
+
+    </button>
+
+    <!-- POPUP -->
+ <div id="notifList" class="space-y-2">
+    @forelse($alertas as $alerta)
+        <div class="flex items-start gap-2 text-xs">
+            <i class="fas {{ $alerta->icono ?? 'fa-bell' }} text-{{ $alerta->color ?? 'blue' }}-500"></i>
+            <span>{{ $alerta->mensaje }}</span>
+        </div>
+    @empty
+        <p class="text-gray-400">Sin notificaciones</p>
+    @endforelse
+</div>
+
+
+</div>
+
 
             <!-- PERFIL -->
             <div class="relative">

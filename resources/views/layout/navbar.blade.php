@@ -34,12 +34,38 @@
         </button>
 
         <!-- Notifications -->
-        <div class="relative">
-            <button class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 relative">
-                <i class="far fa-bell text-lg"></i>
-                <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
-            </button>
+       <div class="relative">
+
+    <!-- BOTÓN -->
+    <button id="notifBtn"
+        class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700
+               text-gray-600 dark:text-gray-300 relative">
+
+        <i class="far fa-bell text-lg"></i>
+
+        <!-- PUNTO ROJO -->
+       <span id="notifDot"
+      class="{{ $alertas->count() ? '' : 'hidden' }}
+             absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full">
+</span>
+
+    </button>
+
+    <!-- POPUP -->
+  <div id="notifList" class="space-y-2">
+    @forelse($alertas as $alerta)
+        <div class="flex items-start gap-2 text-xs">
+            <i class="fas {{ $alerta->icono ?? 'fa-bell' }} text-{{ $alerta->color ?? 'blue' }}-500"></i>
+            <span>{{ $alerta->mensaje }}</span>
         </div>
+    @empty
+        <p class="text-gray-400"></p>
+    @endforelse
+</div>
+
+
+</div>
+
 
         <!-- User Menu -->
         <div class="relative" x-data="{ open: false }">
