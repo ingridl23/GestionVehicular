@@ -26,8 +26,8 @@ Route::get('/reset', [HomeController::class, 'reset'])->name('auth.passwords.res
 
 
 
-//*******************para todos los usuarios   **************************
-Route::middleware(['auth'])->group(function () {
+// *******************  para todos los usuarios   **************************
+ Route::middleware(['auth'])->group(function () {
 
     Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard');
 
@@ -57,7 +57,7 @@ Route::middleware(['auth'])->group(function () {
     });
 
 
-Route::middleware(['auth'])
+ Route::middleware(['auth'])
     ->prefix('dependencia')
     ->name('dependencia.')
     ->group(function () {
@@ -71,6 +71,22 @@ Route::middleware(['auth'])
 });
 
 
+Route::middleware(['auth', 'role:Operativo'])
+    ->prefix('operativo')
+    ->name('operativo.')
+    ->group(function () {
+
+        Route::get('/dashboard',[UserController::class, 'dashboard2'])
+        ->name('dashboard');
+
+        Route::get('/reportes', [ReporteController::class, 'index'])
+            ->middleware('permission:ver_reportes_dependencia')
+            ->name('reportes.index');
+
+        Route::get('/reservas', [ReservaController::class, 'reservas'])
+            ->middleware('permission:ver_reservas')
+            ->name('reservas.index');
+});
 
 
 

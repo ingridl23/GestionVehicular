@@ -1,9 +1,14 @@
 <?php
-
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ReservaController;
 use App\Http\Controllers\VehiculoController;
-Route::middleware(['auth', 'role:Operativo|Jefe de Area'])
+use App\Http\Controllers\UserController;
+
+
+
+
+
+ Route::middleware(['auth', 'role:Operativo|Jefe de Area'])
     ->prefix('operativo')
     ->name('operativo.')
     ->group(function () {
@@ -18,7 +23,7 @@ Route::middleware(['auth', 'role:Operativo|Jefe de Area'])
             ->middleware('permission:registrar_datos_vehiculos');
 
             //rutas nuevas
-         Route::get('/vehiculos', [VehiculoController::class, 'porDependencia'])
+        Route::get('/vehiculos', [VehiculoController::class, 'porDependencia'])
             ->middleware('permission:ver_vehiculos_dentro_dependencia');
 
 
@@ -30,11 +35,11 @@ Route::middleware(['auth', 'role:Operativo|Jefe de Area'])
          ->middleware('permission:finalizar_reserva_interna');
 
 
-       Route::get('/reservas/historial', [ReservaController::class, 'historial'])
-        ->middleware('permission:ver_historial_reservas');
+        Route::get('/reservas/historial', [ReservaController::class, 'historial'])
+         ->middleware('permission:ver_historial_reservas');
 
 
-       Route::get('/reservas', [ReservaController::class, 'reservas'])
+        Route::get('/reservas', [ReservaController::class, 'reservas'])
             ->name('reservas.index')
             ->middleware('permission:ver_operativo_reservas');
 

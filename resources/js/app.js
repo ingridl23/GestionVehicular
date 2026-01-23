@@ -3,6 +3,7 @@ import './bootstrap';
 // Importar Alpine.js
 import collapse from '@alpinejs/collapse';
 import Alpine from 'alpinejs';
+import './scriptsOperativo';
 
 // Registrar plugin collapse
 Alpine.plugin(collapse);

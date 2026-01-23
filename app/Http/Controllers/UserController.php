@@ -11,11 +11,36 @@ use Illuminate\Support\Facades\Gate;
 
 class UserController extends Controller
 {
-    public function dashboard()
+
+
+
+/** ********************     REDIRECCIONES   *********************** */
+   public function dashboard()
     {
         $user = Auth::user();
-        return view('admin.auditoria.index', compact('user'));
+
+        if ($user->hasRole('Operativo')) {
+            return redirect()->route('operativo.dashboard');
+        }
+
+        if ($user->hasRole('Administrador General')) {
+            return view('admin.auditoria.index', compact('user'));
+        }
+
+        if ($user->hasAnyRole(['Dueño de Dependencia', 'Jefe de Area'])) {
+            return view('admin.auditoria.index', compact('user'));
+        }
+
+        abort(403);
     }
+
+    public function dashboard2()
+    {
+        $user = Auth::user();
+        return view('ui.operadordashboard', compact('user'));
+    }
+
+
 
     /**
      * Crear usuario
