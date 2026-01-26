@@ -14,7 +14,7 @@ class RoleAndPermissionsSeeder extends Seeder
 
         // ROLES
         $adminDependencia = Role::firstOrCreate([
-            'name' => 'Dueño Dependencia',
+            'name' => 'Administrador de Dependencia',
             'guard_name' => 'web',
         ]);
 

@@ -160,13 +160,7 @@
 </div>
 
 
-<div class="space-y-3">
-    @forelse($alertas as $alerta)
-        <x-alerta-card :alerta="$alerta" />
-    @empty
-        <p class="text-sm text-gray-500">No hay alertas activas</p>
-    @endforelse
-</div>
+
 
 
 @endsection

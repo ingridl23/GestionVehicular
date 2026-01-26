@@ -9,7 +9,21 @@ use Illuminate\Http\Request;
 class ReporteController extends Controller
 {
 
+public function index()
+{
+    $user = auth()->user();
 
+    if ($user->can('ver_reportes_general')) {
+        $reportes = Reportes::all();
+    } elseif ($user->can('ver_reportes_dependencia')) {
+        $reportes = Reportes::where('dependencia_id', $user->dependencia_id)->get();
+    } else {
+        $reportes = Reportes::where('usuario_id', $user->id)->get();
+    }
+
+    return view('components.reportes', compact('reportes'));
+}
+/*
     public function index()
     {
          $this->authorize('showReport', Reportes::class);
@@ -17,7 +31,7 @@ class ReporteController extends Controller
             ->orderBy('created_at', 'desc')
             ->paginate(20);
     }
-
+*/
     public function store(Request $request, ReporteService $service)
     {
         $this->authorize('createReport', Reportes::class);

@@ -66,7 +66,11 @@ Route::get('/reset', [HomeController::class, 'reset'])->name('auth.passwords.res
 
         Route::resource('reportes', ReporteController::class)
             ->only(['index', 'show'])
-            ->middleware('permission:ver_reportes_dependencia');
+          ->middleware('permission:ver_reportes_dependencia|ver_reportes_general|ver_reportes_operativos');
+
+          Route::get('/reservas', [ReservaController::class, 'reservas'])
+              ->middleware('permission:ver_reservas')
+              ->name('reservas.index');
     });
 
 
@@ -81,13 +85,8 @@ Route::middleware(['auth', 'role:Operativo'])
         Route::get('/dashboard',[UserController::class, 'dashboard2'])
         ->name('dashboard');
 
-        Route::get('/reportes', [ReporteController::class, 'index'])
-            ->middleware('permission:ver_reportes_dependencia')
-            ->name('reportes.index');
 
-        Route::get('/reservas', [ReservaController::class, 'reservas'])
-            ->middleware('permission:ver_reservas')
-            ->name('reservas.index');
+
 });
 
 

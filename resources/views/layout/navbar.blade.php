@@ -34,38 +34,12 @@
         </button>
 
         <!-- Notifications -->
-       <div class="relative">
-
-    <!-- BOTÓN -->
-    <button id="notifBtn"
-        class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700
-               text-gray-600 dark:text-gray-300 relative">
-
-        <i class="far fa-bell text-lg"></i>
-
-        <!-- PUNTO ROJO -->
-       <span id="notifDot"
-      class="{{ $alertas->count() ? '' : 'hidden' }}
-             absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full">
-</span>
-
-    </button>
-
-    <!-- POPUP -->
-  <div id="notifList" class="space-y-2">
-    @forelse($alertas as $alerta)
-        <div class="flex items-start gap-2 text-xs">
-            <i class="fas {{ $alerta->icono ?? 'fa-bell' }} text-{{ $alerta->color ?? 'blue' }}-500"></i>
-            <span>{{ $alerta->mensaje }}</span>
+        <div class="relative">
+            <button class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 relative">
+                <i class="far fa-bell text-lg"></i>
+                <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+            </button>
         </div>
-    @empty
-        <p class="text-gray-400"></p>
-    @endforelse
-</div>
-
-
-</div>
-
 
         <!-- User Menu -->
         <div class="relative" x-data="{ open: false }">
@@ -78,7 +52,7 @@
                 </div>
                 <div class="hidden lg:block text-left">
                     <p class="text-sm font-medium text-gray-900 dark:text-white">{{ auth()->user()->name }}</p>
-                    <p class="text-xs text-gray-500 dark:text-gray-400">{{ auth()->user()->name ?? 'Usuario' }}</p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">{{ auth()->user()->getRoleNames()->first() ?? 'Usuario' }}</p>
                 </div>
                 <i class="fas fa-chevron-down text-xs text-gray-400"></i>
             </button>

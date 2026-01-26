@@ -1,22 +1,16 @@
+import 'alpinejs';
 import './bootstrap';
 
 // Importar Alpine.js
 import collapse from '@alpinejs/collapse';
 import Alpine from 'alpinejs';
-import './Campana';
-import './scriptsOperativo';
-// Registrar plugin collapse
+
+// Registrar plugin de collapse
 Alpine.plugin(collapse);
 
-// Hacer Alpine disponible globalmente
+// Inicializar Alpine
 window.Alpine = Alpine;
-
-// Iniciar Alpine
 Alpine.start();
-
-console.log('✅ Alpine.js cargado');
-
-
 
 // Dark mode persistence
 document.addEventListener('alpine:init', () => {

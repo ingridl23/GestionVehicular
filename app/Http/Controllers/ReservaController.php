@@ -16,6 +16,34 @@ class ReservaController extends Controller{
         $this->service = $service;
     }
 
+public function index()
+{
+    $user = auth()->user();
+
+    $query = Reserva::with(['vehiculo', 'dependencia_duena', 'estado_reserva']);
+
+    if ($user->hasRole('Administrador General')) {
+        // ve todo
+    }
+    elseif ($user->hasRole('Administrador de Dependencia')) {
+        $query->where(function ($q) use ($user) {
+            $q->where('id_dependencia_duena', $user->id_dependencia)
+              ->orWhere('id_dependencia_solicitante', $user->id_dependencia);
+        });
+    }
+    else {
+        // usuario común
+        $query->where('id_usuario', $user->id);
+    }
+
+    $reservas = $query->latest()->paginate(10);
+
+    return view('dependencias.reservas.reservas', compact('reservas'));
+}
+
+
+
+
     // permiso = ver dependencias
     public function verReservas(ReservaPolicy $ReservaP){
 
@@ -25,7 +53,7 @@ class ReservaController extends Controller{
             ['reservas' => $this->service->verReservas()],
             $this->service->datosFiltros()
         );
-        return view('reservas.reservas', $data);
+        return view('dependencias.reservas.reservas', $data);
      }
     }
 
@@ -34,7 +62,7 @@ class ReservaController extends Controller{
     public function verReserva($id , ReservaPolicy $ReservaP){
          if($this->authorize('view', $ReservaP)){
         $reserva = $this->service->verReserva($id);
-        return view('reservas.reserva', $reserva);
+        return view('dependencias.reservas.reserva', $reserva);
          }
     }
 
@@ -44,7 +72,7 @@ class ReservaController extends Controller{
 
        if($this->authorize('finalizar', $ReservaP)){
             $this->service->cancelarReserva($id);
-            return redirect()->route('reservas.reservas')->with('success', 'La dependencia fue eliminada correctamente.');
+            return redirect()->route('dependencias.reservas.reservas')->with('success', 'La dependencia fue eliminada correctamente.');
          }
             }
 
@@ -80,10 +108,10 @@ class ReservaController extends Controller{
 
         $query = Reserva::with(['vehiculo','dependencia_duena', 'estado_reserva']);
 
-        $rol = mb_strtolower(Auth::user()->rol , 'UTF-8');
+       $user = Auth::user();
 
         // Solo puede ver las  reservas que involucran a la dependencia
-        if($rol == 'administrador de dependencia'){
+       if ($user->hasRole('Administrador de Dependencia')) {
             $id = $request->input('id');
            $query->where(function ($q) use ($id) {
                 $q->where('id', $id)

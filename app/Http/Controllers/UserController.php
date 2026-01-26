@@ -1,9 +1,8 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use App\Models\User;
 use App\Models\Dependencia;
+use App\Models\Alerta;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -18,7 +17,18 @@ class UserController extends Controller
    public function dashboard()
     {
         $user = Auth::user();
+   $stats = [
+        'total'        => 0,
+        'licencias'    => 0,
+        'vencimientos' => 0,
+        'multas'       => 0,
+        'mantenimiento' => 0,
+        'vehiculos' => 0,
+    ];
 
+    // luego, cuando tengas datos reales:
+    // $stats['licencias'] = Licencia::vencidas()->count()
+        $alertas = Alerta::latest()->paginate(10);
         if ($user->hasRole('Operativo')) {
             return redirect()->route('operativo.dashboard');
         }
@@ -27,8 +37,8 @@ class UserController extends Controller
             return view('admin.auditoria.index', compact('user'));
         }
 
-        if ($user->hasAnyRole(['Dueño de Dependencia', 'Jefe de Area'])) {
-            return view('admin.auditoria.index', compact('user'));
+        if ($user->hasAnyRole(['Administrador de Dependencia', 'Jefe de Area'])) {
+            return view('admin.auditoria.index', compact('user','stats','alertas'));
         }
 
         abort(403);
@@ -36,15 +46,26 @@ class UserController extends Controller
 
     public function dashboard2()
     {
-        $user = Auth::user();
-        return view('ui.operadordashboard', compact('user'));
-    }
+        $stats = [
+        'total'        => 0,
+        'licencias'    => 0,
+        'vencimientos' => 0,
+        'multas'       => 0,
+        'mantenimiento'=>0,
+    ];
 
+    // luego, cuando tengas datos reales:
+    // $stats['licencias'] = Licencia::vencidas()->count
+        $user = Auth::user();
+            $alertas = Alerta::latest()->paginate(10);
+        return view('ui.operadordashboard', compact('user','stats','alertas'));
+    }
 
 
     /**
      * Crear usuario
      */
+
     public function createUser(Request $request)
     {
         $data = $request->validate([
@@ -82,6 +103,7 @@ class UserController extends Controller
     /**
      * Actualizar usuario
      */
+
     public function updateUser(Request $request, User $user)
     {
         Gate::authorize('updateUsers', $user);
@@ -100,6 +122,7 @@ class UserController extends Controller
     /**
      * Eliminar usuario
      */
+
     public function destroyUser(User $user)
     {
         Gate::authorize('deleteUser', $user);
@@ -112,7 +135,8 @@ class UserController extends Controller
     /**
      * Listar usuarios por dependencia
      */
-    public function usuariosPorDependencia(Dependencia $dependencia)
+
+    public function index(Dependencia $dependencia)
     {
         Gate::authorize('showUsers', User::class);
 

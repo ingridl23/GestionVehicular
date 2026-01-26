@@ -3,12 +3,12 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ReporteController;
 use App\Http\Controllers\ReservaController;
 use App\Http\Controllers\VehiculoController;
-Route::middleware(['auth', 'role:Dueño Dependencia|Jefe de Area'])
+Route::middleware(['auth', 'role:Administrador de Dependencia|Jefe de Area'])
     ->prefix('dependencia')
     ->name('dependencia.')
     ->group(function () {
 
-        Route::get('/reportes', [ReporteController::class, 'index'])->middleware('permission:ver_reportes_dependencia');
+        //Route::get('/reportes', [ReporteController::class, 'index'])->middleware('permission:ver_reportes_dependencia');
         //tambien los responde y actualiza a los reportes
         Route::post('/reportes/{id}/actualizar', [ReporteController::class, 'update'])->middleware('permission:actualizar_reportes');
 
