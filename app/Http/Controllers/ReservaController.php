@@ -55,7 +55,7 @@ public function index()
         );
         return view('reservas.reservas', $data);
      }
-    }
+
 
 
     // permiso = ver dependencias
@@ -217,3 +217,4 @@ public function index()
 
 
 }
+
