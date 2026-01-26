@@ -20,7 +20,9 @@ class HomeController extends Controller
         return View('welcome');
     }
 
-
+public function reset(){
+    return View('auth.passwords.reset');
+}
     /**
      * Show the application dashboard.
      *

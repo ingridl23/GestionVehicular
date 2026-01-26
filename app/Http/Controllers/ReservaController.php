@@ -17,6 +17,34 @@ class ReservaController extends Controller{
         $this->service = $service;
     }
 
+public function index()
+{
+    $user = auth()->user();
+
+    $query = Reserva::with(['vehiculo', 'dependencia_duena', 'estado_reserva']);
+
+    if ($user->hasRole('Administrador General')) {
+        // ve todo
+    }
+    elseif ($user->hasRole('Administrador de Dependencia')) {
+        $query->where(function ($q) use ($user) {
+            $q->where('id_dependencia_duena', $user->id_dependencia)
+              ->orWhere('id_dependencia_solicitante', $user->id_dependencia);
+        });
+    }
+    else {
+        // usuario común
+        $query->where('id_usuario', $user->id);
+    }
+
+    $reservas = $query->latest()->paginate(10);
+
+    return view('dependencias.reservas.reservas', compact('reservas'));
+}
+
+
+
+
     // permiso = ver_reservas_internas
     public function verReservasInternas(){
         $this->authorize('viewAny', Reserva::class);
@@ -25,106 +53,73 @@ class ReservaController extends Controller{
             $this->service->datosFiltrosInternas(),
             ['ubicacion' => 'interna'],
         );
-        return view('ui.reservas.reservas', $data);
-    }
-
-    // permiso = ver_reservas_prestamos
-    public function verReservasExternas(){
-        $data = array_merge(
-            ['reservas' => $this->service->verReservasExternas()],
-            $this->service->datosFiltrosExternas(),
-            ['ubicacion' => 'externa'],
-        );
-        return view('ui.reservas.reservas', $data);
+        return view('reservas.reservas', $data);
+     }
     }
 
 
-    // permiso = ver_reservas_internas
-    public function verReserva($id){
-        $reserva = $this->service->verReserva($id, Auth::user());
-        $this->authorize('vistaIndividual', $reserva['reserva']);
-        return view('ui.reservas.reserva', $reserva);
+    // permiso = ver dependencias
+    public function verReserva($id , ReservaPolicy $ReservaP){
+         if($this->authorize('view', $ReservaP)){
+        $reserva = $this->service->verReserva($id);
+        return view('reservas.reserva', $reserva);
+         }
     }
 
 
-    // permiso = cancelar_reserva_interna || 'cancelar_prestamo'
-    public function cancelarReserva($id){
-        $reserva = Reserva::findOrFail($id);
-        $this->authorize('cancelar', $reserva);
-        $this->service->cancelarReserva($id);
-        return response()->json([
-            'success' => true,
-            'message' => 'La reserva fue cancelada correctamente'
-        ]);
-    }
+    // permiso = eliminar dependencias
+    public function cancelarReserva($id, ReservaPolicy $ReservaP){
 
-    //'solicitar_reserva_interna',
-    //'solicitar_prestamo',
-    public function mostrarFormulario(){ 
-        $this->authorize('create', Reserva::class);
-        return view('ui.reservas.formularios.crear', $this->service->datosParaFormCrear());
-    }
-
-    public function crearReserva(CrearReservaRequest $request){
-        $this->authorize('create', Reserva::class);
-        $resultado = $this->service->crearReserva($request);
-
-
-        if (!empty($resultado) && $resultado[1]) {
-            if($resultado[0] == "usuario"){
-                return back()->withErrors([
-                    'id_usuario' => 'El usuario no se encuentra disponible en el rango de fechas seleccionado.'
-                ]) ->withInput();;
+       if($this->authorize('finalizar', $ReservaP)){
+            $this->service->cancelarReserva($id);
+            return redirect()->route('reservas.reservas')->with('success', 'La dependencia fue eliminada correctamente.');
+         }
             }
-            return back()->withErrors([
-                'id_vehiculo' => 'El vehiculo no se encuentra disponible en el rango de fechas seleccionado.'
-            ]) ->withInput();;
-        }
-
-        return $this->verReservasInternas();
-    }
 
 
-    public function filtrarReservasInternas(FiltroReservasRequest $request){
-        $rol = $this->service->rol();
-        $id_dependencia = $this->service->user()->dependencia->id;
-        $query = Reserva::with('estado_reserva', 'vehiculo', 'usuario', 'dependencia_solicitante')->orderBy('fecha_inicio_reserva');
+
+    // // permiso = crear dependencias
+    // // datosRelacionDependencia = Recupera la información de las tablas relacionadas a la entidad Dependencia
+    // public function datosParaCrearDependencia(){
+    //     return view('dependencias.formulario-crear-editar.formCrear',$this->service->datosRelacionesDependencia());
+    // }
+
+    // // permiso = crear dependencias
+    // public function crearDependencia(CrearDependenciaRequest $request){
+    //     $this->service->crearDependencia($request->validated());
+    //     return redirect()->route('dependencias.index')->with('success', 'La dependencia fue creada correctamente.');
+
+    // }
+
+    // // permiso = editar dependencias
+    // public function datosParaEditarDependencia($id){
+    //     return view('dependencias.formulario-crear-editar.formEditar',$this->service->datosRelacionesDependencia($id));
+    // }
+
+    // // permiso = editar dependencias
+    // public function editarDependencia(EditarDependenciaRequest $request, $id){
+    //     $this->service->editarDependencia($request->validated(), $id);
+    //     return redirect()->route('dependencias.index')->with('success', 'La dependencia fue actualizada correctamente.');
+    // }
 
 
-        if($rol == 'Dueño Dependencia' || $rol == 'Jefe de Area'){
-            $query->obtenerDependenciasInternas($id_dependencia);
-        }
-
-        else if($rol == 'Operativo'){
-            $query->obtenerDependenciasInternas($id_dependencia)->where('id_usuario', $this->service->user()->id);
-        }
-        else{
-            $query->soloInternas();
-        }
-        return $this->filtrarReservas($request, $query);
-    }
 
     public function filtrarReservasExternas(FiltroReservasRequest $request){
         $rol = $this->service->rol();
         $id_dependencia = $this->service->user()->dependencia->id;
         $query = Reserva::with('estado_reserva', 'vehiculo', 'usuario', 'dependencia_solicitante')->orderBy('fecha_inicio_reserva');
 
-        if($rol == 'Dueño Dependencia' || $rol == 'Jefe de Area'){
-            $query->obtenerDependenciasExternas($id_dependencia);
-        }
+        $rol = mb_strtolower(Auth::user()->rol , 'UTF-8');
 
-        else if($rol == 'Operativo'){
-            $query->obtenerDependenciasExternas($id_dependencia)->where('id_usuario', $this->service->user()->id);
+        // Solo puede ver las  reservas que involucran a la dependencia
+        if($rol == 'administrador de dependencia'){
+            $id = $request->input('id');
+           $query->where(function ($q) use ($id) {
+                $q->where('id', $id)
+                ->orWhere('id_dependencia_duena', $id)
+                ->orWhere('id_dependencia_solicitante', $id);
+            });
         }
-        else{
-            $query->soloExternas();
-        }
-        return $this->filtrarReservas($request, $query);
-    }
-
-     // permiso = filtrar_reservas_internas
-     // permiso = filtrar_prestamos
-    public function filtrarReservas($request, $query){
 
         /* ----------------------
          FILTRO POR NOMBRE DE LA DEPENDENCIA SOLICITANTE O POR NOMBRE O APELLIDO DEL CONDUCTOR
@@ -168,7 +163,7 @@ class ReservaController extends Controller{
             // $query->whereHas('direccion', function ($q) use ($localidad) {
             //     $q->where('ciudad', $localidad);
             // });
-        }   
+        }
 
         /* ----------------------
          FECHA DE INICIO
@@ -177,7 +172,7 @@ class ReservaController extends Controller{
         if (!empty($request->filled('fecha_inicio')) && $request->input('fecha_inicio') != '') {
             $fecha_inicio = $request->input('fecha_inicio');
             $query->whereDate('fecha_inicio_reserva', $fecha_inicio);
-        }   
+        }
 
         /* ----------------------
          FECHA DE FIN
@@ -186,7 +181,7 @@ class ReservaController extends Controller{
         if (!empty($request->filled('fecha_fin')) && $request->input('fecha_fin') != '') {
             $fecha_fin = $request->input('fecha_fin');
             $query->whereDate('fecha_fin_reserva', $fecha_fin);
-        }   
+        }
 
         /* ----------------------
          ORDENAMIENTO SEGURO

@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Models\Reportes;
 use App\Services\ReporteService;
 use App\Policies\ReportePolicy;
@@ -10,16 +9,30 @@ use Illuminate\Http\Request;
 class ReporteController extends Controller
 {
 
+public function index()
+{
+    $user = auth()->user();
 
-    public function index(ReportePolicy $ReporteP)
+    if ($user->can('ver_reportes_general')) {
+        $reportes = Reportes::all();
+    } elseif ($user->can('ver_reportes_dependencia')) {
+        $reportes = Reportes::where('dependencia_id', $user->dependencia_id)->get();
+    } else {
+        $reportes = Reportes::where('usuario_id', $user->id)->get();
+    }
+
+    return view('components.reportes', compact('reportes'));
+}
+/*
+    public function index()
     {
          $this->authorize('showReport', Reportes::class);
         return Reportes::with('usuario')
             ->orderBy('created_at', 'desc')
             ->paginate(20);
     }
-
-    public function store(Request $request, ReporteService $service, ReportePolicy $ReporteP)
+*/
+    public function store(Request $request, ReporteService $service)
     {
         $this->authorize('createReport', Reportes::class);
         $data = $request->validate([
@@ -35,14 +48,14 @@ class ReporteController extends Controller
         return $service->crear($data);
     }
 
-    public function show(Reportes $reporte, ReportePolicy $ReporteP)
+    public function show(Reportes $reporte)
     {
          $this->authorize('showReport', Reportes::class);
         return $reporte->load('usuario','comentarios.usuario');
     }
 
     /**Cambiar estado del reporte */
-    public function cambiarEstado(Request $request, Reportes $reporte, ReportePolicy $ReporteP)
+    public function cambiarEstado(Request $request, Reportes $reporte)
     {
          $this->authorize('update', $reporte);
 
@@ -61,7 +74,7 @@ class ReporteController extends Controller
 /***************************************************************************************************************** */
     /**Seguimiento de Comentarios en Reportes */
 
-    public function agregarComentario(Request $request, Reportes $reporte, ReportePolicy $ReporteP)
+    public function agregarComentario(Request $request, Reportes $reporte)
     {
       $this->authorize('createMessage', Reportes::class);
 

@@ -1,12 +1,8 @@
 <?php
 use Illuminate\Support\Facades\Route;
-
 use App\Http\Controllers\VehiculoController;
-
 use App\Http\Controllers\ReporteController;
-
 use App\Http\Controllers\UserController;
-
 use App\Http\Controllers\DependenciaController;
 use App\Http\Controllers\HistorialController;
 use App\Http\Controllers\ReservaController;
@@ -16,10 +12,17 @@ Route::middleware(['auth', 'role:Administrador General'])
     //->name('admin.')
     ->group(function () {
 
-        Route::resource('/usuarios', UserController::class);
+        Route::resource('/usuarios', UserController::class)->middleware('permission:ver_todos_usuarios');
 
         Route::resource('/vehiculos', VehiculoController::class)->only(['store','update','destroy']);
 
+        Route::resource('/reservas', ReservaController::class)->middleware('permission:ver_reservas_internas')  ->names([
+        'index' => 'reservas.index',
+        'store' => 'reservas.store',
+        'show' => 'reservas.show',
+        'update' => 'reservas.update',
+        'destroy' => 'reservas.destroy',
+    ]);
 
         Route::post('/reservas/{id}/rechazar', [ReservaController::class, 'rechazar'])
        ->middleware('permission:rechazar_reservas_global');
@@ -27,10 +30,22 @@ Route::middleware(['auth', 'role:Administrador General'])
        Route::get('/auditoria', [HistorialController::class,'index'])
        ->middleware('permission:ver_auditoria')->name('auditoria.index');
 
+      Route::resource('reportes', ReporteController::class)
+            ->only(['index', 'show', 'update'])
+            ->middleware('permission:ver_reportes_dependencia');
+       // Reportes globales
+      Route::resource('reportes', ReporteController::class)
+            ->middleware('permission:ver_reportes_dependencia');
 
-      // Reportes globales
-       Route::resource('/reportes', ReporteController::class);
+        Route::patch(
+            'reportes/{reporte}/estado',
+            [ReporteController::class, 'cambiarEstado']
+        )->name('reportes.estado');
 
+        Route::post(
+            'reportes/{reporte}/comentarios',
+            [ReporteController::class, 'agregarComentario']
+        )->name('reportes.comentarios');
 
        //sub prefijo para permisos y eventos de dependencias
        //abarca para dependencias hijas tambien

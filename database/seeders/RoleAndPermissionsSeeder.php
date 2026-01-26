@@ -14,7 +14,7 @@ class RoleAndPermissionsSeeder extends Seeder
 
         // ROLES
         $adminDependencia = Role::firstOrCreate([
-            'name' => 'Dueño Dependencia',
+            'name' => 'Administrador de Dependencia',
             'guard_name' => 'web',
         ]);
 
@@ -102,7 +102,7 @@ class RoleAndPermissionsSeeder extends Seeder
     'ver_reservas_dependencia_en_curso',
     'actualizar_reserva_operativa',
     'finalizar_reserva_interna',
-
+    'ver_historial_reservas',
     // Reportes
     'ver_reportes_operativos',
     'actualizar_reportes'

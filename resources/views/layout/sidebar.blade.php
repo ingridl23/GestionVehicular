@@ -22,6 +22,7 @@
     <!-- Navigation -->
     <nav class="flex-1 overflow-y-auto px-3 py-4 space-y-1">
 
+
         <!-- Dashboard -->
         @can('ver_auditoria')
             <x-nav-item
@@ -52,73 +53,115 @@
             />
         @endcan
 
-        <!-- Reservas (con submenú) -->
+ <!-- Reservas (con submenú) -->
+       @canany([
+    'ver_reservas_globales',
+    'ver_reservas_internas',
+    'ver_reservas_prestamos',
+    'ver_solicitudes_prestamos'
+])
+
+          <div x-data="{ open: {{ request()->is('*reservas*') || request()->is('*prestamos*') ? 'true' : 'false' }} }">
+
+    <button
+        @click="open = !open"
+        class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg
+               text-gray-700 dark:text-gray-300
+               hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+    >
+        <i class="fas fa-calendar-check w-5 text-center"></i>
+
+        <span x-show="sidebarOpen" class="flex-1 text-left text-sm font-medium">
+            Reservas
+        </span>
+
+        <i x-show="sidebarOpen"
+           :class="open ? 'fa-chevron-up' : 'fa-chevron-down'"
+           class="fas text-xs">
+        </i>
+    </button>
+
+    <div x-show="open && sidebarOpen" x-collapse class="ml-8 mt-1 space-y-1">
+
+        @can('ver_reservas_globales')
+            <a href="{{ route('admin.reservas.index') }}"
+               class="block px-3 py-2 rounded-lg text-sm
+               {{ request()->routeIs('admin.reservas.*')
+                    ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400'
+                    : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700' }}">
+                Administración
+            </a>
+        @endcan
+
         @can('ver_reservas_internas')
-            <div x-data="{ open: {{ request()->routeIs('reservas.*') ? 'true' : 'false' }} }">
-                <button
-                    @click="open = !open"
-                    class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-                >
-                    <i class="fas fa-calendar-check w-5 text-center"></i>
-                    <span x-show="sidebarOpen" class="flex-1 text-left text-sm font-medium">Reservas</span>
-                    <i x-show="sidebarOpen" :class="open ? 'fa-chevron-up' : 'fa-chevron-down'" class="fas text-xs"></i>
-                </button>
-
-                <div x-show="open && sidebarOpen" x-collapse class="ml-8 mt-1 space-y-1">
-                    @can('ver_reservas_internas')
-                    <a href="{{ route('reservas.internas') }}"
-                       class="block px-3 py-2 rounded-lg text-sm {{ request()->routeIs('reservas.internas') ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700' }}">
-                        Internas
-                    </a>
-                    @endcan
-                    @can('ver_reservas_prestamos')
-                        <a href="{{ route('reservas.prestamos') }}"
-                        class="block px-3 py-2 rounded-lg text-sm {{ request()->routeIs('reservas.prestamos') ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700' }}">
-                            Préstamos
-                        </a>
-                    @endcan
-                    @can('autorizar_prestamos')
-                        <a href="{{ route('reservas.autorizar-prestamos') }}"
-                        class="block px-3 py-2 rounded-lg text-sm {{ request()->routeIs('reservas.prestamos') ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700' }}">
-                            Autorizar préstamos
-                        </a>
-                    @endcan
-                </div>
-            </div>
+            <a href="{{ route('operativo.reservas.index') }}"
+               class="block px-3 py-2 rounded-lg text-sm
+               {{ request()->routeIs('operativo.reservas.*')
+                    ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400'
+                    : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700' }}">
+                Mis Reservas
+            </a>
         @endcan
 
-        <!-- Reportes -->
-        @can('ver_reportes_dependencia')
-            <x-nav-item
-                icon="fa-chart-line"
-                label="Reportes"
-                route="reportes.index"
-                :active="request()->routeIs('reportes.*')"
-            />
+        @can('ver_reservas_prestamos')
+            <a href="{{ route('dependencia.prestamos.index') }}"
+               class="block px-3 py-2 rounded-lg text-sm
+               {{ request()->routeIs('dependencia.prestamos.*')
+                    ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400'
+                    : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700' }}">
+                Préstamos
+            </a>
         @endcan
+
+    </div>
+</div>
+@endcanany
+
+ <!-- Reportes -->
+       @canany(['ver_reportes_general', 'ver_reportes_dependencia', 'ver_reportes_operativos'])
+    <x-nav-item
+        icon="fa-chart-line"
+        label="Reportes"
+        :route="
+            auth()->user()->can('ver_reportes_general')
+                ? 'admin.reportes.index'
+                : (auth()->user()->can('ver_reportes_dependencia')
+                    ? 'dependencia.reportes.index'
+                    : 'operativo.reportes.index')
+        "
+        :active="request()->routeIs('*.reportes.*')"
+    />
+@endcanany
+
 
         <!-- Divider -->
         <div class="border-t border-gray-200 dark:border-gray-700 my-2"></div>
 
-        <!-- Dependencias -->
-        @can('ver_dependencias')
-            <x-nav-item
-                icon="fa-building"
-                label="Dependencias"
-                route="dependencias.index"
-                :active="request()->routeIs('dependencias.*')"
-            />
-        @endcan
-
         <!-- Usuarios -->
-        @can('ver_todos_usuarios')
-            <x-nav-item
-                icon="fa-users"
-                label="Usuarios"
-                route="usuarios.index"
-                :active="request()->routeIs('usuarios.*')"
-            />
-        @endcan
+       {{-- ADMIN --}}
+@role('Administrador General')
+    @can('ver_todos_usuarios')
+        <x-nav-item
+            icon="fa-users"
+            label="Usuarios"
+            route="admin.usuarios.index"
+            :active="request()->routeIs('admin.usuarios.*')"
+        />
+    @endcan
+@endrole
+
+{{-- DUEÑO --}}
+@role('Dueño Dependencia')
+    @can('ver_usuarios_dependencia')
+        <x-nav-item
+            icon="fa-users"
+            label="Usuarios"
+            route="dependencia.usuarios"
+            :active="request()->routeIs('dependencia.usuarios')"
+        />
+    @endcan
+@endrole
+
 
         <!-- Alertas -->
         @can('ver_auditoria')
