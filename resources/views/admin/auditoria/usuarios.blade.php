@@ -5,6 +5,6 @@
 
 @section('content')
 
-<h1>aca va la administracion de usuarios</h1>
+<h1>aca va la administracion de usuarios .</h1>
 
 @endsection
