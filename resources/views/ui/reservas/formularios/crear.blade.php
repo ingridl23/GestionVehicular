@@ -123,9 +123,17 @@
                                             *:bg-white dark:*:bg-gray-800">
                                             <option value="default" {{ old('id_usuario') === null || old('id_usuario') === 'default' ? 'selected' : '' }}>Seleccionar</option>
                                             @foreach ($usuarios as $usuario)
-                                                <option value="{{ $usuario->id }}" {{ old('id_usuario') == $usuario->id ? 'selected' : '' }}>
+                                            <p>{{$usuario}}</p>
+                                                @if(!$usuario->carnet_vencido)
+                                                     <option value="{{ $usuario->id }}" {{ old('id_usuario') == $usuario->id ? 'selected' : '' }}>
                                                     {{ $usuario->name }} {{ $usuario->lastname }}
                                                 </option>
+                                                @else
+                                                <option value="" disabled class="text-gray-400">
+                                                    {{ $usuario->name }} {{ $usuario->lastname }} (Carnet de conducir vencido/No tiene licencia)
+                                                </option>
+                                                @endif
+                                               
                                             @endforeach
                                         </select>
 

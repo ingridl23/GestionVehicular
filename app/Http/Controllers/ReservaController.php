@@ -62,15 +62,15 @@ class ReservaController extends Controller{
     //'solicitar_prestamo',
     public function mostrarFormulario(){ 
         $this->authorize('create', Reserva::class);
-         return view('ui.reservas.formularios.crear', $this->service->datosParaFormCrear());
+        return view('ui.reservas.formularios.crear', $this->service->datosParaFormCrear());
     }
 
     public function crearReserva(CrearReservaRequest $request){
         $this->authorize('create', Reserva::class);
         $resultado = $this->service->crearReserva($request);
 
-        // Tira error cuando lo crea porque no existe, validar que $resultado venga
-        if ($resultado[1]) {
+
+        if (!empty($resultado) && $resultado[1]) {
             if($resultado[0] == "usuario"){
                 return back()->withErrors([
                     'id_usuario' => 'El usuario no se encuentra disponible en el rango de fechas seleccionado.'
@@ -79,8 +79,9 @@ class ReservaController extends Controller{
             return back()->withErrors([
                 'id_vehiculo' => 'El vehiculo no se encuentra disponible en el rango de fechas seleccionado.'
             ]) ->withInput();;
-            
         }
+
+        return $this->verReservasInternas();
     }
 
 

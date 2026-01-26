@@ -113,7 +113,7 @@ class ReservaService{
         $reserva->update(['id_estado_reserva' => $estado_cancelado]);
     }
     
-    
+
     public function datosParaFormCrear(){
         $id_dependencia = $this->user()->dependencia->id;
         $dependencia = Dependencia::with('hijosRecursivos')->find($id_dependencia);
@@ -121,8 +121,12 @@ class ReservaService{
         $ids = $this->obtenerDependenciasIds($dependencia);
 
         $vehiculos = Vehiculo::with('estado_vehiculo')->whereIn('id_dependencia_duena', $ids)->get();
-        $usuarios = User::join('carnets','users.id', '=' , 'carnets.id_usuario' )->whereIn('id_dependencia', $ids)->
-        whereDate('carnets.fecha_vencimiento', '>=', now())->get();
+        $usuarios = User::with('carnet')->whereIn('id_dependencia', $ids)->get()->each(function ($usuario) {
+            $usuario->carnet_vencido = 
+                !$usuario->carnet || $usuario->carnet->fecha_vencimiento->isPast();
+        })->sortBy('carnet_vencido')
+        ->values(); // reindexa
+        
          return [
             'vehiculos' => $vehiculos,
             'usuarios'  => $usuarios,

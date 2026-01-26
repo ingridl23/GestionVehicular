@@ -8,9 +8,6 @@ Route::middleware(['auth', 'role:Operativo|Jefe de Area'])
     ->name('operativo.')
     ->group(function () {
 
-        Route::post('/reservas/solicitar', [ReservaController::class, 'store'])
-            ->middleware('permission:solicitar_reserva_interna');
-
         Route::patch('/vehiculos/{vehiculo}/datos', [VehiculoController::class, 'registrarDatos'])
             ->middleware('permission:registrar_datos_vehiculos');
 

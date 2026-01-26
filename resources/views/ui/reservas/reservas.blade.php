@@ -15,12 +15,13 @@
                     class="rounded-md bg-blue-600 px-4 py-2 mb-2 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
                 Filtros
             </button>
+            @can('solicitar_reserva_interna')
             <button type="button"
-            class="rounded-md bg-blue-600 px-4 py-2 mb-2 text-sm font-medium text-white
-             hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
-             <a href="{{ route('reservas.agregar')}}">Agregar reserva</a>
-                
+              class="rounded-md bg-blue-600 px-4 py-2 mb-2 text-sm font-medium text-white
+              hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+              <a href="{{ route('reservas.agregar')}}">Agregar reserva</a>
             </button>
+            @endcan
     </div>
     <div class="hidden opacity-0 -translate-y-4 transition-all duration-300 ease-out" id="filtros">
             @include('ui.reservas.components.filtro')
