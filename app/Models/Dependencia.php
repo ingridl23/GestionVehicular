@@ -26,12 +26,29 @@ class Dependencia extends Model
         return $this->hasMany(Dependencia::class, 'id_dependencia_padre');
     }
 
+    // Dependencias hijas que tienen otras hijas
+    public function hijosRecursivos(){
+        return $this->dependenciasHijas()->with('hijosRecursivos');
+    }
+
     public function direccion() {
         return $this->belongsTo(Direcciones::class, 'id_direccion');
     }
 
     public function vehiculos() {
         return $this->hasMany(Vehiculo::class);
+    }
+
+    public function obtenerIdsHijas(): array
+    {
+        $ids = [];
+
+        foreach ($this->dependenciasHijas as $hija) {
+            $ids[] = $hija->id;
+            $ids = array_merge($ids, $hija->obtenerIdsHijas());
+        }
+
+        return $ids;
     }
 
 }

@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Date;
 class Vehiculo extends Model
 {
     use HasFactory, Notifiable;
-    protected $table = 'vehiculo';
+    protected $table = 'vehiculos';
 
 
     protected $fillable = [

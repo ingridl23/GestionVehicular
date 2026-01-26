@@ -51,63 +51,69 @@ class Reserva extends Model
         return $this->hasMany(Viaje::class);
     }
 
+    // Obtiene:
+    //Casos que involucran la dependencia del usuario con dependencias internas
+    // independencias hijas involucradas
+    // id_dependencia -> hija
+    // hija -> id_dependencia
+    // hija -> hija
+    // nieja -> hija
 
     public function scopeObtenerDependenciasInternas($query, $id_dependencia){
+        $dependencia = Dependencia::with('dependenciasHijas')->find($id_dependencia);
+
+        if (!$dependencia) {
+            return $query->whereRaw('1 = 0');
+        }
+
+        // Se obtienen todsos los ID`s (el de la dependencia padre + todos sus hijos)
+        $idsPermitidos = array_merge(
+            [$dependencia->id],
+            $dependencia->obtenerIdsHijas()
+        );
+
         return $query
-        ->where('id_dependencia_duena', $id_dependencia)
-        ->where(function ($q) use ($id_dependencia) {
+            // reservas internas
+            ->whereIn('id_dependencia_duena', $idsPermitidos)
 
-            // Mismo nivel (misma dependencia)
-            $q->where('id_dependencia_solicitante', $id_dependencia)
-
-            // Solicitante es hija de la dueña
-            ->orWhereHas('dependencia_solicitante', function ($q2) use ($id_dependencia) {
-                $q2->where('id_dependencia_padre', $id_dependencia);
-            })
-
-            // Solicitante es padre de la dueña
-            ->orWhereHas('dependencia_solicitante', function ($q3) use ($id_dependencia) {
-                $q3->whereHas('dependenciasHijas', function ($q4) use ($id_dependencia) {
-                    $q4->where('id', $id_dependencia);
-                });
-            });
-        });
-
-
-        return $query->where('id_dependencia_duena', $id_dependencia) // Solo para reservas internas
-            ->where(function ($q) use ($id_dependencia) {
-                $q->where('id_dependencia_solicitante', $id_dependencia) // dependencia solicitante es la misma que la dependencia dueña
-                ->orWhereHas('dependencia_solicitante', function ($q2) use ($id_dependencia) {
-                    $q2->where('id_dependencia_padre', $id_dependencia); // La dependencia solicitante es hija de la dependencia dueña
-                });
-            });
+            // solicitante puede ser cualquiera que pertenezca al árbol de la dependencia
+            ->whereIn('id_dependencia_solicitante', $idsPermitidos);
     }
 
+    // Obtiene:
+    // Reservas que involucran a la dependencia ($id_dependencia)
+    //Reservas que involucran a las hijas (ya sea solicitante o dueña)
+    // Contempla casos donde se tienen nietos
+    // id_dependencia -> externa
+    // externa -> id_dependencia
+    // externa -> hija
+    // hija -> externa
+    // nieja -> externa
+
     public function scopeObtenerDependenciasExternas($query, $id_dependencia){
-        // Mi dependencia o mis hijas participan
-        return $query->where(function ($q) use ($id_dependencia) {
-            $q->where('id_dependencia_duena', $id_dependencia)
-            ->orWhere('id_dependencia_solicitante', $id_dependencia)
-            ->orWhereHas('dependencia_duena', function ($q2) use ($id_dependencia) {
-                $q2->where('id_dependencia_padre', $id_dependencia);
-            })
-            ->orWhereHas('dependencia_solicitante', function ($q2) use ($id_dependencia) {
-                $q2->where('id_dependencia_padre', $id_dependencia);
-            });
-        })
+        $dependencia = Dependencia::with('dependenciasHijas')->find($id_dependencia);
 
-        // No puede ser la misma dependencia en ambos campos
-        ->whereColumn('id_dependencia_duena', '!=', 'id_dependencia_solicitante')
+        if (!$dependencia) {
+            return $query->whereRaw('1 = 0');
+        }
 
-        // Excluir el caso: padre dueño → hija solicitante
-        ->where(function ($q) use ($id_dependencia) {
-            $q->where(function ($q1) use ($id_dependencia) {
-                $q1->where('id_dependencia_duena', '!=', $id_dependencia);
+        $idsArbol = array_merge(
+            [$dependencia->id],
+            $dependencia->obtenerIdsHijas()
+        );
+
+        return $query->where(function ($q) use ($idsArbol) {
+
+            // Yo (o mis hijas) soy dueño y el solicitante es externo
+            $q->where(function ($q1) use ($idsArbol) {
+                $q1->whereIn('id_dependencia_duena', $idsArbol)
+                ->whereNotIn('id_dependencia_solicitante', $idsArbol);
             })
-            ->orWhere(function ($q1) use ($id_dependencia) {
-                $q1->whereDoesntHave('dependencia_solicitante', function ($q2) use ($id_dependencia) {
-                    $q2->where('id_dependencia_padre', $id_dependencia);
-                });
+
+            // O yo (o mis hijas) soy solicitante y el dueño es externo
+            ->orWhere(function ($q1) use ($idsArbol) {
+                $q1->whereIn('id_dependencia_solicitante', $idsArbol)
+                ->whereNotIn('id_dependencia_duena', $idsArbol);
             });
         });
     }

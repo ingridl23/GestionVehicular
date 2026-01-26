@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CrearReservaRequest;
 use App\Http\Requests\FiltroReservasRequest;
 use App\Models\Reserva;
 use App\Services\ReservaService;
@@ -41,22 +42,46 @@ class ReservaController extends Controller{
     // permiso = ver_reservas_internas
     public function verReserva($id){
         $reserva = $this->service->verReserva($id, Auth::user());
-        //$this->authorize('view', $reserva); No toma $reserva
+        $this->authorize('vistaIndividual', $reserva['reserva']);
         return view('ui.reservas.reserva', $reserva);
     }
 
 
     // permiso = cancelar_reserva_interna || 'cancelar_prestamo'
     public function cancelarReserva($id){
-        //$this->authorize('cancelar');
+        $reserva = Reserva::findOrFail($id);
+        $this->authorize('cancelar', $reserva);
         $this->service->cancelarReserva($id);
-         return response()->json([
-        'success' => true,
-        'message' => 'La reserva fue cancelada correctamente'
-    ]);
-        //return redirect()->route('reservas.internas')->with('success', 'La dependencia fue cancelada correctamente.');
+        return response()->json([
+            'success' => true,
+            'message' => 'La reserva fue cancelada correctamente'
+        ]);
     }
 
+    //'solicitar_reserva_interna',
+    //'solicitar_prestamo',
+    public function mostrarFormulario(){ 
+        $this->authorize('create', Reserva::class);
+         return view('ui.reservas.formularios.crear', $this->service->datosParaFormCrear());
+    }
+
+    public function crearReserva(CrearReservaRequest $request){
+        $this->authorize('create', Reserva::class);
+        $resultado = $this->service->crearReserva($request);
+
+        // Tira error cuando lo crea porque no existe, validar que $resultado venga
+        if ($resultado[1]) {
+            if($resultado[0] == "usuario"){
+                return back()->withErrors([
+                    'id_usuario' => 'El usuario no se encuentra disponible en el rango de fechas seleccionado.'
+                ]) ->withInput();;
+            }
+            return back()->withErrors([
+                'id_vehiculo' => 'El vehiculo no se encuentra disponible en el rango de fechas seleccionado.'
+            ]) ->withInput();;
+            
+        }
+    }
 
 
     public function filtrarReservasInternas(FiltroReservasRequest $request){
@@ -182,7 +207,10 @@ class ReservaController extends Controller{
         if (!in_array($sortOrder, $allowedOrders)) {
             $sortOrder = 'asc';
         }
-        
+
+
+        $query->orderBy($sortField, $sortOrder);
+
         /* ----------------------
          PAGINACIÓN
         ---------------------- */

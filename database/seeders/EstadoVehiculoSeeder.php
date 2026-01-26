@@ -26,9 +26,6 @@ class EstadoVehiculoSeeder extends Seeder
             [
                 'estado' => 'EN MANTENIMIENTO',
             ],
-            [
-                'estado' => 'RESERVADO',
-            ],
         ]);
     }
 }

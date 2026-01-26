@@ -38,18 +38,34 @@ class ReservaPolicy
     /**
      * Ver una reserva
      */
-    public function view(User $user, Reserva $reserva): bool
+    public function vistaIndividual(User $user, Reserva $reserva): bool
     {
         // Operativo: solo su reserva
         if ($user->hasRole('Operativo')) {
             return $reserva->user_id === $user->id;
         }
 
-        // Dueño Dependencia: reservas de su dependencia
-        if ($user->hasRole('Dueño Dependencia','Jefe De Area')) {
-            return $reserva->id_dependencia_solicitante === $user->id_dependencia;
-        }
+        // Dueño Dependencia: reservas que involucren a su dependencia (puede ser solicitante o no)
+        if ($user->hasRole(['Dueño Dependencia','Jefe De Area'])) {
 
+            $dependenciaUsuario = $user->dependencia;
+
+            
+            if ($reserva->id_dependencia_solicitante === $dependenciaUsuario->id ||
+                $reserva->id_dependencia_duena === $dependenciaUsuario->id) {
+                    return true;
+            }
+
+            // hijas
+            $idsHijas = $dependenciaUsuario->obtenerIdsHijas();
+
+            return in_array($reserva->id_dependencia_solicitante, $idsHijas)
+                || in_array($reserva->id_dependencia_duena, $idsHijas);
+            }
+
+        if ($user->hasRole(['Administrador General'])) {
+            return true;
+        }
         return false;
     }
 
@@ -66,13 +82,8 @@ class ReservaPolicy
     /**
      * Cancelar reserva
      */
-    public function cancelar(User $user): bool
-    {
-        if (!$user->hasPermissionTo('cancelar_reserva_interna') || !$user->hasPermissionTo('cancelar_prestamo')) {
-            return false;
-        }
-
-        return true;
+    public function cancelar(User $user, Reserva $reserva): bool{
+        return $user->hasAnyPermission(['cancelar_reserva_interna','cancelar_prestamo']);
     }
 
     //SOLICITAR RESERVA EXTERNAS E INTERNAS
@@ -81,7 +92,7 @@ class ReservaPolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasPermissionTo('solicitar_reserva_interna','solicitar_prestamo');
+        return $user->hasAnyPermission(['solicitar_reserva_interna','solicitar_prestamo']);
     }
 
 

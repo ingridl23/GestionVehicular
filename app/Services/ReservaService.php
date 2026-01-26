@@ -3,12 +3,16 @@
 namespace App\Services;
 
 use App\Models\Carnet;
+use App\Models\Dependencia;
 use App\Models\EstadosReserva;
 use App\Models\Reserva;
 use App\Models\User;
 use App\Models\Vehiculo;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
+
+use function Symfony\Component\Clock\now;
 
 class ReservaService{
 
@@ -30,8 +34,10 @@ class ReservaService{
 
 
     // El Administrador General puede ver todas las reservas independientemente de a que independencia pertenezca
-    // El Administrador de Dependencia y Jefe de Oficina solo pueden ver las reservas que pertenecen a la Dependencia 
+    // El Administrador de Dependencia y Jefe de Oficina solo pueden ver las reservas que pertenecen a la Dependencia
+        // El administrador de Dependencia y Jefe de Oficina puede ver las reservaqs que involucran a sus dependencias hijas
     // El Conductor visualiza las reservas donde esta involucrado (id_usuario)
+
     public function verReservasInternas(){
         $rol = $this->rol();
         $id_dependencia = $this->user()->dependencia->id;
@@ -59,13 +65,12 @@ class ReservaService{
             ->find($id);
             $vtvVigente = Vehiculo::vtv_vigente($reserva->vehiculo->id);
             $carnetVigente = Carnet::carnetVigente($reserva->usuario->id);
-
             return [
-            'reserva' => $reserva,
-            'vtv'  => $vtvVigente,
-            'carnet_vigente' => $carnetVigente,
+                'reserva' => $reserva,
+                'vtv'  => $vtvVigente,
+                'carnet_vigente' => $carnetVigente,
             ];
-            return $reserva;
+
         }
         return null;
     }
@@ -108,6 +113,77 @@ class ReservaService{
         $reserva->update(['id_estado_reserva' => $estado_cancelado]);
     }
     
+    
+    public function datosParaFormCrear(){
+        $id_dependencia = $this->user()->dependencia->id;
+        $dependencia = Dependencia::with('hijosRecursivos')->find($id_dependencia);
+
+        $ids = $this->obtenerDependenciasIds($dependencia);
+
+        $vehiculos = Vehiculo::with('estado_vehiculo')->whereIn('id_dependencia_duena', $ids)->get();
+        $usuarios = User::join('carnets','users.id', '=' , 'carnets.id_usuario' )->whereIn('id_dependencia', $ids)->
+        whereDate('carnets.fecha_vencimiento', '>=', now())->get();
+         return [
+            'vehiculos' => $vehiculos,
+            'usuarios'  => $usuarios,
+        ];
+    }
+
+    //Se valida que el vehiculo se encuentre disponible en ese rango de fechas
+    //Se valida que el usuario este disponible en ese rango de fechas 
+    public function crearReserva($request){
+        $fecha_inicio = Carbon::createFromFormat('Y-m-d\TH:i', $request->input('fecha_inicio'));
+        $fecha_fin = Carbon::createFromFormat('Y-m-d\TH:i', $request->input('fecha_fin'));
+        $id_vehiculo = $request->id_vehiculo;
+        $id_usuario = $request->id_usuario;
+        
+        $vehiculoOcupado = Reserva::where('id_vehiculo', $id_vehiculo)
+            ->where(function ($q) use ($fecha_inicio, $fecha_fin) {
+                $q->where('fecha_inicio_reserva', '<', $fecha_fin)
+                ->where('fecha_fin_reserva', '>', $fecha_inicio);
+            })->exists();
+
+        if ($vehiculoOcupado) {
+            return ["vehiculo" , true];
+        }
+
+        $usuarioOcupado = Reserva::where('id_usuario', $id_usuario)
+            ->where(function ($q) use ($fecha_inicio, $fecha_fin) {
+                $q->where('fecha_inicio_reserva', '<', $fecha_fin)
+                ->where('fecha_fin_reserva', '>', $fecha_inicio);
+            })->exists();
+
+        if ($usuarioOcupado) {
+            return ["usuario", true];
+        }
+
+        $id_dependencia_duena = Vehiculo::where('id', $id_vehiculo)->value('id');
+        $id_estado_reserva = EstadosReserva::where("estado", "APROBADA")->value('id');
+        $id_dependencia_solicitante = User::where('id', $id_vehiculo)->value('id');
+        // solicitantes -> dejar seleccionar al usuario o poner el que le pertenece al usuario? 
+        //Capaz mejor opcion la segunda
+        //Crear reserva
+        Reserva::create([
+            'fecha_reserva'        => now(),
+            'fecha_inicio_reserva' => $fecha_inicio,
+            'fecha_fin_reserva'    => $fecha_fin,
+            'id_vehiculo'          => $id_vehiculo,
+            'id_estado_reserva'    => $id_estado_reserva,
+            'id_usuario'           => $id_usuario,
+            'id_dependencia_duena' => $id_dependencia_duena,
+            'id_dependencia_solicitante' => $id_dependencia_solicitante,
+        ]);
+    }
+
+    
+    function obtenerDependenciasIds($dependencia){
+        $ids = [$dependencia->id];
+
+        foreach ($dependencia->dependenciasHijas as $hijo) {
+            $ids = array_merge($ids, $this->obtenerDependenciasIds($hijo));
+        }
+        return $ids;
+    }
 
 
 
@@ -115,12 +191,7 @@ class ReservaService{
         
     }
 
-    
 
-
-    public function crearReserva(array $data){
-        
-    }
 
     //Datos que se muestran en los inputs de los filtros (los vehiculos que son usados por las dependencias que se muestran y
     // el estado de las reservas)

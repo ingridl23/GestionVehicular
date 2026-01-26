@@ -10,10 +10,16 @@
     @if($reservas->isEmpty())
         <p class="text-center text-gray-600">No hay reservas</p>
     @else
-    <div class="flex items-end">
+    <div class="flex items-end justify-between">
             <button id="mostrarFiltros" type="button"
                     class="rounded-md bg-blue-600 px-4 py-2 mb-2 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
                 Filtros
+            </button>
+            <button type="button"
+            class="rounded-md bg-blue-600 px-4 py-2 mb-2 text-sm font-medium text-white
+             hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+             <a href="{{ route('reservas.agregar')}}">Agregar reserva</a>
+                
             </button>
     </div>
     <div class="hidden opacity-0 -translate-y-4 transition-all duration-300 ease-out" id="filtros">
@@ -102,6 +108,7 @@
                     @endcan
 
                     @canany(['cancelar_reserva_interna', 'cancelar_prestamo'])
+                      @if($reserva->estado_reserva->estado != 'CANCELADA' && $reserva->estado_reserva->estado != 'RECHAZADA')
                         <button command="show-modal" commandfor="dialog"
                             class="m-1 inline-block rounded-md border border-red-600 px-2 py-2 text-red-600 hover:bg-red-600 hover:text-white dark:border-red-400 dark:text-red-400 dark:hover:bg-red-500 dark:hover:text-white"
                             title="Cancelar" >
@@ -136,6 +143,7 @@
                             </div>
                           </dialog>
                         </el-dialog>
+                      @endif
                     @endcanany
 
                   </td>

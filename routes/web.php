@@ -31,7 +31,6 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard');
 
-
    // Route::get('/vehiculos', [VehiculoController::class, 'sectionVehiculo'])->middleware('permission:ver_vehiculos');
     Route::get('/vehiculos', [VehiculoController::class, 'sectionVehiculo'])
     ->middleware('permission:ver_vehiculos|ver_vehiculos_dentro_dependencia');
@@ -115,13 +114,18 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/listado-prestamos', [ReservaController::class, 'verReservasExternas'])->name('reservas.prestamos');
     Route::get('/listado-reservas/{id}', [ReservaController::class, 'verReserva'])->name('reservas.reserva'); //Vista individual
 
-    Route::post('/filtrar-reservas', [ReservaController::class, 'filtrarReservas'])->middleware('web');
+    Route::patch('/cancelar-reserva/{id}', [ReservaController::class, 'cancelarReserva'])->name('reservas.cancelar'); 
+
+
+    Route::post('/filtrar-reservas-internas', [ReservaController::class, 'filtrarReservasInternas'])->middleware('web');
+    Route::post('/filtrar-reservas-externas', [ReservaController::class, 'filtrarReservasExternas'])->middleware('web');
     Route::get('/autorizar-prestamos', [ReservaController::class, 'verReservasExternas'])->name('reservas.autorizar-prestamos');
 
     
 
     Route::get('/editar-reserva/{id}', [ReservaController::class, 'mostrarFormulario'])->name('reservas.editar'); //FORMULARIO
-    Route::get('/cancelar-reserva/{id}', [ReservaController::class, 'cancelarReserva'])->name('reservas.cancelar'); //FORMULARIO
+    Route::get('/agregar-reserva', [ReservaController::class, 'mostrarFormulario'])->name('reservas.agregar'); //FORMULARIO
+    Route::post('/agregar-reserva', [ReservaController::class, 'crearReserva'])->name('reservas.crear');
 
     Route::get('/alertas', [AlertaController::class, 'index'])->name('alertas.index');
     Route::get('/alertas/{tipo}/{id}', [AlertaController::class, 'porEntidad'])->name('alertas.porEntidad');
