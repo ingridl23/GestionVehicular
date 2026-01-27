@@ -9,7 +9,7 @@ use Illuminate\Notifications\Notifiable;
 class EstadosVehiculo extends Model
 {
     use HasFactory, Notifiable;
-    protected $table = 'estados_vehiculo';
+    protected $table = 'estados_vehiculos';
 
     protected $fillable = [
         'estado',

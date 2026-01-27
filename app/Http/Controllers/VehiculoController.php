@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 use App\Models\Vehiculo;
 use App\Models\Dependencia;
@@ -11,14 +10,21 @@ use Exception;
 use App\Http\Controllers\UserController;
 use App\Policies\VehiculoPolicy;
 
-
 class VehiculoController extends Controller
 {
 
 public function sectionVehiculo(){
     $dependencias =Dependencia::all();
-    $estadosVehiculo =Vehiculo::with('id_estado_vehiculo');
-    return View('components.vehiculos', compact('dependencias','estadosVehiculo') );
+
+   $vehiculos = Vehiculo::with([
+    'estadoVehiculo',
+    'estadoNafta',
+    'dependenciaDuena',
+    'direccionActual'
+])->get();
+
+
+    return View('components.vehiculos.vehiculos', compact('dependencias','vehiculos') );
 }
     // CU 2 – Listado
     public function index(Request $request, VehiculoService $service): JsonResponse
@@ -47,22 +53,27 @@ public function sectionVehiculo(){
             'VTV' => $vehiculo->VTV,
 
             // Relaciones
-            'estado_vehiculo' => $vehiculo->estado_vehiculo->estado,
-            'nafta' => $vehiculo->nafta->estado,
-            'dependencia_duena' => $vehiculo->dependencia->nombre,
-            'direccion_actual' => $vehiculo->direccion->nombre,
+            'estado_vehiculo' => $vehiculo->estado_vehiculo,
+            'nafta' => $vehiculo->estado_nafta,
+            'dependencia_duena' => $vehiculo->id_dependencia_duena,
+            'direccion_actual' => $vehiculo->id_direccion,
 
             // IDs relacionados (útiles para front)
-            'id_estado_vehiculo' => $vehiculo->id_estado_vehiculo,
-            'id_estado_nafta' => $vehiculo->id_estado_nafta ?? null,
-            'id_dependencia_duena' => $vehiculo->id_dependencia_duena,
-            'id_direccion_actual' => $vehiculo->id_direccion_actual ?? null,
+         'estado_vehiculo' => $vehiculo->estadoVehiculo,
+         'estado_nafta' => $vehiculo->estadoNafta,
+         'dependencia_duena' => $vehiculo->dependenciaDuena,
+         'direccion_actual' => $vehiculo->direccionActual,
+
 
             // Timestamps
             'created_at' => $vehiculo->created_at,
             'updated_at' => $vehiculo->updated_at,
         ]);
     }
+public function detalle(Vehiculo $vehiculo)
+{
+    return view('components.vehiculos.vehiculo-detalle', compact('vehiculo'));
+}
 
 
     // CU 5 – Crear

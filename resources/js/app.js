@@ -4,6 +4,8 @@ import './bootstrap';
 // Importar Alpine.js
 import collapse from '@alpinejs/collapse';
 import Alpine from 'alpinejs';
+import './vehiculo';
+
 
 // Registrar plugin de collapse
 Alpine.plugin(collapse);

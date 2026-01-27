@@ -36,12 +36,37 @@ Route::get('/reset', [HomeController::class, 'reset'])->name('auth.passwords.res
     Route::get('/auditoria', [HistorialController::class, 'index'])
         ->name('auditoria.index');
    // Route::get('/vehiculos', [VehiculoController::class, 'sectionVehiculo'])->middleware('permission:ver_vehiculos');
-    Route::get('/vehiculos', [VehiculoController::class, 'sectionVehiculo'])
-    ->middleware('permission:ver_vehiculos|ver_vehiculos_dentro_dependencia')->name('vehiculos.index');
+  /*  Route::get('/vehiculos', [VehiculoController::class, 'sectionVehiculo'])
+    ->middleware('permission:ver_vehiculos|ver_vehiculos_dentro_dependencia')->name('vehiculos.index');*/
 
-    Route::get('/vehiculos/{vehiculo}', [VehiculoController::class, 'show'])
-        ->middleware('permission:ver_vehiculos');
 
+    // *** RUTAS DE VEHÍCULOS - VISTAS ***
+  // Listado (vista)
+/*
+Route::get('/vehiculos', [VehiculoController::class, 'sectionVehiculo'])
+    ->middleware('permission:ver_vehiculos|ver_vehiculos_dentro_dependencia')
+    ->name('vehiculos.index');
+*/
+ Route::get('/vehiculos', [VehiculoController::class, 'sectionVehiculo'])
+        ->name('vehiculos.index');
+
+        Route::get('/vehiculos/{vehiculo}', [VehiculoController::class, 'detalle'])
+    ->name('vehiculos.show');
+
+// Detalle (API)
+/*Route::get('/api/vehiculos/{vehiculo}', [VehiculoController::class, 'show'])
+    ->middleware('permission:ver_vehiculos')
+    ->name('vehiculos.show');*/
+
+
+
+
+
+
+
+
+
+        /************************************************************** */
     Route::get('/dependencias/personal', [UserController::class, 'usuariosPorDependencia'])->middleware('permission:ver_personal_dependencia')->name('personal.index');
 
     Route::get('/alertas', [AlertaController::class, 'index'])->name('alertas.index');
