@@ -1,112 +1,67 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @vite(['resources/js/app.js', 'resources/css/app.css'])
-    <title> Dashboard- operador </title>
+    <title> Dashboard-operador </title>
     <link href="{{ asset('css/operador.css') }}" rel="stylesheet" />
+    <link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer" />
+
 </head>
 
-<body class="bg-gray-100 min-h-screen">
+<body class="bg-gray-100 min-h-screen pt-12">
 
-    <!-- NAV SUPERIOR -->
-    <nav class="w-full bg-blue-600 text-white flex items-center justify-between px-3 h-12">
 
-        <!-- BOTÓN MENU -->
-        <button id="menuBtn" class="p-1">
-            <i class="fas fa-bars text-lg"></i>
+@include('layout.navbarOperativo')
+
+<!-- CONTENIDO -->
+<main class="max-w-md mx-auto px-4 mt-6">
+
+
+
+    <!-- seccion donde se renderiza la alerta segun gravedad del usuario
+    {{-- ALERTAS DEL USUARIO --}}
+@foreach ($alertas as $alerta)
+    <x-alerta-card :alerta="$alerta" />
+@endforeach
+
+
+
+
+
+    <!-- BOTONES RÁPIDOS -->
+    <section class="flex flex-col gap-10 mb-10">
+        <button class="btn-rapido" href="#">Iniciar reserva</button>
+        <button class="btn-rapido">Comenzar reporte</button>
+        <button class="btn-rapido">Asignar conductor</button>
+    </section>
+
+    <!-- BOTONES DE VIAJE -->
+    <section class="flex gap-6">
+        <button class="btn-iniciar flex-1">Iniciar viaje</button>
+
+        <!-- este se deshabilita si NO hay viaje -->
+       <!-- <button class="btn-finalizar flex-1 disabled:opacity-50"
+                disabled>
+            Finalizar viaje
         </button>
-
-        <!-- TÍTULO -->
-        <span class="font-medium text-sm">Gestión Vehicular</span>
-
-        <!-- ICONOS -->
-        <div class="flex items-center gap-4">
-
-            <!-- CAMPANA -->
-            <div class="relative">
-                <button id="notifBtn" class="p-1">
-                    <i class="fas fa-bell text-lg"></i>
-                </button>
-
-                <!-- POPUP NOTIFICACIONES -->
-                <div id="notifPopup"
-                    class="absolute right-0 top-10 w-56 bg-white text-gray-800 rounded shadow-lg border p-3 text-xs hidden z-50">
-                    <p class="font-semibold mb-1 text-gray-700">Notificaciones</p>
-                    <div class="space-y-1">
-                        <p class="text-gray-600">Hace 2m — Nueva reserva</p>
-                        <p class="text-gray-600">Hace 15m — Vehículo fuera de servicio</p>
-                    </div>
-                </div>
-            </div>
-            <!-- USUARIO -->
-            <div class="relative">
-                <button id="userBtn" class="p-1">
-                    <i class="fas fa-user text-lg"></i>
-                </button>
-
-                <!-- MENU USER -->
-                <div id="userMenu"
-                    class="absolute right-0 top-10 bg-white text-gray-800 w-40 rounded shadow-lg border text-sm hidden z-50">
-                    <button class="block w-full text-left px-3 py-2 hover:bg-gray-100">Perfil</button>
-                    <hr>
-                    <button class="block w-full text-left px-3 py-2 hover:bg-gray-100">Cerrar sesión</button>
-                </div>
-            </div>
-        </div>
-    </nav>
-
-
-    <!-- MENU LATERAL -->
-    <div id="sideMenu"
-        class="fixed top-0 left-0 h-full w-48 bg-white shadow-lg border-r transform -translate-x-full transition duration-200 z-50 pt-12 text-sm">
-        <button class="block w-full text-left px-4 py-2 hover:bg-gray-100">Mis reportes</button>
-        <button class="block w-full text-left px-4 py-2 hover:bg-gray-100">Mis viajes</button>
-        <button class="block w-full text-left px-4 py-2 hover:bg-gray-100">Mis reservas</button>
-    </div>
-
-    <!--seccion de warnings proximos para el usuario -->
-
-    <!-- ALERTA -->
-    <div class="flex items-baseline gap-3 bg-yellow-50 border-l-4 border-yellow-500 rounded-md p-3 mb-8"> <span
-            class="text-yellow-600 text-lg">⚠️</span>
-        <div class="text-sm">
-            <div class="font-semibold text-yellow-800">Warning!</div>
-            <p class="text-yellow-700">Best check yo. Praesent commodo cursus magna.</p>
-        </div>
-    </div>
-
-
-
-    <section class="botones-rapidos">
-        <div class="btns-rapido1">
-            <button id="btn-rapido-reserva">Iniciar Reserva</button>
-            <button id="btn-rapido-reporte">Comenzar Reporte</button>
-            <button id="btn-rapido-conductor">Asignar Conductor</button>
-        </div>
-
-        <div class="btns-rapi2">
-            <button id="btn-iniciar-viaje">Iniciar Viaje</button>
-            <button id="btn-fin-viaje">Finalizar Viaje</button>
-
-        </div>
+    -->
+<button class="btn-finalizar flex-1"
+    @disabled(!auth()->user()->viajeActivo)>
+    Finalizar viaje
+</button>
 
     </section>
 
-
-
-
-
-
-
-
-    <script src='resources\js\menuDesplegableyCampana.js'></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
-
+</main>
 </body>
-<footer></footer>
+
+@include('layout.footer')
+
 
 </html>

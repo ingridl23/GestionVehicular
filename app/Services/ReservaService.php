@@ -153,7 +153,11 @@ class ReservaService{
         $vehiculos = Vehiculo::
         join('estados_vehiculos', 'estados_vehiculos.id', '=', 'vehiculos.id_estado_vehiculo') //GENERAR RELACION CON ESTADO_VEHICULO PARA PODER ORDENAR POR EL CAMPO ESTADO
         ->whereIn('id_dependencia_duena', $ids)
-        ->orderByRaw('FIELD(estados_vehiculos.estado, "DISPONIBLE"), ASC')
+        ->orderByRaw("
+        CASE 
+            WHEN estados_vehiculos.estado = 'DISPONIBLE' THEN 0 
+            ELSE 1 
+        END")
         ->get(); //Ordenar por disponibles primeros
         $usuarios = User::with('carnet')->whereIn('id_dependencia', $ids)->get()->each(function ($usuario) {
             $usuario->carnet_vencido = 

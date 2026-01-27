@@ -17,6 +17,6 @@ class LoginResponse implements LoginResponseContract
     {
         return $request->wantsJson()
             ? new JsonResponse('', 204)
-            : redirect()->route(config('fortify.home'));
+            : redirect()->intended(config('dashboard'));
     }
 }

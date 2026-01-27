@@ -17,6 +17,31 @@ class ReservaController extends Controller{
         $this->service = $service;
     }
 
+
+//     public function index(){
+//     $user = auth()->user();
+
+//     $query = Reserva::with(['vehiculo', 'dependencia_duena', 'estado_reserva']);
+
+//     if ($user->hasRole('Administrador General')) {
+//         // ve todo
+//     }
+//     elseif ($user->hasRole('Administrador de Dependencia')) {
+//         $query->where(function ($q) use ($user) {
+//             $q->where('id_dependencia_duena', $user->id_dependencia)
+//               ->orWhere('id_dependencia_solicitante', $user->id_dependencia);
+//         });
+//     }
+//     else {
+//         // usuario común
+//         $query->where('id_usuario', $user->id);
+//     }
+
+//     $reservas = $query->latest()->paginate(10);
+
+//     return view('dependencias.reservas.reservas', compact('reservas'));
+// }
+
     // permiso = ver_reservas_internas
     public function verReservasInternas(){
         $this->authorize('viewAny', Reserva::class);
@@ -65,8 +90,8 @@ class ReservaController extends Controller{
         return view('ui.reservas.formularios.crear', $this->service->datosParaFormCrear());
     }
 
-    //'actualizar_reserva_interna',
-    //'actualizar_prestamo',
+    //'actualizar_reserva_interna','actualizar_prestamo'
+
     public function mostrarFormularioUpdate($id){ 
         $reserva = Reserva::findOrFail($id);
         $this->authorize('actualizar', $reserva);
@@ -112,6 +137,8 @@ class ReservaController extends Controller{
         return $this->filtrarReservas($request, $query);
     }
 
+
+
     public function filtrarReservasExternas(FiltroReservasRequest $request){
         $rol = $this->service->rol();
         $id_dependencia = $this->service->user()->dependencia->id;
@@ -129,6 +156,8 @@ class ReservaController extends Controller{
         }
         return $this->filtrarReservas($request, $query);
     }
+
+
 
      // permiso = filtrar_reservas_internas
      // permiso = filtrar_prestamos
@@ -223,9 +252,9 @@ class ReservaController extends Controller{
         /* ----------------------
          PAGINACIÓN
         ---------------------- */
-       $dependencias = $query->paginate(10);
+       $reservas = $query->paginate(10);
 
-        return response()->json($dependencias);
+        return response()->json($reservas);
     }
 
 

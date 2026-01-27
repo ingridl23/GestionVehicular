@@ -111,7 +111,7 @@
 
                     <!-- LINK RECUPERAR CONTRASEÑA -->
                     @if (Route::has('password.request'))
-                        <a href="{{ route('password.request') }}" class="block mt-3 text-sm text-blue-700 hover:underline">
+                        <a href="{{ route('auth.passwords.reset') }}" class="block mt-3 text-sm text-blue-700 hover:underline">
                             ¿Olvidaste tu contraseña?
                         </a>
                     @endif
@@ -124,5 +124,9 @@
     <script>
         const BASE_URL = "{{ url('/') }}";
     </script>
+
 </body>
+
+   @include('layout.footer')
+
 </html>

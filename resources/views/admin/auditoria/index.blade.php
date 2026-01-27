@@ -1,6 +1,6 @@
 @extends('layout.app')
 
-@section('page-title', 'Dashboard')
+@section('page-title', 'Auditoria')
 @section('page-description', 'Resumen general del sistema de gestión vehicular')
 
 @section('content')
@@ -159,54 +159,9 @@
 
 </div>
 
-<!-- Alerts Section -->
-<div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6">
-    <div class="flex items-center justify-between mb-4">
-        <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Alertas y Notificaciones</h2>
-        <a href="{{ route('alertas.index') }}" class="text-sm text-blue-600 dark:text-blue-400 hover:underline">
-            Ver todas
-        </a>
-    </div>
 
-    <div class="space-y-3">
 
-        <!-- Alert Item -->
-        <div class="flex items-start gap-4 p-4 bg-red-50 dark:bg-red-900/10 border border-red-200 dark:border-red-900/20 rounded-lg">
-            <div class="w-10 h-10 bg-red-100 dark:bg-red-900/20 rounded-full flex items-center justify-center flex-shrink-0">
-                <i class="fas fa-exclamation-triangle text-red-600 dark:text-red-400"></i>
-            </div>
-            <div class="flex-1">
-                <p class="text-sm font-medium text-gray-900 dark:text-white">Vehículo requiere mantenimiento</p>
-                <p class="text-xs text-gray-600 dark:text-gray-400 mt-1">Toyota Corolla (AA-101-BB) - Vencimiento en 3 días</p>
-            </div>
-            <span class="text-xs text-gray-500 dark:text-gray-400">Hace 2h</span>
-        </div>
 
-        <!-- Warning Item -->
-        <div class="flex items-start gap-4 p-4 bg-yellow-50 dark:bg-yellow-900/10 border border-yellow-200 dark:border-yellow-900/20 rounded-lg">
-            <div class="w-10 h-10 bg-yellow-100 dark:bg-yellow-900/20 rounded-full flex items-center justify-center flex-shrink-0">
-                <i class="fas fa-info-circle text-yellow-600 dark:text-yellow-400"></i>
-            </div>
-            <div class="flex-1">
-                <p class="text-sm font-medium text-gray-900 dark:text-white">Reserva pendiente de aprobación</p>
-                <p class="text-xs text-gray-600 dark:text-gray-400 mt-1">Juan Pérez - Honda Civic para mañana</p>
-            </div>
-            <span class="text-xs text-gray-500 dark:text-gray-400">Hace 4h</span>
-        </div>
-
-        <!-- Info Item -->
-        <div class="flex items-start gap-4 p-4 bg-blue-50 dark:bg-blue-900/10 border border-blue-200 dark:border-blue-900/20 rounded-lg">
-            <div class="w-10 h-10 bg-blue-100 dark:bg-blue-900/20 rounded-full flex items-center justify-center flex-shrink-0">
-                <i class="fas fa-bell text-blue-600 dark:text-blue-400"></i>
-            </div>
-            <div class="flex-1">
-                <p class="text-sm font-medium text-gray-900 dark:text-white">Nuevo vehículo agregado al sistema</p>
-                <p class="text-xs text-gray-600 dark:text-gray-400 mt-1">Nissan Sentra 2024 (AA-105-BB)</p>
-            </div>
-            <span class="text-xs text-gray-500 dark:text-gray-400">Ayer</span>
-        </div>
-
-    </div>
-</div>
 
 @endsection
+
