@@ -95,6 +95,13 @@ class ReservaPolicy
         return $user->hasAnyPermission(['solicitar_reserva_interna','solicitar_prestamo']);
     }
 
+    //Editar datos de una reserva cargada
+     /**
+     * Actualizar reserva
+     */
+    public function actualizar(User $user, Reserva $reserva): bool{
+        return $user->hasAnyPermission(['actualizar_reserva_interna','actualizar_prestamo']);
+    }
 
 
     /**

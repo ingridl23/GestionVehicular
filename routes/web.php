@@ -31,7 +31,6 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard');
 
-
    // Route::get('/vehiculos', [VehiculoController::class, 'sectionVehiculo'])->middleware('permission:ver_vehiculos');
     Route::get('/vehiculos', [VehiculoController::class, 'sectionVehiculo'])
     ->middleware('permission:ver_vehiculos|ver_vehiculos_dentro_dependencia');
@@ -124,7 +123,7 @@ Route::middleware(['auth'])->group(function () {
 
     
 
-    Route::get('/editar-reserva/{id}', [ReservaController::class, 'mostrarFormulario'])->name('reservas.editar'); //FORMULARIO
+    Route::get('/editar-reserva/{id}', [ReservaController::class, 'mostrarFormularioUpdate'])->name('reservas.editar')->middleware('permission:actualizar_reserva_interna'); //FORMULARIO
     Route::get('/agregar-reserva', [ReservaController::class, 'mostrarFormulario'])->name('reservas.agregar')->middleware('permission:solicitar_reserva_interna'); //FORMULARIO
     Route::post('/agregar-reserva', [ReservaController::class, 'crearReserva'])->name('reservas.crear');
 

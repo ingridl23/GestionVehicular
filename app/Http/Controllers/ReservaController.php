@@ -65,6 +65,14 @@ class ReservaController extends Controller{
         return view('ui.reservas.formularios.crear', $this->service->datosParaFormCrear());
     }
 
+    //'actualizar_reserva_interna',
+    //'actualizar_prestamo',
+    public function mostrarFormularioUpdate($id){ 
+        $reserva = Reserva::findOrFail($id);
+        $this->authorize('actualizar', $reserva);
+        return view('ui.reservas.formularios.editar', $this->service->datosParaFormEditar($id));
+    }
+
     public function crearReserva(CrearReservaRequest $request){
         $this->authorize('create', Reserva::class);
         $resultado = $this->service->crearReserva($request);

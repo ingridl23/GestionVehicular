@@ -41,7 +41,19 @@ class ReservaService{
     public function verReservasInternas(){
         $rol = $this->rol();
         $id_dependencia = $this->user()->dependencia->id;
-        $query = Reserva::with('estado_reserva', 'vehiculo', 'usuario', 'dependencia_solicitante')->orderBy('fecha_inicio_reserva');
+        $query = Reserva::join('estados_reservas', 'estados_reservas.id', '=', 'reservas.id_estado_reserva')
+        ->with('estado_reserva', 'vehiculo', 'usuario', 'dependencia_solicitante')
+         ->orderByRaw("
+            CASE estados_reservas.estado
+                WHEN 'APROBADA' THEN 1
+                WHEN 'PENDIENTE'  THEN 2
+                WHEN 'EN CURSO' THEN 3
+                WHEN 'FINALIZADA' THEN 4
+                WHEN 'CANCELADA' THEN 5
+                WHEN 'RECHAZADA' THEN 6
+                ELSE 99
+            END
+        ")->orderBy('reservas.fecha_inicio_reserva');
 
 
         if($rol == 'Dueño Dependencia' || $rol == 'Jefe de Area'){
@@ -130,6 +142,29 @@ class ReservaService{
          return [
             'vehiculos' => $vehiculos,
             'usuarios'  => $usuarios,
+        ];
+    }
+    public function datosParaFormEditar($id){
+        $id_dependencia = $this->user()->dependencia->id;
+        $dependencia = Dependencia::with('hijosRecursivos')->find($id_dependencia);
+        $reserva = Reserva::findOrFail($id);
+        $ids = $this->obtenerDependenciasIds($dependencia);
+
+        $vehiculos = Vehiculo::
+        join('estados_vehiculos', 'estados_vehiculos.id', '=', 'vehiculos.id_estado_vehiculo') //GENERAR RELACION CON ESTADO_VEHICULO PARA PODER ORDENAR POR EL CAMPO ESTADO
+        ->whereIn('id_dependencia_duena', $ids)
+        ->orderByRaw('FIELD(estados_vehiculos.estado, "DISPONIBLE"), ASC')
+        ->get(); //Ordenar por disponibles primeros
+        $usuarios = User::with('carnet')->whereIn('id_dependencia', $ids)->get()->each(function ($usuario) {
+            $usuario->carnet_vencido = 
+                !$usuario->carnet || $usuario->carnet->fecha_vencimiento->isPast();
+        })->sortBy('carnet_vencido')
+        ->values(); // reindexa
+        
+         return [
+            'vehiculos' => $vehiculos,
+            'usuarios'  => $usuarios,
+            'reserva'   => $reserva,
         ];
     }
 
