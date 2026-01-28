@@ -8,6 +8,7 @@ class Viaje extends Model
 {
     use HasFactory, Notifiable;
 
+    protected $table = 'viaje';
     protected $fillable = [
         'id_vehiculo',
         'id_reserva',

@@ -52,11 +52,11 @@ Route::get('/vehiculos', [VehiculoController::class, 'sectionVehiculo'])
 
         Route::get('/vehiculos/{vehiculo}', [VehiculoController::class, 'detalle'])
     ->name('vehiculos.show');
+ Route::post('/vehiculos', [VehiculoController::class, 'store']);
+    Route::put('/vehiculos/{vehiculo}', [VehiculoController::class, 'update'])->name('vehiculos.update');
+    Route::delete('/vehiculos/{vehiculo}', [VehiculoController::class, 'destroy'])->name('vehiculos.destroy');
 
-// Detalle (API)
-/*Route::get('/api/vehiculos/{vehiculo}', [VehiculoController::class, 'show'])
-    ->middleware('permission:ver_vehiculos')
-    ->name('vehiculos.show');*/
+    Route::get('/buscar-vehiculos', [VehiculoController::class, 'index'])->name('vehiculos.buscar');
 
 
 

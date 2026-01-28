@@ -23,13 +23,5 @@ public function inicio(){
 public function reset(){
     return View('auth.passwords.reset');
 }
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
-  /*  public function dashboard()
-    {
-        return view('admin.auditoria.index');
-    }*/
+
 }

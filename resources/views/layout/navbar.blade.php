@@ -14,7 +14,7 @@
     <!-- Right Section -->
     <div class="flex items-center gap-4">
 
-        <!-- Search (opcional) -->
+        <!-- Search (opcional)
         <div class="hidden md:block relative">
             <input
                 type="text"
@@ -23,7 +23,7 @@
             >
             <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
         </div>
-
+ -->
         <!-- Dark Mode Toggle -->
         <button
             @click="darkMode = !darkMode"

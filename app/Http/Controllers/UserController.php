@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Dependencia;
 use App\Models\Alerta;
+use App\Models\Vehiculo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -26,6 +27,26 @@ class UserController extends Controller
         'vehiculos' => 0,
     ];
 
+     //  ESTO ES LO QUE FALTABA
+    $ultimosVehiculos = Vehiculo::with('estadoVehiculo')
+        ->orderBy('created_at', 'desc')
+        ->take(4)
+        ->get();
+
+    $vehiculosStats = [
+    $total = Vehiculo::count(),
+    $disponibles = Vehiculo::whereHas('estadoVehiculo', fn($q) =>
+        $q->where('estado', 'DISPONIBLE')
+    )->count(),
+    $reservados = Vehiculo::whereHas('estadoVehiculo', fn($q) =>
+        $q->where('estado', 'EN_USO')
+    )->count(),
+    $mantenimiento = Vehiculo::whereHas('estadoVehiculo', fn($q) =>
+        $q->where('estado', 'EN_MANTENIMIENTO')
+    )->count(),
+    $baja = Vehiculo::whereHas('estadoVehiculo', fn($q) =>
+        $q->where('estado', 'BAJA'))->count()
+];
     // luego, cuando tengas datos reales:
     // $stats['licencias'] = Licencia::vencidas()->count()
         $alertas = Alerta::latest()->paginate(10);
@@ -34,11 +55,11 @@ class UserController extends Controller
         }
 
         if ($user->hasRole('Administrador General')) {
-            return view('admin.auditoria.index', compact('user'));
+            return view('admin.auditoria.index', compact('user','ultimosVehiculos','disponibles','total','reservados','mantenimiento','baja'));
         }
 
         if ($user->hasAnyRole(['Administrador de Dependencia', 'Jefe de Area'])) {
-            return view('admin.auditoria.index', compact('user','stats','alertas'));
+            return view('admin.auditoria.index', compact('user','stats','alertas','ultimosVehiculos','disponibles','total','reservados','mantenimiento','baja'));
         }
 
         abort(403);
@@ -54,11 +75,21 @@ class UserController extends Controller
         'mantenimiento'=>0,
     ];
 
+    $vehiculosStats = [
+    $total = Vehiculo::count(),
+    $disponibles = Vehiculo::whereHas('estadoVehiculo', fn($q) =>
+        $q->where('estado', 'DISPONIBLE')
+    )->count(),
+    $reservados = Vehiculo::whereHas('estadoVehiculo', fn($q) =>
+        $q->where('estado', 'EN_USO')
+    )->count(),
+     ];
+
     // luego, cuando tengas datos reales:
     // $stats['licencias'] = Licencia::vencidas()->count
         $user = Auth::user();
             $alertas = Alerta::latest()->paginate(10);
-        return view('ui.operadordashboard', compact('user','stats','alertas'));
+        return view('ui.operadordashboard', compact('user','stats','alertas','disponibles','reservados'));
     }
 
 

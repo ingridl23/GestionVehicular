@@ -15,7 +15,8 @@ class VehiculoController extends Controller
 
 public function sectionVehiculo(){
     $dependencias =Dependencia::all();
-
+//  ESTA LÍNEA para obtener los estados
+    $estados = EstadosVehiculo::all();
    $vehiculos = Vehiculo::with([
     'estadoVehiculo',
     'estadoNafta',
@@ -24,17 +25,18 @@ public function sectionVehiculo(){
 ])->get();
 
 
-    return View('components.vehiculos.vehiculos', compact('dependencias','vehiculos') );
+    return View('components.vehiculos.vehiculos', compact('dependencias','vehiculos','estados') );
 }
     // CU 2 – Listado
-    public function index(Request $request, VehiculoService $service): JsonResponse
-    {
-        $this->authorize('viewAny', Vehiculo::class);
+// En VehiculoController.php
+public function index(Request $request, VehiculoService $service)
+{
+    // Asegúrate de que los nombres dentro del array coincidan EXACTAMENTE
+    // con los nombres de las funciones en tu modelo Vehiculo.php
+    $vehiculos = \App\Models\Vehiculo::with(['estadoVehiculo', 'dependenciaDuena'])->paginate(20);
 
-        return response()->json(
-            $service->listar($request)
-        );
-    }
+    return response()->json($vehiculos);
+}
 
     // CU 2 – Detalle
     public function show(Vehiculo $vehiculo): JsonResponse
@@ -149,14 +151,22 @@ public function detalle(Vehiculo $vehiculo)
     }
 
     // CU 3 – Eliminar
-    public function destroy(Vehiculo $vehiculo, VehiculoService $service): JsonResponse
-    {
+   public function destroy(Vehiculo $vehiculo, VehiculoService $service): JsonResponse
+{
+    $this->authorize('delete', $vehiculo);
 
-       $this->authorize('delete', $vehiculo);
+    try {
         $service->eliminar($vehiculo);
 
         return response()->json([
             'message' => 'Vehículo dado de baja correctamente'
-        ]);
+        ], 200);
+
+    } catch (\Exception $e) {
+        return response()->json([
+            'message' => $e->getMessage()
+        ], 422);
     }
+}
+
 }

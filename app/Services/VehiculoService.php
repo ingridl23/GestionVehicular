@@ -31,8 +31,6 @@ class VehiculoService
     }
 
 
-
-
     /**
      * Actualizar datos del vehículo (CU 4)
      */
@@ -54,9 +52,6 @@ class VehiculoService
 
         return $vehiculo;
     }
-
-
-
 
 
     /**
@@ -82,9 +77,9 @@ class VehiculoService
 
     public function eliminar(Vehiculo $vehiculo): void
     {
-        $enUso = $this->estadoId('RESERVADO');
-        $baja  = $this->estadoId('NO DISPONIBLE');
-        $enMantenimiento = $this->estadoId('EN MANTENIMIENTO');
+        $enUso = $this->estadoId('EN_USO');
+        $baja  = $this->estadoId('BAJA');
+        $enMantenimiento = $this->estadoId('EN_MANTENIMIENTO');
 
         if ($vehiculo->id_estado_vehiculo === $enUso) {
             throw new Exception('No se puede dar de baja un vehículo en uso');
@@ -108,27 +103,36 @@ class VehiculoService
         ]);
     }
 
-    private function estadoId(string $nombre): int
-    {
-        return EstadosVehiculo::where('estado', $nombre)->value('id');
+  private function estadoId(string $estado): int
+{
+    $estadoVehiculo = EstadosVehiculo::where('estado', $estado)->first();
+
+    if (!$estadoVehiculo) {
+        throw new \Exception("Estado de vehículo no encontrado: {$estado}");
     }
 
+    return $estadoVehiculo->id;
+}
 
-    public function listar(Request $request)
-    {
-        $search        = $request->input('search');
-        $dependenciaId = $request->input('dependencia_id');
+public function listar(Request $request)
+{
+    // Captura de filtros desde el Request
+    $estadoId      = $request->input('estado_vehiculo_id');
+    $dependenciaId = $request->input('dependencia_id');
+    $search        = $request->input('search');
+   $dependenciaId = $request->input('dependencia_id');
         $estadoId      = $request->input('estado_vehiculo_id');
         $estadoVtv     = $request->input('estado_vtv');
         $sortField     = $request->input('sort_field', 'dominio');
         $sortOrder     = $request->input('sort_order', 'asc');
 
-        $query = Vehiculo::with([
-            'dependencia',
-            'estado_vehiculo',
-            'nafta',
-            'direccion'
-        ]);
+    $query = Vehiculo::with([
+        'dependencia',
+        'estado_vehiculo',
+        'nafta',
+        'direccion'
+    ]);
+
 
         /* FILTRO DEPENDENCIA */
         if ($dependenciaId) {
@@ -190,4 +194,11 @@ class VehiculoService
 
         return $paginator;
     }
+
+
 }
+
+
+
+
+

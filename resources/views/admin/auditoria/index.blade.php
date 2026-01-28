@@ -10,13 +10,13 @@
 
     <x-stat-card
         title="Vehículos Activos"
-        value="42"
+        value="{{$reservados}}"
         icon="fa-car"
         trend="+3 este mes"
         :trend-up="true"
         color="blue"
     />
-
+<!--agregar contadores que faltan aca  -->
     <x-stat-card
         title="Reservas Activas"
         value="8"
@@ -52,13 +52,24 @@
 
     <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
 
+
+
         <!-- Disponible -->
         <div class="text-center p-4 bg-green-50 dark:bg-green-900/10 rounded-lg">
             <div class="w-12 h-12 bg-green-100 dark:bg-green-900/20 rounded-full flex items-center justify-center mx-auto mb-3">
                 <i class="fas fa-check text-green-600 dark:text-green-400 text-xl"></i>
             </div>
-            <p class="text-2xl font-bold text-gray-900 dark:text-white">24</p>
+            <p class="text-2xl font-bold text-gray-900 dark:text-white">{{$disponibles}}</p>
             <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Disponibles</p>
+        </div>
+
+         <!-- En total -->
+        <div class="text-center p-4 bg-yellow-50 dark:bg-yellow-900/10 rounded-lg">
+            <div class="w-12 h-12 bg-yellow-100 dark:bg-yellow-900/20 rounded-full flex items-center justify-center mx-auto mb-3">
+                <i class="fas fa-road text-yellow-600 dark:text-yellow-400 text-xl"></i>
+            </div>
+            <p class="text-2xl font-bold text-gray-900 dark:text-white">{{$total}}</p>
+            <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">En Total</p>
         </div>
 
         <!-- Reservado -->
@@ -66,25 +77,17 @@
             <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900/20 rounded-full flex items-center justify-center mx-auto mb-3">
                 <i class="fas fa-calendar text-blue-600 dark:text-blue-400 text-xl"></i>
             </div>
-            <p class="text-2xl font-bold text-gray-900 dark:text-white">8</p>
+            <p class="text-2xl font-bold text-gray-900 dark:text-white">{{$reservados}}</p>
             <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Reservados</p>
         </div>
 
-        <!-- En Uso -->
-        <div class="text-center p-4 bg-yellow-50 dark:bg-yellow-900/10 rounded-lg">
-            <div class="w-12 h-12 bg-yellow-100 dark:bg-yellow-900/20 rounded-full flex items-center justify-center mx-auto mb-3">
-                <i class="fas fa-road text-yellow-600 dark:text-yellow-400 text-xl"></i>
-            </div>
-            <p class="text-2xl font-bold text-gray-900 dark:text-white">6</p>
-            <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">En Uso</p>
-        </div>
 
         <!-- Mantenimiento -->
         <div class="text-center p-4 bg-orange-50 dark:bg-orange-900/10 rounded-lg">
             <div class="w-12 h-12 bg-orange-100 dark:bg-orange-900/20 rounded-full flex items-center justify-center mx-auto mb-3">
                 <i class="fas fa-wrench text-orange-600 dark:text-orange-400 text-xl"></i>
             </div>
-            <p class="text-2xl font-bold text-gray-900 dark:text-white">3</p>
+            <p class="text-2xl font-bold text-gray-900 dark:text-white">{{$mantenimiento}}</p>
             <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Mantenimiento</p>
         </div>
 
@@ -93,7 +96,7 @@
             <div class="w-12 h-12 bg-red-100 dark:bg-red-900/20 rounded-full flex items-center justify-center mx-auto mb-3">
                 <i class="fas fa-times-circle text-red-600 dark:text-red-400 text-xl"></i>
             </div>
-            <p class="text-2xl font-bold text-gray-900 dark:text-white">1</p>
+            <p class="text-2xl font-bold text-gray-900 dark:text-white">{{$baja}}</p>
             <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Fuera de Servicio</p>
         </div>
 

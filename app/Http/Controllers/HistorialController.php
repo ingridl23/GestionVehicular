@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use App\Models\Reportes;
 use App\Models\Vehiculo;
@@ -13,7 +11,23 @@ public function index(){
         ->take(4)
         ->get();
 
-    return View ('admin.auditoria.index', compact('ultimosVehiculos'));
+      $vehiculosStats = [
+    $total = Vehiculo::count(),
+    $disponibles = Vehiculo::whereHas('estadoVehiculo', fn($q) =>
+        $q->where('estado', 'DISPONIBLE')
+    )->count(),
+    $reservados = Vehiculo::whereHas('estadoVehiculo', fn($q) =>
+        $q->where('estado', 'EN_USO')
+    )->count(),
+    $mantenimiento = Vehiculo::whereHas('estadoVehiculo', fn($q) =>
+        $q->where('estado', 'EN_MANTENIMIENTO')
+    )->count(),
+    $baja = Vehiculo::whereHas('estadoVehiculo', fn($q) =>
+        $q->where('estado', 'BAJA'))->count()
+];
+
+
+    return View ('admin.auditoria.index', compact('ultimosVehiculos','total','disponibles','reservados','mantenimiento','baja'));
 }
 
     public function resumen()
