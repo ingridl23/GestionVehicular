@@ -5,6 +5,20 @@
     <script type="module" src="{{ Vite::asset('resources/js/reservas/cancelarReserva.js') }}"></script>
 @endpush
 
+@php
+  $config = $ubicacion === 'interna'
+    ? [
+        'can_agregar'   => 'solicitar_reserva_interna',
+        'route_agregar' => route('reservas.form.agregar'),
+        'text'  => 'Agregar reserva',
+      ]
+    : [
+        'can_agregar'   => 'solicitar_prestamo',
+        'route_agregar' => route('prestamo.form.agregar'),
+        'text'  => 'Agregar préstamo',
+      ];
+@endphp
+
 @section('content')
 <section class="bg-gray-100 dark:bg-gray-900 py-10 lg:py-[0px]">
     @if($reservas->isEmpty())
@@ -15,16 +29,17 @@
                     class="rounded-md bg-blue-600 px-4 py-2 mb-2 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
                 Filtros
             </button>
-            @can('solicitar_reserva_interna')
-            <button type="button"
-              class="rounded-md bg-blue-600 px-4 py-2 mb-2 text-sm font-medium text-white
-              hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
-              <a href="{{ route('reservas.agregar')}}">Agregar reserva</a>
-            </button>
+            @can($config['can_agregar'])
+              <a href="{{ $config['route_agregar'] }}"
+                class="inline-block rounded-md bg-blue-600 px-4 py-2 mb-2 text-sm font-medium text-white
+                        hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                {{ $config['text'] }}
+              </a>
             @endcan
     </div>
     <div class="hidden opacity-0 -translate-y-4 transition-all duration-300 ease-out" id="filtros">
-            @include('ui.reservas.components.filtro')
+            <x-filtros-reserva-fields :vehiculos_filtros="$vehiculos_filtros" :estados_filtros="$estados_filtros" :ubicacion="$ubicacion" />
+
     </div>
 
     <div class="mx-auto px-0">
@@ -100,23 +115,34 @@
                     </a>
                     @endcanany
 
-                    @can('actualizar_reserva_interna')
-                    <a href="{{ route('reservas.editar', $reserva->id) }}"
-                       class="m-1 inline-block rounded-md border border-yellow-600 px-2 py-2 text-yellow-600 hover:bg-yellow-600 hover:text-white dark:border-yellow-400 dark:text-yellow-400 dark:hover:bg-yellow-500 dark:hover:text-white"
-                       title="Editar">
-                      <i class="fa-solid fa-pen-to-square"></i>
-                    </a>
+                    @php
+                      $config = $ubicacion === 'interna'
+                        ? [
+                            'can_editar'   => 'actualizar_reserva_interna',
+                            'route_editar' => route('reservas.form.editar', $reserva->id),
+                          ]
+                        : [
+                            'can_editar'   => 'actualizar_prestamo',
+                            'route_editar' => route('prestamo.form.editar', $reserva->id),
+                          ];
+                    @endphp
+                    @can($config['can_editar'])
+                      <a href="{{ $config['route_editar'] }}"
+                        class="m-1 inline-block rounded-md border border-yellow-600 px-2 py-2 text-yellow-600 hover:bg-yellow-600 hover:text-white dark:border-yellow-400 dark:text-yellow-400 dark:hover:bg-yellow-500 dark:hover:text-white"
+                        title="Editar">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                      </a>
                     @endcan
 
                     @canany(['cancelar_reserva_interna', 'cancelar_prestamo'])
-                      @if($reserva->estado_reserva->estado != 'CANCELADA' && $reserva->estado_reserva->estado != 'RECHAZADA')
-                        <button command="show-modal" commandfor="dialog"
+                      @if($reserva->estado_reserva->estado != 'CANCELADA' && $reserva->estado_reserva->estado != 'RECHAZADA' && $reserva->estado_reserva->estado != 'FINALIZADA')
+                        <button command="show-modal" commandfor="dialog-{{$reserva->id}}"
                             class="m-1 inline-block rounded-md border border-red-600 px-2 py-2 text-red-600 hover:bg-red-600 hover:text-white dark:border-red-400 dark:text-red-400 dark:hover:bg-red-500 dark:hover:text-white"
                             title="Cancelar" >
                             <i class="fa fa-times"></i>
                         </button>
                         <el-dialog>
-                          <dialog id="dialog" aria-labelledby="dialog-title" class="fixed inset-0 size-auto max-h-none max-w-none overflow-y-auto bg-transparent backdrop:bg-transparent">
+                          <dialog id="dialog-{{$reserva->id}}" aria-labelledby="dialog-title" class="fixed inset-0 size-auto max-h-none max-w-none overflow-y-auto bg-transparent backdrop:bg-transparent">
                             <el-dialog-backdrop class="fixed inset-0 bg-gray-900/50 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in"></el-dialog-backdrop>
 
                             <div tabindex="0" class="flex min-h-full items-end justify-center p-4 text-center focus:outline-none sm:items-center sm:p-0">
@@ -137,8 +163,8 @@
                                   </div>
                                 </div>
                                 <div class="bg-gray-700/25 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                                  <button type="button" id="botonCancelar" data-idReserva="{{$reserva->id}}" command="close" commandfor="dialog" class="inline-flex w-full justify-center rounded-md bg-red-500 px-3 py-2 text-sm font-semibold text-white hover:bg-red-400 sm:ml-3 sm:w-auto">Desactivar</button>
-                                  <button type="button" command="close" commandfor="dialog" class="mt-3 inline-flex w-full justify-center rounded-md bg-white/10 px-3 py-2 text-sm font-semibold text-white inset-ring inset-ring-white/5 hover:bg-white/20 sm:mt-0 sm:w-auto">Cancelar</button>
+                                  <button type="button" data-id="{{$reserva->id}}" command="close" commandfor="dialog" class="botonCancelar inline-flex w-full justify-center rounded-md bg-red-500 px-3 py-2 text-sm font-semibold text-white hover:bg-red-400 sm:ml-3 sm:w-auto">Desactivar</button>
+                                  <button type="button" command="close" commandfor="dialog-{{$reserva->id}}" class="mt-3 inline-flex w-full justify-center rounded-md bg-white/10 px-3 py-2 text-sm font-semibold text-white inset-ring inset-ring-white/5 hover:bg-white/20 sm:mt-0 sm:w-auto">Cancelar</button>
                                 </div>
                               </el-dialog-panel>
                             </div>
@@ -173,7 +199,7 @@
         },
         routes: {
             ver: "{{ route('reservas.reserva', ':id') }}",
-            editar: "{{ route('reservas.editar', ':id') }}",
+            editar: @json($config['route_editar']),
             cancelar: "{{ route('reservas.cancelar', ':id') }}",
         }
     };

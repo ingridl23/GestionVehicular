@@ -1,3 +1,9 @@
+<div>
+     @props([
+  'vehiculos_filtros',
+  'estados_filtros' ,
+  'ubicacion',
+])
 
     <form action="/filtrar-reservas" data-busqueda="{{$ubicacion}}" method="get" id="formFiltrosReservas" class="mb-6 rounded-lg bg-white dark:bg-gray-800 shadow-md p-4">
 
@@ -81,4 +87,4 @@
 
     </div>
 </form>
-
+</div>

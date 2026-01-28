@@ -4,13 +4,14 @@ use App\Http\Controllers\GastoController;
 use App\Http\Controllers\VehiculoController;
 use App\Http\Controllers\AlertaController;
 use App\Http\Controllers\ReporteController;
-use App\Http\Controllers\ReservaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\HistorialController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\DependenciaController;
-use App\Http\Controllers\Auth\ForcedPasswordController;
+use App\Http\Controllers\Reservas\PrestamoController;
+use App\Http\Controllers\Reservas\ReservaController as ReservaController;
 use App\Services\CombustibleApiService;
+
 
 // Fortify ya maneja estas rutas automáticamente:
 // POST /login
@@ -114,23 +115,41 @@ Route::get('/reset', [HomeController::class, 'reset'])->name('auth.passwords.res
 
 
     //RESERVAS
+
+    Route::get('/agregar-reserva', [ReservaController::class, 'mostrarFormulario'])->name('reservas.form.agregar')->middleware('permission:solicitar_reserva_interna'); //FORMULARIO
+    Route::get('/agregar-prestamo', [PrestamoController::class, 'mostrarFormulario'])->name('prestamo.form.agregar')->middleware('permission:solicitar_prestamo'); //FORMULARIO
+
     // Se deja listado de reservas en web ya que es algo que, sin importar el rol, debe verse (ya que datos se muestran, eso se filtra en el back)
-    Route::get('/listado-reservas', [ReservaController::class, 'verReservasInternas'])->middleware('permission:ver_reservas_internas')->name('reservas.internas');
-    Route::get('/listado-prestamos', [ReservaController::class, 'verReservasExternas'])->name('reservas.prestamos');
+    Route::get('/listado-reservas', [ReservaController::class, 'verReservas'])->middleware('permission:ver_reservas_internas')->name('reservas.internas');
+    Route::get('/listado-prestamos', [PrestamoController::class, 'verReservas'])->name('reservas.prestamos');
     Route::get('/listado-reservas/{id}', [ReservaController::class, 'verReserva'])->name('reservas.reserva'); //Vista individual
 
     Route::patch('/cancelar-reserva/{id}', [ReservaController::class, 'cancelarReserva'])->name('reservas.cancelar');
 
+    //EDITAR
+    
+    //METODO PATCH
+    Route::patch('/editar-reserva/{id}', [ReservaController::class, 'editarReserva'])->middleware('permission:actualizar_reserva_interna')->name('reservas.internas.editar');
+    Route::patch('/editar-prestamo/{id}', [ReservaController::class, 'editarReserva'])->middleware('permission:actualizar_prestamo')->name('reservas.externas.editar');
+
+    //MOSTRAR FORMULARIOS
+    Route::get('/editar-reserva/{id}', [ReservaController::class, 'mostrarFormularioUpdate'])->name('reservas.form.editar')->middleware('permission:actualizar_reserva_interna'); 
+    Route::get('/editar-prestamo/{id}', [PrestamoController::class, 'mostrarFormularioUpdate'])->name('prestamo.form.editar')->middleware('permission:actualizar_prestamo'); 
+
+
+    //------------------------------------
 
     Route::post('/filtrar-reservas-internas', [ReservaController::class, 'filtrarReservasInternas'])->middleware('web');
-    Route::post('/filtrar-reservas-externas', [ReservaController::class, 'filtrarReservasExternas'])->middleware('web');
+    Route::post('/filtrar-reservas-externas', [PrestamoController::class, 'filtrarReservasExternas'])->middleware('web');
     Route::get('/autorizar-prestamos', [ReservaController::class, 'verReservasExternas'])->name('reservas.autorizar-prestamos');
 
 
 
-    Route::get('/editar-reserva/{id}', [ReservaController::class, 'mostrarFormularioUpdate'])->name('reservas.editar')->middleware('permission:actualizar_reserva_interna'); //FORMULARIO
-    Route::get('/agregar-reserva', [ReservaController::class, 'mostrarFormulario'])->name('reservas.agregar')->middleware('permission:solicitar_reserva_interna'); //FORMULARIO
-    Route::post('/agregar-reserva', [ReservaController::class, 'crearReserva'])->name('reservas.crear');
+
+
+    Route::post('/agregar-reserva', [ReservaController::class, 'crearReserva'])->name('reservas.internas.crear');
+    Route::post('/agregar-prestamo', [PrestamoController::class, 'crearReserva'])->name('reservas.externas.crear');
+
 
     Route::get('/alertas', [AlertaController::class, 'index'])->name('alertas.index');
     Route::get('/alertas/{tipo}/{id}', [AlertaController::class, 'porEntidad'])->name('alertas.porEntidad');

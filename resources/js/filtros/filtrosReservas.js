@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             let acciones = '';
-
+            console.log(res)
             if (PERMISSIONS.ver) {
                 acciones += `
                     <a href="${ROUTES.ver.replace(':id', res.id)}"
@@ -99,7 +99,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             if (PERMISSIONS.editar) {
-                acciones += `
+                if(res.estado_reserva.estado != "RECHAZADA" && res.estado_reserva.estado != "CANCELADA" && res.estado_reserva.estado != "FINALIZADA"){
+                    acciones += `
                     <a href="${ROUTES.editar.replace(':id', res.id)}"
                     class="m-1 inline-block rounded-md border border-yellow-600 px-2 py-2 text-yellow-600 hover:bg-yellow-600 
                     hover:text-white dark:border-yellow-400 dark:text-yellow-400 dark:hover:bg-yellow-500 dark:hover:text-white"
@@ -107,9 +108,11 @@ document.addEventListener('DOMContentLoaded', () => {
                         <i class="fa-solid fa-pen-to-square"></i>
                     </a>
                 `;
+                }
             }
 
             if (PERMISSIONS.cancelar) {
+                if(res.estado_reserva.estado != "RECHAZADA" && res.estado_reserva.estado != "CANCELADA" && res.estado_reserva.estado != "FINALIZADA"){
                 acciones += `
                     <a href="${ROUTES.cancelar.replace(':id', res.id)}"
                     class="m-1 inline-block rounded-md border border-red-600 px-2 py-2 text-red-600 hover:bg-red-600
@@ -118,6 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <i class="fa fa-times"></i>
                     </a>
                 `;
+                }
             }
 
             contenedor.innerHTML += `
