@@ -127,11 +127,12 @@ public function listar(Request $request)
         $sortOrder     = $request->input('sort_order', 'asc');
 
     $query = Vehiculo::with([
-        'dependencia',
-        'estado_vehiculo',
-        'nafta',
-        'direccion'
-    ]);
+    'estadoVehiculo',
+    'estadoNafta',
+    'dependenciaDuena',
+    'direccionActual'
+]);
+
 
 
         /* FILTRO DEPENDENCIA */

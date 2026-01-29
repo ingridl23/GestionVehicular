@@ -43,15 +43,32 @@
             />
         @endcan
 
-        <!-- Personal -->
-        @can('ver_personal_dependencia')
-            <x-nav-item
-                icon="fa-id-card"
-                label="Personal"
-                route="personal.index"
-                :active="request()->routeIs('personal.*')"
-            />
-        @endcan
+              <!-- Usuarios -->
+       {{-- ADMIN --}}
+@role('Administrador General')
+    @can('ver_todos_usuarios')
+        <x-nav-item
+            icon="fa-users"
+            label="Usuarios"
+            route="admin.usuarios.index"
+            :active="request()->routeIs('admin.usuarios.*')"
+        />
+    @endcan
+@endrole
+
+{{-- DUEÑO --}}
+@role('Dueño Dependencia')
+    @can('ver_usuarios_dependencia')
+        <x-nav-item
+            icon="fa-users"
+            label="Usuarios"
+            route="dependencia.usuarios"
+            :active="request()->routeIs('dependencia.usuarios')"
+        />
+    @endcan
+@endrole
+
+
 
  <!-- Reservas (con submenú) -->
        @canany([
@@ -89,7 +106,7 @@
                {{ request()->routeIs('admin.reservas.*')
                     ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400'
                     : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700' }}">
-                Administración
+                Reservas Internas
             </a>
         @endcan
 
@@ -136,31 +153,6 @@
 
         <!-- Divider -->
         <div class="border-t border-gray-200 dark:border-gray-700 my-2"></div>
-
-        <!-- Usuarios -->
-       {{-- ADMIN --}}
-@role('Administrador General')
-    @can('ver_todos_usuarios')
-        <x-nav-item
-            icon="fa-users"
-            label="Usuarios"
-            route="admin.usuarios.index"
-            :active="request()->routeIs('admin.usuarios.*')"
-        />
-    @endcan
-@endrole
-
-{{-- DUEÑO --}}
-@role('Dueño Dependencia')
-    @can('ver_usuarios_dependencia')
-        <x-nav-item
-            icon="fa-users"
-            label="Usuarios"
-            route="dependencia.usuarios"
-            :active="request()->routeIs('dependencia.usuarios')"
-        />
-    @endcan
-@endrole
 
 
         <!-- Alertas -->

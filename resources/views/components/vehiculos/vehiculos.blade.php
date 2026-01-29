@@ -44,27 +44,27 @@
                         <i class="fa-solid fa-car text-5xl text-gray-400"></i>
                     </div>
 
-                    <div class="p-4">
+                 <!--    <div class="p-4">
                         <h3 class="font-semibold text-lg text-gray-900 dark:text-white">
-                            {{ $vehiculo->marca }} {{ $vehiculo->modelo }}
+                             $vehiculo->marca }}  $vehiculo->modelo }}
                         </h3>
 
                         <p class="text-sm text-gray-600 dark:text-gray-400">
-                            Dominio: {{ $vehiculo->dominio }}
+                            Dominio:  $vehiculo->dominio }}
                         </p>
 
                         <p class="text-sm mt-1">
                             <span class="px-2 py-1 rounded text-xs
-                                {{ $vehiculo->estadoVehiculo->estado === 'Disponible' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800' }}">
-                                {{ $vehiculo->estadoVehiculo->estado }}
+                                 $vehiculo->estadoVehiculo->estado === 'Disponible' , 'bg-green-100 text-green-800'}}">
+                                 $vehiculo->estadoVehiculo->estado }}
                             </span>
                         </p>
 
-                        <button onclick="event.stopPropagation(); window.location.href='{{ url('/vehiculos/'.$vehiculo->id) }}'"
+                        <button onclick="event.stopPropagation(); window.location.href='{ url('/vehiculos/'.$vehiculo->id) }}'"
                             class="mt-3 w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded text-sm transition">
                             Ver detalle
                         </button>
-                    </div>
+                    </div> -->
                 </div>
             @empty
                 <div class="col-span-full text-center py-12">

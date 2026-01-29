@@ -49,7 +49,7 @@
                                     <!-- Se llenará dinámicamente -->
                                 </tbody>
                             </table>
-
+{{--
  <p class="text-gray-600 dark:text-gray-400 mb-4">
     <strong>Dominio:</strong> {{ $vehiculo->dominio }}<br>
     <strong>Marca:</strong> {{ $vehiculo->marca }}<br>
@@ -65,7 +65,7 @@
     <strong>Dependencia De Origen:</strong> {{ $vehiculo->id_dependencia_duena }}<br>
     <strong>Direccion Actual:</strong> {{ $vehiculo->id_direccion_actual }}<br>
    </p>
-
+  --}}
 </div>
 
                         <!-- Botones de acción -->
@@ -96,8 +96,21 @@
             </div>
         </div>
 
+@include('components.vehiculos.vehiculo-modal')
 
-    @push('scripts')
-        @vite(['resources/js/vehiculo-detalle.js'])
-    @endpush
+@push('scripts')
+<script>
+    window.VEHICULO = @json($vehiculo);
+    window.CATALOGOS = {
+        dependencias: @json($dependencias),
+        direcciones: @json($direcciones),
+        estadosVehiculo: @json($estadosVehiculo),
+        estadosNafta: @json($estadosNafta),
+    };
+</script>
+
+@vite(['resources/js/vehiculo-detalle.js'])
+@endpush
+
+
 @endsection

@@ -79,7 +79,18 @@ document.addEventListener('DOMContentLoaded', function() {
             var estadoStr = (v.estado_vehiculo && v.estado_vehiculo.estado) ? v.estado_vehiculo.estado : 'N/A';
             var depStr = (v.dependencia_duena && v.dependencia_duena.nombre) ? v.dependencia_duena.nombre : 'N/A';
 
-            var colorClase = (estadoStr === 'Disponible') ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800';
+            var colorClase = 'bg-gray-100 text-gray-800';
+
+            if (estadoStr === 'DISPONIBLE') {
+                colorClase = 'bg-green-100 text-green-800';
+            } else if (estadoStr === 'EN_USO') {
+                colorClase = 'bg-blue-100 text-blue-800';
+            } else if (estadoStr === 'EN_MANTENIMIENTO') {
+                colorClase = 'bg-yellow-100 text-yellow-800';
+            } else if (estadoStr === 'BAJA') {
+                colorClase = 'bg-red-100 text-red-800';
+            }
+
 
             return '<div onclick="window.location.href=\'/vehiculos/' + v.id + '\'" class="bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg cursor-pointer transition">' +
                 '<div class="bg-gray-200 dark:bg-gray-700 h-40 flex items-center justify-center">' +
@@ -104,13 +115,13 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Event listeners
-    if (btnFiltrar) {
-        btnFiltrar.addEventListener('click', function() {
-            filterDependencia = depSelect ? depSelect.value : '';
-            filterEstado = estSelect ? estSelect.value : '';
-            loadVehiculos(1);
-        });
-    }
+    btnFiltrar.addEventListener('click', function() {
+        searchTerm = searchInput ? searchInput.value.trim() : '';
+        filterDependencia = depSelect ? depSelect.value : '';
+        filterEstado = estSelect ? estSelect.value : '';
+        loadVehiculos(1);
+    });
+
 
     if (prevButton) {
         prevButton.addEventListener('click', function() {

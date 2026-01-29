@@ -1,11 +1,11 @@
 <!-- resources/views/components/vehiculos/vehiculo-modal.blade.php -->
 
-<div id="vehiculo-modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden overflow-y-auto h-full w-full z-50">
-    <div class="relative top-20 mx-auto p-5 border w-full max-w-2xl shadow-lg rounded-md bg-white dark:bg-gray-800">
+<div id="vehiculo-modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden overflow-y-auto h-full w-full ">
+    <div class="relative top-20 mx-auto p-5 border w-full max-w-2xl shadow-lg rounded-md bg-white dark:bg-gray-800 z-50">
         <!-- Header -->
         <div class="flex justify-between items-center pb-3 border-b dark:border-gray-700">
             <h3 class="text-xl font-semibold text-gray-900 dark:text-white" id="modal-title">
-                Agregar Vehículo
+                Modificar Vehículo
             </h3>
             <button onclick="closeModal()" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -114,15 +114,10 @@
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                         Dependencia Dueña <span class="text-red-500">*</span>
                     </label>
-                    <select
-                        name="id_dependencia_duena"
-                        id="id_dependencia_duena"
-                        required
-                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
-                    >
-                        <option value="">Seleccione...</option>
-                        <!-- Se llenarán dinámicamente -->
-                    </select>
+                   <select name="id_dependencia_duena" id="id_dependencia_duena">
+
+</select>
+
                 </div>
 
                 <!-- Dirección Actual -->
@@ -136,7 +131,7 @@
                         required
                         class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                     >
-                        <option value="">Seleccione...</option>
+
                         <!-- Se llenarán dinámicamente -->
                     </select>
                 </div>
@@ -152,7 +147,6 @@
                         required
                         class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                     >
-                        <option value="">Seleccione...</option>
                         <!-- Se llenarán dinámicamente -->
                     </select>
                 </div>
@@ -168,7 +162,6 @@
                         required
                         class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                     >
-                        <option value="">Seleccione...</option>
                         <!-- Se llenarán dinámicamente -->
                     </select>
                 </div>
@@ -219,14 +212,13 @@
                 <button
                     type="button"
                     onclick="closeModal()"
-                    class="px-4 py-2 bg-gray-200 hover:bg-gray-300 dark:bg-gray-600 dark:hover:bg-gray-500 text-gray-800 dark:text-white rounded-lg transition-colors"
-                >
+                    class="px-4 py-2 bg-gray-200 hover:bg-gray-300 dark:bg-gray-600 dark:hover:bg-gray-500 text-gray-800 dark:text-white rounded-lg transition-colors">
                     Cancelar
                 </button>
                 <button
                     type="submit"
-                    class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
-                >
+                    id="btnGuardarCambios"
+                    class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors">
                     Guardar
                 </button>
             </div>
@@ -234,35 +226,8 @@
     </div>
 </div>
 
-<script>
-function openModal(vehiculo = null) {
-    const modal = document.getElementById('vehiculo-modal');
-    const form = document.getElementById('vehiculo-form');
-    const title = document.getElementById('modal-title');
 
-    if (vehiculo) {
-        title.textContent = 'Editar Vehículo';
-        // Llenar el formulario con los datos del vehículo
-        Object.keys(vehiculo).forEach(key => {
-            const input = form.querySelector(`[name="${key}"]`);
-            if (input) {
-                if (input.type === 'checkbox') {
-                    input.checked = vehiculo[key];
-                } else {
-                    input.value = vehiculo[key];
-                }
-            }
-        });
-    } else {
-        title.textContent = 'Agregar Vehículo';
-        form.reset();
-    }
+    @push('scripts')
+        @vite(['resources/js/vehiculo-detalle.js'])
+    @endpush
 
-    modal.classList.remove('hidden');
-}
-
-function closeModal() {
-    const modal = document.getElementById('vehiculo-modal');
-    modal.classList.add('hidden');
-}
-</script>

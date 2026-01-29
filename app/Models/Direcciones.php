@@ -11,7 +11,7 @@ class Direcciones extends Model
     use HasFactory, Notifiable;
 
     public $timestamps = false;
-    
+    protected $table="direcciones";
     protected $fillable = [
         'calle',
         'altura',

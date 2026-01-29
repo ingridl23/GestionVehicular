@@ -2,6 +2,8 @@
 namespace App\Http\Controllers;
 use App\Models\Vehiculo;
 use App\Models\Dependencia;
+use App\Models\Direcciones;
+use App\Models\EstadosNafta;
 use App\Models\EstadosVehiculo;
 use Illuminate\Http\Request;
 use App\Services\VehiculoService;
@@ -31,50 +33,65 @@ public function sectionVehiculo(){
 // En VehiculoController.php
 public function index(Request $request, VehiculoService $service)
 {
-    // Asegúrate de que los nombres dentro del array coincidan EXACTAMENTE
-    // con los nombres de las funciones en tu modelo Vehiculo.php
-    $vehiculos = \App\Models\Vehiculo::with(['estadoVehiculo', 'dependenciaDuena'])->paginate(20);
-
-    return response()->json($vehiculos);
+    return response()->json(
+        $service->listar($request)
+    );
 }
 
     // CU 2 – Detalle
-    public function show(Vehiculo $vehiculo): JsonResponse
-    {
-       $this->authorize('view', $vehiculo);
-        return response()->json([
-            'id' => $vehiculo->id,
-            'dominio' => $vehiculo->dominio,
-            'marca' => $vehiculo->marca,
-            'modelo' => $vehiculo->modelo,
-            'anio' => $vehiculo->anio,
-            'kilometros' => $vehiculo->kilometros,
-            'control_satelital' => $vehiculo->control_satelital,
-            'habilitado_prestamo' => $vehiculo->habilitado_prestamo,
-            'condiciones_prestamo' => $vehiculo->condiciones_prestamo,
-            'VTV' => $vehiculo->VTV,
+   public function show(Vehiculo $vehiculo): JsonResponse
+{
+$this->authorize('view', $vehiculo);
+    $vehiculo->load([
+        'estadoVehiculo',
+        'estadoNafta',
+        'dependenciaDuena',
+        'direccionActual'
+    ]);
 
-            // Relaciones
-            'estado_vehiculo' => $vehiculo->estado_vehiculo,
-            'nafta' => $vehiculo->estado_nafta,
-            'dependencia_duena' => $vehiculo->id_dependencia_duena,
-            'direccion_actual' => $vehiculo->id_direccion,
+    return response()->json([
+        'id' => $vehiculo->id,
+        'dominio' => $vehiculo->dominio,
+        'marca' => $vehiculo->marca,
+        'modelo' => $vehiculo->modelo,
+        'anio' => $vehiculo->anio,
+        'kilometros' => $vehiculo->kilometros,
+        'control_satelital' => $vehiculo->control_satelital,
+        'habilitado_prestamo' => $vehiculo->habilitado_prestamo,
+        'condiciones_prestamo' => $vehiculo->condiciones_prestamo,
+        'VTV' => $vehiculo->VTV,
 
-            // IDs relacionados (útiles para front)
-         'estado_vehiculo' => $vehiculo->estadoVehiculo,
-         'estado_nafta' => $vehiculo->estadoNafta,
-         'dependencia_duena' => $vehiculo->dependenciaDuena,
-         'direccion_actual' => $vehiculo->direccionActual,
+        // 🔥 relaciones listas para JS
+        'estado_vehiculo' => [
+            'id' => $vehiculo->estadoVehiculo->id ?? null,
+            'estado' => $vehiculo->estadoVehiculo->estado ?? null,
+        ],
+        'estado_nafta' => [
+            'id' => $vehiculo->estadoNafta->id ?? null,
+            'estado' => $vehiculo->estadoNafta->estado ?? null,
+        ],
+        'dependencia_duena' => [
+            'id' => $vehiculo->dependenciaDuena->id ?? null,
+            'nombre' => $vehiculo->dependenciaDuena->nombre ?? null,
+        ],
+        'direccion_actual' => [
+            'id' => $vehiculo->direccionActual->id ?? null,
+            'nombre' => $vehiculo->direccionActual->nombre ?? null,
+        ],
+    ]);
+}
 
-
-            // Timestamps
-            'created_at' => $vehiculo->created_at,
-            'updated_at' => $vehiculo->updated_at,
-        ]);
-    }
 public function detalle(Vehiculo $vehiculo)
 {
-    return view('components.vehiculos.vehiculo-detalle', compact('vehiculo'));
+     $this->authorize('view', $vehiculo);
+
+    return view('components.vehiculos.vehiculo-detalle', [
+        'vehiculo' => $vehiculo,
+        'dependencias' => Dependencia::all(),
+        'direcciones' => Direcciones::all(),
+        'estadosVehiculo' => EstadosVehiculo::all(),
+        'estadosNafta' => EstadosNafta::all(),
+    ]);
 }
 
 
