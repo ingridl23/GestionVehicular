@@ -68,13 +68,19 @@ class ReservasInternasService extends BaseReservasServices implements ReservaSer
 
         $usuarios = $base['queryUsuarios']
             ->whereIn('users.id_dependencia', $ids)
-            ->get();
+            ->get()
+            ->map(function ($usuario) {
+            $usuario->carnet_vencido = 
+                !$usuario->carnet || $usuario->carnet->fecha_vencimiento->isPast();
+            return $usuario;
+        })->sortBy('carnet_vencido');
 
         return [
             'vehiculos' => $vehiculos,
             'usuarios'  => $usuarios,
             'formAction' => route('reservas.internas.crear'),
             'reserva'   => null,
+            'ubicacion'   => null,
         ];
     }
 
@@ -84,6 +90,10 @@ class ReservasInternasService extends BaseReservasServices implements ReservaSer
     }
 
 
+    public function valoresParametrosValidaciones($id_vehiculo, $fecha_inicio, $fecha_fin, $id_usuario, $id = null){
+        $resultado = $this->validaciones($id_vehiculo, $fecha_inicio, $fecha_fin, $id_usuario,null);
+        return $resultado;
+    }
 
     public function datosParaFormEditar($id){
         $dependencia = Dependencia::with('hijosRecursivos')
@@ -99,13 +109,19 @@ class ReservasInternasService extends BaseReservasServices implements ReservaSer
 
         $usuarios = $base['queryUsuarios']
             ->whereIn('users.id_dependencia', $ids)
-            ->get();
+            ->get()
+            ->map(function ($usuario) {
+            $usuario->carnet_vencido = 
+                !$usuario->carnet || $usuario->carnet->fecha_vencimiento->isPast();
+            return $usuario;
+        })->sortBy('carnet_vencido');
 
         return [
             'vehiculos' => $vehiculos,
             'usuarios'  => $usuarios,
             'reserva'   => $reserva,
             'formAction' => route('reservas.internas.editar', $id),
+            'ubicacion'   => null,
         ];
         //return compact('vehiculos', 'usuarios', 'reserva');
     }

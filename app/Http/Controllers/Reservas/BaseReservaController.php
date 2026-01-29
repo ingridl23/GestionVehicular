@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Reservas;
 
 use App\Contracts\ReservaServiceInterface;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ReservaFormRequest;
 use App\Models\Reserva;
 use Illuminate\Support\Facades\Auth;
 
@@ -132,4 +133,51 @@ abstract class BaseReservaController extends Controller{
         return response()->json($reservas);
     }
 
+
+    public function crearReserva(ReservaFormRequest $request){
+        $this->authorize('create', Reserva::class);
+        $resultado = $this->service->crearReserva($request);
+
+
+        if (!empty($resultado) && $resultado[1]) {
+            
+            return $this->mensajes($resultado);
+        }
+
+        return $this->verReservas();
+    }
+
+    public function editarReserva(ReservaFormRequest $request, $id){
+        $reserva = Reserva::findOrFail($id);
+        $this->authorize('actualizar', $reserva);
+        $resultado = $this->service->editarReserva($request, $id);
+
+        if (!empty($resultado) && $resultado[1]) {
+            $this->mensajes($resultado);
+        }
+
+        return $this->verReservas();
+    }
+
+
+    public function mensajes($resultado){
+        if($resultado[0] == "usuario"){
+                return back()->withErrors([
+                    'id_usuario' => 'El usuario no se encuentra disponible en el rango de fechas seleccionado.'
+                ]) ->withInput();
+            }
+            else if($resultado[0] == "usuario_no_habilitado"){
+                return back()->withErrors([
+                    'id_usuario' => 'El usuario no posee carnet vigente o licencia para ser designado conductor.'
+                ]) ->withInput();
+            }
+            else if($resultado[0] == "vehiculo_no_habilitado"){
+                return back()->withErrors([
+                    'id_vehiculo' => 'El vehiculo no se encuentra disponible para ser reservado.'
+                ]) ->withInput();
+            }
+            return back()->withErrors([
+                'id_vehiculo' => 'El vehiculo no se encuentra disponible en el rango de fechas seleccionado.'
+            ]) ->withInput();
+    }
 }

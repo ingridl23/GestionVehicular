@@ -8,12 +8,21 @@ use Illuminate\View\Component;
 
 class ReservaFormFields extends Component
 {
+
+    public $reserva;
+    public $vehiculos;
+    public $usuarios;
+    public $ubicacion;
+
     /**
      * Create a new component instance.
      */
-    public function __construct()
+    public function __construct($reserva = null, $vehiculos, $usuarios, $ubicacion = null)
     {
-        //
+        $this->reserva = $reserva;
+        $this->vehiculos = $vehiculos;
+        $this->usuarios = $usuarios;
+        $this->ubicacion = $ubicacion;
     }
 
     /**

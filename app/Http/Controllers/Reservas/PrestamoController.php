@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Reservas;
 
 use App\Http\Requests\CrearReservaRequest;
 use App\Http\Requests\FiltroReservasRequest;
+use App\Http\Requests\ReservaFormRequest;
 use App\Models\Reserva;
 use App\Services\Reservas\ReservasExternasService;
 
@@ -43,26 +44,6 @@ class PrestamoController extends BaseReservaController{
         $this->authorize('actualizar', $reserva);
         return view('ui.reservas.formularios.editar', $this->service->datosParaFormEditar($id));
        
-    }
-    
-
-    public function crearReserva(CrearReservaRequest $request){
-        $this->authorize('create', Reserva::class);
-        $resultado = $this->service->crearReserva($request);
-
-
-        if (!empty($resultado) && $resultado[1]) {
-            if($resultado[0] == "usuario"){
-                return back()->withErrors([
-                    'id_usuario' => 'El usuario no se encuentra disponible en el rango de fechas seleccionado.'
-                ]) ->withInput();;
-            }
-            return back()->withErrors([
-                'id_vehiculo' => 'El vehiculo no se encuentra disponible en el rango de fechas seleccionado.'
-            ]) ->withInput();;
-        }
-
-        return $this->verReservas();
     }
 
 

@@ -130,7 +130,7 @@ Route::get('/reset', [HomeController::class, 'reset'])->name('auth.passwords.res
     
     //METODO PATCH
     Route::patch('/editar-reserva/{id}', [ReservaController::class, 'editarReserva'])->middleware('permission:actualizar_reserva_interna')->name('reservas.internas.editar');
-    Route::patch('/editar-prestamo/{id}', [ReservaController::class, 'editarReserva'])->middleware('permission:actualizar_prestamo')->name('reservas.externas.editar');
+    Route::patch('/editar-prestamo/{id}', [PrestamoController::class, 'editarReserva'])->middleware('permission:actualizar_prestamo')->name('reservas.externas.editar');
 
     //MOSTRAR FORMULARIOS
     Route::get('/editar-reserva/{id}', [ReservaController::class, 'mostrarFormularioUpdate'])->name('reservas.form.editar')->middleware('permission:actualizar_reserva_interna'); 

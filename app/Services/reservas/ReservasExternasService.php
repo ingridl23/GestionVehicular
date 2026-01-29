@@ -67,16 +67,26 @@ class ReservasExternasService extends BaseReservasServices implements ReservaSer
             ->whereNotIn('vehiculos.id_dependencia_duena', $ids)
             ->get();
 
-        $usuarios = $base['queryUsuarios']->get();
+        $usuarios = $base['queryUsuarios']
+            ->get()
+            ->map(function ($usuario) {
+            $usuario->carnet_vencido = 
+                !$usuario->carnet || $usuario->carnet->fecha_vencimiento->isPast();
+            return $usuario;
+        })->sortBy('carnet_vencido');
+
         return [
             'vehiculos' => $vehiculos,
             'usuarios'  => $usuarios,
             'reserva'   => $reserva,
             'formAction' => route('reservas.externas.editar', $id),
+            'ubicacion' => 'externa'
         ];
-        //return compact('vehiculos', 'usuarios', 'reserva');
     }
 
+    public function valoresParametrosValidaciones($id_vehiculo, $fecha_inicio, $fecha_fin, $id_usuario, $id = null){
+        return $this->validaciones($id_vehiculo, $fecha_inicio, $fecha_fin, $id_usuario, $id, true);
+    }
 
 
     //NO PUEDEN APARECER LOS VEHICULOS INTERNOS
@@ -92,12 +102,19 @@ class ReservasExternasService extends BaseReservasServices implements ReservaSer
             ->whereNotIn('vehiculos.id_dependencia_duena', $ids)
             ->get();
 
-        $usuarios = $base['queryUsuarios']->get();
+        $usuarios = $base['queryUsuarios']
+            ->get()
+            ->map(function ($usuario) {
+            $usuario->carnet_vencido = 
+                !$usuario->carnet || $usuario->carnet->fecha_vencimiento->isPast();
+            return $usuario;
+        })->sortBy('carnet_vencido');
 
         return [
             'vehiculos' => $vehiculos,
             'usuarios'  => $usuarios,
             'formAction' => route('reservas.externas.crear'),
+            'ubicacion' => 'externa',
             'reserva'   => null,
         ];
     }

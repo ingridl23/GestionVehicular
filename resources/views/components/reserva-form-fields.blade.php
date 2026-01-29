@@ -1,9 +1,9 @@
 <div>
  @props([
   'reserva' => null,
-  'vehiculos' => null,
-  'usuarios' => null,
-  'ubicacion',
+  'vehiculos',
+  'usuarios',
+  'ubicacion' => null,
 ])
 
 <div class="space-y-12">
@@ -81,15 +81,20 @@
                                             focus:ring-2 focus:ring-indigo-500 sm:text-sm *:bg-white dark:*:bg-gray-800">
                                             <option value="" @selected(old('id_vehiculo', $reserva?->id_vehiculo) === null)>Seleccionar</option>
                                             @foreach ($vehiculos as $vehiculo)
-                                                @if($vehiculo->estado_vehiculo->estado == 'DISPONIBLE')
-                                                    <option value="{{ $vehiculo->id }}" @selected(old('id_vehiculo', $reserva?->id_vehiculo) == $vehiculo->id)>
-                                                        {{ $vehiculo->dominio }} {{ $vehiculo->marca }}
-                                                        {{ $vehiculo->modelo }} {{ $vehiculo->anio }} (Pertenece: {{$vehiculo->nombre}})
-                                                    </option>
-                                                @else
+                                                @if($vehiculo->estado_vehiculo->estado != 'DISPONIBLE')
                                                     <option value="" disabled class="text-gray-400">
                                                         {{ $vehiculo->dominio }} {{ $vehiculo->marca }}
                                                         {{ $vehiculo->modelo }} {{ $vehiculo->anio }} (Pertenece: {{$vehiculo->nombre}} - {{$vehiculo->estado_vehiculo->estado}})
+                                                    </option> 
+                                                @elseif($ubicacion && $ubicacion == 'externa' && $vehiculo->habilitado_prestamo == false)
+                                                    <option value="" disabled class="text-gray-400">
+                                                        {{ $vehiculo->dominio }} {{ $vehiculo->marca }}
+                                                        {{ $vehiculo->modelo }} {{ $vehiculo->anio }} (Pertenece: {{$vehiculo->nombre}} - El vehículo no se encuentra habilitado para préstamo)
+                                                    </option>
+                                                @else 
+                                                    <option value="{{ $vehiculo->id }}" @selected(old('id_vehiculo', $reserva?->id_vehiculo) == $vehiculo->id)>
+                                                        {{ $vehiculo->dominio }} {{ $vehiculo->marca }}
+                                                        {{ $vehiculo->modelo }} {{ $vehiculo->anio }} (Pertenece: {{$vehiculo->nombre}})
                                                     </option>
                                                 @endif
                                             @endforeach

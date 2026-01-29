@@ -10,7 +10,7 @@
                         @method('PATCH')
                         @csrf
 
-                        <x-reserva-form-fields :reserva="$reserva" :vehiculos="$vehiculos" :usuarios="$usuarios" />
+                        <x-reserva-form-fields :reserva="$reserva" :vehiculos="$vehiculos" :usuarios="$usuarios" :ubicacion="$ubicacion" />
 
                         <div class="mt-6 flex items-center justify-end gap-x-6">
                             <button type="button" class="text-sm font-semibold text-gray-700 dark:text-white">

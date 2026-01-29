@@ -85,43 +85,22 @@ abstract class BaseReservasServices implements ReservaServiceInterface{
         $reserva->update(['id_estado_reserva' => $estado_cancelado]);
     }
 
-    
-    //Se valida que el vehiculo se encuentre disponible en ese rango de fechas
-    //Se valida que el usuario este disponible en ese rango de fechas 
+
     public function crearReserva($request){
         $fecha_inicio = Carbon::createFromFormat('Y-m-d\TH:i', $request->input('fecha_inicio'));
         $fecha_fin = Carbon::createFromFormat('Y-m-d\TH:i', $request->input('fecha_fin'));
         $id_vehiculo = $request->id_vehiculo;
         $id_usuario = $request->id_usuario;
-        
-        $vehiculoOcupado = Reserva::where('id_vehiculo', $id_vehiculo)
-            ->where(function ($q) use ($fecha_inicio, $fecha_fin) {
-                $q->where('fecha_inicio_reserva', '<', $fecha_fin)
-                ->where('fecha_fin_reserva', '>', $fecha_inicio);
-            })->exists();
 
-        if ($vehiculoOcupado) {
-            return ["vehiculo" , true];
-        }
-
-        $usuarioOcupado = Reserva::where('id_usuario', $id_usuario)
-            ->where(function ($q) use ($fecha_inicio, $fecha_fin) {
-                $q->where('fecha_inicio_reserva', '<', $fecha_fin)
-                ->where('fecha_fin_reserva', '>', $fecha_inicio);
-            })->exists();
-
-        if ($usuarioOcupado) {
-            return ["usuario", true];
+       $validaciones = $this->valoresParametrosValidaciones($id_vehiculo, $fecha_inicio, $fecha_fin, $id_usuario, null);
+        if($validaciones != null){
+            return $validaciones;
         }
 
         $id_dependencia_duena = Vehiculo::where('id', $id_vehiculo)->value('id_dependencia_duena');
         $id_dependencia_solicitante = User::where('id', $this->user()->dependencia->id)->value('id');
         $id_estado_reserva = $this->obtenerEstadoReserva();
         
-
-        // solicitantes -> dejar seleccionar al usuario o poner el que le pertenece al usuario? 
-        //Capaz mejor opcion la segunda
-        //Crear reserva
         Reserva::create([
             'fecha_reserva'        => now(),
             'fecha_inicio_reserva' => $fecha_inicio,
@@ -134,5 +113,109 @@ abstract class BaseReservasServices implements ReservaServiceInterface{
         ]);
     }
 
+    public function editarReserva($request, $id){
+        $fecha_inicio = Carbon::createFromFormat('Y-m-d\TH:i', $request->input('fecha_inicio'));
+        $fecha_fin = Carbon::createFromFormat('Y-m-d\TH:i', $request->input('fecha_fin'));
+        $id_vehiculo = $request->id_vehiculo;
+        $id_usuario = $request->id_usuario;
+        $reserva = Reserva::findOrFail($id);
+
+
+        $validaciones = $this->valoresParametrosValidaciones($id_vehiculo, $fecha_inicio, $fecha_fin, $id_usuario, $id);
+
+        if($validaciones != null){
+            return $validaciones;
+        }
+
+        $id_dependencia_duena = Vehiculo::where('id', $id_vehiculo)->value('id_dependencia_duena');
+        $id_dependencia_solicitante = User::where('id', $this->user()->dependencia->id)->value('id');
+        $id_estado_reserva = $this->obtenerEstadoReserva();
+        
+
+        //editar reserva
+        $reserva->update([
+            'fecha_inicio_reserva' => $fecha_inicio,
+            'fecha_fin_reserva'    => $fecha_fin,
+            'id_vehiculo'          => $id_vehiculo,
+            'id_estado_reserva'    => $id_estado_reserva,
+            'id_usuario'           => $id_usuario,
+            'id_dependencia_duena' => $id_dependencia_duena,
+            'id_dependencia_solicitante' => $id_dependencia_solicitante,
+        ]);
+    }
+
+    //Se valida que el vehiculo se encuentre disponible en ese rango de fechas
+    //Se valida que el usuario este disponible en ese rango de fechas 
+    // El vehiculo debe tener estado disponible
+    // En caso de ser prestamo, el vehiculo debe estar habilitado para prestarse
+    // El usuario debe tener carnet vigente
+    public function validaciones($id_vehiculo, $fecha_inicio, $fecha_fin, $id_usuario, $id = null, $esPrestamo = false) {
+    // ===============================
+    // VEHÍCULO OCUPADO
+    // ===============================
+    $vehiculoQuery = Reserva::where('id_vehiculo', $id_vehiculo)
+        ->where(function ($q) use ($fecha_inicio, $fecha_fin) {
+            $q->where('fecha_inicio_reserva', '<', $fecha_fin)
+              ->where('fecha_fin_reserva', '>', $fecha_inicio);
+        });
+
+    if ($id != null) {
+        $vehiculoQuery->where('id', '!=', $id);
+    }
+
+    if ($vehiculoQuery->exists()) {
+        return ['vehiculo', true];
+    }
+
+    // ===============================
+    // VEHÍCULO HABILITADO
+    // ===============================
+    $vehiculoQuery = Vehiculo::where('id', $id_vehiculo)
+        ->whereHas('estado_vehiculo', function ($q) {
+            $q->where('estado', 'DISPONIBLE');
+        });
+
+    // ===============================
+    // VEHÍCULO HABILITADO PARA PRESTAMO
+    // ===============================
+    if ($esPrestamo) {
+        $vehiculoQuery->where('habilitado_prestamo', true);
+    }
+
+    if (!$vehiculoQuery->exists()) {
+        return ['vehiculo_no_habilitado', true];
+    }
+
+    // ===============================
+    // USUARIO OCUPADO
+    // ===============================
+    $usuarioQuery = Reserva::where('id_usuario', $id_usuario)
+        ->where(function ($q) use ($fecha_inicio, $fecha_fin) {
+            $q->where('fecha_inicio_reserva', '<', $fecha_fin)
+              ->where('fecha_fin_reserva', '>', $fecha_inicio);
+        });
+
+    if ($id) {
+        $usuarioQuery->where('id', '!=', $id);
+    }
+
+    if ($usuarioQuery->exists()) {
+        return ['usuario', true];
+    }
+
+    // ===============================
+    // USUARIO HABILITADO
+    // ===============================
+    if (!Carnet::carnetVigente($id_usuario)) {
+        return ['usuario_no_habilitado', true];
+    }
+
+    return null;
+    }
+
+
     abstract public function obtenerEstadoReserva();
+    protected function valoresParametrosValidaciones($id_vehiculo,$fecha_inicio,$fecha_fin,$id_usuario,$id = null) {
+        return $this->validaciones($id_vehiculo,$fecha_inicio,$fecha_fin,$id_usuario,$id,false);
+    }
 }
