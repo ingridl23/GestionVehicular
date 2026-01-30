@@ -1,9 +1,9 @@
-<div>
-     @props([
-  'vehiculos_filtros',
-  'estados_filtros' ,
-  'ubicacion',
-])
+<div >
+    @props([
+        'vehiculos_filtros',
+        'estados_filtros' ,
+        'ubicacion',
+    ])
 
     <form action="/filtrar-reservas" data-busqueda="{{$ubicacion}}" method="get" id="formFiltrosReservas" class="mb-6 rounded-lg bg-white dark:bg-gray-800 shadow-md p-4">
 
@@ -76,7 +76,7 @@
             </select>
         </div>
 
-        <!-- Botón -->
+        <!-- Boton -->
         <div class="flex items-end">
             <button id="busquedaFiltrosReservas" type="submit"
                     class="w-full rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white

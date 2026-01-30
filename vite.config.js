@@ -10,6 +10,7 @@ export default defineConfig({
                 'resources/js/filtros/filtrosReservas.js',
                 'resources/css/filtrosReservas.css',
                 'resources/js/reservas/cancelarReserva.js',
+                'resources/js/reservas/EditarReserva.js',
             ],
             refresh: true,
         }),

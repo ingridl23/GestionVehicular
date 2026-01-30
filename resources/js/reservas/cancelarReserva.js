@@ -1,17 +1,23 @@
 document.addEventListener("DOMContentLoaded", ()=>{
-    let botonesCancelar = document.querySelectorAll(".botonCancelar");
-    console.log(botonesCancelar);
-    botonesCancelar.forEach(boton => {
-        boton.addEventListener("click", ()=>{
-            eliminarReserva(boton);
+
+    let reservaIdActiva = null;
+
+        document.addEventListener('click', e => {
+            const btn = e.target.closest('.btn-cancelar');
+            if (!btn) return;
+
+            reservaIdActiva = btn.dataset.id;
+            
         });
 
-    });
+        document.querySelector('.botonCancelar').addEventListener('click', () => {
+            cancelarReserva(reservaIdActiva);
+        });
+
     
 
-    async function eliminarReserva(boton){
-        let id = boton.dataset.id;
-        console.log(id);
+    async function cancelarReserva(id){
+
         try {
             const res = await fetch(`/cancelar-reserva/${id}`, {
                 method: "PATCH",
