@@ -12,6 +12,9 @@ Route::middleware(['auth', 'role:Administrador General'])
     ->name('admin.')
     ->group(function () {
 
+    Route::get('/dashboard', [UserController::class, 'adminDashboard'])
+        ->name('admin.dashboard');
+
         Route::resource('/usuarios', UserController::class)->middleware('permission:ver_todos_usuarios');
 
         Route::resource('/vehiculos', VehiculoController::class)->only(['store','update','destroy']);
