@@ -51,7 +51,7 @@ class UserController extends Controller
     // $stats['licencias'] = Licencia::vencidas()->count()
         $alertas = Alerta::latest()->paginate(10);
         if ($user->hasRole('Operativo')) {
-            return redirect()->route('operativo.dashboard');
+            return redirect()->route('operativo.dashboard2');
         }
 
         if ($user->hasRole('Administrador General')) {

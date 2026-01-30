@@ -102,17 +102,7 @@ Route::get('/vehiculos', [VehiculoController::class, 'sectionVehiculo'])
 });
 
 
-Route::middleware(['auth', 'role:Operativo'])
-    ->prefix('operativo')
-    ->name('operativo.')
-    ->group(function () {
 
-        Route::get('/dashboard',[UserController::class, 'dashboard2'])
-        ->name('dashboard');
-
-
-
-});
 
 
 

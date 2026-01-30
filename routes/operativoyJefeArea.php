@@ -4,11 +4,7 @@ use App\Http\Controllers\ReservaController;
 use App\Http\Controllers\VehiculoController;
 use App\Http\Controllers\UserController;
 
-
-
-
-
- Route::middleware(['auth', 'role:Operativo|Jefe de Area'])
+ Route::middleware(['auth', 'role:Operativo'])
     ->prefix('operativo')
     ->name('operativo.')
     ->group(function () {
@@ -44,4 +40,12 @@ use App\Http\Controllers\UserController;
             ->middleware('permission:ver_operativo_reservas');
 
 
+
+        Route::get('/dashboard',[UserController::class, 'dashboard2'])
+        ->name('dashboard2');
+
+
+
 });
+
+

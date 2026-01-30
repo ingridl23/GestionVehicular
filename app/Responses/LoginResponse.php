@@ -21,7 +21,7 @@ public function toResponse($request)
     $user = auth()->user();
 
     if ($user->hasRole('Administrador General')) {
-        return redirect()->route('admin.dashboard');
+        return redirect()->route('dashboard');
     }
 
     if ($user->hasRole('Operativo')) {
