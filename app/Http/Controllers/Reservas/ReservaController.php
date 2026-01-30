@@ -28,22 +28,6 @@ class ReservaController extends BaseReservaController{
     }
 
 
-    //'solicitar_reserva_interna',
-    public function mostrarFormulario(){ 
-        $this->authorize('create', Reserva::class);
-        return view('ui.reservas.formularios.crear', $this->service->datosParaFormCrear());
-    }
-
-    
-    //'actualizar_reserva_interna'
-    public function mostrarFormularioUpdate($id){ 
-        $reserva = Reserva::findOrFail($id);
-        $this->authorize('actualizar', $reserva);
-        return view('ui.reservas.formularios.editar', $this->service->datosParaFormEditar($id));
-       
-    }
-
-
     public function filtrarReservasInternas(FiltroReservasRequest $request){
         $rol = $this->service->rol();
         $id_dependencia = $this->service->user()->dependencia->id;

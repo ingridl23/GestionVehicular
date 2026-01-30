@@ -17,7 +17,6 @@ document.addEventListener("DOMContentLoaded", ()=>{
     
 
     async function cancelarReserva(id){
-
         try {
             const res = await fetch(`/cancelar-reserva/${id}`, {
                 method: "PATCH",
@@ -42,5 +41,15 @@ document.addEventListener("DOMContentLoaded", ()=>{
             console.error(err);
         }
     }
+
+    
+    let enlaces = document.querySelectorAll(".btn-editar");
+    enlaces.forEach(a => {
+        const id = a.dataset.id;
+        const url = window.RESERVAS_CONFIG.routes.editar.replace(':id', id);
+        a.href = url;
+        console.log(url);
+    });
+
 
 })

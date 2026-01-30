@@ -2,12 +2,11 @@
 
 @push('scripts')
     <script type="module" src="{{ Vite::asset('resources/js/filtros/filtrosReservas.js') }}"></script>
-    <script type="module" src="{{ Vite::asset('resources/js/reservas/cancelarReserva.js') }}"></script>
-    <script type="module" src="{{ Vite::asset('resources/js/reservas/EditarReserva.js') }}"></script>
+    <script type="module" src="{{ Vite::asset('resources/js/reservas/accionesReserva.js') }}"></script>
 @endpush
 
 @php
-  $configAgregar = $ubicacion === 'interna'
+  $configAgregar = $ubicacion == 'interna'
     ? [
         'can'   => 'solicitar_reserva_interna',
         'route' => route('reservas.form.agregar'),
@@ -19,7 +18,7 @@
         'text'  => 'Agregar préstamo',
       ];
 
-  $configEditar = $ubicacion === 'interna'
+  $configEditar = $ubicacion == 'interna'
     ? [
         'can'   => 'actualizar_reserva_interna',
         'route' => route('reservas.form.editar', ':id'),
@@ -29,6 +28,7 @@
         'route' => route('prestamo.form.editar', ':id'),
       ];
 @endphp
+
 
 @section('content')
 <section class="bg-gray-100 dark:bg-gray-900 py-10 lg:py-[0px]">
@@ -116,7 +116,7 @@ window.RESERVAS_CONFIG = {
     },
     routes: {
         ver: "{{ route('reservas.reserva', ':id') }}",
-        editar: "{{ route('reservas.form.editar', ':id') }}",
+        editar: "{{ $configEditar['route'] }}",
         cancelar: "{{ route('reservas.cancelar', ':id') }}",
     }
 };

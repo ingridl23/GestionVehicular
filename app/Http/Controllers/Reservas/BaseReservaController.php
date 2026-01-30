@@ -17,10 +17,10 @@ abstract class BaseReservaController extends Controller{
         $this->service = $service;
     }
 
-    // permiso = ver_reservas_internas
+    // permiso = ver_reservas_internas || ver_reservas_prestamos
     public function verReserva($id){
+        $this->authorize('vistaIndividual', Reserva::findOrFail($id));
         $reserva = $this->service->verReserva($id, Auth::user());
-        $this->authorize('vistaIndividual', $reserva['reserva']);
         return view('ui.reservas.reserva', $reserva);
     }
 
@@ -35,8 +35,23 @@ abstract class BaseReservaController extends Controller{
         ]);
     }
 
-     // permiso = filtrar_reservas_internas
-     // permiso = filtrar_prestamos
+    //permiso = 'solicitar_prestamo' || 'solicitar_reserva_interna'
+    public function mostrarFormulario(){ 
+        $this->authorize('create', Reserva::class);
+        return view('ui.reservas.formularios.crear', $this->service->datosParaFormCrear());
+    }
+
+
+    //permiso = 'actualizar_prestamo' || 'actualizar_reserva_interna'
+    public function mostrarFormularioUpdate($id){ 
+        $reserva = Reserva::findOrFail($id);
+        $this->authorize('actualizar', $reserva);
+        return view('ui.reservas.formularios.editar', $this->service->datosParaFormEditar($id));
+       
+    }
+
+
+     // permiso = filtrar_reservas_internas || filtrar_prestamos
     public function filtrarReservas($request, $query){
 
         /* ----------------------
@@ -63,7 +78,7 @@ abstract class BaseReservaController extends Controller{
         }
 
         /* ----------------------
-         FILTRO POR SI EL ESTADO DE LA RESERVA
+         FILTRO POR EL ESTADO DE LA RESERVA
         ---------------------- */
 
         if (!empty($request->filled('estado')) && $request->input('estado') != 'default') {
@@ -102,7 +117,7 @@ abstract class BaseReservaController extends Controller{
         }   
 
         /* ----------------------
-         ORDENAMIENTO SEGURO
+         ORDENAMIENTO
         ---------------------- */
 
         //Campo por el que se ordena
@@ -133,11 +148,10 @@ abstract class BaseReservaController extends Controller{
         return response()->json($reservas);
     }
 
-
+    //permiso = 'solicitar_reserva_interna' || 'solicitar_prestamo',
     public function crearReserva(ReservaFormRequest $request){
         $this->authorize('create', Reserva::class);
         $resultado = $this->service->crearReserva($request);
-
 
         if (!empty($resultado) && $resultado[1]) {
             
@@ -147,6 +161,7 @@ abstract class BaseReservaController extends Controller{
         return $this->verReservas();
     }
 
+    //permiso = 'actualizar_reserva_interna' || 'actualizar_prestamo',
     public function editarReserva(ReservaFormRequest $request, $id){
         $reserva = Reserva::findOrFail($id);
         $this->authorize('actualizar', $reserva);

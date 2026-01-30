@@ -30,22 +30,6 @@ class PrestamoController extends BaseReservaController{
 
 
 
-    //'solicitar_prestamo',
-    public function mostrarFormulario(){ 
-        $this->authorize('create', Reserva::class);
-        return view('ui.reservas.formularios.crear', $this->service->datosParaFormCrear());
-    }
-
-
-
-    //'actualizar_prestamo'
-    public function mostrarFormularioUpdate($id){ 
-        $reserva = Reserva::findOrFail($id);
-        $this->authorize('actualizar', $reserva);
-        return view('ui.reservas.formularios.editar', $this->service->datosParaFormEditar($id));
-       
-    }
-
 
     public function filtrarReservasExternas(FiltroReservasRequest $request){
         $rol = $this->service->rol();

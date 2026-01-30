@@ -2,41 +2,20 @@
 
 namespace App\Services\Reservas;
 
-use App\Contracts\ReservaServiceInterface;
 use App\Models\Dependencia;
 use App\Models\EstadosReserva;
 use App\Models\Reserva;
 use App\Models\Vehiculo;
 
 
-use function Symfony\Component\Clock\now;
+class ReservasInternasService extends BaseReservasServices{
 
-class ReservasInternasService extends BaseReservasServices implements ReservaServiceInterface{
-
-    // El Administrador General puede ver todas las reservas independientemente de a que independencia pertenezca
-    // El Administrador de Dependencia y Jefe de Oficina solo pueden ver las reservas que pertenecen a la Dependencia
-        // El administrador de Dependencia y Jefe de Oficina puede ver las reservaqs que involucran a sus dependencias hijas
-    // El Conductor visualiza las reservas donde esta involucrado (id_usuario)
 
     public function verReservas(){
         $rol = $this->rol();
         $id_dependencia = $this->user()->dependencia->id;
-        $query = Reserva::with('estado_reserva', 'vehiculo', 'usuario', 'dependencia_solicitante')
-         ->orderByRaw("
-            CASE (
-            SELECT estado
-            FROM estados_reservas
-            WHERE estados_reservas.id = reservas.id_estado_reserva
-        )
-                WHEN 'APROBADA' THEN 1
-                WHEN 'PENDIENTE'  THEN 2
-                WHEN 'EN CURSO' THEN 3
-                WHEN 'FINALIZADA' THEN 4
-                WHEN 'CANCELADA' THEN 5
-                WHEN 'RECHAZADA' THEN 6
-                ELSE 99
-            END
-        ")->orderBy('fecha_inicio_reserva');
+
+       $query = $this->obtenerDatosVerReservas();
 
 
         if($rol == 'Dueño Dependencia' || $rol == 'Jefe de Area'){
@@ -54,13 +33,32 @@ class ReservasInternasService extends BaseReservasServices implements ReservaSer
         return $reservas;
     }
 
-    public function datosParaFormCrear(){
+
+    /**
+     * Obtiene los datos necesarios para los formularios de alta y edición de reservas internas.
+     *
+     * Este método centraliza la lógica común del formulario y:
+     * - Obtiene la dependencia del usuario logueado junto con todas sus dependencias hijas de forma recursiva (sus id's).
+     * - Recupera las consultas base de vehículos y usuarios.
+     * - Filtra los vehículos permitiendo unicamente aquellos que pertenecen
+     *    a dependencias propias (evita que en el flujo de reservas internas se genere un prestamo).
+     * - Obtiene los usuarios y marca aquellos que tienen el carnet vencido para facilitar su visualización y validación en el formulario.
+     *
+     * Este método es reutilizado por los distintos flujos (crear / editar),
+     * evitando duplicación de consultas y reglas de negocio.
+     *
+     * @return array{
+     *     vehiculos: \Illuminate\Support\Collection,
+     *     usuarios: \Illuminate\Support\Collection
+     * }
+     */
+    private function datosForm(){
         $id_dependencia = $this->user()->dependencia->id;
         $dependencia = Dependencia::with('hijosRecursivos')->find($id_dependencia);
 
         $ids = $this->obtenerDependenciasIds($dependencia);
 
-        $base = $this->obtenerDatosBase($ids);
+        $base = $this->obtenerDatosBase();
 
         $vehiculos = $base['queryVehiculos']
             ->whereIn('vehiculos.id_dependencia_duena', $ids)
@@ -74,15 +72,68 @@ class ReservasInternasService extends BaseReservasServices implements ReservaSer
                 !$usuario->carnet || $usuario->carnet->fecha_vencimiento->isPast();
             return $usuario;
         })->sortBy('carnet_vencido');
+        return compact('vehiculos', 'usuarios');
+    }
+
+
+    /**
+     * Obtiene los datos necesarios para mostrar el formulario de crear de una reserva interna.
+     *
+     * Este método:
+     * - Delegar en datosForm() la obtención de los vehículos y usuarios disponibles.
+     * - Prepara la información base necesaria para renderizar el formulario,
+     *   incluyendo la reserva, la acción del formulario y la ubicación del flujo.
+     *
+     * La lógica de consultas, filtros y ordenamiento de vehículos y usuarios
+     * se centraliza en el método datosForm() para evitar duplicación de código
+     * entre los distintos flujos (alta / edición).
+     *
+     * @param int $id ID de la reserva a editar
+     * @return array
+     */
+    public function datosParaFormCrear(){
+        $datos = $this->datosForm();
 
         return [
-            'vehiculos' => $vehiculos,
-            'usuarios'  => $usuarios,
+            'vehiculos' => $datos['vehiculos'],
+            'usuarios'  => $datos['usuarios'],
             'formAction' => route('reservas.internas.crear'),
             'reserva'   => null,
             'ubicacion'   => null,
         ];
     }
+
+    /**
+     * Obtiene los datos necesarios para mostrar el formulario de edición de una reserva interna.
+     *
+     * Este método:
+     * - Recupera la reserva que se va a editar.
+     * - Delegar en datosForm() la obtención de los vehículos y usuarios disponibles.
+     * - Prepara la información base necesaria para renderizar el formulario,
+     *   incluyendo la reserva, la acción del formulario y la ubicación del flujo.
+     *
+     * La lógica de consultas, filtros y ordenamiento de vehículos y usuarios
+     * se centraliza en el método datosForm() para evitar duplicación de código
+     * entre los distintos flujos (alta / edición).
+     *
+     * @param int $id ID de la reserva a editar
+     * @return array
+     */
+    public function datosParaFormEditar($id){
+        $reserva = Reserva::findOrFail($id);
+        $datos = $this->datosForm();
+
+
+        return [
+            'vehiculos' => $datos['vehiculos'],
+            'usuarios'  => $datos['usuarios'],
+            'reserva'   => $reserva,
+            'formAction' => route('reservas.internas.editar', $id),
+            'ubicacion'   => null,
+        ];
+    }
+
+
 
     public function obtenerEstadoReserva(){
         $id_estado_reserva = EstadosReserva::where("estado", "APROBADA")->value('id');
@@ -95,40 +146,24 @@ class ReservasInternasService extends BaseReservasServices implements ReservaSer
         return $resultado;
     }
 
-    public function datosParaFormEditar($id){
-        $dependencia = Dependencia::with('hijosRecursivos')
-            ->findOrFail($this->user()->dependencia->id);
-        $reserva = Reserva::findOrFail($id);
-        $ids = $this->obtenerDependenciasIds($dependencia);
-
-        $base = $this->obtenerDatosBase($ids);
-
-        $vehiculos = $base['queryVehiculos']
-            ->whereIn('vehiculos.id_dependencia_duena', $ids)
-            ->get();
-
-        $usuarios = $base['queryUsuarios']
-            ->whereIn('users.id_dependencia', $ids)
-            ->get()
-            ->map(function ($usuario) {
-            $usuario->carnet_vencido = 
-                !$usuario->carnet || $usuario->carnet->fecha_vencimiento->isPast();
-            return $usuario;
-        })->sortBy('carnet_vencido');
-
-        return [
-            'vehiculos' => $vehiculos,
-            'usuarios'  => $usuarios,
-            'reserva'   => $reserva,
-            'formAction' => route('reservas.internas.editar', $id),
-            'ubicacion'   => null,
-        ];
-        //return compact('vehiculos', 'usuarios', 'reserva');
-    }
+    
 
 
-    //Datos que se muestran en los inputs de los filtros (los vehiculos que son usados por las dependencias que se muestran y
-    // el estado de las reservas)
+    /**
+     * Obtiene los datos necesarios para armar los filtros de la vista de reservas internas.
+     *
+     * Este método:
+     * - Determina qué vehículos deben mostrarse en el filtro según las reservas visibles para el usuario logueado (se determina por rol).
+     * - Aplica reglas de visibilidad basadas en el rol del usuario (Dueño de Dependencia, Jefe de Área, Operativo u otros).
+     * - Filtra los vehículos para que solo se incluyan aquellos que tengan al menos una reserva accesible para el usuario o la dependencia (depende del rol).
+     * - Carga únicamente los vehículos que cuentan con una reserva evitando la duplicacion de elementos, manteniendo consistencia entre el filtro y los datos cargados.
+     * - Devuelve también el listado de estados posibles de las reservas.
+     *
+     * El filtro es el mismo para todos los roles; lo que cambia es
+     * qué información se muestra según los permisos del usuario.
+     *
+     * @return array
+     */
     public function datosFiltros(){
         $rol = $this->rol();
         $id_dependencia = $this->user()->dependencia->id;
