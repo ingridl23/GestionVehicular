@@ -11,14 +11,16 @@ use Illuminate\Http\JsonResponse;
 use Exception;
 use App\Http\Controllers\UserController;
 use App\Policies\VehiculoPolicy;
-
+use Illuminate\Support\Facades\Log;
 class VehiculoController extends Controller
 {
 
 public function sectionVehiculo(){
     $dependencias =Dependencia::all();
+    $direcciones = Direcciones::all();
 //  ESTA LÍNEA para obtener los estados
     $estados = EstadosVehiculo::all();
+    $estadosNafta= EstadosNafta::all();
    $vehiculos = Vehiculo::with([
     'estadoVehiculo',
     'estadoNafta',
@@ -27,7 +29,7 @@ public function sectionVehiculo(){
 ])->get();
 
 
-    return View('components.vehiculos.vehiculos', compact('dependencias','vehiculos','estados') );
+    return View('components.vehiculos.vehiculos', compact('dependencias','vehiculos','estados','direcciones','estadosNafta') );
 }
     // CU 2 – Listado
 // En VehiculoController.php
@@ -61,7 +63,7 @@ $this->authorize('view', $vehiculo);
         'condiciones_prestamo' => $vehiculo->condiciones_prestamo,
         'VTV' => $vehiculo->VTV,
 
-        // 🔥 relaciones listas para JS
+        // relaciones listas para JS
         'estado_vehiculo' => [
             'id' => $vehiculo->estadoVehiculo->id ?? null,
             'estado' => $vehiculo->estadoVehiculo->estado ?? null,
@@ -95,57 +97,145 @@ public function detalle(Vehiculo $vehiculo)
 }
 
 
+
+
     // CU 5 – Crear
     public function store(Request $request, VehiculoService $service): JsonResponse
     {
-         $this->authorize('create', Vehiculo::class);
-        $data = $request->validate([
-            'dominio' => 'required|string|unique:vehiculo,dominio',
-            'marca' => 'required|string',
-            'modelo' => 'required|string',
-            'anio' => 'required|integer',
-            'id_dependencia_duena' => 'required|exists:dependencias,id',
-            'id_direccion_actual' => 'required|exists:direcciones,id',
-            'id_estado_nafta' => 'required|exists:estados_nafta,id',
-            'id_estado_vehiculo' => 'required|exists:estados_vehiculo,id',
-            'kilometros' => 'required|integer|min:0',
-            'VTV' => 'required|date',
-        ]);
+        try {
+            $this->authorize('create', Vehiculo::class);
 
+            Log::info('Creando nuevo vehículo', [
+                'datos_recibidos' => $request->all()
+            ]);
 
-        $vehiculo = $service->crear($data);
+            $data = $request->validate([
+                'dominio' => 'required|string|unique:vehiculo,dominio',
+                'marca' => 'required|string',
+                'modelo' => 'required|string',
+                'anio' => 'required|integer',
+                'id_dependencia_duena' => 'required|exists:dependencias,id',
+                'id_direccion_actual' => 'required|exists:direcciones,id',
+                'id_estado_nafta' => 'required|exists:estados_naftas,id',
+                'id_estado_vehiculo' => 'required|exists:estados_vehiculos,id',
+                'kilometros' => 'required|integer|min:0',
+                'VTV' => 'required|date',
+               'habilitado_prestamo' => 'required|boolean',
+               'control_satelital' => 'required|boolean',
 
-        return response()->json([
-            'message' => 'Vehículo agregado correctamente',
-            'vehiculo' => $vehiculo
-        ], 201);
+                'condiciones_prestamo' => 'nullable|string',
+            ]);
+
+            $vehiculo = $service->crear($data);
+
+            // Recargar relaciones
+            $vehiculo->load([
+                'estadoVehiculo',
+                'estadoNafta',
+                'dependenciaDuena',
+                'direccionActual'
+            ]);
+
+            Log::info('Vehículo creado exitosamente', [
+                'vehiculo_id' => $vehiculo->id
+            ]);
+
+            return response()->json([
+                'message' => 'Vehículo agregado correctamente',
+                'vehiculo' => $vehiculo
+            ], 201);
+
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            Log::error('Error de validación al crear vehículo', [
+                'errors' => $e->errors()
+            ]);
+
+            return response()->json([
+                'message' => 'Error de validación',
+                'errors' => $e->errors()
+            ], 422);
+
+        } catch (\Exception $e) {
+            Log::error('Error al crear vehículo', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+
+            return response()->json([
+                'message' => 'Error al crear el vehículo: ' . $e->getMessage()
+            ], 500);
+        }
     }
 
+
     // CU 4 – Modificar
-    public function update(Request $request, Vehiculo $vehiculo, VehiculoService $service): JsonResponse
+       public function update(Request $request, Vehiculo $vehiculo, VehiculoService $service): JsonResponse
     {
-        $this->authorize('update', $vehiculo);
-        $data = $request->validate([
-            'marca' => 'sometimes|string',
-            'modelo' => 'sometimes|string',
-            'anio' => 'sometimes|integer',
-            'id_estado_vehiculo' => 'sometimes|exists:estados_vehiculo,id',
-            'id_direccion_actual' => 'sometimes|exists:direcciones,id',
-            'id_estado_nafta' => 'sometimes|exists:estados_nafta,id',
-            'kilometros' => 'sometimes|integer|min:0',
-            'VTV' => 'sometimes|date',
-            'habilitado_prestamo' => 'sometimes|boolean',
-            'condiciones_prestamo' => 'nullable|string',
-            'control_satelital' => 'sometimes|boolean',
-        ]);
+        try {
+            $this->authorize('update', $vehiculo);
 
+            // Log para debugging
+            Log::info('Actualizando vehículo', [
+                'vehiculo_id' => $vehiculo->id,
+                'datos_recibidos' => $request->all()
+            ]);
 
-        $vehiculo = $service->actualizar($vehiculo, $data);
+            $data = $request->validate([
+                'dominio' => 'sometimes|string',
+                'marca' => 'sometimes|string',
+                'modelo' => 'sometimes|string',
+                'anio' => 'sometimes|integer',
+                'id_estado_vehiculo' => 'sometimes|exists:estados_vehiculos,id',
+                'id_direccion_actual' => 'sometimes|exists:direcciones,id',
+                'id_dependencia_duena' => 'sometimes|exists:dependencias,id',
+                'id_estado_nafta' => 'sometimes|exists:estados_naftas,id',
+                'kilometros' => 'sometimes|integer|min:0',
+                'VTV' => 'sometimes|date',
+                'habilitado_prestamo' => 'sometimes|boolean',
+                'condiciones_prestamo' => 'nullable|string',
+                'control_satelital' => 'sometimes|boolean',
+            ]);
 
-        return response()->json([
-            'message' => 'Vehículo actualizado',
-            'vehiculo' => $vehiculo
-        ]);
+            $vehiculoActualizado = $service->actualizar($vehiculo, $data);
+
+            // Recargar relaciones
+            $vehiculoActualizado->load([
+                'estadoVehiculo',
+                'estadoNafta',
+                'dependenciaDuena',
+                'direccionActual'
+            ]);
+
+            Log::info('Vehículo actualizado exitosamente', [
+                'vehiculo_id' => $vehiculoActualizado->id
+            ]);
+
+            return response()->json([
+                'message' => 'Vehículo actualizado correctamente',
+                'vehiculo' => $vehiculoActualizado
+            ], 200);
+
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            Log::error('Error de validación', [
+                'errors' => $e->errors()
+            ]);
+
+            return response()->json([
+                'message' => 'Error de validación',
+                'errors' => $e->errors()
+            ], 422);
+
+        } catch (\Exception $e) {
+            Log::error('Error al actualizar vehículo', [
+                'vehiculo_id' => $vehiculo->id,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+
+            return response()->json([
+                'message' => 'Error al actualizar el vehículo: ' . $e->getMessage()
+            ], 500);
+        }
     }
 
     // CU 17 – Reasignar

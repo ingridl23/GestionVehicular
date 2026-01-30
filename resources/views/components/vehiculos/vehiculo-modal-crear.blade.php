@@ -5,7 +5,7 @@
         <!-- Header -->
         <div class="flex justify-between items-center pb-3 border-b dark:border-gray-700">
             <h3 class="text-xl font-semibold text-gray-900 dark:text-white" id="modal-title">
-                Modificar Vehículo
+                Alta De Vehículo
             </h3>
             <button onclick="closeModal()" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -218,7 +218,7 @@
                 </button>
                 <button
                     type="button"
-                    id="btnGuardarCambios"
+                    id="btn-Alta"
                     class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors">
                     Guardar
                 </button>
@@ -229,6 +229,6 @@
 
 
     @push('scripts')
-        @vite(['resources/js/vehiculo-detalle.js'])
+        @vite(['resources/js/vehiculo.js'])
     @endpush
 

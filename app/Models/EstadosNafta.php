@@ -10,8 +10,9 @@ class EstadosNafta extends Model
 {
     use HasFactory, Notifiable;
 
+    protected $table = 'estados_naftas';
     protected $fillable = [
-        'estados_nafta',
+        'estado',
     ];
 
     public function vehiculos() {

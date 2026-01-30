@@ -33,6 +33,9 @@
             <button id="btn-filtrar" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition shadow-sm">
                 <i class="fa-solid fa-filter mr-2"></i>Filtrar
             </button>
+              <button id="btn-abrir" class="bg-green-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition shadow-sm">
+                <i class="fa-solid fa-car mr-2"></i>+
+            </button>
         </div>
 
         <div id="vehiculos-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -87,5 +90,19 @@
     </div>
 </div>
 
+@include('components.vehiculos.vehiculo-modal-crear')
 
+@push('scripts')
+<script>
+    // Catálogos para el modal
+    window.CATALOGOS = {
+        dependencias: @json($dependencias),
+        direcciones: @json($direcciones),
+        estadosVehiculo: @json($estados),
+        estadosNafta: @json($estadosNafta),
+    };
+</script>
+
+@vite(['resources/js/vehiculo.js'])
+@endpush
 @endsection

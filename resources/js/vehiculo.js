@@ -1,6 +1,11 @@
 console.log('vehiculos.js cargado correctamente');
 
+
+
 document.addEventListener('DOMContentLoaded', function() {
+    // ===== CSRF =====
+    const csrfMeta = document.querySelector('meta[name="csrf-token"]');
+    const csrfToken = csrfMeta ? csrfMeta.getAttribute('content') : '';
     // Variables de estado
     var currentPage = 1;
     var totalPages = 1;
@@ -35,13 +40,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
         var url = '/buscar-vehiculos?' + params.toString();
 
-        var csrfToken = document.querySelector('meta[name="csrf-token"]');
+
         var headers = {
             'Accept': 'application/json',
             'X-Requested-With': 'XMLHttpRequest'
         };
         if (csrfToken) {
-            headers['X-CSRF-TOKEN'] = csrfToken.getAttribute('content');
+            headers['X-CSRF-TOKEN'] = csrfToken;
+
         }
 
         fetch(url, { headers: headers })
@@ -135,6 +141,171 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // ===== Evento Guardar Cambios =====
+    const btnAlta = document.getElementById('btn-Alta');
+
+    if (btnAlta) {
+        btnAlta.addEventListener('click', async(e) => {
+            e.preventDefault();
+            console.log('Click en agregar vehiculo');
+
+            // Validación básica
+            const form = document.getElementById('vehiculo-form');
+            if (!form.checkValidity()) {
+                alert('Por favor complete todos los campos obligatorios');
+                form.reportValidity();
+                return;
+            }
+
+            if (!confirm('¿Desea agregar este vehículo?')) return;
+
+            // Recopilar datos del formulario
+            const formData = {
+                id_direccion_actual: document.getElementById('id_direccion_actual').value,
+                id_dependencia_duena: document.getElementById('id_dependencia_duena').value,
+                habilitado_prestamo: document.getElementById('habilitado_prestamo').checked ? 1 : 0,
+                control_satelital: document.getElementById('control_satelital').checked ? 1 : 0,
+                condiciones_prestamo: document.getElementById('condiciones_prestamo').value,
+                dominio: document.getElementById('dominio').value,
+                marca: document.getElementById('marca').value,
+                modelo: document.getElementById('modelo').value,
+                anio: document.getElementById('anio').value,
+                kilometros: document.getElementById('kilometros').value,
+                VTV: document.getElementById('VTV').value,
+                id_estado_vehiculo: document.getElementById('id_estado_vehiculo').value,
+                id_estado_nafta: document.getElementById('id_estado_nafta').value,
+            };
+
+            console.log('Datos a enviar:', formData);
+
+            try {
+                const response = await fetch(`/vehiculos`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': csrfToken,
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                const data = await response.json();
+                console.log('Respuesta del servidor:', data);
+
+                if (!response.ok) {
+                    // Si hay errores de validación
+                    if (data.errors) {
+                        const errores = Object.values(data.errors).flat().join('\n');
+                        alert('Errores de validación:\n' + errores);
+                    } else {
+                        alert(data.message || 'Error al actualizar el vehículo');
+                    }
+                    return;
+                }
+                alert('Vehículo añadido con éxito');
+                // Cerrar modal
+                closeModal();
+
+                // Recargar la lista
+                loadVehiculos(currentPage);
+
+
+            } catch (error) {
+                console.error('Error en la petición:', error);
+                alert('Error al procesar la solicitud');
+            }
+        });
+    }
+
+
+
+    // ===== Modal Functions =====
+    // ===== ABRIR MODAL (Botón Verde +) =====
+    const btnAbrirModal = document.getElementById('btn-abrir');
+
+    if (btnAbrirModal) {
+        btnAbrirModal.addEventListener('click', function() {
+            console.log('Abriendo modal para crear vehículo');
+            openModalCrear();
+        });
+    }
+
+    function openModalCrear() {
+        const modal = document.getElementById('vehiculo-modal');
+        const form = document.getElementById('vehiculo-form');
+
+        if (!modal || !form) {
+            console.error('Modal o formulario no encontrado');
+            return;
+        }
+
+        // Verificar que window.CATALOGOS existe
+        if (!window.CATALOGOS) {
+            console.error('window.CATALOGOS no está definido');
+            alert('Error: No se pudieron cargar los catálogos');
+            return;
+        }
+
+        // Limpiar formulario
+        form.reset();
+
+        // Llenar selects
+        fillSelect('id_dependencia_duena', window.CATALOGOS.dependencias, 'id', 'nombre');
+        fillSelect('id_direccion_actual', window.CATALOGOS.direcciones, 'id', 'nombre');
+        fillSelect('id_estado_vehiculo', window.CATALOGOS.estadosVehiculo, 'id', 'estado');
+        fillSelect('id_estado_nafta', window.CATALOGOS.estadosNafta, 'id', 'estado');
+
+        modal.classList.remove('hidden');
+    }
+
+    function fillSelect(selectId, items, valueKey, textKey, selected = null) {
+        const select = document.getElementById(selectId);
+        if (!select) {
+            console.error('Select no encontrado:', selectId);
+            return;
+        }
+
+        select.innerHTML = '<option value="">Seleccione...</option>';
+
+        if (!items || !Array.isArray(items)) {
+            console.error('Items no es un array válido:', selectId, items);
+            return;
+        }
+
+        items.forEach(item => {
+            const option = document.createElement('option');
+            option.value = item[valueKey];
+
+            // Para direcciones, construir el texto completo
+            if (selectId === 'id_direccion_actual') {
+                let texto = item.calle || item.nombre || '';
+                if (item.altura && item.altura != 0) {
+                    texto += ' ' + item.altura;
+                }
+                if (item.ciudad) {
+                    texto += ' - ' + item.ciudad;
+                }
+                option.textContent = texto || item[textKey];
+            } else {
+                option.textContent = item[textKey];
+            }
+
+            if (selected && selected == item[valueKey]) {
+                option.selected = true;
+            }
+
+            select.appendChild(option);
+        });
+    }
+
     // Carga inicial
     loadVehiculos(1);
 });
+
+// Función global para cerrar modal
+window.closeModal = function() {
+    const modal = document.getElementById('vehiculo-modal');
+    if (modal) {
+        modal.classList.add('hidden');
+    }
+};
