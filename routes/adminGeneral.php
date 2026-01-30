@@ -5,30 +5,32 @@ use App\Http\Controllers\ReporteController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\DependenciaController;
 use App\Http\Controllers\HistorialController;
-use App\Http\Controllers\ReservaController;
 
 Route::middleware(['auth', 'role:Administrador General'])
-    //->prefix('admin')
-    //->name('admin.')
+    ->prefix('admin')
+    ->name('admin.')
     ->group(function () {
 
+    
         Route::resource('/usuarios', UserController::class)->middleware('permission:ver_todos_usuarios');
 
         Route::resource('/vehiculos', VehiculoController::class)->only(['store','update','destroy']);
 
-        Route::resource('/reservas', ReservaController::class)->middleware('permission:ver_reservas_internas')  ->names([
-        'index' => 'reservas.index',
-        'store' => 'reservas.store',
-        'show' => 'reservas.show',
-        'update' => 'reservas.update',
-        'destroy' => 'reservas.destroy',
-    ]);
+    //     Route::resource('/reservas', ReservaController::class)->middleware('permission:ver_reservas_internas')  ->names([
+    //     'index' => 'reservas.index',
+    //     'store' => 'reservas.store',
+    //     'show' => 'reservas.show',
+    //     'update' => 'reservas.update',
+    //     'destroy' => 'reservas.destroy',
+    // ]);
 
-        Route::post('/reservas/{id}/rechazar', [ReservaController::class, 'rechazar'])
-       ->middleware('permission:rechazar_reservas_global');
+    //     Route::post('/reservas/{id}/rechazar', [ReservaController::class, 'rechazar'])
+    //    ->middleware('permission:rechazar_reservas_global');
 
        Route::get('/auditoria', [HistorialController::class,'index'])
        ->middleware('permission:ver_auditoria')->name('auditoria.index');
+
+      
 
       Route::resource('reportes', ReporteController::class)
             ->only(['index', 'show', 'update'])
