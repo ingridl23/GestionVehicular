@@ -10,7 +10,8 @@ document.addEventListener("DOMContentLoaded", ()=>{
             
         });
 
-        document.querySelector('.botonCancelar').addEventListener('click', () => {
+        document.querySelector('.botonCancelar').addEventListener('click', (e) => {
+            e.preventDefault();
             cancelarReserva(reservaIdActiva);
         });
 

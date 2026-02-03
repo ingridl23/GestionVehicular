@@ -30,7 +30,7 @@ class ReservasExternasService extends BaseReservasServices{
             $query->soloExternas();
         }
 
-        $reservas = $query->paginate(10);
+        $reservas = $query->paginate(5);
         return $reservas;
     }
 
