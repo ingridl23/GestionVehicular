@@ -5,7 +5,7 @@
         @foreach ($reservas as $reserva)
             <li class="rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-100 dark:bg-gray-900 p-4">
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-gray-700 dark:text-gray-200">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-gray-700 dark:text-gray-400">
                     <div>
                         <span class="font-semibold">Inicio de uso:</span>
                         {{ $reserva->fecha_inicio_reserva->format('d/m/Y H:i') }}
@@ -17,22 +17,22 @@
                     </div>
                 </div>
 
-                <div class="mt-2 text-sm">
+                <div class="mt-2 text-sm dark:text-white">
                     <span class="font-semibold">Estado:</span>
                     {{ $reserva->estado_reserva->estado }}
                 </div>
 
-                <div class="mt-1 text-sm">
+                <div class="mt-1 text-sm dark:text-white">
                     <span class="font-semibold">Oficina solicitante:</span>
                     {{ $reserva->dependencia_solicitante->nombre }}
                 </div>
 
-                <div class="mt-1 text-sm">
+                <div class="mt-1 text-sm dark:text-white">
                     <span class="font-semibold">Conductor:</span>
                     {{ $reserva->usuario->name }} - {{ $reserva->usuario->lastname }}
                 </div>
 
-                <div class="mt-1 text-sm">
+                <div class="mt-1 text-sm dark:text-white">
                     <span class="font-semibold">Vehículo:</span>
                     {{ $reserva->vehiculo->dominio }} - {{ $reserva->vehiculo->marca }} - {{ $reserva->vehiculo->anio }}
                 </div>
@@ -64,7 +64,7 @@
                     @canany(['cancelar_reserva_interna', 'cancelar_prestamo'])
                       @if(!in_array($reserva->estado_reserva->estado, ['CANCELADA','RECHAZADA','FINALIZADA']))
                         <button command="show-modal" commandfor="dialog-cancelar" data-id="{{$reserva->id}}"
-                            class="btn-cancelar inline-flex items-center gap-1 rounded-md border border-red-600 px-3 py-2 text-red-600 hover:bg-red-600 hover:text-white dark:border-yellow-400 dark:text-yellow-400 dark:hover:bg-yellow-500"
+                            class="btn-cancelar inline-flex items-center gap-1 rounded-md border border-red-600 px-3 py-2 text-red-600 hover:bg-red-600 hover:text-white dark:border-red-400 dark:text-red-400 dark:hover:bg-red-500"
                                    title="Cancelar">
                             <i class="fa fa-times"></i>
                         </button>
