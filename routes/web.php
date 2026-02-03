@@ -35,18 +35,7 @@ Route::get('/reset', [HomeController::class, 'reset'])->name('auth.passwords.res
 
     Route::get('/auditoria', [HistorialController::class, 'index'])
         ->name('auditoria.index');
-   // Route::get('/vehiculos', [VehiculoController::class, 'sectionVehiculo'])->middleware('permission:ver_vehiculos');
-  /*  Route::get('/vehiculos', [VehiculoController::class, 'sectionVehiculo'])
-    ->middleware('permission:ver_vehiculos|ver_vehiculos_dentro_dependencia')->name('vehiculos.index');*/
 
-
-    // *** RUTAS DE VEHÍCULOS - VISTAS ***
-  // Listado (vista)
-/*
-Route::get('/vehiculos', [VehiculoController::class, 'sectionVehiculo'])
-    ->middleware('permission:ver_vehiculos|ver_vehiculos_dentro_dependencia')
-    ->name('vehiculos.index');
-*/
  Route::get('/vehiculos', [VehiculoController::class, 'sectionVehiculo'])
         ->name('vehiculos.index');
 
@@ -59,19 +48,19 @@ Route::get('/vehiculos', [VehiculoController::class, 'sectionVehiculo'])
     Route::get('/buscar-vehiculos', [VehiculoController::class, 'index'])->name('vehiculos.buscar');
 
 
-
-
-
-
-
-
-
         /************************************************************** */
     Route::get('/dependencias/personal', [UserController::class, 'usuariosPorDependencia'])->middleware('permission:ver_personal_dependencia')->name('personal.index');
 
     Route::get('/alertas', [AlertaController::class, 'index'])->name('alertas.index');
     Route::get('/alertas/{tipo}/{id}', [AlertaController::class, 'porEntidad'])->name('alertas.porEntidad');
 
+    /**************************para reportes ********************* */
+
+    // mensajes
+    Route::post('/reportes/{reporte}/comentarios', [ReporteController::class, 'agregarComentario']);
+
+    // cambiar estado (admin)
+    Route::patch('/admin/reportes/{reporte}/estado', [ReporteController::class, 'cambiarEstado']);
     Route::middleware(['auth'])
     ->prefix('dependencia')
     ->name('dependencia.')
@@ -81,16 +70,11 @@ Route::get('/vehiculos', [VehiculoController::class, 'sectionVehiculo'])
         Route::get('/prestamos', [ReservaController::class, 'prestamos'])
             ->name('prestamos.index')
             ->middleware('permission:ver_prestamos');
-    });
 
-
- Route::middleware(['auth'])
-    ->prefix('dependencia')
-    ->name('dependencia.')
-    ->group(function () {
-
+              Route::get('/reportes/{reporte}', [ReporteController::class, 'show'])
+        ->name('reportes.show');
         Route::resource('reportes', ReporteController::class)
-            ->only(['index', 'show'])
+            ->only(['index'])
           ->middleware('permission:ver_reportes_dependencia|ver_reportes_general|ver_reportes_operativos');
 
           Route::get('/reservas', [ReservaController::class, 'reservas'])

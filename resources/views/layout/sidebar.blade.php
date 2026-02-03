@@ -135,19 +135,34 @@
 @endcanany
 
  <!-- Reportes -->
-       @canany(['ver_reportes_general', 'ver_reportes_dependencia', 'ver_reportes_operativos'])
+    @canany(['ver_reportes_general', 'ver_reportes_dependencia', 'ver_reportes_operativos'])
+   @role('Admin')
     <x-nav-item
         icon="fa-chart-line"
         label="Reportes"
-        :route="
-            auth()->user()->can('ver_reportes_general')
-                ? 'admin.reportes.index'
-                : (auth()->user()->can('ver_reportes_dependencia')
-                    ? 'dependencia.reportes.index'
-                    : 'operativo.reportes.index')
-        "
-        :active="request()->routeIs('*.reportes.*')"
+        route="admin.reportes.index"
+        :active="request()->routeIs('admin.reportes.*')"
     />
+@endrole
+
+@role('Dependencia')
+    <x-nav-item
+        icon="fa-chart-line"
+        label="Reportes"
+        route="dependencia.reportes.index"
+        :active="request()->routeIs('dependencia.reportes.*')"
+    />
+@endrole
+
+@role('Operativo')
+    <x-nav-item
+        icon="fa-chart-line"
+        label="Mis reportes"
+        route="operativo.reportes.mis"
+        :active="request()->routeIs('operativo.reportes.*')"
+    />
+@endrole
+
 @endcanany
 
 

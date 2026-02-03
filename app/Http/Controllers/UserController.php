@@ -89,7 +89,7 @@ class UserController extends Controller
     // $stats['licencias'] = Licencia::vencidas()->count
         $user = Auth::user();
             $alertas = Alerta::latest()->paginate(10);
-        return view('ui.operadordashboard', compact('user','stats','alertas','disponibles','reservados'));
+        return view('layout.appOperativo', compact('user','stats','alertas','disponibles','reservados'));
     }
 
 

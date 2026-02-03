@@ -24,7 +24,7 @@
 
 
 
-    <!-- seccion donde se renderiza la alerta segun gravedad del usuario
+   {{-- seccion donde se renderiza la alerta segun gravedad del usuario --}}
     {{-- ALERTAS DEL USUARIO --}}
 @foreach ($alertas as $alerta)
     <x-alerta-card :alerta="$alerta" />
@@ -32,12 +32,16 @@
 
 
 
-
-
     <!-- BOTONES RÁPIDOS -->
     <section class="flex flex-col gap-10 mb-10">
         <button class="btn-rapido" href="#">Iniciar reserva</button>
-        <button class="btn-rapido">Comenzar reporte</button>
+      <button
+    class="btn-rapido"
+    onclick="window.location='{{ route('operativo.reportes.create') }}'"
+>
+    Comenzar reporte
+</button>
+
         <button class="btn-rapido">Asignar conductor</button>
     </section>
 
@@ -52,7 +56,7 @@
         </button>
     -->
 <button class="btn-finalizar flex-1"
-    @disabled(!auth()->user()->viajeActivo)>
+  :disabled="!auth()->user()->viajeActivo">
     Finalizar viaje
 </button>
 
@@ -62,6 +66,8 @@
 </body>
 
 @include('layout.footer')
+
+
 
 
 </html>

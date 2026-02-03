@@ -29,7 +29,7 @@
     </button>
 
     <!-- POPUP -->
- <div id="notifList" class="space-y-2">
+ <div id="notifPopup" class="space-y-2">
     @forelse($alertas as $alerta)
         <div class="flex items-start gap-2 text-xs">
             <i class="fas {{ $alerta->icono ?? 'fa-bell' }} text-{{ $alerta->color ?? 'blue' }}-500"></i>
@@ -98,3 +98,4 @@
     </a>
 
 </div>
+@vite(['resources/js/scriptsOperativo.js'])

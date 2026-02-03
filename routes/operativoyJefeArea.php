@@ -3,14 +3,12 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ReservaController;
 use App\Http\Controllers\VehiculoController;
 use App\Http\Controllers\UserController;
-
+use App\Http\Controllers\ReporteController;
  Route::middleware(['auth', 'role:Operativo'])
     ->prefix('operativo')
     ->name('operativo.')
     ->group(function () {
 
-        Route::get('/reservas', [ReservaController::class, 'index'])
-            ->middleware('permission:ver_reservas_internas');
 
         Route::post('/reservas/solicitar', [ReservaController::class, 'store'])
             ->middleware('permission:solicitar_reserva_interna');
@@ -43,6 +41,18 @@ use App\Http\Controllers\UserController;
 
         Route::get('/dashboard',[UserController::class, 'dashboard2'])
         ->name('dashboard2');
+
+        // crear reporte (usuario)
+        Route::get('/reportes/crear', [ReporteController::class, 'create'])
+            ->name('reportes.create');
+
+        Route::post('/reportes', [ReporteController::class, 'store'])
+            ->name('reportes.store');
+
+        // ver mi reporte (chat)
+        Route::get('/reportes', [ReporteController::class, 'misReportes'])
+            ->name('reportes.mis');
+
 
 
 
