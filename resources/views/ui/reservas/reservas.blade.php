@@ -103,8 +103,13 @@
 </section>
 
 
-    <div class="contenedor-servidor">
-        {{ $reservas->links() }}
+    <div id="contenedor-js" style="display:none;">
+        <div id="lista-reservas"></div>
+        <div id="paginacion"></div>
+    </div>
+
+    <div class="contenedor-servidor flex flex-col items-center justify-center mt-6">
+        {{ $reservas->links('vendor.pagination.simple-pagination') }}
     </div>
 
 <script>

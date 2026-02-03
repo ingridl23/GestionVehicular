@@ -1,3 +1,117 @@
 div#filtros.oculto{
     display: none;
 }
+
+#paginacion {
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+}
+
+#paginacion button {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+    border: 1px solid #d1d5db; 
+    background-color: #ffffff;
+    color: #374151; 
+    border-radius: 0.375rem; 
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+#paginacion button:hover {
+    background-color: #f3f4f6; 
+}
+
+#paginacion button.activo {
+    background-color: rgb(37 99 235 / var(--tw-bg-opacity, 1)); 
+    color: #ffffff;
+    border-color: rgb(37 99 235 / var(--tw-bg-opacity, 1));
+    cursor: default;
+}
+
+#paginacion button:disabled {
+    opacity: 1;
+    cursor: not-allowed;
+}
+
+
+/* =========================
+   DARK MODE - PAGINACIÓN
+   ========================= */
+
+.dark #paginacion button {
+    background-color: #1f2937;   
+    border-color: #374151;       
+    color: #e5e7eb;              
+}
+
+.dark #paginacion button:hover {
+    background-color: #374151;   
+}
+
+.dark #paginacion button.activo {
+    background-color: rgb(37 99 235 / var(--tw-bg-opacity, 1));   
+    border-color: rgb(37 99 235 / var(--tw-bg-opacity, 1));
+    color: #ffffff;
+}
+
+.dark #paginacion button:disabled {
+    opacity: 0.6;
+}
+
+
+/* =========================
+   PAGINACIÓN SERVIDOR
+   (Laravel links())
+   ========================= */
+
+.pagination-btn {
+    min-width: 2.25rem;
+    height: 2.25rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.375rem;
+    border: 1px solid #d1d5db;
+    background-color: #ffffff;
+    color: #374151;
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.pagination-btn:hover {
+    background-color: #b1b1b1;
+}
+
+.pagination-btn.active {
+    background-color: rgb(37 99 235 / var(--tw-bg-opacity, 1));  
+    border-color: rgb(37 99 235 / var(--tw-bg-opacity, 1));  
+    color: #ffffff;
+    opacity: 0.9;
+    pointer-events: none;
+}
+
+/* DARK MODE */
+.dark .pagination-btn {
+    background-color: #1f2937;
+    border-color: #374151;
+    color: #e5e7eb;
+}
+
+.dark .pagination-btn:hover {
+    background-color: #374151;
+}
+
+.dark .pagination-btn.active {
+    background-color: rgb(37 99 235 / var(--tw-bg-opacity, 1));  
+    border-color: rgb(37 99 235 / var(--tw-bg-opacity, 1));  
+    color: #ffffff;
+}
+
+.dark div.pagination-info{
+    color: #ffffff;
+}

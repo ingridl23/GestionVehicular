@@ -6,6 +6,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     form.addEventListener("submit", (e) => {
         e.preventDefault();
+
+        document.getElementById('contenedor-js').style.display = 'block';
+        document.querySelector('.contenedor-servidor').style.display = 'none';
         buscarReservas(1);
     });
 
@@ -45,7 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
             });
             const data = await res.json();
             mostrarResultado(data.data);
-            //renderPaginacion(data);
+            renderPaginacion(data);
         } catch (err) {
             console.error(err);
         }
@@ -212,26 +215,29 @@ document.addEventListener("DOMContentLoaded", () => {
         contenedor.innerHTML = "";
 
         if (meta.current_page > 1) {
-            contenedor.appendChild(crearBoton("«", meta.current_page - 1));
+            contenedor.appendChild(crearBoton("‹", meta.current_page - 1));
         }
 
         for (let i = 1; i <= meta.last_page; i++) {
             const btn = crearBoton(i, i);
+
             if (i === meta.current_page) {
                 btn.classList.add("activo");
+                btn.disabled = true;
             }
+
             contenedor.appendChild(btn);
         }
 
         if (meta.current_page < meta.last_page) {
-            contenedor.appendChild(crearBoton("»", meta.current_page + 1));
+            contenedor.appendChild(crearBoton("›", meta.current_page + 1));
         }
     }
 
     function crearBoton(texto, page) {
         const btn = document.createElement("button");
         btn.textContent = texto;
-        btn.onclick = () => buscarDependencias(page);
+        btn.onclick = () => buscarReservas(page);
         return btn;
     }
 

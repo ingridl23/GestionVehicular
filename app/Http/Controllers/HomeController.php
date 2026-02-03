@@ -13,7 +13,13 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-         $this->middleware('auth')->except(['inicio']);
+        // Aplica el middleware "guest" SOLO al método inicio (login)
+        // Si el usuario está logueado, no lo deja ver el welcome
+        $this->middleware('guest')->only(['inicio']);
+
+        // Aplica el middleware "auth" a TODOS los métodos EXCEPTO al inicio (login)
+        // Obliga a estar autenticado para acceder al resto
+        $this->middleware('auth')->except(['inicio']);
     }
 
     public function inicio(){
@@ -23,6 +29,7 @@ class HomeController extends Controller
 public function reset(){
     return View('auth.passwords.reset');
 }
+
     /**
      * Show the application dashboard.
      *

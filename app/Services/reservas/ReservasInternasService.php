@@ -17,7 +17,6 @@ class ReservasInternasService extends BaseReservasServices{
 
        $query = $this->obtenerDatosVerReservas();
 
-
         if($rol == 'Dueño Dependencia' || $rol == 'Jefe de Area'){
             $query->obtenerDependenciasInternas($id_dependencia);
         }
@@ -29,7 +28,7 @@ class ReservasInternasService extends BaseReservasServices{
             $query->soloInternas();
         }
 
-        $reservas = $query->paginate(10);
+        $reservas = $query->paginate(5);
         return $reservas;
     }
 

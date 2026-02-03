@@ -78,7 +78,7 @@ class Reserva extends Model
             [$dependencia->id],
             $dependencia->obtenerIdsHijas()
         );
-
+       
         return $query
             // reservas internas
             ->whereIn('id_dependencia_duena', $idsPermitidos)

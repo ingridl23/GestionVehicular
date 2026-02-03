@@ -143,7 +143,7 @@ abstract class BaseReservaController extends Controller{
         /* ----------------------
          PAGINACIÓN
         ---------------------- */
-       $reservas = $query->paginate(10);
+       $reservas = $query->paginate(5);
 
         return response()->json($reservas);
     }
