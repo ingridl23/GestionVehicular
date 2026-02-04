@@ -77,12 +77,19 @@
         </div>
 
         <!-- Boton -->
+        
         <div class="flex items-end">
+            <button id="limpiarFiltros" type="button"
+                class="w-full mr-1 rounded-md bg-gray-400 px-4 py-2 text-sm font-medium text-white
+                        hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:hover:bg-gray-900">
+                Limpiar filtros
+            </button>
             <button id="busquedaFiltrosReservas" type="submit"
-                    class="w-full rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white
+                    class="w-full ml-1 rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white
                            hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
                 Buscar
             </button>
+            
         </div>
 
     </div>

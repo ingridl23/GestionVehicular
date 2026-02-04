@@ -39,12 +39,13 @@
   @else
   <div class="flex items-end justify-between">
     <button id="mostrarFiltros" type="button"
-      class="rounded-md bg-blue-600 px-4 py-2 mb-2 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+      class="rounded-md bg-blue-600 px-2 py-2 mb-2 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
       Filtros
     </button>
+    
     @can($configAgregar['can'])
     <a href="{{ $configAgregar['route'] }}"
-      class="inline-block rounded-md bg-blue-600 px-4 py-2 mb-2 text-sm font-medium text-white
+      class="inline-block rounded-md bg-blue-600 px-2 py-2 mb-2 text-sm font-medium text-center text-white
                         hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
       {{ $configAgregar['text'] }}
     </a>

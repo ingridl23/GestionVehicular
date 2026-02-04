@@ -2,9 +2,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("formFiltrosReservas");
     let filtros = {};
     let contenedor = document.getElementById("contenedor-reservas");
+    let contenedor_lista = document.getElementById("contenedor-reservas-listas");
+
     const { permissions: PERMISSIONS, routes: ROUTES } = window.RESERVAS_CONFIG;
     let textoNoReservas = document.getElementById("mensajeNoHayReservas");
     let contenedorGeneral = document.getElementById("contenedor-general");
+
+    let htmlCopiaContenedorTabla = contenedor.innerHTML;
+    let htmlCopiaContenedorLista = contenedor_lista.innerHTML;
+
     form.addEventListener("submit", (e) => {
         e.preventDefault();
 
@@ -68,7 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const { permissions: PERMISSIONS, routes: ROUTES } =
             window.RESERVAS_CONFIG;
 
-        let contenedor_lista =document.getElementById("contenedor-reservas-listas");
+        
         let view = vistaActual();
 
         if (!reservas.length) {
@@ -270,4 +276,39 @@ document.addEventListener("DOMContentLoaded", () => {
             botonMostrarFiltros.innerHTML = "Filtros";
         }
     });
+
+    // LIMPIAR FILTROS
+    
+   let botonLimpiar = document.getElementById("limpiarFiltros");
+
+botonLimpiar.addEventListener("click", () => {
+    // Limpiar inputs
+    document.querySelectorAll("#formFiltrosReservas input, #formFiltrosReservas select")
+        .forEach(el => {
+            if (el.tagName === "SELECT") {
+                el.value = "default";
+            } else {
+                el.value = "";
+            }
+        });
+
+    // Ocultar resultados JS
+    document.getElementById("contenedor-js").style.display = "none";
+
+    // Mostrar contenido del servidor
+    document.querySelector(".contenedor-servidor").style.display = "flex";
+    document.getElementById("contenedor-general").classList.remove("md:hidden");
+
+    // Limpiar contenedores JS
+
+    document.getElementById("contenedor-reservas").innerHTML = htmlCopiaContenedorTabla;
+    document.getElementById("contenedor-reservas-listas").innerHTML = htmlCopiaContenedorLista;
+
+    // Ocultar mensaje “No hay reservas”
+    textoNoReservas.classList.add("hidden");
+    textoNoReservas.classList.remove("block");
+
+    // Resetear paginación JS
+    document.getElementById("paginacion").innerHTML = "";
+}); 
 });
