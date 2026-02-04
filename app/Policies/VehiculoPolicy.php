@@ -40,7 +40,7 @@ class VehiculoPolicy
 
         // Solo vehículos de su dependencia
         if ($user->hasPermissionTo('ver_vehiculos_dentro_dependencia')) {
-            return $vehiculo->dependencia_id === $user->dependencia_id;
+            return $vehiculo->id_dependencia_duena === $user->dependencia_id;
         }
 
         return false;
@@ -65,7 +65,8 @@ class VehiculoPolicy
 
         // Dueño de dependencia: solo su dependencia
         if ($user->hasRole('Dueño Dependencia')) {
-            return $vehiculo->dependencia_id === $user->dependencia_id;
+          return $vehiculo->id_dependencia_duena === $user->dependencia_id;
+
         }
 
         return true;
@@ -81,7 +82,8 @@ class VehiculoPolicy
         }
 
         if ($user->hasRole('Dueño Dependencia')) {
-            return $vehiculo->dependencia_id === $user->dependencia_id;
+      return $vehiculo->id_dependencia_duena === $user->dependencia_id;
+
         }
 
         return true;
@@ -94,7 +96,7 @@ class VehiculoPolicy
     {
         return (
             $user->hasPermissionTo('cambiar_estado_vehiculo')
-            && $vehiculo->dependencia_id === $user->dependencia_id
+            && $vehiculo->id_dependencia_duena === $user->dependencia_id
         );
     }
 
@@ -105,7 +107,7 @@ class VehiculoPolicy
     {
         return (
             $user->hasPermissionTo('modificar_asignacion_vehiculo')
-            && $vehiculo->dependencia_id === $user->dependencia_id
+            && $vehiculo->id_dependencia_duena === $user->dependencia_id
         );
     }
 
@@ -116,7 +118,7 @@ class VehiculoPolicy
     {
         return (
             $user->hasPermissionTo('registrar_datos_vehiculos')
-            && $vehiculo->dependencia_id === $user->dependencia_id
+            && $vehiculo->id_dependencia_duena === $user->dependencia_id
         );
     }
 }

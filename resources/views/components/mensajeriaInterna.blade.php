@@ -29,8 +29,4 @@
 <p id="mensajeError" class="hidden mt-2 text-xs text-red-500">
     El mensaje no puede estar vacío
 </p>
-@include('components.mensajeriaInterna', ['reporte_id' => $reporte->id])
 
-<script>
-    window.REPORTES_DATA = @json($reporte);
-</script>

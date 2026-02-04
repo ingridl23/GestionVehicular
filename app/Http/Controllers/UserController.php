@@ -3,11 +3,14 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Dependencia;
 use App\Models\Alerta;
+use App\Models\Reserva;
 use App\Models\Vehiculo;
+use App\Models\Viaje;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Gate;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -92,25 +95,81 @@ class UserController extends Controller
         return view('layout.appOperativo', compact('user','stats','alertas','disponibles','reservados'));
     }
 
+   /**
+     * Listar usuarios con filtros
+     */
+    public function index(Request $request)
+    {
+        $user = Auth::user();
+
+        // Query base
+        $query = User::with(['dependencia', 'roles']);
+
+        // Filtro por dependencia (solo para admins de dependencia)
+        if ($user->hasRole('Administrador de Dependencia') && !$user->hasRole('Administrador General')) {
+            $query->where('id_dependencia', $user->id_dependencia);
+        } elseif ($request->has('dependencia_id') && $request->dependencia_id != '') {
+            $query->where('id_dependencia', $request->dependencia_id);
+        }
+
+        // Filtro por búsqueda
+        if ($request->has('search') && $request->search != '') {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('name', 'LIKE', "%{$search}%")
+                  ->orWhere('lastname', 'LIKE', "%{$search}%")
+                  ->orWhere('email', 'LIKE', "%{$search}%")
+                  ->orWhere('legajo', 'LIKE', "%{$search}%");
+            });
+        }
+
+        // Filtro por rol
+        if ($request->has('rol') && $request->rol != '') {
+            $query->role($request->rol);
+        }
+
+        // Ordenar
+        $query->orderBy('lastname', 'asc')->orderBy('name', 'asc');
+
+        // Paginar
+        $usuarios = $query->paginate(20)->withQueryString();
+
+        // Obtener datos para los filtros
+        $dependencias = Dependencia::orderBy('nombre')->get();
+        $roles = Role::orderBy('name')->get();
+
+        return view('admin.usuarios.index', compact('usuarios', 'dependencias', 'roles'));
+    }
+
+    /**
+     * Mostrar formulario de creación
+     */
+    public function create()
+    {
+        Gate::authorize('createUsers', User::class);
+
+        $dependencias = Dependencia::orderBy('nombre')->get();
+        $roles = Role::orderBy('name')->get();
+
+        return view('admin.usuarios.create', compact('dependencias', 'roles'));
+    }
 
     /**
      * Crear usuario
      */
-
-    public function createUser(Request $request)
+    public function store(Request $request)
     {
+        Gate::authorize('createUsers', User::class);
+
         $data = $request->validate([
-            'name' => 'required|string',
-            'lastname' => 'required|string',
-            'legajo' => 'nullable|string',
+            'name' => 'required|string|max:100',
+            'lastname' => 'required|string|max:100',
+            'legajo' => 'nullable|string|max:20',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:8',
             'id_dependencia' => 'required|exists:dependencias,id',
-            'role' => 'required|string'
+            'role' => 'required|string|exists:roles,name'
         ]);
-
-        // AUTORIZACIÓN (antes de crear)
-        Gate::authorize('createUsers', User::class);
 
         $user = User::create([
             'name' => $data['name'],
@@ -119,63 +178,223 @@ class UserController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
             'id_dependencia' => $data['id_dependencia'],
+            'enabled' => true,
         ]);
 
-        // Asignar rol (misma regla de seguridad)
-        Gate::authorize('updateUsers', $user);
         $user->assignRole($data['role']);
 
-        return response()->json([
-            'message' => 'Usuario creado correctamente',
-            'user' => $user
-        ], 201);
+        return redirect()->route('admin.usuarios.index')
+            ->with('success', 'Usuario creado correctamente');
+    }
+
+    /**
+     * Mostrar un usuario específico (perfil público)
+     */
+    public function show(User $usuario)
+    {
+        $user = Auth::user();
+
+        // Verificar permisos
+        $esAdmin = $user->hasRole('Administrador General');
+        $esAdminDependencia = $user->hasRole('Administrador de Dependencia');
+        $esJefeArea = $user->hasRole('Jefe de Area');
+        $esPropietario = $user->id === $usuario->id;
+
+        // Admin general puede ver todos
+        if (!$esAdmin) {
+            // Admin de dependencia solo de su dependencia
+            if ($esAdminDependencia && $user->id_dependencia !== $usuario->id_dependencia) {
+                abort(403, 'No tenés permisos para ver este perfil.');
+            }
+            // Jefe de área solo de su dependencia
+            if ($esJefeArea && $user->id_dependencia !== $usuario->id_dependencia && !$esPropietario) {
+                abort(403, 'No tenés permisos para ver este perfil.');
+            }
+            // Operativo solo su propio perfil
+            if (!$esAdminDependencia && !$esJefeArea && !$esPropietario) {
+                abort(403, 'No tenés permisos para ver este perfil.');
+            }
+        }
+
+        $puedeEditar = $esAdmin || $esPropietario;
+
+        // Cargar relaciones necesarias
+        $usuario->load(['dependencia', 'roles']);
+
+        // Obtener listas
+        $dependencias = $esAdmin ? Dependencia::all() : collect();
+
+        return view('auth.profile', compact(
+            'usuario',
+            'puedeEditar',
+            'esAdmin',
+            'dependencias'
+        ));
+    }
+
+    /**
+     * Mostrar formulario de edición
+     */
+    public function edit(User $usuario)
+    {
+        Gate::authorize('updateUsers', $usuario);
+
+        $dependencias = Dependencia::orderBy('nombre')->get();
+        $roles = Role::orderBy('name')->get();
+
+        return view('admin.usuarios.edit', compact('usuario', 'dependencias', 'roles'));
     }
 
     /**
      * Actualizar usuario
      */
-
-    public function updateUser(Request $request, User $user)
+    public function update(Request $request, User $usuario)
     {
-        Gate::authorize('updateUsers', $user);
+        Gate::authorize('updateUsers', $usuario);
 
         $data = $request->validate([
-            'name' => 'sometimes|string',
-            'lastname' => 'sometimes|string',
-            'email' => 'sometimes|email|unique:users,email,' . $user->id,
+            'name' => 'required|string|max:100',
+            'lastname' => 'required|string|max:100',
+            'email' => 'required|email|unique:users,email,' . $usuario->id,
+            'legajo' => 'nullable|string|max:20',
+            'id_dependencia' => 'required|exists:dependencias,id',
+            'role' => 'required|string|exists:roles,name',
+            'password' => 'nullable|min:8'
         ]);
 
-        $user->update($data);
+        // Actualizar datos básicos
+        $updateData = [
+            'name' => $data['name'],
+            'lastname' => $data['lastname'],
+            'email' => $data['email'],
+            'legajo' => $data['legajo'] ?? null,
+            'id_dependencia' => $data['id_dependencia'],
+        ];
 
-        return response()->json(['message' => 'Usuario actualizado']);
+        // Solo actualizar contraseña si se proporciona
+        if (!empty($data['password'])) {
+            $updateData['password'] = Hash::make($data['password']);
+        }
+
+        $usuario->update($updateData);
+
+        // Actualizar rol
+        $usuario->syncRoles([$data['role']]);
+
+        return redirect()->route('admin.usuarios.index')
+            ->with('success', 'Usuario actualizado correctamente');
     }
 
     /**
      * Eliminar usuario
      */
-
-    public function destroyUser(User $user)
+    public function destroy(User $usuario)
     {
-        Gate::authorize('deleteUser', $user);
+        Gate::authorize('deleteUser', $usuario);
 
-        $user->delete();
+        // No permitir eliminar el propio usuario
+        if ($usuario->id === Auth::id()) {
+            return back()->withErrors('No podés eliminar tu propio usuario');
+        }
 
-        return response()->json(['message' => 'Usuario eliminado']);
+        $usuario->delete();
+
+        return redirect()->route('admin.usuarios.index')
+            ->with('success', 'Usuario eliminado correctamente');
+    }
+
+    /**
+     * Ver mi perfil (usuario logueado)
+     */
+    public function myProfile()
+    {
+        $usuario = Auth::user();
+        $usuario->load(['dependencia', 'roles']);
+
+        // Todos pueden ver su propio perfil
+        $puedeEditar = true;
+        $esAdmin = $usuario->hasRole('Administrador General');
+        $dependencias = $esAdmin ? Dependencia::all() : collect();
+
+        return view('auth.profile', compact('usuario', 'puedeEditar', 'esAdmin', 'dependencias'));
+    }
+
+    /**
+     * Actualizar mi perfil (usuario logueado)
+     */
+    public function updateProfile(Request $request)
+    {
+        $usuario = Auth::user();
+
+        // Validación base (lo que puede editar cualquier usuario)
+        $rules = [
+            'name' => 'required|string|max:100',
+            'lastname' => 'required|string|max:100',
+            'email' => 'required|email|unique:users,email,' . $usuario->id,
+            'legajo' => 'nullable|string|max:20',
+        ];
+
+        // Solo admin puede cambiar dependencia
+        if ($usuario->hasRole('Administrador General')) {
+            $rules['id_dependencia'] = 'sometimes|exists:dependencias,id';
+        }
+
+        $validated = $request->validate($rules);
+
+        // Si no es admin, remover campo de dependencia si viene
+        if (!$usuario->hasRole('Administrador General')) {
+            unset($validated['id_dependencia']);
+        }
+
+        // Actualizar usuario
+        $usuario->update($validated);
+
+        return redirect()->route('profile.show')
+            ->with('success', 'Perfil actualizado correctamente');
     }
 
     /**
      * Listar usuarios por dependencia
      */
-
-    public function index(Dependencia $dependencia)
+    public function usuariosPorDependencia(Request $request)
     {
-        Gate::authorize('showUsers', User::class);
+        $user = Auth::user();
 
-        return response()->json(
-            $dependencia->usuarios
-        );
+        $query = User::with(['dependencia', 'roles'])
+            ->where('id_dependencia', $user->id_dependencia);
+
+        // Aplicar búsqueda si existe
+        if ($request->has('search') && $request->search != '') {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('name', 'LIKE', "%{$search}%")
+                  ->orWhere('lastname', 'LIKE', "%{$search}%")
+                  ->orWhere('email', 'LIKE', "%{$search}%");
+            });
+        }
+
+        $usuarios = $query->orderBy('lastname')->paginate(20);
+        $dependencias = Dependencia::where('id', $user->id_dependencia)->get();
+        $roles = Role::orderBy('name')->get();
+
+        return view('admin.auditoria.personal', compact('usuarios', 'dependencias', 'roles'));
     }
 
+    /**
+     * Cambiar estado habilitado/deshabilitado
+     */
+    public function toggleEnabled(User $usuario)
+    {
+        Gate::authorize('updateUsers', $usuario);
+
+        $usuario->update([
+            'enabled' => !$usuario->enabled
+        ]);
+
+        return back()->with('success',
+            $usuario->enabled ? 'Usuario habilitado correctamente' : 'Usuario deshabilitado correctamente'
+        );
+    }
 
 
 }

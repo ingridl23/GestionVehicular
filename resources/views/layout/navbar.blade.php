@@ -75,16 +75,16 @@
                     <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{{ auth()->user()->email }}</p>
                 </div>
 
-                <a href="#" class="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+                <a href="{{ route('profile.show') }} " class="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
                     <i class="fas fa-user w-4"></i>
                     <span>Mi Perfil</span>
                 </a>
-
+{{--
                 <a href="#" class="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
                     <i class="fas fa-cog w-4"></i>
                     <span>Configuración</span>
                 </a>
-
+--}}
                 <div class="border-t border-gray-200 dark:border-gray-700 my-2"></div>
 
                 <form action="{{ route('logout') }}" method="POST">
