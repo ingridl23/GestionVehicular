@@ -8,12 +8,21 @@
                 <div class="max-w-full overflow-x-auto">
                     <form action="{{ $formAction }}" method="post">
                         @csrf
-
-                        <x-reserva-form-fields :reserva="$reserva" :vehiculos="$vehiculos" :usuarios="$usuarios" :ubicacion="$ubicacion" />
+                        
+                        <x-reserva-form-fields :reserva="$reserva" :vehiculos="$vehiculos" :usuarios="$usuarios" :ubicacion="$ubicacion" :dependencias="$dependencias" />
 
                         <div class="mt-6 flex items-center justify-end gap-x-6">
                             <button type="button" class="text-sm font-semibold text-gray-700 dark:text-white">
-                                <a href="{{ route('reservas.internas') }}">Cancelar</a>
+                                @php
+                                $configEditar = $ubicacion == 'externa'
+                                    ? [
+                                    'route' => route('reservas.prestamos'),
+                                    ]
+                                    : [
+                                    'route' => route('reservas.internas'),
+                                    ];
+                                @endphp
+                                <a href="{{ $configEditar['route'] }}">Cancelar</a>
                             </button>
 
                             <button type="submit" class="rounded-md bg-indigo-500 px-4 py-2 text-sm font-semibold text-white

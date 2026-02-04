@@ -3,12 +3,16 @@ document.addEventListener("DOMContentLoaded", () => {
     let filtros = {};
     let contenedor = document.getElementById("contenedor-reservas");
     const { permissions: PERMISSIONS, routes: ROUTES } = window.RESERVAS_CONFIG;
-
+    let textoNoReservas = document.getElementById("mensajeNoHayReservas");
+    let contenedorGeneral = document.getElementById("contenedor-general");
     form.addEventListener("submit", (e) => {
         e.preventDefault();
 
         document.getElementById('contenedor-js').style.display = 'block';
         document.querySelector('.contenedor-servidor').style.display = 'none';
+                        
+        textoNoReservas.classList.remove("block");
+        textoNoReservas.classList.add("hidden");
         buscarReservas(1);
     });
 
@@ -68,18 +72,22 @@ document.addEventListener("DOMContentLoaded", () => {
         let view = vistaActual();
 
         if (!reservas.length) {
-            if(view === "tabla"){
-                contenedor.innerHTML = "<p>No hay resultados</p>";
-            }
-            else{
-                contenedor_lista.innerHTML = "<p>No hay resultados</p>";
-            }
+            contenedor.innerHTML = "";
+            contenedor_lista.innerHTML = "";
+            contenedorGeneral.classList.add("md:hidden");
+            contenedorGeneral.classList.remove("md:block");
+            textoNoReservas.classList.add("block");
+            textoNoReservas.classList.remove("hidden");
+            textoNoReservas.innerHTML = `No hay resultados`;
+            
             return;
         }
 
         contenedor.innerHTML = "";
         contenedor_lista.innerHTML = "";
-        
+        document.getElementById("contenedor-general").classList.add("md:block");
+        document.getElementById("contenedor-general").classList.remove("md:hidden");
+
         reservas.forEach((res) => {
             let fecha_inicio = new Date(res.fecha_inicio_reserva);
             let fechaInicioFormateada = fecha_inicio.toLocaleString("es-AR", {

@@ -23,13 +23,10 @@ class Dependencia extends Model
 
     // Dependencias hijas
     public function dependenciasHijas() {
-        return $this->hasMany(Dependencia::class, 'id_dependencia_padre');
+        return $this->hasMany(Dependencia::class, 'id_dependencia_padre')->with('dependenciasHijas');
     }
 
-    // Dependencias hijas que tienen otras hijas
-    public function hijosRecursivos(){
-        return $this->dependenciasHijas()->with('hijosRecursivos');
-    }
+
 
     public function direccion() {
         return $this->belongsTo(Direcciones::class, 'id_direccion');
@@ -50,5 +47,6 @@ class Dependencia extends Model
 
         return $ids;
     }
+
 
 }

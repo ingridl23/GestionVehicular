@@ -53,7 +53,8 @@ class ReservasInternasService extends BaseReservasServices{
      */
     private function datosForm(){
         $id_dependencia = $this->user()->dependencia->id;
-        $dependencia = Dependencia::with('hijosRecursivos')->find($id_dependencia);
+        $dependencia = Dependencia::with('dependenciasHijas')->find($id_dependencia);
+        $arbol = $this->obtenerDependenciasArbol($dependencia);
 
         $ids = $this->obtenerDependenciasIds($dependencia);
 
@@ -71,7 +72,7 @@ class ReservasInternasService extends BaseReservasServices{
                 !$usuario->carnet || $usuario->carnet->fecha_vencimiento->isPast();
             return $usuario;
         })->sortBy('carnet_vencido');
-        return compact('vehiculos', 'usuarios');
+        return compact('vehiculos', 'usuarios', 'arbol');
     }
 
 
@@ -96,6 +97,7 @@ class ReservasInternasService extends BaseReservasServices{
         return [
             'vehiculos' => $datos['vehiculos'],
             'usuarios'  => $datos['usuarios'],
+            'dependencias'  => $datos['arbol'],
             'formAction' => route('reservas.internas.crear'),
             'reserva'   => null,
             'ubicacion'   => null,
@@ -122,10 +124,10 @@ class ReservasInternasService extends BaseReservasServices{
         $reserva = Reserva::findOrFail($id);
         $datos = $this->datosForm();
 
-
         return [
             'vehiculos' => $datos['vehiculos'],
             'usuarios'  => $datos['usuarios'],
+            'dependencias'  => $datos['arbol'],
             'reserva'   => $reserva,
             'formAction' => route('reservas.internas.editar', $id),
             'ubicacion'   => null,
@@ -140,8 +142,8 @@ class ReservasInternasService extends BaseReservasServices{
     }
 
 
-    public function valoresParametrosValidaciones($id_vehiculo, $fecha_inicio, $fecha_fin, $id_usuario, $id = null){
-        $resultado = $this->validaciones($id_vehiculo, $fecha_inicio, $fecha_fin, $id_usuario,null);
+    public function valoresParametrosValidaciones($id_vehiculo, $fecha_inicio, $fecha_fin, $id_usuario, $id_dependencia_solicitante, $id = null){
+        $resultado = $this->validaciones($id_vehiculo, $fecha_inicio, $fecha_fin, $id_usuario, $id_dependencia_solicitante, null);
         return $resultado;
     }
 

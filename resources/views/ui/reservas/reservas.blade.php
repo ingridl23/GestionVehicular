@@ -6,34 +6,36 @@
 @endpush
 
 @php
-$configAgregar = $ubicacion == 'interna'
-? [
-'can' => 'solicitar_reserva_interna',
-'route' => route('reservas.form.agregar'),
-'text' => 'Agregar reserva',
-]
-: [
-'can' => 'solicitar_prestamo',
-'route' => route('prestamo.form.agregar'),
-'text' => 'Agregar préstamo',
-];
+  $configAgregar = $ubicacion == 'interna'
+  ? [
+  'can' => 'solicitar_reserva_interna',
+  'route' => route('reservas.form.agregar'),
+  'text' => 'Agregar reserva',
+  ]
+  : [
+  'can' => 'solicitar_prestamo',
+  'route' => route('prestamo.form.agregar'),
+  'text' => 'Agregar préstamo',
+  ];
 
-$configEditar = $ubicacion == 'interna'
-? [
-'can' => 'actualizar_reserva_interna',
-'route' => route('reservas.form.editar', ':id'),
-]
-: [
-'can' => 'actualizar_prestamo',
-'route' => route('prestamo.form.editar', ':id'),
-];
+  $configEditar = $ubicacion == 'interna'
+  ? [
+  'can' => 'actualizar_reserva_interna',
+  'route' => route('reservas.form.editar', ':id'),
+  ]
+  : [
+  'can' => 'actualizar_prestamo',
+  'route' => route('prestamo.form.editar', ':id'),
+  ];
 @endphp
 
 
 @section('content')
 <section class="bg-gray-100 dark:bg-gray-900 py-10 lg:py-[0px]">
+  
+
   @if($reservas->isEmpty())
-  <p class="text-center text-gray-600">No hay reservas</p>
+    <p class="text-center text-gray-600 ">No hay reservas</p>
   @else
   <div class="flex items-end justify-between">
     <button id="mostrarFiltros" type="button"
@@ -53,12 +55,12 @@ $configEditar = $ubicacion == 'interna'
 
   </div>
 
-
-  <div class="mx-auto px-0">
+  <p id="mensajeNoHayReservas" class="hidden text-center text-sm text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-gray-900 border border-dashed border-gray-300 dark:border-gray-700 rounded-lg p-4"></p>
+          
+  <div class="mx-auto px-0" id="contenedor-general">
     <div class="-mx-4 flex flex-wrap">
       <div class="w-full">
         <div class="max-w-full overflow-x-auto">
-
           <div class="hidden md:block">
             <x-tabla-reservas-desktop :reservas="$reservas" :ubicacion="$ubicacion" :config-editar="$configEditar" />
           </div>
@@ -98,19 +100,22 @@ $configEditar = $ubicacion == 'interna'
         </div>
       </div>
     </div>
+
+    <div id="contenedor-js" style="display:none;">
+      <div id="lista-reservas"></div>
+      <div id="paginacion"></div>
+    </div>
+
+    <div class="contenedor-servidor flex flex-col items-center justify-center mt-6">
+      {{ $reservas->links('vendor.pagination.simple-pagination') }}
+    </div>
+
   </div>
   @endif
 </section>
 
 
-<div id="contenedor-js" style="display:none;">
-  <div id="lista-reservas"></div>
-  <div id="paginacion"></div>
-</div>
 
-<div class="contenedor-servidor flex flex-col items-center justify-center mt-6">
-  {{ $reservas->links('vendor.pagination.simple-pagination') }}
-</div>
 
 <script>
   window.RESERVAS_CONFIG = {

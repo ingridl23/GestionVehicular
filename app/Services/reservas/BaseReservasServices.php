@@ -79,6 +79,24 @@ abstract class BaseReservasServices implements ReservaServiceInterface{
         return $ids;
     }
 
+        /**
+     * Obtiene de forma recursiva las dependencias pertenecientes al arbol de la dependencia padre
+     *
+     * Se utiliza recursividad para recorrer el árbol completo
+     * de dependencias sin importar la profundidad.
+     *
+     * @param  Dependencia $dependencia  Dependencia raíz desde donde iniciar el recorrido
+     * @return array<Dependencia>                Array con las dependencias encontradas
+     */
+    function obtenerDependenciasArbol($dependencia){
+        $dependencias = [$dependencia];
+
+        foreach ($dependencia->dependenciasHijas as $hijo) {
+            $dependencias = array_merge($dependencias, $this->obtenerDependenciasArbol($hijo));
+        }
+        return $dependencias;
+    }
+
 
     /**
      * Construye la consulta base para visualizar reservas.
@@ -165,14 +183,14 @@ abstract class BaseReservasServices implements ReservaServiceInterface{
         $fecha_fin = Carbon::createFromFormat('Y-m-d\TH:i', $request->input('fecha_fin'));
         $id_vehiculo = $request->id_vehiculo;
         $id_usuario = $request->id_usuario;
+        $id_dependencia_solicitante = $request->id_dependencia;
 
-       $validaciones = $this->valoresParametrosValidaciones($id_vehiculo, $fecha_inicio, $fecha_fin, $id_usuario, null);
+       $validaciones = $this->valoresParametrosValidaciones($id_vehiculo, $fecha_inicio, $fecha_fin, $id_usuario, $id_dependencia_solicitante, null);
         if($validaciones != null){
             return $validaciones;
         }
 
         $id_dependencia_duena = Vehiculo::where('id', $id_vehiculo)->value('id_dependencia_duena');
-        $id_dependencia_solicitante = User::where('id', $this->user()->dependencia->id)->value('id');
         $id_estado_reserva = $this->obtenerEstadoReserva();
         
         Reserva::create([
@@ -195,18 +213,20 @@ abstract class BaseReservasServices implements ReservaServiceInterface{
         $id_vehiculo = $request->id_vehiculo;
         $id_usuario = $request->id_usuario;
         $reserva = Reserva::findOrFail($id);
+         $id_dependencia_solicitante = $request->id_dependencia;
 
-
+        
         // Se redirige a cada service (interna o externa) para ver que valores de los parametros
         //debe tomar
-        $validaciones = $this->valoresParametrosValidaciones($id_vehiculo, $fecha_inicio, $fecha_fin, $id_usuario, $id);
+        $validaciones = $this->valoresParametrosValidaciones($id_vehiculo, $fecha_inicio, $fecha_fin, $id_usuario, $id_dependencia_solicitante, $id);
 
         if($validaciones != null){
             return $validaciones;
         }
 
+       
+        
         $id_dependencia_duena = Vehiculo::where('id', $id_vehiculo)->value('id_dependencia_duena');
-        $id_dependencia_solicitante = User::where('id', $this->user()->dependencia->id)->value('id');
         $id_estado_reserva = $this->obtenerEstadoReserva();
         
 
@@ -220,6 +240,7 @@ abstract class BaseReservasServices implements ReservaServiceInterface{
             'id_dependencia_duena' => $id_dependencia_duena,
             'id_dependencia_solicitante' => $id_dependencia_solicitante,
         ]);
+
     }
 
 
@@ -247,7 +268,7 @@ abstract class BaseReservasServices implements ReservaServiceInterface{
      * @return array|null               Código de error o null si es válido
      */
 
-    public function validaciones($id_vehiculo, $fecha_inicio, $fecha_fin, $id_usuario, $id = null, $esPrestamo = false) {
+    public function validaciones($id_vehiculo, $fecha_inicio, $fecha_fin, $id_usuario, $id_dependencia_solicitante, $id = null, $esPrestamo = false) {
     // ===============================
     // VEHÍCULO OCUPADO
     // ===============================
@@ -308,6 +329,18 @@ abstract class BaseReservasServices implements ReservaServiceInterface{
         return ['usuario_no_habilitado', true];
     }
 
+    // ===============================
+    // DEPENDENCIA VALIDA
+    // ===============================
+
+    $dependencia = $this->user()->dependencia;
+
+    $idsPermitidos = $this->obtenerDependenciasIds($dependencia);
+
+    if(!in_array($id_dependencia_solicitante, $idsPermitidos)){
+        return ['dependencia', true];
+    }
+
     return null;
     }
 
@@ -318,7 +351,7 @@ abstract class BaseReservasServices implements ReservaServiceInterface{
 
 
 
-    protected function valoresParametrosValidaciones($id_vehiculo,$fecha_inicio,$fecha_fin,$id_usuario,$id = null) {
-        return $this->validaciones($id_vehiculo,$fecha_inicio,$fecha_fin,$id_usuario,$id,false);
+    protected function valoresParametrosValidaciones($id_vehiculo, $fecha_inicio, $fecha_fin, $id_usuario, $id_dependencia_solicitante, $id = null) {
+        return $this->validaciones($id_vehiculo, $fecha_inicio, $fecha_fin, $id_usuario, $id_dependencia_solicitante, $id, false);
     }
 }
