@@ -23,5 +23,6 @@
     window.USUARIO_ACTUAL_ID = {{ auth()->id() }};
 </script>
 
+
 @vite(['resources/js/reportes.js'])
 

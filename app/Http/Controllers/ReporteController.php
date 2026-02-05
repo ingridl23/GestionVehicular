@@ -131,11 +131,43 @@ public function index()
     }
 
 
-
-    public function misReportes()
+public function misReportes()
 {
-    return Reportes::where('id_usuario', auth()->id())->get();
+    $reportes = Reportes::with('usuario', 'comentarios.usuario')
+        ->where('id_usuario', auth()->id())
+        ->get();
+
+    $reportesData = $reportes->map(fn ($r) => [
+        'id' => $r->id,
+        'titulo' => $r->titulo,
+        'descripcion' => $r->descripcion,
+        'estado' => $r->estado,
+        'entidad_tipo' => $r->entidad_tipo,
+        'entidad_id' => $r->entidad_id,
+        'usuario_id' => $r->usuario->id,
+        'usuario_nombre' => $r->usuario->name,
+        'fecha' => $r->created_at->format('d/m H:i'),
+        'comentarios' => $r->comentarios->map(fn ($c) => [
+            'comentario' => $c->comentario,
+            'usuario_id' => $c->usuario->id,
+            'nombre' => $c->usuario->name,
+            'fecha' => $c->created_at->format('d/m H:i'),
+        ])->values()
+    ])->values();
+
+    return view('components.reportes', compact('reportes', 'reportesData'));
 }
+
+// OPERATIVO (mobile)
+public function misReportesOperativo()
+{
+    $reportes = Reportes::where('id_usuario', auth()->id())
+        ->latest()
+        ->get();
+
+    return view('operativo.reportes.index', compact('reportes'));
+}
+
 
 
 }

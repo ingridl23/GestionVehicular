@@ -180,7 +180,8 @@ $adminDependencia->syncPermissions([
             'ver_reservas_dependencia_en_curso',
             'ver_reportes_operativos',
             'descargar_datos',
-            'ver_menu'
+            'ver_menu',
+            'ver_personal_dependencia'
         ]);
 
 $conductor->syncPermissions([

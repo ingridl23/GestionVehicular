@@ -49,9 +49,12 @@ use App\Http\Controllers\ReporteController;
         Route::post('/reportes', [ReporteController::class, 'store'])
             ->name('reportes.store');
 
-        // ver mi reporte (chat)
-        Route::get('/reportes', [ReporteController::class, 'misReportes'])
-            ->name('reportes.mis');
+
+             Route::get('/reportes', [ReporteController::class, 'misReportesOperativo'])
+            ->name('reportes.index');
+
+        Route::patch('/reportes/{reporte}/estado', [ReporteController::class, 'cambiarEstado'])
+    ->name('reportes.estado');
 
 
 

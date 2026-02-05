@@ -63,7 +63,9 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/profile/{usuario}/update', [UserController::class, 'updateProfile'])->name('profile.admin-update');
 
     /**************************  REPORTES  ********************* */
-
+   // ver mi reporte (chat)
+        Route::get('/reportes', [ReporteController::class, 'misReportes'])
+            ->name('reportes.mis');
     // Mensajes en reportes
     Route::post('/reportes/{reporte}/comentarios', [ReporteController::class, 'agregarComentario']);
 

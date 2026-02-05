@@ -92,7 +92,14 @@ class UserController extends Controller
     // $stats['licencias'] = Licencia::vencidas()->count
         $user = Auth::user();
             $alertas = Alerta::latest()->paginate(10);
-        return view('layout.appOperativo', compact('user','stats','alertas','disponibles','reservados'));
+       return view('operativo.dashboard', compact(
+    'user',
+    'stats',
+    'alertas',
+    'disponibles',
+    'reservados'
+));
+
     }
 
    /**
@@ -315,8 +322,15 @@ class UserController extends Controller
         $puedeEditar = true;
         $esAdmin = $usuario->hasRole('Administrador General');
         $dependencias = $esAdmin ? Dependencia::all() : collect();
+        $esConductorBase = $usuario->hasRole('Operativo');
+        if($esAdmin){
 
-        return view('auth.profile', compact('usuario', 'puedeEditar', 'esAdmin', 'dependencias'));
+            return view('auth.profile', compact('usuario', 'puedeEditar', 'esAdmin', 'dependencias'));
+        }
+
+        if($esConductorBase){
+            return view('auth.profileOperativo', compact('usuario','dependencias','esAdmin','puedeEditar'));
+        }
     }
 
     /**
