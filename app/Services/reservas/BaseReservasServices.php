@@ -269,13 +269,16 @@ abstract class BaseReservasServices implements ReservaServiceInterface{
      */
 
     public function validaciones($id_vehiculo, $fecha_inicio, $fecha_fin, $id_usuario, $id_dependencia_solicitante, $id = null, $esPrestamo = false) {
+
     // ===============================
-    // VEHÍCULO OCUPADO
+    // VEHÍCULO OCUPADO QUE TENGA LA RESERVA APROBADA/EN CURSO/PENDIENTE
     // ===============================
-    $vehiculoQuery = Reserva::where('id_vehiculo', $id_vehiculo)
+    $vehiculoQuery = Reserva::join('estados_reservas', 'estados_reservas.id', '=', 'reservas.id_estado_reserva')
+        ->where('id_vehiculo', $id_vehiculo)
+        ->whereIn('estados_reservas.estado', ['APROBADA', 'EN CURSO', 'PENDIENTE'])
         ->where(function ($q) use ($fecha_inicio, $fecha_fin) {
             $q->where('fecha_inicio_reserva', '<', $fecha_fin)
-              ->where('fecha_fin_reserva', '>', $fecha_inicio);
+              ->where('fecha_fin_reserva', '>', $fecha_inicio);      
         });
 
     if ($id != null) {
@@ -306,9 +309,11 @@ abstract class BaseReservasServices implements ReservaServiceInterface{
     }
 
     // ===============================
-    // USUARIO OCUPADO
+    // USUARIO OCUPADO 
     // ===============================
-    $usuarioQuery = Reserva::where('id_usuario', $id_usuario)
+    $usuarioQuery = Reserva::join('estados_reservas', 'estados_reservas.id', '=', 'reservas.id_estado_reserva')
+        ->where('id_usuario', $id_usuario)
+        ->whereIn('estados_reservas.estado', ['APROBADA', 'EN CURSO', 'PENDIENTE'])
         ->where(function ($q) use ($fecha_inicio, $fecha_fin) {
             $q->where('fecha_inicio_reserva', '<', $fecha_fin)
               ->where('fecha_fin_reserva', '>', $fecha_inicio);
