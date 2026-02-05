@@ -1,53 +1,63 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>prueba</title>
-        <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
-    <link rel="stylesheet" href="https://use.typekit.net/wjn2blc.css">
-    {{-- Icons --}}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+@extends('layout.app')
 
-    <!-- CSS y JS Generales -->
-    @vite(['resources/js/filtrosDependencias.js'])
+@push('scripts')
+<script type="module" src="{{ Vite::asset('resources/js/filtros/filtrosReservas.js') }}"></script>
+<script type="module" src="{{ Vite::asset('resources/js/reservas/accionesReserva.js') }}"></script>
+@endpush
 
-</head>
-<body>
-        @include('dependencias.filtros.filtro', [
-            'dependencias_filtro' => $dependencias_filtro ?? collect(),
-            'localidades' => $localidades ?? collect()
-        ])
-        <div class="contenedor-servidor">
-         @foreach ($dependencias as $dependencia)
-            <p>{{$dependencia -> nombre}} , {{$dependencia->direccion->calle}} {{$dependencia->direccion->altura}} - {{$dependencia->direccion->ciudad}}</p>
-            <form action="/dependencias/{{$dependencia->id}}" method="POST">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="btn btn-danger">Eliminar</button>
-            </form>
-            <div class="form-check form-switch">
-                <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" role="switch" data-id="{{$dependencia->id}}"
-                        @checked($dependencia->activa)
-                        data-id="{{ $dependencia->id }}">
-                </div>
-            </div>
-        @endforeach
+
+@section('content')
+<section class="bg-gray-100 dark:bg-gray-900 py-10 lg:py-[0px]">
+  
+
+  @if($dependencias->isEmpty())
+    <p class="text-center text-gray-600 ">No hay dependencias cargadas</p>
+  @else
+  <div class="flex items-end justify-between">
+    <button id="mostrarFiltros" type="button"
+      class="rounded-md bg-blue-600 px-2 py-2 mb-2 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+      Filtros
+    </button>
+    
+    @can('crear_dependencia')
+    <a href="#"
+      class="inline-block rounded-md bg-blue-600 px-2 py-2 mb-2 text-sm font-medium text-center text-white
+                        hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+     Crear dependencia
+    </a>
+    @endcan
+  </div>
+  <div class="hidden opacity-0 -translate-y-4 transition-all duration-300 ease-out" id="filtros">
+    {{--ACA VAN LOS FILTROS--}}
+
+  </div>
+
+  <p id="mensajeNoHayDependencias" class="hidden text-center text-sm text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-gray-900 border border-dashed border-gray-300 dark:border-gray-700 rounded-lg p-4"></p>
+          
+  <div class="mx-auto px-0" id="contenedor-general">
+    <div class="-mx-4 flex flex-wrap">
+      <div class="w-full">
+        <div class="max-w-full overflow-x-auto">
+          <div class="hidden md:block">
+            <x-tabla-dependencia-desktop :dependencias="$dependencias" />
+          </div>
+
+          <div class="block md:hidden">
+            {{-- ACA LA VISTA MOBILE --}}
+          </div>
+
+        </div>
+      </div>
     </div>
 
-    <div id="contenedor-js" style="display:none;">
-        <div id="lista-dependencias"></div>
-        <div id="paginacion"></div>
+    <div class="contenedor-servidor flex flex-col items-center justify-center mt-6">
+      {{ $dependencias->links('vendor.pagination.simple-pagination') }}
     </div>
 
-    <div class="contenedor-servidor">
-        {{ $dependencias->links() }}
-    </div>
-</body>
+  </div>
+  @endif
+</section>
 
-</html>
+
+@endsection

@@ -1,33 +1,73 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>prueba</title>
-</head>
-<body>
-    <div> 
+@extends('layout.app')
 
-        <p>Nombre: {{$dependencia_padre->nombre}}</p>
-        <p>Activa: {{ $dependencia_padre->activa ? 'Sí' : 'No' }}</p>
-        <p>Direccion: {{$dependencia_padre->direccion->calle}} {{$dependencia_padre->direccion->altura}} - {{$dependencia_padre->direccion->ciudad}}</p>
-        @if($dependencia_padre->id_dependencia_padre != null)
-            <p>Dependencia jerárquicamente superior: {{$dependencia_padre->dependenciaPadre->nombre}}</p>
-        @else
-            <p>No tiene</p>
-        @endif
+@section('content')
+<section class="max-w-6xl mx-auto p-6 space-y-6">
 
-        @if($dependencias_hijas->dependenciasHijas->isNotEmpty())
-            <p>Dependencias hijas:</p>
-             <ul>
-                @foreach($dependencias_hijas->dependenciasHijas as $hija)
-                    <li>{{ $hija->nombre }}</li>
-                @endforeach
-            </ul>
-        @else
-            <p>No tiene</p>
-        @endif
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow p-6 mt-1 mb-4 transition-colors duration-300 hover:bg-gray-50 dark:hover:bg-gray-700">
+
+        <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-4 border-b border-gray-200 dark:border-gray-600 pb-2">
+            Datos de la Dependencia
+        </h2>
+
+        <div class="space-y-2 text-gray-700 dark:text-gray-300 mt-1 mb-4">
+            <p>
+                <span class="font-medium text-gray-800 dark:text-gray-100"> Nombre: </span>
+                {{ $datos_dependencia->nombre }}
+            </p>
+
+            <p>
+                <span class="font-medium text-gray-800 dark:text-gray-100"> Direccion: </span>
+                {{$datos_dependencia->direccion->calle}} {{$datos_dependencia->direccion->altura}} - {{$datos_dependencia->direccion->ciudad}}
+            </p>
+
+
+            <p>
+                <span class="font-medium text-gray-800 dark:text-gray-100"> Se encuentra activa:</span>
+                <span class="ml-1 px-2 py-1 rounded-full font-semibold
+                    {{ $datos_dependencia->activa ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700' }}">
+                    {{ $datos_dependencia->activa ? 'Sí' : 'No' }}
+                </span>
+            </p>
+
     </div>
-   
-</body>
-</html>
+</div>
+
+    <!-- Datos de la estructura de la Dependencia -->
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow p-6 mt-1 mb-4 transition-colors duration-300 hover:bg-gray-50 dark:hover:bg-gray-700">
+        <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-4 border-b border-gray-200 dark:border-gray-600 pb-2">
+            Organización Interna
+        </h2>
+
+        @if($datos_dependencia->id_dependencia_padre )
+            <p class="text-gray-700 dark:text-gray-300">
+                <span class="font-medium text-gray-800 dark:text-gray-100">
+                    Dependencia superior:
+                </span>
+                {{ $datos_dependencia->dependenciaPadre->nombre }}
+            </p>
+        @else
+            <p class="text-gray-500 dark:text-gray-400 italic">
+                No posee una dependencia superior.
+            </p>
+        @endif
+
+        <div class="mt-3">
+            @if($dependencias_hijas->isNotEmpty())
+                <p class="font-medium text-gray-800 dark:text-gray-100 mb-1">
+                    Dependencias hijas:
+                </p>
+
+                <ul class=" text-gray-700 dark:text-gray-300 space-y-1">
+                    @foreach($dependencias_hijas as $hija)
+                        <li class="list-disc list-inside">{{ $hija->nombre }}</li>
+                    @endforeach
+                </ul>
+            @else
+                <p class="text-gray-500 dark:text-gray-400 italic">
+                    No posee dependencias hijas.
+                </p>
+            @endif
+        </div>
+
+</section>
+@endsection

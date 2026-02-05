@@ -52,42 +52,43 @@ Route::middleware(['auth', 'role:Administrador General'])
        //sub prefijo para permisos y eventos de dependencias
        //abarca para dependencias hijas tambien
        Route::prefix('dependencias')->name('dependencias.')->group(function () {
-       Route::get('/', [DependenciaController::class, 'verDependencias'])
-        ->middleware('permission:ver_dependencias')
-        ->name('index');
+        
+            Route::get('/', [DependenciaController::class, 'verDependencias'])->middleware('permission:ver_dependencias')->name('index');
 
-     Route::get('/filtrar', [DependenciaController::class, 'filtrarDependencias'])
-        ->middleware('permission:ver_dependencias')
-        ->name('filtrar');
+            Route::get('/{id}', [DependenciaController::class, 'verDependencia'])->middleware('permission:ver_dependencias')->name('show');
 
-     Route::get('/crear', [DependenciaController::class, 'datosParaCrearDependencia'])
-        ->middleware('permission:crear_dependencias')
-        ->name('create');
+            Route::get('/filtrar', [DependenciaController::class, 'filtrarDependencias'])->middleware('permission:ver_dependencias')->name('filtrar');
 
-    Route::post('/', [DependenciaController::class, 'crearDependencia'])
-        ->middleware('permission:crear_dependencias')
-        ->name('store');
+            Route::get('/crear', [DependenciaController::class, 'datosParaCrearDependencia'])->middleware('permission:crear_dependencias')->name('create');
 
-    Route::get('/{id}', [DependenciaController::class, 'verDependencia'])
-        ->middleware('permission:ver_dependencias')
-        ->name('show');
+            Route::post('/', [DependenciaController::class, 'crearDependencia'])->middleware('permission:crear_dependencias')->name('store');
 
-    Route::get('/{id}/editar', [DependenciaController::class, 'datosParaEditarDependencia'])
-        ->middleware('permission:editar_dependencias')
-        ->name('edit');
+            Route::get('/{id}/editar', [DependenciaController::class, 'datosParaEditarDependencia'])->middleware('permission:editar_dependencias')->name('edit');
 
-    Route::put('/{id}', [DependenciaController::class, 'editarDependencia'])
-        ->middleware('permission:editar_dependencias')
-        ->name('update');
+            Route::put('/{id}', [DependenciaController::class, 'editarDependencia'])->middleware('permission:editar_dependencias')->name('update');
 
-    Route::delete('/{id}', [DependenciaController::class, 'eliminarDependencia'])
-        ->middleware('permission:eliminar_dependencias')
-        ->name('destroy');
+            Route::delete('/{id}', [DependenciaController::class, 'eliminarDependencia'])->middleware('permission:eliminar_dependencias')->name('destroy');
 
-    Route::patch('/{id}/activa', [DependenciaController::class, 'cambiarActivaDependencia'])
-        ->middleware('permission:editar_dependencias')
-        ->name('toggle');
-});
+            Route::patch('/{id}/activa', [DependenciaController::class, 'cambiarActivaDependencia'])->middleware('permission:editar_dependencias')->name('toggle');
+
+            //DEPENDENCIAS
+
+            // //Editar dependencias
+            // Route::get('dependencias/editar/{id}', [DependenciaController::class, 'datosParaEditarDependencia']); //formulario editar
+            // Route::patch('/dependencias/{id}', [DependenciaController::class, 'editarDependencia']);
+
+            // //crear dependencias
+            // Route::get('/dependencias/crear', [DependenciaController::class, 'datosParaCrearDependencia']); //formulario crear
+            // Route::post('/dependencias/crear-dependencia', [DependenciaController::class, 'crearDependencia']);
+
+            // // Ver dependencias
+            // Route::get('/dependencias', [DependenciaController::class, 'verDependencias'])->name('dependencias.index');
+
+            // Route::get('/dependencias/{id}', [DependenciaController::class, 'verDependencia']);
+
+            // // Eliminar dependencias
+            // Route::delete('/dependencias/{id}', [DependenciaController::class, 'eliminarDependencia']);
+    });
 
 
 });

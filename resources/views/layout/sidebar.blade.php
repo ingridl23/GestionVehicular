@@ -48,6 +48,15 @@
             :active="request()->routeIs('personal.*')" />
         @endcan
 
+        <!-- Dependencias -->
+        @can('ver_dependencias')
+        <x-nav-item
+            icon="fa-sitemap"
+            label="Dependencias"
+            route="admin.dependencias.index"
+            :active="request()->routeIs('dependencias.*')" />
+        @endcan
+
         <!-- Reservas (con submenú) -->
         @canany([
         'ver_reservas_globales',

@@ -28,24 +28,25 @@ class DependenciaController extends Controller{
     }
 
     // permiso = ver dependencias
-    public function verDependencias( DependenciaPolicy $DependenciaP){
+    public function verDependencias(){
      $this->authorize('view', Dependencia::class);
          $data = array_merge(
             ['dependencias' => $this->service->verDependencias()],
             $this->service->datosFiltros()
         );
-        return view('dependencias.dependencias', $data);
+        return view('ui.dependencias.dependencias', $data);
     }
 
 
     // permiso = ver dependencias
-    public function verDependencia($id,DependenciaPolicy $DependenciaP){
+    public function verDependencia($id){
 
         $dependencia = $this->service->verDependencia($id);
+        $dependencia_autorizar = Dependencia::findOrFail($id);
 
-        $this->authorize('view', $dependencia);
+        $this->authorize('view', $dependencia_autorizar);
 
-        return view('dependencias.dependencia', $dependencia);
+        return view('ui.dependencias.dependencia', $dependencia);
     }
 
 

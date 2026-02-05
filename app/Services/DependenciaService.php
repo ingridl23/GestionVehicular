@@ -25,14 +25,22 @@ class DependenciaService{
         ];
     }
 
-    //verDependencia muestra una dependencia con todos sus datos y las dependencias padre (no los datos, solo el nombre)
+    //verDependencia Muestra los datos de la dependencia seleccionada, a que dependencia padre pertenece y si tiene dependencias hijas
     public function verDependencia($id){
-        $padre = Dependencia::with(['dependenciaPadre', 'direccion'])->findOrFail($id);
+        $datos_dependencia = Dependencia::with(['dependenciaPadre', 'direccion'])->findOrFail($id);
         
-        $hijas = Dependencia::with(['dependenciasHijas' => function ($q) {$q->orderBy('nombre');}])->findOrFail($id);
+        $dependencia = Dependencia::with('dependenciasHijas')->find($id);
+
+        $idsPermitidos = array_merge(
+            [],
+            $dependencia->obtenerIdsHijas()
+        );
+
+        $hijas = Dependencia::whereIn('id', $idsPermitidos)->get();
+
         return [
             'dependencias_hijas' => $hijas,
-            'dependencia_padre' => $padre,
+            'datos_dependencia' => $datos_dependencia,
         ];
     }
 

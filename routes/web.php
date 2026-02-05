@@ -95,24 +95,6 @@ Route::get('/reset', [HomeController::class, 'reset'])->name('auth.passwords.res
         ->name('reportes.cambiarEstado');
 
 
-    //DEPENDENCIAS
-
-    //Editar dependencias
-    Route::get('dependencias/editar/{id}', [DependenciaController::class, 'datosParaEditarDependencia']); //formulario editar
-    Route::patch('/dependencias/{id}', [DependenciaController::class, 'editarDependencia']);
-
-    //crear dependencias
-    Route::get('/dependencias/crear', [DependenciaController::class, 'datosParaCrearDependencia']); //formulario crear
-    Route::post('/dependencias/crear-dependencia', [DependenciaController::class, 'crearDependencia']);
-
-    // Ver dependencias
-    Route::get('/dependencias', [DependenciaController::class, 'verDependencias'])->name('dependencias.index');
-
-    Route::get('/dependencias/{id}', [DependenciaController::class, 'verDependencia']);
-
-    // Eliminar dependencias
-    Route::delete('/dependencias/{id}', [DependenciaController::class, 'eliminarDependencia']);
-
 
     //RESERVAS
 
