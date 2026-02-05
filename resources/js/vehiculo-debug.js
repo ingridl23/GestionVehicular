@@ -1,11 +1,12 @@
-console.log('vehiculos.js cargado correctamente');
-
-
+console.log('vehiculos.js cargado correctamente - VERSION DEBUG');
 
 document.addEventListener('DOMContentLoaded', function() {
     // ===== CSRF =====
     const csrfMeta = document.querySelector('meta[name="csrf-token"]');
     const csrfToken = csrfMeta ? csrfMeta.getAttribute('content') : '';
+
+    console.log('✅ CSRF Token:', csrfToken ? 'Encontrado' : '❌ NO ENCONTRADO');
+
     // Variables de estado
     var currentPage = 1;
     var totalPages = 1;
@@ -25,11 +26,13 @@ document.addEventListener('DOMContentLoaded', function() {
     var estSelect = document.getElementById('filter-estado');
 
     if (!grid) {
-        console.warn('No se encontró el elemento #vehiculos-grid');
+        console.error('❌ ERROR: No se encontró el elemento #vehiculos-grid');
         return;
     }
 
-    // Función principal de carga
+    console.log('✅ Grid encontrado');
+
+    // Función principal de carga CON DEBUGGING
     function loadVehiculos(page) {
         page = page || 1;
         var params = new URLSearchParams();
@@ -40,6 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         var url = '/buscar-vehiculos?' + params.toString();
 
+        console.log('🔍 Haciendo petición a:', url);
 
         var headers = {
             'Accept': 'application/json',
@@ -47,52 +51,98 @@ document.addEventListener('DOMContentLoaded', function() {
         };
         if (csrfToken) {
             headers['X-CSRF-TOKEN'] = csrfToken;
-
         }
-
-        console.log('Filtros:', {
-            searchTerm,
-            filterDependencia,
-            filterEstado
-        });
-        if (filterDependencia === '') params.delete('dependencia_id');
-        if (filterEstado === '') params.delete('estado_vehiculo_id');
-
 
         fetch(url, { headers: headers })
             .then(function(response) {
-                if (!response.ok) throw new Error('Error ' + response.status);
+                console.log('📡 Respuesta recibida:', {
+                    status: response.status,
+                    ok: response.ok,
+                    statusText: response.statusText
+                });
+
+                if (!response.ok) {
+                    console.error('❌ Respuesta no OK:', response.status);
+                    throw new Error('Error ' + response.status);
+                }
                 return response.json();
             })
             .then(function(data) {
+                console.log('📦 Datos parseados:', data);
+                console.log('📊 Estructura de data:', {
+                    tiene_data: !!data.data,
+                    es_array: Array.isArray(data.data),
+                    cantidad: data.data ? data.data.length : 0,
+                    current_page: data.current_page,
+                    last_page: data.last_page
+                });
+
+                if (data.data && data.data.length > 0) {
+                    console.log('🚗 Primer vehículo:', data.data[0]);
+                    console.log('🔑 Keys del primer vehículo:', Object.keys(data.data[0]));
+                }
+
                 vehiculos = data.data || [];
                 currentPage = data.current_page || 1;
                 totalPages = data.last_page || 1;
+
+                console.log('✅ Variables actualizadas:', {
+                    vehiculos_count: vehiculos.length,
+                    currentPage,
+                    totalPages
+                });
+
                 renderVehiculos();
                 updatePagination();
             })
             .catch(function(error) {
-                console.error('Error:', error);
-                grid.innerHTML = '<div class="col-span-full text-center py-12 text-red-500">Error al cargar datos</div>';
+                console.error('❌ ERROR en fetch:', error);
+                console.error('Stack trace:', error.stack);
+                grid.innerHTML = '<div class="col-span-full text-center py-12 text-red-500">Error al cargar datos: ' + error.message + '</div>';
             });
     }
 
     function renderVehiculos() {
+        console.log('🎨 Renderizando vehículos, cantidad:', vehiculos.length);
+
         if (!vehiculos.length) {
+            console.warn('⚠️ No hay vehículos para renderizar');
             grid.innerHTML = '<div class="col-span-full text-center py-12 text-gray-500">No se encontraron vehículos</div>';
             return;
         }
 
-        var html = vehiculos.map(function(v) {
+        var html = vehiculos.map(function(v, index) {
+            console.log(`🚗 Procesando vehículo ${index}:`, {
+                id: v.id,
+                marca: v.marca,
+                modelo: v.modelo,
+                dominio: v.dominio,
+                tiene_estado_vehiculo: !!v.estado_vehiculo,
+                estado_vehiculo_valor: v.estado_vehiculo
+            });
+
             // Manejo de relaciones de forma ultra segura
             var nombreMarca = v.marca || 'N/A';
             var nombreModelo = v.modelo || '';
             var dominio = v.dominio || 'N/A';
             var anio = v.anio || 'N/A';
 
-            // Acceso seguro a objetos anidados sin usar ?.
-            var estadoStr = (v.estado_vehiculo && v.estado_vehiculo.estado) ? v.estado_vehiculo.estado : 'N/A';
-            var depStr = (v.dependencia_duena && v.dependencia_duena.nombre) ? v.dependencia_duena.nombre : 'N/A';
+            // Acceso seguro a objetos anidados
+            var estadoStr = 'N/A';
+            if (v.estado_vehiculo) {
+                if (v.estado_vehiculo.estado) {
+                    estadoStr = v.estado_vehiculo.estado;
+                } else {
+                    console.warn('⚠️ estado_vehiculo existe pero no tiene .estado:', v.estado_vehiculo);
+                }
+            } else {
+                console.warn('⚠️ No existe estado_vehiculo en el vehículo:', v);
+            }
+
+            var depStr = 'N/A';
+            if (v.dependencia_duena && v.dependencia_duena.nombre) {
+                depStr = v.dependencia_duena.nombre;
+            }
 
             var colorClase = 'bg-gray-100 text-gray-800';
 
@@ -105,7 +155,6 @@ document.addEventListener('DOMContentLoaded', function() {
             } else if (estadoStr === 'BAJA') {
                 colorClase = 'bg-red-100 text-red-800';
             }
-
 
             return '<div onclick="window.location.href=\'/vehiculos/' + v.id + '\'" class="bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg cursor-pointer transition">' +
                 '<div class="bg-gray-200 dark:bg-gray-700 h-40 flex items-center justify-center">' +
@@ -120,7 +169,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 '</div>';
         }).join('');
 
+        console.log('✅ HTML generado, longitud:', html.length);
         grid.innerHTML = html;
+        console.log('✅ Grid actualizado');
     }
 
     function updatePagination() {
@@ -130,13 +181,15 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Event listeners
-    btnFiltrar.addEventListener('click', function() {
-        searchTerm = searchInput ? searchInput.value.trim() : '';
-        filterDependencia = depSelect ? depSelect.value : '';
-        filterEstado = estSelect ? estSelect.value : '';
-        loadVehiculos(1);
-    });
-
+    if (btnFiltrar) {
+        btnFiltrar.addEventListener('click', function() {
+            searchTerm = searchInput ? searchInput.value.trim() : '';
+            filterDependencia = depSelect ? depSelect.value : '';
+            filterEstado = estSelect ? estSelect.value : '';
+            console.log('🔍 Filtros aplicados:', { searchTerm, filterDependencia, filterEstado });
+            loadVehiculos(1);
+        });
+    }
 
     if (prevButton) {
         prevButton.addEventListener('click', function() {
@@ -158,7 +211,6 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
             console.log('Click en agregar vehiculo');
 
-            // Validación básica
             const form = document.getElementById('vehiculo-form');
             if (!form.checkValidity()) {
                 alert('Por favor complete todos los campos obligatorios');
@@ -168,7 +220,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
             if (!confirm('¿Desea agregar este vehículo?')) return;
 
-            // Recopilar datos del formulario
             const formData = {
                 id_direccion_actual: document.getElementById('id_direccion_actual').value,
                 id_dependencia_duena: document.getElementById('id_dependencia_duena').value,
@@ -202,7 +253,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.log('Respuesta del servidor:', data);
 
                 if (!response.ok) {
-                    // Si hay errores de validación
                     if (data.errors) {
                         const errores = Object.values(data.errors).flat().join('\n');
                         alert('Errores de validación:\n' + errores);
@@ -211,13 +261,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                     return;
                 }
+
                 alert('Vehículo añadido con éxito');
-                // Cerrar modal
                 closeModal();
-
-                // Recargar la lista
                 loadVehiculos(currentPage);
-
 
             } catch (error) {
                 console.error('Error en la petición:', error);
@@ -226,10 +273,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-
-
-    // ===== Modal Functions =====
-    // ===== ABRIR MODAL (Botón Verde +) =====
+    // ===== ABRIR MODAL =====
     const btnAbrirModal = document.getElementById('btn-abrir');
 
     if (btnAbrirModal) {
@@ -248,17 +292,14 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        // Verificar que window.CATALOGOS existe
         if (!window.CATALOGOS) {
             console.error('window.CATALOGOS no está definido');
             alert('Error: No se pudieron cargar los catálogos');
             return;
         }
 
-        // Limpiar formulario
         form.reset();
 
-        // Llenar selects
         fillSelect('id_dependencia_duena', window.CATALOGOS.dependencias, 'id', 'nombre');
         fillSelect('id_direccion_actual', window.CATALOGOS.direcciones, 'id', 'nombre');
         fillSelect('id_estado_vehiculo', window.CATALOGOS.estadosVehiculo, 'id', 'estado');
@@ -285,7 +326,6 @@ document.addEventListener('DOMContentLoaded', function() {
             const option = document.createElement('option');
             option.value = item[valueKey];
 
-            // Para direcciones, construir el texto completo
             if (selectId === 'id_direccion_actual') {
                 let texto = item.calle || item.nombre || '';
                 if (item.altura && item.altura != 0) {
@@ -308,6 +348,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Carga inicial
+    console.log('🚀 Iniciando carga inicial de vehículos...');
     loadVehiculos(1);
 });
 

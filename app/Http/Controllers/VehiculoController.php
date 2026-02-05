@@ -31,14 +31,8 @@ public function sectionVehiculo(){
 
     return View('components.vehiculos.vehiculos', compact('dependencias','vehiculos','estados','direcciones','estadosNafta') );
 }
-    // CU 2 – Listado
-// En VehiculoController.php
-public function index(Request $request, VehiculoService $service)
-{
-    return response()->json(
-        $service->listar($request)
-    );
-}
+
+
 
     // CU 2 – Detalle
    public function show(Vehiculo $vehiculo): JsonResponse
@@ -116,7 +110,7 @@ public function detalle(Vehiculo $vehiculo)
                 'anio' => 'required|integer',
                 'id_dependencia_duena' => 'required|exists:dependencias,id',
                 'id_direccion_actual' => 'required|exists:direcciones,id',
-                'id_estado_nafta' => 'required|exists:estados_naftas,id',
+                'id_estado_nafta' => 'required|exists:estados_nafta,id',
                 'id_estado_vehiculo' => 'required|exists:estados_vehiculos,id',
                 'kilometros' => 'required|integer|min:0',
                 'VTV' => 'required|date',
@@ -188,7 +182,7 @@ public function detalle(Vehiculo $vehiculo)
                 'id_estado_vehiculo' => 'sometimes|exists:estados_vehiculos,id',
                 'id_direccion_actual' => 'sometimes|exists:direcciones,id',
                 'id_dependencia_duena' => 'sometimes|exists:dependencias,id',
-                'id_estado_nafta' => 'sometimes|exists:estados_naftas,id',
+                'id_estado_nafta' => 'sometimes|exists:estados_nafta,id',
                 'kilometros' => 'sometimes|integer|min:0',
                 'VTV' => 'sometimes|date',
                 'habilitado_prestamo' => 'sometimes|boolean',
@@ -237,6 +231,16 @@ public function detalle(Vehiculo $vehiculo)
             ], 500);
         }
     }
+
+    public function index(Request $request, VehiculoService $service)
+{
+    $this->authorize('viewAny', Vehiculo::class);
+
+    return response()->json(
+        $service->listar($request)
+    );
+}
+
 
     // CU 17 – Reasignar
     public function updateAsignacion(Request $request, Vehiculo $vehiculo, VehiculoService $service): JsonResponse
