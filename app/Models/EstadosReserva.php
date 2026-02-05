@@ -15,12 +15,12 @@ class EstadosReserva extends Model
     ];
 
     //para acordarse
-    public const SOLICITADA = 1;
-    public const APROBADA = 2;
-    public const EN_CURSO = 3;
-    public const FINALIZADA = 4;
-    public const CANCELADA = 5;
-    public const RECHAZADA = 6;
+    public const EN_CURSO = 1;
+    public const FINALIZADA = 2;
+    public const PENDIENTE = 3;
+    public const CANCELADA = 4;
+    public const RECHAZADA = 5;
+    public const APROBADA = 6;
 
     public function reservas() {
         return $this->hasMany(Reserva::class);

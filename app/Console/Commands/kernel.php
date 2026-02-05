@@ -24,6 +24,8 @@ class Kernel extends ConsoleKernel
         $schedule->command('app:verificar-alertas')
             ->dailyAt('03:00')
             ->withoutOverlapping();
+        
+        $schedule->command('reservas:expirar-pendientes')->everyThirtyMinutes();
     }
 
     /**
