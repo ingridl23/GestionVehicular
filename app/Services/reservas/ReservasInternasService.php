@@ -17,7 +17,7 @@ class ReservasInternasService extends BaseReservasServices{
 
        $query = $this->obtenerDatosVerReservas();
 
-        if($rol == 'Dueño Dependencia' || $rol == 'Jefe de Area'){
+        if($rol == 'Administrador de Dependencia' || $rol == 'Jefe de Area'){
             $query->obtenerDependenciasInternas($id_dependencia);
         }
 
@@ -155,7 +155,7 @@ class ReservasInternasService extends BaseReservasServices{
      *
      * Este método:
      * - Determina qué vehículos deben mostrarse en el filtro según las reservas visibles para el usuario logueado (se determina por rol).
-     * - Aplica reglas de visibilidad basadas en el rol del usuario (Dueño de Dependencia, Jefe de Área, Operativo u otros).
+     * - Aplica reglas de visibilidad basadas en el rol del usuario (Administrador de Dependencia, Jefe de Área, Operativo u otros).
      * - Filtra los vehículos para que solo se incluyan aquellos que tengan al menos una reserva accesible para el usuario o la dependencia (depende del rol).
      * - Carga únicamente los vehículos que cuentan con una reserva evitando la duplicacion de elementos, manteniendo consistencia entre el filtro y los datos cargados.
      * - Devuelve también el listado de estados posibles de las reservas.
@@ -174,7 +174,7 @@ class ReservasInternasService extends BaseReservasServices{
         $query = Vehiculo::whereHas('reservas', function ($q) use ($rol, $id_dependencia, $id_usuario) {
 
             //Internas de su dependencia
-            if ($rol === 'Dueño Dependencia' || $rol === 'Jefe de Area') {
+            if ($rol === 'Administrador de Dependencia' || $rol === 'Jefe de Area') {
                 $q->obtenerDependenciasInternas($id_dependencia);
             } 
 
@@ -193,7 +193,7 @@ class ReservasInternasService extends BaseReservasServices{
         //Carga las reservas de cada vehiculo pero que cumplan con las condiciones
         ->with(['reservas' => function ($q) use ($rol, $id_dependencia, $id_usuario) {
 
-            if ($rol === 'Dueño Dependencia' || $rol === 'Jefe de Area') {
+            if ($rol === 'Administrador de Dependencia' || $rol === 'Jefe de Area') {
                 $q->obtenerDependenciasInternas($id_dependencia);
             } 
             elseif ($rol === 'Operativo') {

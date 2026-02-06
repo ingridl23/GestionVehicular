@@ -52,12 +52,6 @@ Route::middleware(['auth', 'role:Administrador General'])
        //sub prefijo para permisos y eventos de dependencias
        //abarca para dependencias hijas tambien
        Route::prefix('dependencias')->name('dependencias.')->group(function () {
-        
-            Route::get('/', [DependenciaController::class, 'verDependencias'])->middleware('permission:ver_dependencias')->name('index');
-
-            Route::get('/{id}', [DependenciaController::class, 'verDependencia'])->middleware('permission:ver_dependencias')->name('show');
-
-            Route::get('/filtrar', [DependenciaController::class, 'filtrarDependencias'])->middleware('permission:ver_dependencias')->name('filtrar');
 
             Route::get('/crear', [DependenciaController::class, 'datosParaCrearDependencia'])->middleware('permission:crear_dependencias')->name('create');
 

@@ -153,9 +153,14 @@ Route::get('/reset', [HomeController::class, 'reset'])->name('auth.passwords.res
     ->name('dependencia.')
     ->group(function () {
 
-        Route::resource('reportes', ReporteController::class)
-            ->only(['index', 'show'])
-          ->middleware('permission:ver_reportes_dependencia|ver_reportes_general|ver_reportes_operativos');
+        Route::get('/', [DependenciaController::class, 'verDependencias'])->middleware('permission:ver_dependencias')->name('index');
+
+        Route::get('/{id}', [DependenciaController::class, 'verDependencia'])->middleware('permission:ver_dependencias')->name('show');
+
+        Route::get('/filtrar', [DependenciaController::class, 'filtrarDependencias'])->middleware('permission:ver_dependencias')->name('filtrar');
+
+        Route::resource('reportes', ReporteController::class)->only(['index', 'show'])
+        ->middleware('permission:ver_reportes_dependencia|ver_reportes_general|ver_reportes_operativos');
 
           Route::get('/reservas', [ReservaController::class, 'reservas'])
               ->middleware('permission:ver_reservas')

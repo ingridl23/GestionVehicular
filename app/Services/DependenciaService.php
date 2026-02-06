@@ -3,6 +3,7 @@
 namespace App\Services;
 use App\Models\Dependencia;
 use App\Models\Direcciones;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 
 class DependenciaService{
@@ -14,8 +15,32 @@ class DependenciaService{
         $this->direccionService = $direccionService;
     }
 
+    public function user(){
+        return Auth::user();
+    }
+
+    public function rol(){
+        $rol = $this->user()->getRoleNames();
+        return $rol[0] ;
+    }
+
     public function verDependencias(){
-        return Dependencia::with('direccion')->orderBy('nombre')->paginate(10);
+        $rol = $this->rol();
+        $id_dependencia = $this->user()->dependencia->id;
+
+        $query = Dependencia::with('direccion');
+
+        if ($rol === 'Administrador de Dependencia') {
+            $query->obtenerDependenciasInternas($id_dependencia);
+        }
+
+        elseif ($rol === 'Jefe de Area') {
+            $query->where('id', $id_dependencia);
+        }
+
+        $dependencias = $query->orderBy('nombre')->paginate(10);
+
+        return $dependencias;
     }
 
     public function datosFiltros(){

@@ -48,5 +48,25 @@ class Dependencia extends Model
         return $ids;
     }
 
+    public function scopeObtenerDependenciasInternas($query, $id_dependencia){
+
+        $dependencia = Dependencia::find($id_dependencia);
+
+        if (!$dependencia) {
+            return $query->whereRaw('1 = 0');
+        }
+
+        // Se obtienen todsos los ID`s (el de la dependencia padre + todos sus hijos)
+        $idsPermitidos = array_merge(
+            [$dependencia->id],
+            $dependencia->obtenerIdsHijas()
+        );
+       
+        return $query->where(function ($q) use ($idsPermitidos) {
+            $q->whereIn('id', $idsPermitidos)
+            ->orWhereIn('id_dependencia_padre', $idsPermitidos);
+        });
+    }
+
 
 }

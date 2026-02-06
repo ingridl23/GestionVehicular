@@ -36,7 +36,7 @@ class PrestamoController extends BaseReservaController{
         $id_dependencia = $this->service->user()->dependencia->id;
         $query = Reserva::with('estado_reserva', 'vehiculo', 'usuario', 'dependencia_solicitante')->orderBy('fecha_inicio_reserva');
 
-        if($rol == 'Dueño Dependencia' || $rol == 'Jefe de Area'){
+        if($rol == 'Administrador de Dependencia' || $rol == 'Jefe de Area'){
             $query->obtenerDependenciasExternas($id_dependencia);
         }
 

@@ -14,21 +14,32 @@ class DependenciaPolicy
             return true;
         }
     }
-
+    
+    public function vistaGeneral(User $user): bool{
+        return $user->can('ver_dependencias');
+    }
     /**
      * Ver dependencia
      */
     public function view(User $user, Dependencia $dependencia): bool
     {
-        // Dueño de Dependencia → su dependencia
-        if ($user->hasRole('Dueño Dependencia')) {
-            return $user->dependencia_id === $dependencia->id
-                || $dependencia->id_dependencia_padre === $user->dependencia_id;
+        // Administrador de Dependencia → su dependencia
+        if ($user->hasRole('Administrador de Dependencia')) {
+            
+                $idsPermitidos = array_merge(
+                [$user->dependencia->id],
+                $user->dependencia->obtenerIdsHijas()
+            );
+            return in_array($dependencia->id, $idsPermitidos);
         }
 
         // Jefe de Área → solo su dependencia
         if ($user->hasRole('Jefe de Area')) {
-            return $user->dependencia_id === $dependencia->id;
+            return $user->id_dependencia === $dependencia->id;
+        }
+
+        if($user->hasRole('Adminsitrador General')){
+            return true;
         }
 
         return false;

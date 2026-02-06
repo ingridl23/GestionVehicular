@@ -34,7 +34,7 @@ class ReservaController extends BaseReservaController{
         $query = Reserva::with('estado_reserva', 'vehiculo', 'usuario', 'dependencia_solicitante')->orderBy('fecha_inicio_reserva');
 
 
-        if($rol == 'Dueño Dependencia' || $rol == 'Jefe de Area'){
+        if($rol == 'Administrador de Dependencia' || $rol == 'Jefe de Area'){
             $query->obtenerDependenciasInternas($id_dependencia);
         }
 

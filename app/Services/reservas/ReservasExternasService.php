@@ -19,7 +19,7 @@ class ReservasExternasService extends BaseReservasServices{
         $query = $this->obtenerDatosVerReservas();
 
 
-        if($rol == 'Dueño Dependencia' || $rol == 'Jefe de Area'){
+        if($rol == 'Administrador de Dependencia' || $rol == 'Jefe de Area'){
             $query->obtenerDependenciasExternas($id_dependencia);
         }
 
@@ -162,7 +162,7 @@ class ReservasExternasService extends BaseReservasServices{
      *
      * Este método:
      * - Determina qué vehículos deben mostrarse en el filtro según las reservas visibles para el usuario logueado (se determina por rol).
-     * - Aplica reglas de visibilidad basadas en el rol del usuario (Dueño de Dependencia, Jefe de Área, Operativo u otros).
+     * - Aplica reglas de visibilidad basadas en el rol del usuario (Administrador de Dependencia, Jefe de Área, Operativo u otros).
      * - Filtra los vehículos para que solo se incluyan aquellos que tengan al menos una reserva accesible para el usuario o la dependencia (depende del rol).
      * - Carga únicamente los vehículos que cuentan con una reserva evitando la duplicacion de elementos, manteniendo consistencia entre el filtro y los datos cargados.
      * - Devuelve también el listado de estados posibles de las reservas.
@@ -186,7 +186,7 @@ class ReservasExternasService extends BaseReservasServices{
         $query = Vehiculo::whereHas('reservas', function ($q) use ($rol, $id_dependencia) {
 
             //Externas de su dependencia
-            if($rol == 'Dueño Dependencia' || $rol == 'Jefe de Area'){
+            if($rol == 'Administrador de Dependencia' || $rol == 'Jefe de Area'){
             $q->obtenerDependenciasExternas($id_dependencia)->groupBy('id_vehiculo');
             }
 
@@ -205,7 +205,7 @@ class ReservasExternasService extends BaseReservasServices{
          */
         ->with(['reservas' => function ($q) use ($rol, $id_dependencia) {
 
-            if($rol == 'Dueño Dependencia' || $rol == 'Jefe de Area'){
+            if($rol == 'Administrador de Dependencia' || $rol == 'Jefe de Area'){
             $q->obtenerDependenciasExternas($id_dependencia)->groupBy('id_vehiculo');
         }
 

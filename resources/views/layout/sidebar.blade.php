@@ -53,8 +53,8 @@
         <x-nav-item
             icon="fa-sitemap"
             label="Dependencias"
-            route="admin.dependencias.index"
-            :active="request()->routeIs('dependencias.*')" />
+            route="dependencia.index"
+            :active="request()->routeIs('dependencia.*')" />
         @endcan
 
         <!-- Reservas (con submenú) -->

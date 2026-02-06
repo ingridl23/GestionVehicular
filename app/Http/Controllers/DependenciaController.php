@@ -10,15 +10,13 @@ use function PHPUnit\Framework\isEmpty;
 use App\Http\Requests\FiltroDependenciasRequest;
 use App\Http\Requests\EditarDependenciaRequest;
 use App\Http\Requests\CrearDependenciaRequest;
-
+use App\Models\User;
 use Illuminate\Validation\ValidationException;
 use App\Services\DependenciaService;
 use App\Policies\DependenciaPolicy;
+use Illuminate\Support\Facades\Auth;
 
 class DependenciaController extends Controller{
-
-
-
 
     protected DependenciaService $service;
 
@@ -29,7 +27,7 @@ class DependenciaController extends Controller{
 
     // permiso = ver dependencias
     public function verDependencias(){
-     $this->authorize('view', Dependencia::class);
+        $this->authorize('vistaGeneral', Dependencia::class);
          $data = array_merge(
             ['dependencias' => $this->service->verDependencias()],
             $this->service->datosFiltros()
@@ -40,7 +38,6 @@ class DependenciaController extends Controller{
 
     // permiso = ver dependencias
     public function verDependencia($id){
-
         $dependencia = $this->service->verDependencia($id);
         $dependencia_autorizar = Dependencia::findOrFail($id);
 
@@ -51,7 +48,7 @@ class DependenciaController extends Controller{
 
 
     // permiso = eliminar dependencias
-    public function eliminarDependencia($id,DependenciaPolicy $DependenciaP){
+    public function eliminarDependencia($id){
         try {
 
             $dependencia = $this->service->verDependencia($id);
@@ -67,7 +64,7 @@ class DependenciaController extends Controller{
 
     // permiso = ver dependencias
     // Actualiza el estado de la dependencia, alternando entre activa (1) e inactiva (0) según su estado actual.
-    public function cambiarActivaDependencia($id,DependenciaPolicy $DependenciaP){
+    public function cambiarActivaDependencia($id){
      $dependencia = $this->service->verDependencia($id);
 
     $this->authorize('toggle', $dependencia);
