@@ -86,10 +86,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
         const sinSeleccion = document.getElementById('sinSeleccion');
-        sinSeleccion.classList.add('hidden');
+        if (sinSeleccion) {
+            sinSeleccion.classList.add('hidden');
+        }
+
 
         const reporteSeleccionado = document.getElementById('reporteSeleccionado')
-        reporteSeleccionado.classList.remove('hidden');
+
+        if (reporteSeleccionado) {
+
+            reporteSeleccionado.classList.remove('hidden');
+        }
 
         document.getElementById('chatAvatar').textContent =
             reporteActivo.usuario_nombre.substring(0, 2).toUpperCase();
@@ -166,11 +173,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // Cambiar estado
     // ===============================
     window.cambiarEstado = function(select) {
+
+
         if (!reporteActivo) return;
 
         const nuevoEstado = select.value;
 
         fetch(`/admin/reportes/${reporteActivo.id}/estado`, {
+
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
@@ -181,6 +191,7 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(res => {
                 if (!res.ok) throw new Error();
                 reporteActivo.estado = nuevoEstado;
+                console.log('Estado actualizado:', nuevoEstado);
             })
             .catch(() => {
                 select.value = reporteActivo.estado;
@@ -211,6 +222,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function enviarMensaje() {
+        if (!reporteActivo) {
+            alert('Seleccioná un reporte primero');
+            return;
+        }
+
         const mensaje = textarea.value.trim();
 
         if (!mensaje) {
@@ -219,22 +235,31 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         errorMsg.classList.add('hidden');
-
-        // EJEMPLO: simulamos mensaje agregado
-        window.agregarMensajeAlChat({
-            comentario: mensaje,
-            nombre: 'Vos',
-            usuario_id: window.USUARIO_ACTUAL_ID,
-            fecha: new Date().toLocaleString('es-AR', {
-                day: '2-digit',
-                month: '2-digit',
-                hour: '2-digit',
-                minute: '2-digit'
+        fetch(`/reportes/${reporteActivo.id}/comentarios`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                },
+                body: JSON.stringify({
+                    comentario: mensaje
+                })
             })
-        });
-
-        textarea.value = '';
+            .then(res => {
+                if (!res.ok) throw new Error('Error al guardar mensaje');
+                return res.json();
+            })
+            .then(data => {
+                // viene del controller → ya persistido
+                reporteActivo.comentarios.push(data.comentario);
+                renderMensajes();
+                textarea.value = '';
+            })
+            .catch(() => {
+                alert('No se pudo enviar el mensaje');
+            });
     }
+
 
 
 });

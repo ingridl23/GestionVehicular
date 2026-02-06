@@ -88,10 +88,12 @@ class UserController extends Controller
     )->count(),
      ];
 
+
+      $alertas = Alerta::latest()->take(10)->get();
     // luego, cuando tengas datos reales:
     // $stats['licencias'] = Licencia::vencidas()->count
         $user = Auth::user();
-            $alertas = Alerta::latest()->paginate(10);
+            //$alertas = Alerta::latest()->paginate(10);
        return view('operativo.dashboard', compact(
     'user',
     'stats',

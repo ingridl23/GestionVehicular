@@ -53,8 +53,8 @@ use App\Http\Controllers\ReporteController;
              Route::get('/reportes', [ReporteController::class, 'misReportesOperativo'])
             ->name('reportes.index');
 
-        Route::patch('/reportes/{reporte}/estado', [ReporteController::class, 'cambiarEstado'])
-    ->name('reportes.estado');
+       /* Route::patch('/reportes/{reporte}/estado', [ReporteController::class, 'cambiarEstado'])
+    ->name('reportes.estado');*/
 
 
 

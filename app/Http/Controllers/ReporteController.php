@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 use App\Models\Reportes;
+use App\Models\Alerta;
 use App\Services\ReporteService;
+use Illuminate\Validation\Rule;
 use App\Policies\ReportePolicy;
 use Illuminate\Http\Request;
+use App\Enums\EstadoReporte;
 
 class ReporteController extends Controller
 {
@@ -52,12 +55,16 @@ public function index()
     {
 
          $this->authorize('iniciar_reporte_interno', Reportes::class);
-         return view('ui.miReporte');
+         return view('operativo.reportes.createReporte');
     }
 
    public function store(Request $request, ReporteService $service)
 {
-    $this->authorize('createReport', Reportes::class);
+    //$this->authorize('createReport', Reportes::class);
+    //Verificación manual temporal
+    if (!auth()->user()->hasPermissionTo('iniciar_reporte_interno')) {
+        abort(403, 'No tenés permiso para crear reportes');
+    }
 
     $data = $request->validate([
         'titulo'       => 'required|string',
@@ -72,7 +79,7 @@ public function index()
     $reporte = $service->crear($data);
 
     return redirect()
-        ->route('operativo.reportes.mis', $reporte)
+        ->route('operativo.reportes.index')
         ->with('success', 'Reporte creado correctamente');
 }
 
@@ -80,26 +87,38 @@ public function index()
 {
     $this->authorize('showReport', $reporte);
 
-    return view('components.reportes', [
+    return view('operativo.reportes.show', [
         'reporte' => $reporte->load('usuario', 'comentarios.usuario')
     ]);
 }
 
-    /**Cambiar estado del reporte */
-    public function cambiarEstado(Request $request, Reportes $reporte)
-    {
-         $this->authorize('update', $reporte);
 
-    $request->validate([
-        'estado' => 'required|in:pendiente,en_revision,atendido,cerrado'
-    ]);
+
+/**
+ * Cambiar estado del reporte
+ */
+public function cambiarEstado(Request $request, Reportes $reporte)
+{
+
+
+    //$this->authorize('update', $reporte);
+
+    //  VALIDACIÓN CORRECTA usando los valores del enum
+ $request->validate([
+    'estado' => ['required', Rule::in(EstadoReporte::values())],
+]);
+
 
     $reporte->update([
         'estado' => $request->estado
     ]);
 
-    return response()->json(['message' => 'Estado actualizado']);
-    }
+    return response()->json([
+        'success' => true,
+        'message' => 'Estado actualizado correctamente',
+        'nuevo_estado' => $reporte->estado
+    ]);
+}
 
 
 /***************************************************************************************************************** */
@@ -165,9 +184,10 @@ public function misReportesOperativo()
         ->latest()
         ->get();
 
-    return view('operativo.reportes.index', compact('reportes'));
-}
+    $alertas = Alerta::latest()->take(10)->get();
 
+    return view('operativo.reportes.index', compact('reportes', 'alertas'));
+}
 
 
 }

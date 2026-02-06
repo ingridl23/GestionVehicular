@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
+use App\Enums\EstadoReporte;
 class Reportes extends Model
 {
     protected $fillable = [
@@ -15,6 +15,12 @@ class Reportes extends Model
         'estado'
     ];
 
+
+    // Cast del estado a enum (opcional pero recomendado)
+    protected $casts = [
+        'estado' => EstadoReporte::class,
+    ];
+
     public function usuario()
     {
         return $this->belongsTo(User::class, 'id_usuario');
@@ -22,6 +28,16 @@ class Reportes extends Model
 
     public function comentarios()
     {
-        return $this->hasMany(ReporteComentarios::class);
+        return $this->hasMany(ReporteComentarios::class,'reporte_id');
+    }
+
+     public function isPendiente(): bool
+    {
+        return $this->estado === EstadoReporte::PENDIENTE;
+    }
+
+    public function isAtendido(): bool
+    {
+        return $this->estado === EstadoReporte::ATENDIDO;
     }
 }

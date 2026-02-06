@@ -40,10 +40,13 @@ Route::middleware(['auth', 'role:Administrador General'])
       Route::resource('reportes', ReporteController::class)
             ->middleware('permission:ver_reportes_dependencia');
 
-        Route::patch(
-            'reportes/{reporte}/estado',
-            [ReporteController::class, 'cambiarEstado']
-        )->name('reportes.estado');
+
+    // Cambiar estado (admin)
+    Route::patch('/reportes/{reporte}/estado', [ReporteController::class, 'cambiarEstado']);
+
+    Route::post('/reportes/{reporte}/comentarios',
+    [ReporteController::class, 'store']
+)->middleware('auth');
 
         Route::post(
             'reportes/{reporte}/comentarios',

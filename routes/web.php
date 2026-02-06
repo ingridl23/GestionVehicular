@@ -62,15 +62,14 @@ Route::middleware(['auth'])->group(function () {
     // Actualizar perfil de otro usuario (requiere permisos)
     Route::put('/profile/{usuario}/update', [UserController::class, 'updateProfile'])->name('profile.admin-update');
 
-    /**************************  REPORTES  ********************* */
+    /**************************  REPORTES  **********************/
+
+
    // ver mi reporte (chat)
         Route::get('/reportes', [ReporteController::class, 'misReportes'])
             ->name('reportes.mis');
     // Mensajes en reportes
     Route::post('/reportes/{reporte}/comentarios', [ReporteController::class, 'agregarComentario']);
-
-    // Cambiar estado (admin)
-    Route::patch('/admin/reportes/{reporte}/estado', [ReporteController::class, 'cambiarEstado']);
 
     // Rutas de dependencia
     Route::prefix('dependencia')->name('dependencia.')->group(function () {

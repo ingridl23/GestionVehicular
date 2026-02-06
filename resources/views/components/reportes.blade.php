@@ -45,13 +45,14 @@
                         <option value="{{ $entidadId }}">Dependencia {{ $entidadId }}</option>
                     @endforeach
                 </select>
-
+{{--
                 <input
                     type="text"
                     id="filterUsuario"
                     placeholder="Usuario..."
                     class="flex-1 px-3 py-2 text-sm bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-white"
                 >
+--}}
             </div>
             @endif
         </div>
@@ -71,7 +72,7 @@
                 data-usuario-id="{{ $reporte->usuario->id }}"
                 data-usuario-nombre="{{ $reporte->usuario->name }}"
                 data-fecha="{{ $reporte->created_at->format('d/m H:i') }}"
-                @click="seleccionarReporte(this)"
+             "
             >
                 <div class="flex items-start gap-3">
                     <!-- Avatar usuario -->
@@ -157,10 +158,10 @@
                 <div class="flex items-center gap-3">
                     <div class="flex items-center gap-2">
                         <span class="text-xs text-gray-500 dark:text-gray-400">Estado:</span>
-                        <select id="selectEstado"
+                        <select id="selectEstado" name="estado"
                             class="text-xs px-2 py-1 rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer"
-                            onchange="cambiarEstado(this)"
-                        >
+                            onchange="cambiarEstado(this)">
+
                             <option value="pendiente">Pendiente</option>
                             <option value="en_revision">En revisión</option>
                             <option value="atendido">Atendido</option>
@@ -193,6 +194,10 @@
 
     window.REPORTES_DATA = @json($reportesData);
     window.USUARIO_ACTUAL_ID = {{ auth()->id() }};
+
+
+
+
 </script>
 
 @vite(['resources/js/reportes.js'])
