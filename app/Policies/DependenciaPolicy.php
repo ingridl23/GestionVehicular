@@ -18,6 +18,8 @@ class DependenciaPolicy
     public function vistaGeneral(User $user): bool{
         return $user->can('ver_dependencias');
     }
+
+    
     /**
      * Ver dependencia
      */

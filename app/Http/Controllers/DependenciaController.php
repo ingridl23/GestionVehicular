@@ -88,7 +88,7 @@ class DependenciaController extends Controller{
     $this->authorize('create', [Dependencia::class, $dependenciaPadre]);
 
     return view(
-        'dependencias.formulario-crear-editar.formCrear',
+        'ui.dependencias.formularios.crear',
         $this->service->datosRelacionesDependencia()
     );
 }
@@ -116,14 +116,14 @@ class DependenciaController extends Controller{
 
 
     // permiso = editar dependencias
-   public function datosParaEditarDependencia($id)
-{
+   public function datosParaEditarDependencia($id){
+
     $dependencia = $this->service->verDependencia($id);
 
-    $this->authorize('update', $dependencia);
+    //$this->authorize('update', $dependencia);
 
     return view(
-        'dependencias.formulario-crear-editar.formEditar',
+        'ui.dependencias.formularios.editar',
         $this->service->datosRelacionesDependencia($id)
     );
 }

@@ -125,9 +125,9 @@ class DependenciaService{
 
     public function datosRelacionesDependencia($id = null){
         return [
-            'dependencias' => Dependencia::orderBy('nombre')->get(),
+            'dependencias_arbol' => Dependencia::orderBy('nombre')->get(),
             'direcciones'  => Direcciones::orderBy('calle')->get(),
-            'dependencia_base_datos'  => $id ? Dependencia::with('direccion')->findOrFail($id) : null,
+            'dependencia'  => $id ? Dependencia::with('direccion')->findOrFail($id) : null,
         ];
     }
 

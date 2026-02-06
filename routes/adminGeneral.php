@@ -59,7 +59,7 @@ Route::middleware(['auth', 'role:Administrador General'])
 
             Route::get('/{id}/editar', [DependenciaController::class, 'datosParaEditarDependencia'])->middleware('permission:editar_dependencias')->name('edit');
 
-            Route::put('/{id}', [DependenciaController::class, 'editarDependencia'])->middleware('permission:editar_dependencias')->name('update');
+            Route::patch('/{id}', [DependenciaController::class, 'editarDependencia'])->middleware('permission:editar_dependencias')->name('update');
 
             Route::delete('/{id}', [DependenciaController::class, 'eliminarDependencia'])->middleware('permission:eliminar_dependencias')->name('destroy');
 

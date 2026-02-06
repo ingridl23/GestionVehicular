@@ -20,8 +20,8 @@
       Filtros
     </button>
     
-    @can('crear_dependencia')
-    <a href="#"
+    @can('crear_dependencias')
+    <a href="{{ route('admin.dependencias.create') }}"
       class="inline-block rounded-md bg-blue-600 px-2 py-2 mb-2 text-sm font-medium text-center text-white
                         hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
      Crear dependencia
