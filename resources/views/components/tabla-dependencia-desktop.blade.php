@@ -66,7 +66,7 @@
                   <td class="border-b border-gray-200 dark:border-gray-700 bg-gray-100 dark:bg-gray-900 px-2 py-5 text-center text-base font-medium text-gray-700 dark:text-gray-200">
                     
                     @can('ver_dependencias')
-                    <a href="{{ route('admin.dependencias.create', $dependencia->id) }}"
+                    <a href="{{ route('admin.dependencias.show', $dependencia->id) }}"
                       class="m-1 inline-block rounded-md border border-blue-600 px-2 py-2 text-blue-600 hover:bg-blue-600 hover:text-white dark:border-blue-400 dark:text-blue-400 dark:hover:bg-blue-500 dark:hover:text-white"
                        title="Ver detalles">
                       <i class="fa-solid fa-eye"></i>
@@ -111,7 +111,5 @@ function toggleDependencia(btn) {
     // actualizar estado
     btn.dataset.activa = activa ? 0 : 1;
 
-    // acá después podés meter fetch / axios para guardar en BD
-    // fetch(`/dependencias/${btn.dataset.id}/toggle`, { method: 'POST' })
 }
 </script>

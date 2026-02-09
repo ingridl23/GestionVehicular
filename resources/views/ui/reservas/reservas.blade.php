@@ -9,23 +9,23 @@
   $configAgregar = $ubicacion == 'interna'
   ? [
   'can' => 'solicitar_reserva_interna',
-  'route' => route('reservas.form.agregar'),
+  'route' => route('admin.reservas.form.agregar'),
   'text' => 'Agregar reserva',
   ]
   : [
   'can' => 'solicitar_prestamo',
-  'route' => route('prestamo.form.agregar'),
+  'route' => route('admin.prestamo.form.agregar'),
   'text' => 'Agregar préstamo',
   ];
 
   $configEditar = $ubicacion == 'interna'
   ? [
   'can' => 'actualizar_reserva_interna',
-  'route' => route('reservas.form.editar', ':id'),
+  'route' => route('admin.reservas.form.editar', ':id'),
   ]
   : [
   'can' => 'actualizar_prestamo',
-  'route' => route('prestamo.form.editar', ':id'),
+  'route' => route('admin.prestamo.form.editar', ':id'),
   ];
 @endphp
 
@@ -128,7 +128,7 @@
     routes: {
       ver: "{{ route('reservas.reserva', ':id') }}",
       editar: "{{ $configEditar['route'] }}",
-      cancelar: "{{ route('reservas.cancelar', ':id') }}",
+      cancelar: "{{ route('admin.reservas.cancelar', ':id') }}",
     }
   };
 

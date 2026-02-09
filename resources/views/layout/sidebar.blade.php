@@ -97,14 +97,21 @@
 </div>
 @endcan
 
+<!-- Dependencias -->
+        @can('ver_dependencias')
+        <x-nav-item
+            icon="fa-sitemap"
+            label="Dependencias"
+            route="admin.dependencias.index"
+            :active="request()->routeIs('dependencias.*')" />
+        @endcan
 
-        <!-- Reservas (con submenú) -->
-     <!-- Reservas (con submenú) -->
+
+    <!-- Reservas (con submenú) -->
+    <!-- Reservas (con submenú) -->
 @canany([
     'ver_reservas_internas',
     'ver_reservas_prestamos',
-    'ver_reservas_dependencia_en_curso',
-    'visualizar_reserva_asignada'
 ])
 <div x-data="{ open: {{ request()->is('*reservas*') || request()->is('*prestamos*') ? 'true' : 'false' }} }">
 
@@ -141,7 +148,7 @@
                 </a>
                 @endcan
                 @can('autorizar_prestamos')
-                <a href="{{ route('reservas.autorizar-prestamos') }}"
+                <a href="{{ route('admin.reservas.autorizar-prestamos') }}"
                     class="block px-3 py-2 rounded-lg text-sm {{ request()->routeIs('reservas.autorizar-prestamos') ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700' }}">
                     Autorizar préstamos
                 </a>

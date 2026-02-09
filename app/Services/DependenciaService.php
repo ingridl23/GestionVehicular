@@ -144,15 +144,19 @@ class DependenciaService{
 
         $nombre = $data['nombre'];
         $activa = filter_var($data['activa'], FILTER_VALIDATE_BOOLEAN);
-
-        $id_dependencia_padre = intval($data['id_dependencia_padre']);
+        if($data['id_dependencia_padre'] != ""){
+            $id_dependencia_padre = intval($data['id_dependencia_padre']);
+        }
+        else{
+            $id_dependencia_padre = null;
+        }
+        
         $dependencia = Dependencia::create([
             'id_dependencia_padre' => $id_dependencia_padre,
             'nombre' => $nombre,
             'id_direccion' => $id_direccion,
             'activa' => $activa,
         ]);
-        dd($dependencia);
     }
 
 }

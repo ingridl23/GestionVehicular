@@ -85,55 +85,30 @@ Route::middleware(['auth'])->group(function () {
             ->only(['index'])
             ->middleware('permission:ver_reportes_dependencia|ver_reportes_general|ver_reportes_operativos');
 
-        // Reservas
-        Route::get('/reservas', [ReservaController::class, 'reservas'])
-            ->middleware('permission:ver_reservas')
-            ->name('reservas.index');
-
         // Usuarios de la dependencia
         Route::get('/usuarios', [UserController::class, 'usuariosPorDependencia'])
             ->middleware('permission:ver_usuarios_dependencia')
             ->name('usuarios');
     });
 
-    //RESERVAS
+    /*************************************  RESERVAS GENERAL   ******************************* */
 
-    Route::get('/agregar-reserva', [ReservaController::class, 'mostrarFormulario'])->name('reservas.form.agregar')->middleware('permission:solicitar_reserva_interna'); //FORMULARIO
-    Route::get('/agregar-prestamo', [PrestamoController::class, 'mostrarFormulario'])->name('prestamo.form.agregar')->middleware('permission:solicitar_prestamo'); //FORMULARIO
+    //Aca se declararon las rutas que puede acceder todos los usuarios (independientemente del rol)
+    //Las especificas por rol se declararon en AdminGeneral.php
 
-    // Se deja listado de reservas en web ya que es algo que, sin importar el rol, debe verse (ya que datos se muestran, eso se filtra en el back)
     Route::get('/listado-reservas', [ReservaController::class, 'verReservas'])->middleware('permission:ver_reservas_internas')->name('reservas.internas');
-    Route::get('/listado-prestamos', [PrestamoController::class, 'verReservas'])->name('reservas.prestamos');
+    Route::get('/listado-prestamos', [PrestamoController::class, 'verReservas'])->middleware('permission:ver_reservas_prestamos')->name('reservas.prestamos');
+    
     Route::get('/listado-reservas/{id}', [ReservaController::class, 'verReserva'])->name('reservas.reserva'); //Vista individual
 
-    Route::patch('/cancelar-reserva/{id}', [ReservaController::class, 'cancelarReserva'])->name('reservas.cancelar');
-
-    //EDITAR
-    
-    //METODO PATCH
-    Route::patch('/editar-reserva/{id}', [ReservaController::class, 'editarReserva'])->middleware('permission:actualizar_reserva_interna')->name('reservas.internas.editar');
-    Route::patch('/editar-prestamo/{id}', [PrestamoController::class, 'editarReserva'])->middleware('permission:actualizar_prestamo')->name('reservas.externas.editar');
-
-    //MOSTRAR FORMULARIOS
-    Route::get('/editar-reserva/{id}', [ReservaController::class, 'mostrarFormularioUpdate'])->name('reservas.form.editar')->middleware('permission:actualizar_reserva_interna'); 
-    Route::get('/editar-prestamo/{id}', [PrestamoController::class, 'mostrarFormularioUpdate'])->name('prestamo.form.editar')->middleware('permission:actualizar_prestamo'); 
-
-
-    //------------------------------------
-
+    //FILTROS 
     Route::post('/filtrar-reservas-internas', [ReservaController::class, 'filtrarReservasInternas'])->middleware('web');
     Route::post('/filtrar-reservas-externas', [PrestamoController::class, 'filtrarReservasExternas'])->middleware('web');
 
-    Route::get('/autorizar-prestamos', [PrestamoController::class, 'verReservas'])->name('reservas.autorizar-prestamos')->middleware('permission:autorizar_prestamos');
-
-
-
-
-
-    Route::post('/agregar-reserva', [ReservaController::class, 'crearReserva'])->name('reservas.internas.crear');
-    Route::post('/agregar-prestamo', [PrestamoController::class, 'crearReserva'])->name('reservas.externas.crear');
-
 });
+
+
+
 
 // RUTA DE PRUEBA API
 Route::get('/test-combustible', function (CombustibleApiService $service) {

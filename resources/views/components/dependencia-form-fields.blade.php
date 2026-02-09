@@ -92,7 +92,7 @@
                     Dependencia padre
                 </label>
                 <div class="mt-2 relative">
-                    <select id="vehiculo" name="id_dependencia_padre"
+                    <select id="id_dependencia_padre" name="id_dependencia_padre"
                         class="w-full appearance-none rounded-md
                                bg-white dark:bg-white/5 text-gray-900 dark:text-white
                                border border-gray-300 dark:border-white/10
@@ -139,7 +139,7 @@
                 </label>
 
                 <div class="mt-2 relative">
-                    <select id="id_direccion" name="direcciones"
+                    <select id="id_direccion" name="id_direccion"
                         class="w-full appearance-none rounded-md
                                bg-white dark:bg-white/5 text-gray-900 dark:text-white
                                border border-gray-300 dark:border-white/10

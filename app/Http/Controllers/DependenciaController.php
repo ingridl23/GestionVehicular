@@ -3,18 +3,12 @@
 namespace App\Http\Controllers;
 use App\Models\Dependencia;
 use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
-use Exception;
-use function PHPUnit\Framework\isEmpty;
-
 use App\Http\Requests\FiltroDependenciasRequest;
-use App\Http\Requests\EditarDependenciaRequest;
-use App\Http\Requests\CrearDependenciaRequest;
-use App\Models\User;
+use App\Http\Requests\DependenciaRequest;
 use Illuminate\Validation\ValidationException;
 use App\Services\DependenciaService;
 use App\Policies\DependenciaPolicy;
-use Illuminate\Support\Facades\Auth;
+
 
 class DependenciaController extends Controller{
 
@@ -95,7 +89,7 @@ class DependenciaController extends Controller{
 
 
     // permiso = crear dependencias
-  public function crearDependencia(CrearDependenciaRequest $request)
+  public function crearDependencia(DependenciaRequest $request)
 {
     $dependenciaPadre = null;
 
@@ -110,7 +104,7 @@ class DependenciaController extends Controller{
     $this->service->crearDependencia($request->validated());
 
     return redirect()
-        ->route('dependencias.index')
+        ->route('admin.dependencias.index')
         ->with('success', 'La dependencia fue creada correctamente.');
 }
 
@@ -130,10 +124,10 @@ class DependenciaController extends Controller{
 
 
     // permiso = editar dependencias
-   public function editarDependencia(EditarDependenciaRequest $request,$id) {
+   public function editarDependencia(DependenciaRequest $request,$id) {
     $dependencia = $this->service->verDependencia($id);
 
-    $this->authorize('update', $dependencia);
+    //$this->authorize('update', $dependencia);
 
     $this->service->editarDependencia(
         $request->validated(),
@@ -141,7 +135,7 @@ class DependenciaController extends Controller{
     );
 
     return redirect()
-        ->route('dependencias.index')
+        ->route('admin.dependencias.index')
         ->with('success', 'La dependencia fue actualizada correctamente.');
 }
 
