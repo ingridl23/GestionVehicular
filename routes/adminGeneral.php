@@ -18,6 +18,8 @@ Route::middleware(['auth', 'role:Administrador General'])
 
         Route::resource('/vehiculos', VehiculoController::class)->only(['store','update','destroy']);
 
+
+
     //     Route::resource('/reservas', ReservaController::class)->middleware('permission:ver_reservas_internas')  ->names([
     //     'index' => 'reservas.index',
     //     'store' => 'reservas.store',

@@ -1,9 +1,10 @@
 <?php
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ReservaController;
 use App\Http\Controllers\VehiculoController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ReporteController;
+use App\Http\Controllers\Reservas\ReservaController;
+
  Route::middleware(['auth', 'role:Operativo'])
     ->prefix('operativo')
     ->name('operativo.')
@@ -33,11 +34,6 @@ use App\Http\Controllers\ReporteController;
         //  ->middleware('permission:ver_historial_reservas');
 
 
-        // Route::get('/reservas', [ReservaController::class, 'reservas'])
-        //     ->name('reservas.index')
-        //     ->middleware('permission:ver_operativo_reservas');
-
-
 
         Route::get('/dashboard',[UserController::class, 'dashboard2'])
         ->name('dashboard2');
@@ -50,14 +46,14 @@ use App\Http\Controllers\ReporteController;
             ->name('reportes.store');
 
 
-             Route::get('/reportes', [ReporteController::class, 'misReportesOperativo'])
+        Route::get('/reportes', [ReporteController::class, 'misReportesOperativo'])
             ->name('reportes.index');
+
+        Route::get('/mis-reportes', [ReporteController::class, 'misReportesOperativo'])
+            ->name('reportes.mis');
 
        /* Route::patch('/reportes/{reporte}/estado', [ReporteController::class, 'cambiarEstado'])
     ->name('reportes.estado');*/
-
-
-
 
 });
 

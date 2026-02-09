@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class EstadosReserva extends Model
 {
+    protected $table = 'estados_reservas';
     use hasFactory, Notifiable;
 
     protected $fillable = [

@@ -123,7 +123,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/filtrar-reservas-internas', [ReservaController::class, 'filtrarReservasInternas'])->middleware('web');
     Route::post('/filtrar-reservas-externas', [PrestamoController::class, 'filtrarReservasExternas'])->middleware('web');
-    Route::get('/autorizar-prestamos', [ReservaController::class, 'verReservasExternas'])->name('reservas.autorizar-prestamos');
+
+    Route::get('/autorizar-prestamos', [PrestamoController::class, 'verReservas'])->name('reservas.autorizar-prestamos')->middleware('permission:autorizar_prestamos');
 
 
 

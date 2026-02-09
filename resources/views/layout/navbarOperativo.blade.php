@@ -79,11 +79,48 @@
 <div id="menuOperativo"
      class="hidden bg-white shadow-sm border-b text-sm">
 
-    <a href="#"
-       class="flex items-center gap-3 px-4 py-2 hover:bg-gray-100">
-        <i class="fas fa-calendar-check text-blue-600"></i>
-        <span>Mis reservas</span>
-    </a>
+<div x-data="{ open: false }">
+    <button
+        @click="open = !open"
+        class="w-full flex items-center justify-between gap-3 px-4 py-2 hover:bg-gray-100 rounded-lg"
+    >
+        <div class="flex items-center gap-3">
+            <i class="fas fa-calendar-check text-blue-600"></i>
+            <span>Mis reservas</span>
+        </div>
+
+        <i
+            class="fas fa-chevron-down text-xs transition-transform duration-200"
+            :class="{ 'rotate-180': open }"
+        ></i>
+    </button>
+
+    <div
+        x-show="open"
+        x-collapse
+        class="ml-8 mt-1 space-y-1"
+    >
+        @can('ver_reservas_internas')
+        <a href="{{ route('reservas.internas') }}"
+           class="block px-3 py-2 rounded-lg text-sm
+           {{ request()->routeIs('reservas.internas')
+                ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400'
+                : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700' }}">
+            Internas
+        </a>
+        @endcan
+
+        @can('ver_reservas_prestamos')
+        <a href="{{ route('reservas.prestamos') }}"
+           class="block px-3 py-2 rounded-lg text-sm
+           {{ request()->routeIs('reservas.prestamos')
+                ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400'
+                : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700' }}">
+            Préstamos
+        </a>
+        @endcan
+    </div>
+</div>
 
 
 

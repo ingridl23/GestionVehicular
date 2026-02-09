@@ -128,16 +128,6 @@
 
             <div x-show="open && sidebarOpen" x-collapse class="ml-8 mt-1 space-y-1">
 
-                @can('ver_reservas_globales')
-                <a href="{{ route('admin.reservas.index') }}"
-                    class="block px-3 py-2 rounded-lg text-sm
-               {{ request()->routeIs('admin.reservas.*')
-                    ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400'
-                    : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700' }}">
-                    Administración
-                </a>
-                @endcan
-
                 @can('ver_reservas_internas')
                 <a href="{{ route('reservas.internas') }}"
                     class="block px-3 py-2 rounded-lg text-sm {{ request()->routeIs('reservas.internas') ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700' }}">
@@ -152,7 +142,7 @@
                 @endcan
                 @can('autorizar_prestamos')
                 <a href="{{ route('reservas.autorizar-prestamos') }}"
-                    class="block px-3 py-2 rounded-lg text-sm {{ request()->routeIs('reservas.prestamos') ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700' }}">
+                    class="block px-3 py-2 rounded-lg text-sm {{ request()->routeIs('reservas.autorizar-prestamos') ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700' }}">
                     Autorizar préstamos
                 </a>
                 @endcan
