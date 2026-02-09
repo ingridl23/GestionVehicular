@@ -29,7 +29,7 @@
     </button>
 
     <!-- POPUP -->
- <div id="notifList" class="space-y-2">
+ <div id="notifPopup" class="space-y-2">
     @forelse($alertas as $alerta)
         <div class="flex items-start gap-2 text-xs">
             <i class="fas {{ $alerta->icono ?? 'fa-bell' }} text-{{ $alerta->color ?? 'blue' }}-500"></i>
@@ -52,7 +52,7 @@
 
                 <div id="userMenu"
                     class="hidden absolute right-0 top-8 bg-white text-gray-800 w-40 rounded shadow text-sm">
-                    <a href="#" class="block px-3 py-2 hover:bg-gray-100">Perfil</a>
+                    <a href="{{ route('profile.show') }}" class="block px-3 py-2 hover:bg-gray-100">Perfil</a>
 
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
@@ -85,7 +85,10 @@
         <span>Mis reservas</span>
     </a>
 
-    <a href="#"
+
+
+
+    <a href="{{ route('operativo.reportes.index') }}"
        class="flex items-center gap-3 px-4 py-2 hover:bg-gray-100">
         <i class="fas fa-file-alt text-green-600"></i>
         <span>Mis reportes</span>
@@ -98,3 +101,4 @@
     </a>
 
 </div>
+@vite(['resources/js/scriptsOperativo.js'])

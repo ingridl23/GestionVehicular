@@ -3,15 +3,15 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ReservaController;
 use App\Http\Controllers\VehiculoController;
 use App\Http\Controllers\UserController;
-
-
-
-
-
- Route::middleware(['auth', 'role:Operativo|Jefe de Area'])
+use App\Http\Controllers\ReporteController;
+ Route::middleware(['auth', 'role:Operativo'])
     ->prefix('operativo')
     ->name('operativo.')
     ->group(function () {
+
+
+        Route::post('/reservas/solicitar', [ReservaController::class, 'store'])
+            ->middleware('permission:solicitar_reserva_interna');
 
         Route::patch('/vehiculos/{vehiculo}/datos', [VehiculoController::class, 'registrarDatos'])
             ->middleware('permission:registrar_datos_vehiculos');
@@ -38,4 +38,27 @@ use App\Http\Controllers\UserController;
         //     ->middleware('permission:ver_operativo_reservas');
 
 
+
+        Route::get('/dashboard',[UserController::class, 'dashboard2'])
+        ->name('dashboard2');
+
+        // crear reporte (usuario)
+        Route::get('/reportes/crear', [ReporteController::class, 'create'])
+            ->name('reportes.create');
+
+        Route::post('/reportes', [ReporteController::class, 'store'])
+            ->name('reportes.store');
+
+
+             Route::get('/reportes', [ReporteController::class, 'misReportesOperativo'])
+            ->name('reportes.index');
+
+       /* Route::patch('/reportes/{reporte}/estado', [ReporteController::class, 'cambiarEstado'])
+    ->name('reportes.estado');*/
+
+
+
+
 });
+
+

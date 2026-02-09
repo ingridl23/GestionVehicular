@@ -20,7 +20,7 @@ class FortifyServiceProvider extends ServiceProvider
     {
         //  Binding correcto: CONTRATO → IMPLEMENTACIÓN
         $this->app->singleton(
-            LoginResponseContract::class,
+            LoginResponse::class,
             CustomLoginResponse::class
         );
     }

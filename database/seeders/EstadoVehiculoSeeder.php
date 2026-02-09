@@ -14,18 +14,25 @@ class EstadoVehiculoSeeder extends Seeder
     public function run(): void
     {
 
-
-
-        EstadosVehiculo::insert([
-            [
-                'estado' => 'DISPONIBLE',
-            ],
-            [
-                'estado' => 'NO DISPONIBLE',
-            ],
-            [
-                'estado' => 'EN MANTENIMIENTO',
-            ],
+        EstadosVehiculo::query()->create([
+            'estado' => 'DISPONIBLE',
         ]);
+
+        EstadosVehiculo::query()->create([
+            'estado' => 'EN_USO',
+        ]);
+
+        EstadosVehiculo::query()->create([
+            'estado' => 'BAJA',
+        ]);
+
+        EstadosVehiculo::query()->create([
+            'estado' => 'EN_MANTENIMIENTO',
+        ]);
+
+        EstadosVehiculo::query()->create([
+            'estado' => 'NO_DISPONIBLE',
+        ]);
+
     }
 }

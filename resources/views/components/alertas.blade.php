@@ -6,13 +6,6 @@
 @section('content')
 
 
-@if($stats)
-    <span>{{ $stats['pendientes'] ?? 0 }}</span>
-@else
-    <span>0</span>
-@endif
-
-
 <!-- Stats Cards -->
 <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
 
@@ -130,8 +123,7 @@
                         <!-- Botón Resolver -->
                         <button
                             onclick="resolver({{ $alerta->id }})"
-                            class="px-3 py-1.5 bg-green-600 hover:bg-green-700 text-white rounded text-xs font-medium transition-colors flex-shrink-0"
-                        >
+                            class="px-3 py-1.5 bg-green-600 hover:bg-green-700 text-white rounded text-xs font-medium transition-colors flex-shrink-0">
                             <i class="fas fa-check mr-1"></i>
                             Resolver
                         </button>

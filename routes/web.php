@@ -12,89 +12,89 @@ use App\Http\Controllers\Reservas\PrestamoController;
 use App\Http\Controllers\Reservas\ReservaController as ReservaController;
 use App\Services\CombustibleApiService;
 
-
-// Fortify ya maneja estas rutas automáticamente:
-// POST /login
-// POST /logout
-// GET /login (si 'views' => true en fortify.php)
-
 // Ruta raíz redirige al login
 Route::get('/', [HomeController::class, 'inicio']);
 Route::get('/reset', [HomeController::class, 'reset'])->name('auth.passwords.reset');
 
+// *******************  RUTAS PROTEGIDAS (requieren autenticación)   **************************
+Route::middleware(['auth', 'permission:ver_todos_usuarios|ver_personal_dependencia'])->group(function () {
+    Route::get('/admin/usuarios', [UserController::class, 'index'])
+        ->name('admin.usuarios.index');
+});
 
-// RUTAS PROTEGIDAS (requieren autenticación)
+Route::middleware(['auth'])->group(function () {
 
-
-
-// *******************  para todos los usuarios   **************************
- Route::middleware(['auth'])->group(function () {
-    Route::get('/alertas/recientes', [AlertaController::class, 'recientes'])
-    ->middleware('auth');
-
+    // Dashboard
     Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard');
 
-    Route::get('/auditoria', [HistorialController::class, 'index'])
-        ->name('auditoria.index');
-   // Route::get('/vehiculos', [VehiculoController::class, 'sectionVehiculo'])->middleware('permission:ver_vehiculos');
-    Route::get('/vehiculos', [VehiculoController::class, 'sectionVehiculo'])
-    ->middleware('permission:ver_vehiculos|ver_vehiculos_dentro_dependencia')->name('vehiculos.index');
+    // Alertas
+    Route::get('/alertas/recientes', [AlertaController::class, 'recientes']);
+    Route::get('/alertas', [AlertaController::class, 'index'])->name('alertas.index');
+    Route::get('/alertas/{tipo}/{id}', [AlertaController::class, 'porEntidad'])->name('alertas.porEntidad');
 
-    Route::get('/vehiculos/{vehiculo}', [VehiculoController::class, 'show'])
-        ->middleware('permission:ver_vehiculos');
+    // Auditoría
+    Route::get('/auditoria', [HistorialController::class, 'index'])->name('auditoria.index');
 
-    Route::get('/dependencias/personal', [UserController::class, 'usuariosPorDependencia'])->middleware('permission:ver_personal_dependencia')->name('personal.index');
+    // Vehículos
+    Route::get('/vehiculos', [VehiculoController::class, 'sectionVehiculo'])->name('vehiculos.index');
+    Route::get('/vehiculos/{vehiculo}', [VehiculoController::class, 'detalle'])->name('vehiculos.show');
+    Route::post('/vehiculos', [VehiculoController::class, 'store']);
+    Route::put('/vehiculos/{vehiculo}', [VehiculoController::class, 'update'])->name('vehiculos.update');
+    Route::delete('/vehiculos/{vehiculo}', [VehiculoController::class, 'destroy'])->name('vehiculos.destroy');
+    Route::get('/buscar-vehiculos', [VehiculoController::class, 'index'])->name('vehiculos.buscar');
 
-    // Listado de vehículos
-    Route::get('/listado-vehiculos', [VehiculoController::class, 'index'])->name('vehiculos.index');
-    Route::get('/vehiculos', [VehiculoController::class, 'sectionVehiculo']);
-    Route::get('/vehiculos/{vehiculo}', [VehiculoController::class, 'show']);
+    // Personal de dependencia
+    Route::get('/dependencias/personal', [UserController::class, 'usuariosPorDependencia'])
+        ->middleware('permission:ver_personal_dependencia')
+        ->name('personal.index');
 
-    // VEHÍCULOS (CRUD con permisos)
-    Route::post('/vehiculos', [VehiculoController::class, 'store'])
-        ->middleware('permission:cargar_vehiculo')
-        ->name('vehiculos.store');
+    /*************************************  PERFIL DE USUARIO   ******************************* */
 
-    Route::put('/vehiculos/{vehiculo}', [VehiculoController::class, 'update'])
-        ->middleware('permission:editar_vehiculo')
-        ->name('vehiculos.update');
+    // Ver mi perfil (usuario logueado)
+    Route::get('/profile', [UserController::class, 'myProfile'])->name('profile.show');
 
-    Route::patch('/vehiculos/{vehiculo}/asignacion', [VehiculoController::class, 'updateAsignacion'])
-        ->middleware('permission:modificar_asignacion_vehiculo')
-        ->name('vehiculos.asignacion.update');
+    // Actualizar mi perfil
+    Route::put('/profile', [UserController::class, 'updateProfile'])->name('profile.update');
 
-    Route::delete('/vehiculos/{vehiculo}', [VehiculoController::class, 'destroy'])
-        ->middleware('permission:eliminar_vehiculo')
-        ->name('vehiculos.destroy');
+    // Ver perfil de otro usuario (requiere permisos)
+    Route::get('/profile/{usuario}', [UserController::class, 'show'])->name('profile.view');
 
+    // Actualizar perfil de otro usuario (requiere permisos)
+    Route::put('/profile/{usuario}/update', [UserController::class, 'updateProfile'])->name('profile.admin-update');
 
-    // VIAJES Y GASTOS
-    Route::post('/viajes/{id}/gasto', [GastoController::class, 'calcular'])
-        ->name('viajes.gasto.calcular');
-    Route::get('/viajes/{viaje}/gasto/preview', [GastoController::class, 'preview'])
-        ->name('viajes.gasto.preview');
+    /**************************  REPORTES  **********************/
 
 
-    // ALERTAS
-    Route::get('/alertas', [AlertaController::class, 'index'])
-        ->name('alertas.index');
-    Route::get('/alertas/{tipo}/{id}', [AlertaController::class, 'porEntidad'])
-        ->name('alertas.porEntidad');
-    Route::patch('/alertas/{id}/resolver', [AlertaController::class, 'resolver'])
-        ->name('alertas.resolver');
+   // ver mi reporte (chat)
+        Route::get('/reportes', [ReporteController::class, 'misReportes'])
+            ->name('reportes.mis');
+    // Mensajes en reportes
+    Route::post('/reportes/{reporte}/comentarios', [ReporteController::class, 'agregarComentario']);
 
-    // REPORTES
-    Route::get('/reportes', [ReporteController::class, 'index'])
-        ->middleware('permission:ver_reportes_dependencia|ver_reportes_general')
-        ->name('reportes.index');
-    Route::post('/reportes', [ReporteController::class, 'store'])
-        ->name('reportes.store');
-    Route::get('/reportes/{reporte}', [ReporteController::class, 'show'])
-        ->name('reportes.show');
-    Route::patch('/reportes/{reporte}/estado', [ReporteController::class, 'cambiarEstado'])
-        ->name('reportes.cambiarEstado');
+    // Rutas de dependencia
+    Route::prefix('dependencia')->name('dependencia.')->group(function () {
 
+        // Préstamos
+        Route::get('/prestamos', [ReservaController::class, 'prestamos'])
+            ->name('prestamos.index')
+            ->middleware('permission:ver_prestamos');
 
+        // Reportes
+        Route::get('/reportes/{reporte}', [ReporteController::class, 'show'])->name('reportes.show');
+        Route::resource('reportes', ReporteController::class)
+            ->only(['index'])
+            ->middleware('permission:ver_reportes_dependencia|ver_reportes_general|ver_reportes_operativos');
+
+        // Reservas
+        Route::get('/reservas', [ReservaController::class, 'reservas'])
+            ->middleware('permission:ver_reservas')
+            ->name('reservas.index');
+
+        // Usuarios de la dependencia
+        Route::get('/usuarios', [UserController::class, 'usuariosPorDependencia'])
+            ->middleware('permission:ver_usuarios_dependencia')
+            ->name('usuarios');
+    });
 
     //RESERVAS
 
@@ -132,59 +132,7 @@ Route::get('/reset', [HomeController::class, 'reset'])->name('auth.passwords.res
     Route::post('/agregar-reserva', [ReservaController::class, 'crearReserva'])->name('reservas.internas.crear');
     Route::post('/agregar-prestamo', [PrestamoController::class, 'crearReserva'])->name('reservas.externas.crear');
 
-
-    Route::get('/alertas', [AlertaController::class, 'index'])->name('alertas.index');
-    Route::get('/alertas/{tipo}/{id}', [AlertaController::class, 'porEntidad'])->name('alertas.porEntidad');
-
-    Route::middleware(['auth'])
-    ->prefix('dependencia')
-    ->name('dependencia.')
-    ->group(function () {
-
-        // Préstamos (usa ReservaController)
-        Route::get('/prestamos', [ReservaController::class, 'prestamos'])
-            ->name('prestamos.index')
-            ->middleware('permission:ver_prestamos');
-    });
-
-
- Route::middleware(['auth'])
-    ->prefix('dependencia')
-    ->name('dependencia.')
-    ->group(function () {
-
-        Route::get('/', [DependenciaController::class, 'verDependencias'])->middleware('permission:ver_dependencias')->name('index');
-
-        Route::get('/{id}', [DependenciaController::class, 'verDependencia'])->middleware('permission:ver_dependencias')->name('show');
-
-        Route::get('/filtrar', [DependenciaController::class, 'filtrarDependencias'])->middleware('permission:ver_dependencias')->name('filtrar');
-
-        Route::resource('reportes', ReporteController::class)->only(['index', 'show'])
-        ->middleware('permission:ver_reportes_dependencia|ver_reportes_general|ver_reportes_operativos');
-
-          Route::get('/reservas', [ReservaController::class, 'reservas'])
-              ->middleware('permission:ver_reservas')
-              ->name('reservas.index');
-    });
-
-
 });
-
-
-Route::middleware(['auth', 'role:Operativo'])
-    ->prefix('operativo')
-    ->name('operativo.')
-    ->group(function () {
-
-        Route::get('/dashboard',[UserController::class, 'dashboard2'])
-        ->name('dashboard');
-
-
-
-});
-
-
-
 
 // RUTA DE PRUEBA API
 Route::get('/test-combustible', function (CombustibleApiService $service) {

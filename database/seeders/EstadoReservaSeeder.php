@@ -13,27 +13,28 @@ class EstadoReservaSeeder extends Seeder
      */
     public function run(): void
     {
+        EstadosReserva::query()->create([
+            'estado' => 'SOLICITADA',
+        ]);
 
+        EstadosReserva::query()->create([
+            'estado' => 'APROBADA',
+        ]);
 
-        EstadosReserva::insert([
-             [
-                'estado' => 'APROBADA',
-            ],
-            [
-                'estado' => 'EN CURSO',
-            ],
-            [
-                'estado' => 'FINALIZADA',
-            ],
-            [
-                'estado' => 'PENDIENTE',
-            ],
-            [
-                'estado' => 'CANCELADA',
-            ],
-            [
-                'estado' => 'RECHAZADA',
-            ],
+        EstadosReserva::query()->create([
+            'estado' => 'EN_CURSO',
+        ]);
+
+        EstadosReserva::query()->create([
+            'estado' => 'FINALIZADA',
+        ]);
+
+        EstadosReserva::query()->create([
+            'estado' => 'CANCELADA',
+        ]);
+
+        EstadosReserva::query()->create([
+            'estado' => 'RECHAZADA',
         ]);
     }
 }

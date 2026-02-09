@@ -2,73 +2,123 @@
 
 namespace App\Http\Controllers;
 use App\Models\Reportes;
+use App\Models\Alerta;
 use App\Services\ReporteService;
+use Illuminate\Validation\Rule;
 use App\Policies\ReportePolicy;
 use Illuminate\Http\Request;
+use App\Enums\EstadoReporte;
 
 class ReporteController extends Controller
 {
-
 public function index()
 {
     $user = auth()->user();
 
     if ($user->can('ver_reportes_general')) {
-        $reportes = Reportes::all();
+        $reportes = Reportes::with('usuario', 'comentarios.usuario')->get();
     } elseif ($user->can('ver_reportes_dependencia')) {
-        $reportes = Reportes::where('dependencia_id', $user->dependencia_id)->get();
+        $reportes = Reportes::with('usuario', 'comentarios.usuario')
+            ->where('entidad_id', $user->id_dependencia)->get();
     } else {
-        $reportes = Reportes::where('usuario_id', $user->id)->get();
+        $reportes = Reportes::with('usuario', 'comentarios.usuario')
+            ->where('id_usuario', $user->id)->get();
     }
+  $reportesData = $reportes->map(function ($r) {
+        return [
+            'id' => $r->id,
+            'titulo' => $r->titulo,
+            'descripcion' => $r->descripcion,
+            'estado' => $r->estado,
+            'entidad_tipo' => $r->entidad_tipo,
+            'entidad_id' => $r->entidad_id,
+            'usuario_id' => $r->usuario->id,
+            'usuario_nombre' => $r->usuario->name,
+            'fecha' => $r->created_at->format('d/m H:i'),
+            'comentarios' => $r->comentarios->map(function ($c) {
+                return [
+                    'id' => $c->id,
+                    'comentario' => $c->comentario,
+                    'usuario_id' => $c->usuario->id,
+                    'nombre' => $c->usuario->name,
+                    'fecha' => $c->created_at->format('d/m H:i'),
+                ];
+            })->values(),
+        ];
+    })->values();
 
-    return view('components.reportes', compact('reportes'));
+  return view('components.reportes', compact('reportes', 'reportesData'));
+
 }
-/*
-    public function index()
+
+    public function create()
     {
-         $this->authorize('showReport', Reportes::class);
-        return Reportes::with('usuario')
-            ->orderBy('created_at', 'desc')
-            ->paginate(20);
-    }
-*/
-    public function store(Request $request, ReporteService $service)
-    {
-        $this->authorize('createReport', Reportes::class);
-        $data = $request->validate([
-            'titulo'       => 'required|string',
-            'descripcion'  => 'required|string',
-            'entidad_tipo' => 'required|string',
-            'entidad_id'   => 'required|integer'
-        ]);
-        $data['id_usuario'] = $request->user()->id;
 
-
-
-        return $service->crear($data);
+         $this->authorize('iniciar_reporte_interno', Reportes::class);
+         return view('operativo.reportes.createReporte');
     }
 
-    public function show(Reportes $reporte)
-    {
-         $this->authorize('showReport', Reportes::class);
-        return $reporte->load('usuario','comentarios.usuario');
+   public function store(Request $request, ReporteService $service)
+{
+    //$this->authorize('createReport', Reportes::class);
+    //Verificación manual temporal
+    if (!auth()->user()->hasPermissionTo('iniciar_reporte_interno')) {
+        abort(403, 'No tenés permiso para crear reportes');
     }
 
-    /**Cambiar estado del reporte */
-    public function cambiarEstado(Request $request, Reportes $reporte)
-    {
-         $this->authorize('update', $reporte);
-
-    $request->validate([
-        'estado' => 'required|in:pendiente,en_revision,atendido,cerrado'
+    $data = $request->validate([
+        'titulo'       => 'required|string',
+        'descripcion'  => 'required|string',
     ]);
+
+    $data['entidad_tipo'] = 'dependencia';
+    $data['entidad_id']   = auth()->user()->id_dependencia;
+    $data['id_usuario']   = auth()->id();
+    $data['estado']       = 'pendiente';
+
+    $reporte = $service->crear($data);
+
+    return redirect()
+        ->route('operativo.reportes.index')
+        ->with('success', 'Reporte creado correctamente');
+}
+
+   public function show(Reportes $reporte)
+{
+    $this->authorize('showReport', $reporte);
+
+    return view('operativo.reportes.show', [
+        'reporte' => $reporte->load('usuario', 'comentarios.usuario')
+    ]);
+}
+
+
+
+/**
+ * Cambiar estado del reporte
+ */
+public function cambiarEstado(Request $request, Reportes $reporte)
+{
+
+
+    //$this->authorize('update', $reporte);
+
+    //  VALIDACIÓN CORRECTA usando los valores del enum
+ $request->validate([
+    'estado' => ['required', Rule::in(EstadoReporte::values())],
+]);
+
 
     $reporte->update([
         'estado' => $request->estado
     ]);
 
-    return response()->json(['message' => 'Estado actualizado']);
-    }
+    return response()->json([
+        'success' => true,
+        'message' => 'Estado actualizado correctamente',
+        'nuevo_estado' => $reporte->estado
+    ]);
+}
 
 
 /***************************************************************************************************************** */
@@ -87,9 +137,57 @@ public function index()
         'comentario' => $request->comentario
     ]);
 
-    return response()->json(['message' => 'Comentario agregado']);
+   return response()->json([
+    'comentario' => [
+        'comentario' => $reporte->comentarios->last()->comentario,
+        'usuario_id' => auth()->id(),
+        'nombre' => auth()->user()->name,
+        'fecha' => now()->format('d/m H:i')
+    ]
+]);
+
 
     }
+
+
+public function misReportes()
+{
+    $reportes = Reportes::with('usuario', 'comentarios.usuario')
+        ->where('id_usuario', auth()->id())
+        ->get();
+
+    $reportesData = $reportes->map(fn ($r) => [
+        'id' => $r->id,
+        'titulo' => $r->titulo,
+        'descripcion' => $r->descripcion,
+        'estado' => $r->estado,
+        'entidad_tipo' => $r->entidad_tipo,
+        'entidad_id' => $r->entidad_id,
+        'usuario_id' => $r->usuario->id,
+        'usuario_nombre' => $r->usuario->name,
+        'fecha' => $r->created_at->format('d/m H:i'),
+        'comentarios' => $r->comentarios->map(fn ($c) => [
+            'comentario' => $c->comentario,
+            'usuario_id' => $c->usuario->id,
+            'nombre' => $c->usuario->name,
+            'fecha' => $c->created_at->format('d/m H:i'),
+        ])->values()
+    ])->values();
+
+    return view('components.reportes', compact('reportes', 'reportesData'));
+}
+
+// OPERATIVO (mobile)
+public function misReportesOperativo()
+{
+    $reportes = Reportes::where('id_usuario', auth()->id())
+        ->latest()
+        ->get();
+
+    $alertas = Alerta::latest()->take(10)->get();
+
+    return view('operativo.reportes.index', compact('reportes', 'alertas'));
+}
 
 
 }

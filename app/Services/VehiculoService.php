@@ -1,9 +1,7 @@
 <?php
 
 namespace App\Services;
-
 use App\Models\Vehiculo;
-
 use App\Models\EstadosVehiculo;
 use Illuminate\Support\Facades\DB;
 use Exception;
@@ -31,8 +29,6 @@ class VehiculoService
     }
 
 
-
-
     /**
      * Actualizar datos del vehículo (CU 4)
      */
@@ -54,9 +50,6 @@ class VehiculoService
 
         return $vehiculo;
     }
-
-
-
 
 
     /**
@@ -82,9 +75,9 @@ class VehiculoService
 
     public function eliminar(Vehiculo $vehiculo): void
     {
-        $enUso = $this->estadoId('RESERVADO');
-        $baja  = $this->estadoId('NO DISPONIBLE');
-        $enMantenimiento = $this->estadoId('EN MANTENIMIENTO');
+        $enUso = $this->estadoId('EN_USO');
+        $baja  = $this->estadoId('BAJA');
+        $enMantenimiento = $this->estadoId('EN_MANTENIMIENTO');
 
         if ($vehiculo->id_estado_vehiculo === $enUso) {
             throw new Exception('No se puede dar de baja un vehículo en uso');
@@ -108,27 +101,36 @@ class VehiculoService
         ]);
     }
 
-    private function estadoId(string $nombre): int
-    {
-        return EstadosVehiculo::where('estado', $nombre)->value('id');
+  private function estadoId(string $estado): int
+{
+    $estadoVehiculo = EstadosVehiculo::where('estado', $estado)->first();
+
+    if (!$estadoVehiculo) {
+        throw new \Exception("Estado de vehículo no encontrado: {$estado}");
     }
 
+    return $estadoVehiculo->id;
+}
 
-    public function listar(Request $request)
-    {
-        $search        = $request->input('search');
-        $dependenciaId = $request->input('dependencia_id');
-        $estadoId      = $request->input('estado_vehiculo_id');
-        $estadoVtv     = $request->input('estado_vtv');
-        $sortField     = $request->input('sort_field', 'dominio');
-        $sortOrder     = $request->input('sort_order', 'asc');
+public function listar(Request $request)
+{
+    // Captura de filtros desde el Request
+    $estadoId      = $request->input('estado_vehiculo_id');
+    $dependenciaId = $request->input('dependencia_id');
+    $search        = $request->input('search');
+    $dependenciaId = $request->input('dependencia_id');
+    $estadoVtv     = $request->input('estado_vtv');
+    $sortField     = $request->input('sort_field', 'dominio');
+    $sortOrder     = $request->input('sort_order', 'asc');
 
-        $query = Vehiculo::with([
-            'dependencia',
-            'estado_vehiculo',
-            'nafta',
-            'direccion'
-        ]);
+    $query = Vehiculo::with([
+    'estadoVehiculo',
+    'estadoNafta',
+    'dependenciaDuena',
+    'direccionActual'
+]);
+
+
 
         /* FILTRO DEPENDENCIA */
         if ($dependenciaId) {
@@ -155,11 +157,11 @@ class VehiculoService
         $limite = now()->addDays(30);
 
         if ($estadoVtv === 'vencida') {
-            $query->where('vtv', '<', $hoy);
+            $query->where('VTV', '<', $hoy);
         } elseif ($estadoVtv === 'por_vencer') {
-            $query->whereBetween('vtv', [$hoy, $limite]);
+            $query->whereBetween('VTV', [$hoy, $limite]);
         } elseif ($estadoVtv === 'al_dia') {
-            $query->where('vtv', '>', $limite);
+            $query->where('VTV', '>', $limite);
         }
 
         /* ORDEN */
@@ -174,20 +176,68 @@ class VehiculoService
         /* PAGINACIÓN */
         $paginator = $query->paginate(20)->appends($request->query());
 
-        /* CLASIFICACIÓN PARA UI */
+       /* TRANSFORMAR RESPUESTA PARA QUE SEA COMPATIBLE CON EL FRONTEND */
         $collection = $paginator->getCollection()->map(function ($vehiculo) use ($hoy, $limite) {
-            if ($vehiculo->vtv < $hoy) {
+            // Clasificar VTV
+            if ($vehiculo->VTV < $hoy) {
                 $vehiculo->estado_vtv = 'vencida';
-            } elseif ($vehiculo->vtv <= $limite) {
+            } elseif ($vehiculo->VTV <= $limite) {
                 $vehiculo->estado_vtv = 'por_vencer';
             } else {
                 $vehiculo->estado_vtv = 'al_dia';
             }
-            return $vehiculo;
+
+            // CRÍTICO: Convertir relaciones a snake_case para que el JS las entienda
+            return [
+                'id' => $vehiculo->id,
+                'dominio' => $vehiculo->dominio,
+                'marca' => $vehiculo->marca,
+                'modelo' => $vehiculo->modelo,
+                'anio' => $vehiculo->anio,
+                'kilometros' => $vehiculo->kilometros,
+                'VTV' => $vehiculo->VTV,
+                'control_satelital' => $vehiculo->control_satelital,
+                'habilitado_prestamo' => $vehiculo->habilitado_prestamo,
+                'condiciones_prestamo' => $vehiculo->condiciones_prestamo,
+                'id_estado_vehiculo' => $vehiculo->id_estado_vehiculo,
+                'id_estado_nafta' => $vehiculo->id_estado_nafta,
+                'id_dependencia_duena' => $vehiculo->id_dependencia_duena,
+                'id_direccion_actual' => $vehiculo->id_direccion_actual,
+                'estado_vtv' => $vehiculo->estado_vtv,
+
+                //  Relaciones en snake_case (como espera el JS)
+                'estado_vehiculo' => $vehiculo->estadoVehiculo ? [
+                    'id' => $vehiculo->estadoVehiculo->id,
+                    'estado' => $vehiculo->estadoVehiculo->estado,
+                ] : null,
+
+                'estado_nafta' => $vehiculo->estadoNafta ? [
+                    'id' => $vehiculo->estadoNafta->id,
+                    'estado' => $vehiculo->estadoNafta->estado,
+                ] : null,
+
+                'dependencia_duena' => $vehiculo->dependenciaDuena ? [
+                    'id' => $vehiculo->dependenciaDuena->id,
+                    'nombre' => $vehiculo->dependenciaDuena->nombre,
+                ] : null,
+
+                'direccion_actual' => $vehiculo->direccionActual ? [
+                    'id' => $vehiculo->direccionActual->id,
+                    'nombre' => $vehiculo->direccionActual->nombre ?? $vehiculo->direccionActual->calle,
+                ] : null,
+            ];
         });
 
-        $paginator->setCollection($collection);
+        $paginator->setCollection(collect($collection));
 
         return $paginator;
+
     }
+
+
 }
+
+
+
+
+

@@ -16,7 +16,7 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        // Solo compartir con navbar y layout principal
+        // Para el navbar y layout PRINCIPAL (admin)
         View::composer(['layout.navbar', 'layout.app'], function ($view) {
 
             $user = Auth::user();
@@ -48,6 +48,29 @@ class AppServiceProvider extends ServiceProvider
 
             $view->with('alertas', $alertas);
             $view->with('alertasCount', $alertasCount);
+        });
+
+        //  AGREGAR ESTO: Para el navbar y layout OPERATIVO
+        View::composer([
+            'layout.navbarOperativo',
+            'layout.appOperativo',
+            'operativo.*'
+        ], function ($view) {
+
+            $user = Auth::user();
+
+            if (!$user) {
+                $view->with('alertas', collect([]));
+                return;
+            }
+
+            // Alertas para operativos (más simple, solo las últimas)
+            $alertas = Alerta::where('activa', true)
+                ->orderByDesc('fecha_generada')
+                ->limit(10)
+                ->get();
+
+            $view->with('alertas', $alertas);
         });
     }
 }

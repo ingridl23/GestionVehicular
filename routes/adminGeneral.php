@@ -11,7 +11,9 @@ Route::middleware(['auth', 'role:Administrador General'])
     ->name('admin.')
     ->group(function () {
 
-    
+    Route::get('/dashboard', [UserController::class, 'adminDashboard'])
+        ->name('admin.dashboard');
+
         Route::resource('/usuarios', UserController::class)->middleware('permission:ver_todos_usuarios');
 
         Route::resource('/vehiculos', VehiculoController::class)->only(['store','update','destroy']);
@@ -39,10 +41,13 @@ Route::middleware(['auth', 'role:Administrador General'])
       Route::resource('reportes', ReporteController::class)
             ->middleware('permission:ver_reportes_dependencia');
 
-        Route::patch(
-            'reportes/{reporte}/estado',
-            [ReporteController::class, 'cambiarEstado']
-        )->name('reportes.estado');
+
+    // Cambiar estado (admin)
+    Route::patch('/reportes/{reporte}/estado', [ReporteController::class, 'cambiarEstado']);
+
+    Route::post('/reportes/{reporte}/comentarios',
+    [ReporteController::class, 'store']
+)->middleware('auth');
 
         Route::post(
             'reportes/{reporte}/comentarios',

@@ -14,16 +14,24 @@ class DatabaseSeeder extends Seeder
 
     public function run(): void
     {
-        $this->call(
-            [
-    DireccionSeeder::class,
-    DependenciaSeeder::class,
-    RoleAndPermissionsSeeder::class,
-    UserSeeder::class,
-    EstadoNaftaSeeder::class,
-    EstadoVehiculoSeeder::class,
-    EstadoReservaSeeder::class
-            ]
-        );
+        $this->call([
+            // Catálogos base
+            DireccionSeeder::class,
+            DependenciaSeeder::class,
+
+            // Estados / catálogos del dominio
+            EstadoVehiculoSeeder::class,
+            EstadoNaftaSeeder::class,
+            EstadoReservaSeeder::class,
+
+            // Seguridad
+            RoleAndPermissionsSeeder::class,
+
+            // Usuarios (dependen de roles y dependencias)
+            UserSeeder::class,
+
+            // Entidad principal
+            VehiculoSeeder::class,
+        ]);
     }
 }

@@ -89,7 +89,7 @@ class RoleAndPermissionsSeeder extends Seeder
     'ver_personal_dependencia',
     'editar_personal_dependencia',
     'eliminar_personal_dependencia',
-
+    'ver_menu',
     // ==========================
     // NUEVOS PERMISOS
     // ==========================
@@ -140,6 +140,7 @@ $adminDependencia->syncPermissions([
     'ver_gastos',
     'visualizar_reserva_asignada',
     'ver_personal_dependencia',
+    'ver_menu',
     'editar_personal_dependencia',
     'eliminar_personal_dependencia',
     'crear_dependencias',
@@ -183,7 +184,8 @@ $adminDependencia->syncPermissions([
             'ver_reportes_operativos',
             'descargar_datos',
             'ver_dependencias',
-
+            'ver_menu',
+            'ver_personal_dependencia'
         ]);
 
 $conductor->syncPermissions([

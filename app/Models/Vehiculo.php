@@ -28,20 +28,20 @@ class Vehiculo extends Model
 
     ];
 
-    public function dependencia(){
+    public function dependenciaDuena(){
         return $this->belongsTo(Dependencia::class, 'id_dependencia_duena');
     }
 
-    public function nafta(){
+    public function estadoNafta(){
         return $this->belongsTo(EstadosNafta::class, 'id_estado_nafta');
     }
 
-    public function estado_vehiculo(){
+    public function estadoVehiculo(){
         return $this->belongsTo(EstadosVehiculo::class, 'id_estado_vehiculo');
     }
 
 
-    public function direccion() {
+    public function direccionActual() {
         return $this->belongsTo(Direcciones::class, 'id_direccion_actual');
     }
 
