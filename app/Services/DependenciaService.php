@@ -74,12 +74,13 @@ class DependenciaService{
        $dependencia = Dependencia::findOrFail($id);
 
        //Se comprueba que no tenga dependencias hijas
-        if ($dependencia->dependenciasHijas->isNotEmpty()) {
-             throw ValidationException::withMessages([
-                'dependencia' => 'No se puede eliminar esta dependencia porque existen otros registros que dependen de ella.',
+        if ($dependencia->dependenciasHijas()->exists()) {
+            throw ValidationException::withMessages([
+                'dependencia' => 'No se puede eliminar esta dependencia porque tiene dependencias hijas.',
             ]);
         }
-        $dependencia->delete();
+
+        return $dependencia->delete();
     }
     
 

@@ -13,6 +13,7 @@ export default defineConfig({
                 'resources/js/scriptsOperativo.js',
                 'resources/js/reportes.js',
                 'resources/js/vehiculo.js',
+                'resources/js/accionesDependencias.js',
             ],
             refresh: true,
         }),

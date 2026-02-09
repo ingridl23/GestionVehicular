@@ -43,17 +43,21 @@ class DependenciaController extends Controller{
 
     // permiso = eliminar dependencias
     public function eliminarDependencia($id){
-        try {
+            //$dependencia = $this->service->verDependencia($id);
+            //$this->authorize('delete', $dependencia);
 
-            $dependencia = $this->service->verDependencia($id);
+            try {
+                $eliminada = $this->service->eliminarDependencia($id);
 
-            $this->authorize('delete', $dependencia);
-            $this->service->eliminarDependencia($id);
-            return redirect()->route('dependencias.index')->with('success', 'La dependencia fue eliminada correctamente.');
-        } catch (ValidationException $e) {
-             return redirect()->route('dependencias.index')
-                ->withErrors($e->errors());
-        }
+                return response()->json([
+                    'success' => $eliminada
+                ]);
+            } catch (ValidationException $e) {
+                return response()->json([
+                    'success' => false,
+                    'errors' => $e->errors()
+                ], 422);
+            }
     }
 
     // permiso = ver dependencias
