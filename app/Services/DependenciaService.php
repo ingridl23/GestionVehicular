@@ -141,6 +141,7 @@ class DependenciaService{
         } else {
             $id_direccion = $data['id_direccion'];
         }
+
         $nombre = $data['nombre'];
         $activa = filter_var($data['activa'], FILTER_VALIDATE_BOOLEAN);
 
