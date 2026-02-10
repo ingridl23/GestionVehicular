@@ -51,8 +51,8 @@
                   </td>
 
                   <td class="border-b border-gray-200 dark:border-gray-700 bg-gray-100 dark:bg-gray-900 px-2 py-5 text-center">
-                      <label class="relative inline-flex w-11 h-6 cursor-pointer items-center">
-                          <input type="checkbox" class="peer sr-only" {{$dependencia->activa ? 'checked' : ''}}>
+                      <label class="relative inline-flex w-11 h-6 cursor-pointer items-center" >
+                          <input type="checkbox" class="peer sr-only toggle-activa" command="show-modal" commandfor="confirmDialog" id="check-activa" {{$dependencia->activa ? 'checked' : ''}}  data-id="{{ $dependencia->id }}" data-nombre="{{ $dependencia->nombre }}">
 
                           <span class="absolute inset-0 rounded-full bg-gray-400 transition-colors peer-checked:bg-blue-600">
                           </span>

@@ -82,6 +82,35 @@
               </div>
             </dialog>
           </el-dialog>
+  
+          <el-dialog>
+      <dialog id="confirmDialog" class="rounded-lg p-0 backdrop:bg-black/50">
+        <div class="bg-white dark:bg-gray-900 rounded-lg shadow-xl w-full max-w-md">
+            <div class="p-6">
+                <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
+                    Confirmar acción
+                </h2>
+
+                <p id="dialogText" class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                    <!-- texto dinámico -->
+                </p>
+            </div>
+
+            <div class="flex justify-end gap-3 bg-gray-100 dark:bg-gray-800 px-6 py-4 rounded-b-lg">
+                <button id="cancelBtn"
+                    class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md">
+                    Cancelar
+                </button>
+
+                <button id="confirmBtn"
+                    class="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-md" >
+                    Confirmar
+                </button>
+            </div>
+        </div>
+    </dialog>
+  </el-dialog>
+    
 
     <div class="contenedor-servidor flex flex-col items-center justify-center mt-6">
       {{ $dependencias->links('vendor.pagination.simple-pagination') }}

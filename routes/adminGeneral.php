@@ -69,6 +69,7 @@ Route::middleware(['auth', 'role:Administrador General'])
             Route::patch('/{id}', [DependenciaController::class, 'editarDependencia'])->middleware('permission:editar_dependencias')->name('update');
 
             Route::patch('/{id}/activa', [DependenciaController::class, 'cambiarActivaDependencia'])->middleware('permission:editar_dependencias')->name('toggle');
+            
         });
 
 

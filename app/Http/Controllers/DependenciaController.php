@@ -62,12 +62,16 @@ class DependenciaController extends Controller{
 
     // permiso = ver dependencias
     // Actualiza el estado de la dependencia, alternando entre activa (1) e inactiva (0) según su estado actual.
-    public function cambiarActivaDependencia($id){
-     $dependencia = $this->service->verDependencia($id);
+    public function cambiarActivaDependencia($id, Request $request){
 
-    $this->authorize('toggle', $dependencia);
+        $validated = $request->validate([
+            'activa' => 'required|boolean',
 
-    $this->service->cambiarActivaDependencia($id);
+        ]);
+        //$dependencia = $this->service->verDependencia($id);
+        //$this->authorize('toggle', $dependencia);
+
+        return $this->service->cambiarActivaDependencia($id, $validated);
     }
 
 
@@ -150,7 +154,7 @@ class DependenciaController extends Controller{
         //$this->authorize('view', Dependencia::class);
         $query = Dependencia::with(['dependenciaPadre','direccion']);
 
-        
+
         /* ----------------------
          FILTRO POR NOMBRE DE LA DEPENDENCIA
         ---------------------- */

@@ -73,30 +73,41 @@ class DependenciaService{
     public function eliminarDependencia($id){
        $dependencia = Dependencia::findOrFail($id);
 
+       $bloqueo = $dependencia->puedeSerDesactivada();
+
        //Se comprueba que no tenga dependencias hijas
-        if ($dependencia->dependenciasHijas()->exists()) {
+        if ($bloqueo) {
             throw ValidationException::withMessages([
-                'dependencia' => 'No se puede eliminar esta dependencia porque tiene dependencias hijas.',
+                'dependencia' => "No se puede eliminar esta dependencia cuenta con {$bloqueo}",
             ]);
         }
 
         return $dependencia->delete();
+       
     }
     
 
-    
-    public function cambiarActivaDependencia($id){
+
+    public function cambiarActivaDependencia($id, $request){
         $dependencia = Dependencia::findOrFail($id);
 
-       //Se comprueba que no tenga dependencias hijas
-        if ($dependencia->dependenciasHijas->isNotEmpty()) {
-            throw ValidationException::withMessages([
-                'dependencia' => 'No se puede desactivar esta dependencia porque existen otros registros que dependen de ella.',
-            ]);
-        }
+        $bloqueo = $dependencia->puedeSerDesactivada();
 
-        $valorActiva = ($dependencia->activa == true) ? false : true;
-        $dependencia->update(['activa' => $valorActiva]);
+       //Se comprueba que no tenga dependencias hijas
+        if ($bloqueo) {
+            return response()->json([
+                'ok' => false,
+                'message' => "No se puede desactivar la dependencia cuenta con {$bloqueo}"
+            ], 422);
+        }
+       
+        $dependencia->activa = $request->activa;
+        $dependencia->save();
+
+        return response()->json([
+            'ok' => true,
+            'message' => 'Estado de la dependencia actualizado correctamente.'
+        ]);
     }
 
 

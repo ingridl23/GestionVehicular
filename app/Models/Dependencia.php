@@ -33,8 +33,9 @@ class Dependencia extends Model
     }
 
     public function vehiculos() {
-        return $this->hasMany(Vehiculo::class);
+        return $this->hasMany(Vehiculo::class, 'id_dependencia_duena');
     }
+
 
     public function obtenerIdsHijas(): array
     {
@@ -71,6 +72,47 @@ class Dependencia extends Model
     public static function obtenerTodosLosPadres(){
         //Has: Se fija qie exista la relacion (una dependencia tenga al menos una hija)
         return Dependencia::has('dependenciasHijas')->get();
+    }
+
+    public function puedeSerDesactivada() : ?string{
+        // Hijas activas
+        if ($this->dependenciasHijas()
+            ->where('activa', true)
+            ->exists()) {
+            return 'dependencias hijas activas.';
+        }
+
+        // Reservas activas como dueña
+        if (Reserva::where('id_dependencia_duena', $this->id)
+            ->whereHas('estado_reserva', function ($q) {
+                $q->whereIn('estado', ['PENDIENTE', 'APROBADA', 'EN CURSO']);
+            })
+            ->exists()) {
+
+            return 'reservas activas como dependencia dueña.';
+        }
+
+        // Reservas activas como solicitante
+        if (Reserva::where('id_dependencia_solicitante', $this->id)
+            ->whereHas('estado_reserva', function ($q) {
+                $q->whereIn('estado', ['PENDIENTE', 'APROBADA', 'EN CURSO']);
+            })
+            ->exists()) {
+
+            return 'reservas activas como dependencia solicitante.';
+        }
+
+        // Vehículos asociados
+        if ($this->vehiculos()->exists()) {
+            return 'vehículos asociados.';
+        }
+
+        // Usuarios asociados
+        if (User::where('id_dependencia', $this->id)->exists()) {
+            return 'usuarios asociados.';
+        }
+
+        return null; 
     }
 
 
