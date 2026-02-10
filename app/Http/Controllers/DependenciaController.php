@@ -7,7 +7,7 @@ use App\Http\Requests\FiltroDependenciasRequest;
 use App\Http\Requests\DependenciaRequest;
 use Illuminate\Validation\ValidationException;
 use App\Services\DependenciaService;
-use App\Policies\DependenciaPolicy;
+
 
 
 class DependenciaController extends Controller{
@@ -146,14 +146,14 @@ class DependenciaController extends Controller{
 
 
     // permiso = ver dependencias
-    public function filtrarDependencias(FiltroDependenciasRequest $request, DependenciaPolicy $DependenciaP){
-$this->authorize('view', Dependencia::class);
+    public function filtrarDependencias(Request $request){
+        //$this->authorize('view', Dependencia::class);
         $query = Dependencia::with(['dependenciaPadre','direccion']);
 
+        
         /* ----------------------
          FILTRO POR NOMBRE DE LA DEPENDENCIA
         ---------------------- */
-
         //filled se fija que exista y no este vacio
         if(!empty($request->filled('nombre')) && $request->input('nombre') != ''){
             $nombre = $request->input('nombre');
@@ -184,13 +184,24 @@ $this->authorize('view', Dependencia::class);
         }
 
         /* ----------------------
-         LOCALIDAD
+         CALLE
         ---------------------- */
 
-        if (!empty($request->filled('localidad')) && $request->input('localidad') != 'default') {
-            $localidad = $request->input('localidad');
-            $query->whereHas('direccion', function ($q) use ($localidad) {
-                $q->where('ciudad', $localidad);
+        if (!empty($request->filled('calle')) && $request->input('calle') != 'default') {
+            $calle = $request->input('calle');
+            $query->whereHas('direccion', function ($q) use ($calle) {
+                $q->where('calle', 'LIKE', "%{$calle}%");
+            });
+        }
+
+        /* ----------------------
+         CIUDAD
+        ---------------------- */
+
+        if (!empty($request->filled('ciudad')) && $request->input('ciudad') != 'default') {
+            $ciudad = $request->input('ciudad');
+            $query->whereHas('direccion', function ($q) use ($ciudad) {
+                $q->where('ciudad', $ciudad);
             });
         }
 

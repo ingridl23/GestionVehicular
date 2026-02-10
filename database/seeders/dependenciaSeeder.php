@@ -230,7 +230,7 @@ class DependenciaSeeder extends Seeder
                 'id_dependencia_padre' => 34,
             ],
             [
-                'nombre' => 'Dirección de Hacienda Finanzas',
+                'nombre' => 'Dirección de Hacienda y Finanzas',
                 'activa' => 1,
                 'id_direccion' => 11,
                 'id_dependencia_padre' => 23 ,

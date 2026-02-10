@@ -128,7 +128,6 @@
     routes: {
       ver: "{{ route('reservas.reserva', ':id') }}",
       editar: "{{ $configEditar['route'] }}",
-      cancelar: "{{ route('admin.reservas.cancelar', ':id') }}",
     }
   };
 

@@ -2,7 +2,7 @@
 @extends('layout.app')
 
 @push('scripts')
-<script type="module" src="{{ Vite::asset('resources/js/filtros/filtrosReservas.js') }}"></script>
+<script type="module" src="{{ Vite::asset('resources/js/filtros/filtrosDependencias.js') }}"></script>
 <script type="module" src="{{ Vite::asset('resources/js/accionesDependencias.js') }}"></script>
 @endpush
 
@@ -15,7 +15,7 @@
     <p class="text-center text-gray-600 ">No hay dependencias cargadas</p>
   @else
   <div class="flex items-end justify-between">
-    <button id="mostrarFiltros" type="button"
+    <button id="mostrarFiltrosDependencia" type="button"
       class="rounded-md bg-blue-600 px-2 py-2 mb-2 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
       Filtros
     </button>
@@ -29,7 +29,8 @@
     @endcan
   </div>
   <div class="hidden opacity-0 -translate-y-4 transition-all duration-300 ease-out" id="filtros">
-    {{--ACA VAN LOS FILTROS--}}
+
+    <x-filtros-dependencias-fields :dependencias="$dependencias_filtros" :localidades="$localidades" />
 
   </div>
 
@@ -86,9 +87,29 @@
       {{ $dependencias->links('vendor.pagination.simple-pagination') }}
     </div>
 
+    <div id="contenedor-js" style="display:none;">
+      <div id="lista-reservas"></div>
+      <div id="paginacion"></div>
+    </div>
   </div>
   @endif
 </section>
 
+
+<script>
+  window.RESERVAS_CONFIG = {
+    permissions: {
+      ver: @json(auth() -> user() -> can('ver_dependencias')),
+      editar: @json(auth() -> user() -> can('editar_dependencias')),
+      eliminar: @json(auth() -> user() -> can('eliminar_dependencias')),
+    },
+    routes: {
+      ver: "{{ route('admin.dependencias.show', ':id') }}",
+      editar: "{{ route('admin.dependencias.edit', ':id') }}",
+    }
+  };
+
+
+</script>
 
 @endsection

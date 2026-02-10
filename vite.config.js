@@ -8,6 +8,7 @@ export default defineConfig({
                 'resources/css/app.css',
                 'resources/js/app.js',
                 'resources/js/filtros/filtrosReservas.js',
+                'resources/js/filtros/filtrosDependencias.js',
                 'resources/css/filtrosReservas.css',
                 'resources/js/reservas/accionesReserva.js',
                 'resources/js/scriptsOperativo.js',

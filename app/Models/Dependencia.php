@@ -68,5 +68,10 @@ class Dependencia extends Model
         });
     }
 
+    public static function obtenerTodosLosPadres(){
+        //Has: Se fija qie exista la relacion (una dependencia tenga al menos una hija)
+        return Dependencia::has('dependenciasHijas')->get();
+    }
+
 
 }

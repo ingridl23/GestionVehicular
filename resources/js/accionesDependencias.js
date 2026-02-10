@@ -43,14 +43,5 @@ document.addEventListener("DOMContentLoaded", ()=>{
         }
     }
 
-    
-    // let enlaces = document.querySelectorAll(".btn-editar");
-    // enlaces.forEach(a => {
-    //     const id = a.dataset.id;
-    //     const url = window.RESERVAS_CONFIG.routes.editar.replace(':id', id);
-    //     a.href = url;
-    //     console.log(url);
-    // });
-
 
 })

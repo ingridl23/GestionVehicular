@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
 
     async function cancelarReserva(id){
         try {
-            const res = await fetch(`/cancelar-reserva/${id}`, {
+            const res = await fetch(`/admin/cancelar-reserva/${id}`, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",

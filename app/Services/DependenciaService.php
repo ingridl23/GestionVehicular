@@ -45,7 +45,7 @@ class DependenciaService{
 
     public function datosFiltros(){
         return [
-            'dependencias_filtros' => Dependencia::select('nombre', 'id')->orderBy('nombre')->get(),
+            'dependencias_filtros' => Dependencia::obtenerTodosLosPadres(),
             'localidades'  => Direcciones::obtenerLocalidades(),
         ];
     }
