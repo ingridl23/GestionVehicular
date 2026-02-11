@@ -9,14 +9,12 @@ use Illuminate\View\Component;
 class tablaReservasDesktop extends Component
 {
     public $reservas;
-    public $ubicacion;
-    public $configEditar;
 
-    public function __construct($reservas, $ubicacion, $configEditar)
+
+    public function __construct($reservas)
     {
         $this->reservas = $reservas;
-        $this->ubicacion = $ubicacion;
-        $this->configEditar = $configEditar;
+
     }
 
     /**

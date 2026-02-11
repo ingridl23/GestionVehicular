@@ -110,7 +110,7 @@ Route::middleware(['auth', 'role:Administrador General|Administrador de Dependen
 
         //------------------------------------
         // AUTORIZAR
-        Route::get('/autorizar-prestamos', [PrestamoController::class, 'verReservas'])->name('reservas.autorizar-prestamos')->middleware('permission:autorizar_prestamos');
+        Route::get('/autorizar-prestamos', [PrestamoController::class, 'verReservasPendientes'])->name('reservas.autorizar-prestamos')->middleware('permission:autorizar_prestamos');
     });
 
 

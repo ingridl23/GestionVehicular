@@ -89,7 +89,7 @@
                                             focus:ring-2 focus:ring-indigo-500 sm:text-sm *:bg-white dark:*:bg-gray-800">
                                             <option value="" @selected(old('id_vehiculo', $reserva?->id_vehiculo) === null)>Seleccionar</option>
                                             @foreach ($vehiculos as $vehiculo)
-                                                @if($vehiculo->estado_vehiculo->estado != 'DISPONIBLE')
+                                                @if($vehiculo->estadoVehiculo->estado != 'DISPONIBLE')
                                                     <option value="" disabled class="text-gray-400">
                                                         {{ $vehiculo->dominio }} {{ $vehiculo->marca }}
                                                         {{ $vehiculo->modelo }} {{ $vehiculo->anio }} (Pertenece: {{$vehiculo->nombre}} - {{$vehiculo->estado_vehiculo->estado}})

@@ -22,6 +22,7 @@ class ReservaController extends BaseReservaController{
             ['reservas' => $this->service->verReservas()],
             $this->service->datosFiltros(),
             ['ubicacion' => 'interna'],
+            ['mostrarAcciones' => true],
         );
 
         return view('ui.reservas.reservas', $data);

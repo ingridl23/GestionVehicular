@@ -24,8 +24,21 @@ class PrestamoController extends BaseReservaController{
             ['reservas' => $this->service->verReservas()],
             $this->service->datosFiltros(),
             ['ubicacion' => 'externa'],
+            ['mostrarAcciones' => true],
         );
         return view('ui.reservas.reservas', $data);
+    }
+
+    public function verReservasPendientes(){
+        $data = array_merge(
+            ['reservas' => $this->service->verReservasPendientes()],
+            ['mostrarAcciones' => false],
+            ['ubicacion' => 'externa'],
+            $this->service->datosFiltros(),
+        );
+
+
+        return view('ui.reservas.reservasPendientes', $data);
     }
 
 

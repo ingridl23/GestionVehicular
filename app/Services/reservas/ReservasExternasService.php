@@ -35,6 +35,8 @@ class ReservasExternasService extends BaseReservasServices{
     }
 
 
+
+
     /**
      * Obtiene los datos necesarios para los formularios
      * de alta y edición de prestamos.
@@ -58,7 +60,15 @@ class ReservasExternasService extends BaseReservasServices{
         $id_dependencia = $this->user()->dependencia->id;
         $dependencia = Dependencia::find($id_dependencia);
         $ids = $this->obtenerDependenciasIds($dependencia);
-        $arbol = $this->obtenerDependenciasArbol($dependencia);
+        
+        $rol = $this->rol();
+        if($rol == 'Administrador General'){
+            $arbol = Dependencia::all();
+        }
+        else{
+            $arbol = $this->obtenerDependenciasArbol($dependencia);
+        }
+        
 
         $base = $this->obtenerDatosBase();
 
@@ -105,7 +115,7 @@ class ReservasExternasService extends BaseReservasServices{
             'vehiculos' => $datos['vehiculos'],
             'usuarios'  => $datos['usuarios'],
             'dependencias'  => $datos['arbol'],
-            'formAction' => route('reservas.externas.crear'),
+            'formAction' => route('admin.reservas.externas.crear'),
             'ubicacion' => 'externa',
             'reserva'   => null,
         ];
@@ -137,7 +147,7 @@ class ReservasExternasService extends BaseReservasServices{
             'usuarios'  => $datos['usuarios'],
             'dependencias'  => $datos['arbol'],
             'reserva'   => $reserva,
-            'formAction' => route('reservas.externas.editar', $id),
+            'formAction' => route('admin.reservas.externas.editar', $id),
             'ubicacion' => 'externa'
         ];
     }

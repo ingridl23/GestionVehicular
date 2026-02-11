@@ -63,11 +63,11 @@
       <div class="w-full">
         <div class="max-w-full overflow-x-auto">
           <div class="hidden md:block">
-            <x-tabla-reservas-desktop :reservas="$reservas" :ubicacion="$ubicacion" :config-editar="$configEditar" />
+            <x-tabla-reservas-desktop :reservas="$reservas" :ubicacion="$ubicacion" :configEditar="$configEditar" :mostrarAcciones="$mostrarAcciones"  />
           </div>
 
           <div class="block md:hidden">
-            <x-lista-reservas-mobile :reservas="$reservas" :ubicacion="$ubicacion" :config-editar="$configEditar" />
+            <x-lista-reservas-mobile :reservas="$reservas" :ubicacion="$ubicacion" :configEditar="$configEditar" :mostrarAcciones="$mostrarAcciones"  />
           </div>
           <el-dialog>
             <dialog id="dialog-cancelar" aria-labelledby="dialog-title" class="fixed inset-0 size-auto max-h-none max-w-none overflow-y-auto bg-transparent backdrop:bg-transparent">
@@ -124,6 +124,7 @@
       ver: @json(auth() -> user() -> can('ver_reservas_internas')),
       editar: @json(auth() -> user() -> can($configEditar['can'])),
       cancelar: @json(auth() -> user() -> can('cancelar_reserva_interna')),
+      mostrarAcciones: "{{$mostrarAcciones}}",
     },
     routes: {
       ver: "{{ route('reservas.reserva', ':id') }}",

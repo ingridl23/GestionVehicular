@@ -127,6 +127,37 @@ class Reserva extends Model
         });
     }
 
+
+    public function scopeObtenerDependenciasExternasPendientes($query, $id_dependencia)
+    {
+        $dependencia = Dependencia::with('dependenciasHijas')->find($id_dependencia);
+
+        if (!$dependencia) {
+            return $query->whereRaw('1 = 0');
+        }
+
+        $idsArbol = array_merge(
+            [$dependencia->id],
+            $dependencia->obtenerIdsHijas()
+        );
+
+        $query->where(function ($q) use ($idsArbol) {
+
+            // Yo (o mis hijas) soy dueño y el solicitante es externo
+            $q->where(function ($q1) use ($idsArbol) {
+                $q1->whereIn('id_dependencia_duena', $idsArbol)
+                    ->whereNotIn('id_dependencia_solicitante', $idsArbol);
+            });
+        });
+
+        
+        return $query->whereIn('id_estado_reserva', function ($sub) {
+            $sub->select('id')
+                ->from('estados_reservas')
+                ->whereIn('estado', ['PENDIENTE']);
+        });
+    }
+
     /**
      * Scope que filtra únicamente las reservas internas.
      *

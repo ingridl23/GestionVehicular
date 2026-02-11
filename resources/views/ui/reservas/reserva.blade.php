@@ -60,7 +60,7 @@
 
             <p>
                 <span class="font-medium text-gray-800 dark:text-gray-100"> Estado de la nafta:</span>
-                {{ $reserva->vehiculo->nafta->estado }}
+                {{ $reserva->vehiculo->estadoNafta->estado}}
             </p>
         </div>
     </div>

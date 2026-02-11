@@ -17,6 +17,8 @@ interface ReservaServiceInterface
     public function editarReserva($request, $id);
     public function user();
     public function rol();
+
+    public function verReservasPendientes();
     
 
 }

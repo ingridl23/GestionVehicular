@@ -98,7 +98,7 @@ class ReservasInternasService extends BaseReservasServices{
             'vehiculos' => $datos['vehiculos'],
             'usuarios'  => $datos['usuarios'],
             'dependencias'  => $datos['arbol'],
-            'formAction' => route('reservas.internas.crear'),
+            'formAction' => route('admin.reservas.internas.crear'),
             'reserva'   => null,
             'ubicacion'   => null,
         ];
@@ -129,7 +129,7 @@ class ReservasInternasService extends BaseReservasServices{
             'usuarios'  => $datos['usuarios'],
             'dependencias'  => $datos['arbol'],
             'reserva'   => $reserva,
-            'formAction' => route('reservas.internas.editar', $id),
+            'formAction' => route('admin.reservas.internas.editar', $id),
             'ubicacion'   => null,
         ];
     }
@@ -143,7 +143,7 @@ class ReservasInternasService extends BaseReservasServices{
 
 
     public function valoresParametrosValidaciones($id_vehiculo, $fecha_inicio, $fecha_fin, $id_usuario, $id_dependencia_solicitante, $id = null){
-        $resultado = $this->validaciones($id_vehiculo, $fecha_inicio, $fecha_fin, $id_usuario, $id_dependencia_solicitante, null);
+        $resultado = $this->validaciones($id_vehiculo, $fecha_inicio, $fecha_fin, $id_usuario, $id_dependencia_solicitante, $id);
         return $resultado;
     }
 
