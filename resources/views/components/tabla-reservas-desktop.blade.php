@@ -32,6 +32,12 @@
                       Acciones
                     </th>
                     @endcanany
+                  @else
+                    @canany(['ver_solicitudes_prestamos','autorizar_prestamos', 'rechazar_prestamos'])
+                    <th class="w-1/6 min-w-[160px] px-3 py-4 text-lg font-medium text-white bg-blue-600 dark:bg-blue-800 lg:px-4 lg:py-7">
+                      Acciones
+                    </th>
+                    @endcanany
                   @endif
                 </tr>
               </thead>
@@ -94,6 +100,38 @@
                         @endif
                       @endcanany
 
+                    </td>
+                  @else
+                    <td class="border-b border-gray-200 dark:border-gray-700 bg-gray-100 dark:bg-gray-900 px-2 py-5 text-center text-base font-medium text-gray-700 dark:text-gray-200">
+                            @can('ver_solicitudes_prestamos')
+                              <a href="{{ route('reservas.reserva', $reserva->id) }}"
+                                class="m-1 inline-block rounded-md border border-blue-600 px-2 py-2 text-blue-600 hover:bg-blue-600 hover:text-white dark:border-blue-400 dark:text-blue-400 dark:hover:bg-blue-500 dark:hover:text-white"
+                                title="Ver detalles">
+                                <i class="fa-solid fa-eye"></i>
+                              </a>
+                            @endcan
+                            @can('autorizar_prestamos')
+                              <form action="{{ route('admin.reservas.autorizar', $reserva->id) }}" 
+                                    method="POST" 
+                                    class="inline-block m-1">
+                                  @csrf
+                                  @method('PATCH')
+
+                                  <button type="submit"
+                                      class="rounded-md border border-blue-600 px-2 py-2 text-blue-600 hover:bg-blue-600 hover:text-white dark:border-blue-400 dark:text-blue-400 dark:hover:bg-blue-500 dark:hover:text-white"
+                                      title="Autorizar préstamo">
+                                      <i class="fa-solid fa-circle-check text-green-600"></i>
+                                  </button>
+                              </form>
+                            @endcan
+                           @can('rechazar_prestamos')
+                                <a href="{{ route('admin.reservas.rechazar', $reserva->id) }}"
+                                  class="m-1 inline-block rounded-md border border-blue-600 px-2 py-2 text-blue-600 hover:bg-blue-600 hover:text-white dark:border-blue-400 dark:text-blue-400 dark:hover:bg-blue-500 dark:hover:text-white"
+                                  title="Rechazar prestamo">
+                                    <i class="fa-solid fa-circle-xmark text-red-600"></i>
+                                    
+                                </a>
+                            @endcan
                     </td>
                   @endif
                 </tr>

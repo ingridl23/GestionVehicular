@@ -377,6 +377,31 @@ abstract class BaseReservasServices implements ReservaServiceInterface{
     return null;
     }
 
+
+    public function autorizarPrestamos($id){
+        $reserva = Reserva::findOrFail($id);
+
+        $fecha_inicio = $reserva->fecha_inicio_reserva;
+        $fecha_fin =$reserva->fecha_fin_reserva;
+        $id_vehiculo = $reserva->id_vehiculo;
+        $id_usuario = $reserva->id_usuario;
+
+        $id_dependencia_solicitante = $reserva->id_dependencia_solicitante;
+        
+        
+        $validaciones = $this->valoresParametrosValidaciones($id_vehiculo, $fecha_inicio, $fecha_fin, $id_usuario, $id_dependencia_solicitante, $reserva->id);
+
+        if($validaciones != null){
+            dd($validaciones);
+            return $validaciones;
+        }
+
+        $id_estado_reserva = EstadosReserva::where("estado", "APROBADA")->value('id');
+        $reserva->update(['id_estado_reserva' => $id_estado_reserva]);
+
+        
+    }
+
     //Estado que tomará la reserva cuando se cree o se edite
     // Si es interna -> APROBADA (automaticamente)
     // Si es externa -> PENDIENTE hasta que alguien la autorice.

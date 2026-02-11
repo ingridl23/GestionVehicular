@@ -42,7 +42,11 @@ document.addEventListener("DOMContentLoaded", () => {
         let url;
         if (busqueda == "interna") {
             url = "/filtrar-reservas-internas";
-        } else {
+        }
+        else if(busqueda == "autorizar"){
+            url = "/admin/filtrar-reservas-externas-autorizar";
+        } 
+        else {
             url = "/filtrar-reservas-externas";
         }
 
@@ -160,6 +164,52 @@ document.addEventListener("DOMContentLoaded", () => {
                     `;
                     }
                 }
+            }
+            else{
+                if(PERMISSIONS.ver){
+                        acciones += `
+                        <a href="${ROUTES.ver.replace(":id", res.id)}"
+                                class="m-1 inline-block rounded-md border border-blue-600 px-2 py-2 text-blue-600 hover:bg-blue-600 hover:text-white dark:border-blue-400 dark:text-blue-400 dark:hover:bg-blue-500 dark:hover:text-white"
+                                title="Ver detalles">
+                                <i class="fa-solid fa-eye"></i>
+                              </a>
+                    `;
+                }
+                
+                if(PERMISSIONS.autorizar){
+                    acciones += `
+                              <form action="${ROUTES.autorizar.replace(":id", res.id)}" 
+                                    method="post" 
+                                    class="inline-block m-1">
+                                    <input type="hidden" name="_token" value="${window.csrfToken}">
+                                    <input type="hidden" name="_method" value="PATCH">
+                                  <button type="submit"
+                                      class="rounded-md border border-blue-600 px-2 py-2 text-blue-600 hover:bg-blue-600 hover:text-white dark:border-blue-400 dark:text-blue-400 dark:hover:bg-blue-500 dark:hover:text-white"
+                                      title="Autorizar préstamo">
+                                      <i class="fa-solid fa-circle-check text-green-600"></i>
+                                  </button>
+                              </form>
+                        `;
+                }
+
+                if(PERMISSIONS.rechazar){
+                    acciones += `
+                              <form action="${ROUTES.rechazar.replace(":id", res.id)}" 
+                                    method="post" 
+                                    class="inline-block m-1">
+                                    <input type="hidden" name="_token" value="${window.csrfToken}">
+                                    <input type="hidden" name="_method" value="PATCH">
+                                  <button type="submit"
+                                      class="rounded-md border border-blue-600 px-2 py-2 text-blue-600 hover:bg-blue-600 hover:text-white dark:border-blue-400 dark:text-blue-400 dark:hover:bg-blue-500 dark:hover:text-white"
+                                      title="Autorizar préstamo">
+                                      <i class="fa-solid fa-circle-check text-green-600"></i>
+                                  </button>
+                              </form>
+                        `;
+                }
+                              
+                           
+                           
             }
             
 

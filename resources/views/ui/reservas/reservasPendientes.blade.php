@@ -57,10 +57,15 @@
 <script>
   window.RESERVAS_CONFIG = {
     permissions: {
+      ver: @json(auth() -> user() -> can('ver_solicitudes_prestamos')),
+      autorizar: @json(auth() -> user() -> can('autorizar_prestamos')),
+      rechazar: @json(auth() -> user() -> can('rechazar_prestamos')),
       mostrarAcciones: "{{$mostrarAcciones}}",
     },
     routes: {
       ver: "{{ route('reservas.reserva', ':id') }}",
+      autorizar: "{{ route('admin.reservas.autorizar', ':id') }}",
+      rechazar: "{{ route('admin.reservas.rechazar', ':id') }}",
     }
   };
 

@@ -33,12 +33,17 @@ class PrestamoController extends BaseReservaController{
         $data = array_merge(
             ['reservas' => $this->service->verReservasPendientes()],
             ['mostrarAcciones' => false],
-            ['ubicacion' => 'externa'],
+            ['ubicacion' => 'autorizar'],
             $this->service->datosFiltros(),
         );
 
 
         return view('ui.reservas.reservasPendientes', $data);
+    }
+
+    public function autorizarPrestamos($id){
+        $this->service->autorizarPrestamos($id);
+        return $this->verReservasPendientes();
     }
 
 
@@ -58,6 +63,22 @@ class PrestamoController extends BaseReservaController{
         }
         else{
             $query->soloExternas();
+        }
+        return $this->filtrarReservas($request, $query);
+    }
+
+
+    public function filtrarAutorizarPrestamos(FiltroReservasRequest $request){
+        $rol = $this->service->rol();
+        $id_dependencia = $this->service->user()->dependencia->id;
+        $query = Reserva::with('estado_reserva', 'vehiculo', 'usuario', 'dependencia_solicitante')->orderBy('fecha_inicio_reserva');
+
+        if($rol == 'Administrador de Dependencia' || $rol == 'Administrador General'){
+            $query->obtenerDependenciasExternas($id_dependencia)->whereIn('id_estado_reserva', function ($sub) {
+            $sub->select('id')
+                ->from('estados_reservas')
+                ->whereIn('estado', ['PENDIENTE']);
+            });
         }
         return $this->filtrarReservas($request, $query);
     }

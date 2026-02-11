@@ -70,6 +70,9 @@ class RoleAndPermissionsSeeder extends Seeder
     'solicitar_prestamo',
     'visualizar_reserva_asignada',
 
+    //NUEVO 
+    'rechazar_prestamos',
+
     // Dependencias
     'ver_dependencias',
     'crear_dependencias',
@@ -129,6 +132,7 @@ $adminDependencia->syncPermissions([
     'ver_reservas_internas',
     'ver_reservas_prestamos',
     'autorizar_prestamos',
+    'rechazar_prestamos',
     'autorizar_reservas_internas',
     'ver_solicitudes_prestamos',
     'actualizar_prestamo',

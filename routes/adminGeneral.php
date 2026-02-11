@@ -111,6 +111,9 @@ Route::middleware(['auth', 'role:Administrador General|Administrador de Dependen
         //------------------------------------
         // AUTORIZAR
         Route::get('/autorizar-prestamos', [PrestamoController::class, 'verReservasPendientes'])->name('reservas.autorizar-prestamos')->middleware('permission:autorizar_prestamos');
+        Route::patch('/autorizar-prestamo/{id}', [PrestamoController::class, 'autorizarPrestamos'])->name('reservas.autorizar')->middleware('permission:autorizar_prestamos');
+        Route::patch('/rechazar-prestamo/{id}', [PrestamoController::class, 'rechazarPrestamos'])->name('reservas.rechazar')->middleware('permission:rechazar_prestamos');
+        Route::post('/filtrar-reservas-externas-autorizar', [PrestamoController::class, 'filtrarAutorizarPrestamos'])->name('reservas.autorizar.filtrar')->middleware('permission:ver_solicitudes_prestamos');
     });
 
 
