@@ -147,7 +147,7 @@
                     Préstamos
                 </a>
                 @endcan
-                @can('autorizar_prestamos')
+                @can('ver_solicitudes_prestamos')
                 <a href="{{ route('admin.reservas.autorizar-prestamos') }}"
                     class="block px-3 py-2 rounded-lg text-sm {{ request()->routeIs('reservas.autorizar-prestamos') ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700' }}">
                     Autorizar préstamos

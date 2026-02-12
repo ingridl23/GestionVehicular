@@ -35,6 +35,39 @@ class ReservaPolicy
         return $user->hasPermissionTo('ver_reservas_prestamos');
     }
 
+
+    /**
+     * Listado de las solicitudes que son prestamos
+     * Si es Administrador general ve todos los prestamos
+     * Si es Administrador de dependencia ve todos los prestamos que involucra a su dependencia
+     */
+
+    public function ViewPendingLoans(User $user): bool
+    {
+        return $user->hasPermissionTo('ver_solicitudes_prestamos');
+    }
+
+
+    /**
+     * Permiso para aceptar préstamos
+     */
+
+    public function authorizeLoans(User $user): bool
+    {
+        return $user->hasPermissionTo('autorizar_prestamos');
+    }
+
+
+
+    /**
+     * Permiso para rechazar prestamos
+     */
+
+    public function rejectLoans(User $user): bool
+    {
+        return $user->hasPermissionTo('rechazar_prestamos');
+    }
+
     /**
      * Ver una reserva
      */
@@ -67,16 +100,6 @@ class ReservaPolicy
             return true;
         }
         return false;
-    }
-
-    /**
-     * Autorizar reserva
-     */
-    public function autorizar(User $user, Reserva $reserva): bool
-    {
-        return $user->hasRole('Dueño Dependencia')
-            && $reserva->dependencia_id === $user->dependencia_id
-            && $reserva->estado === 'PENDIENTE';
     }
 
     /**

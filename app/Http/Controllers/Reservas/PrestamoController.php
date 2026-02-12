@@ -16,6 +16,7 @@ class PrestamoController extends BaseReservaController{
 
     // permiso = ver_reservas_prestamos
     public function verReservas(){
+        $this->authorize('viewAnyLoan', Reserva::class);
         $data = array_merge(
             ['reservas' => $this->service->verReservas()],
             $this->service->datosFiltros(),
@@ -25,7 +26,10 @@ class PrestamoController extends BaseReservaController{
         return view('ui.reservas.reservas', $data);
     }
 
+
+    // permission:ver_solicitudes_prestamos
     public function verReservasPendientes(){
+        $this->authorize('ViewPendingLoans', Reserva::class);
         $data = array_merge(
             ['reservas' => $this->service->verReservasPendientes()],
             ['mostrarAcciones' => false],
@@ -37,7 +41,10 @@ class PrestamoController extends BaseReservaController{
         return view('ui.reservas.reservasPendientes', $data);
     }
 
+
+    // permission:autorizar_prestamos
     public function autorizarPrestamo($id){
+        $this->authorize('authorizeLoans', Reserva::findOrFail($id));
         $resultado = $this->service->autorizarPrestamo($id);
            
         if(is_array($resultado)){
@@ -49,7 +56,6 @@ class PrestamoController extends BaseReservaController{
             ]);
         }
             
-
         if($resultado){
             return response()->json([
                 'success' => true,
@@ -65,7 +71,10 @@ class PrestamoController extends BaseReservaController{
        
     }
 
+
+    // permission:rechazar_prestamos
     public function rechazarPrestamo($id){
+        $this->authorize('rejectLoans', Reserva::findOrFail($id));
        $resultado = $this->service->rechazarPrestamo($id);
             
         if($resultado){
@@ -100,6 +109,7 @@ class PrestamoController extends BaseReservaController{
         }
         return $this->filtrarReservas($request, $query);
     }
+
 
 
     public function filtrarAutorizarPrestamos(FiltroReservasRequest $request){
