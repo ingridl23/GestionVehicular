@@ -56,8 +56,7 @@ abstract class BaseReservaController extends Controller
 
 
     // permiso = filtrar_reservas_internas || filtrar_prestamos
-    public function filtrarReservas($request, $query)
-    {
+    public function filtrarReservas($request, $query){
 
         /* ----------------------
          FILTRO POR NOMBRE DE LA DEPENDENCIA SOLICITANTE O POR NOMBRE O APELLIDO DEL CONDUCTOR
@@ -197,7 +196,7 @@ abstract class BaseReservaController extends Controller
 
 
 
-    public function mensajesErrores($resultado){
+    protected function mensajesErrores($resultado){
         if ($resultado[0] == "usuario") {
             return [
                 'id_usuario' => 'El usuario no se encuentra disponible en el rango de fechas seleccionado.'

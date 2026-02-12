@@ -17,7 +17,15 @@ abstract class BaseReservasServices implements ReservaServiceInterface{
     public function verReservasPendientes(){
         $id_dependencia = $this->user()->dependencia->id;
         $query = $this->obtenerDatosVerReservas();
-        $query->obtenerDependenciasExternasPendientes($id_dependencia);
+        if($this->rol() == "Administrador de Dependencia"){
+            $query->obtenerDependenciasExternasPendientes($id_dependencia);
+        }
+        else if($this->rol() == "Administrador General"){
+            $query->soloExternas()->pendientes();
+        }
+        else{
+             abort(403, 'No tiene permisos para acceder a estas reservas.');
+        }
         
         $reservas = $query->paginate(5);
         return $reservas;
