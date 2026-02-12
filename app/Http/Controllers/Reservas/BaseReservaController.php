@@ -190,25 +190,33 @@ abstract class BaseReservaController extends Controller
 
 
     public function mensajes($resultado){
+        return back()
+        ->withErrors($this->mensajesErrores($resultado))
+        ->withInput();
+    }
+
+
+
+    public function mensajesErrores($resultado){
         if ($resultado[0] == "usuario") {
-            return back()->withErrors([
+            return [
                 'id_usuario' => 'El usuario no se encuentra disponible en el rango de fechas seleccionado.'
-            ])->withInput();
+            ];
         } else if ($resultado[0] == "usuario_no_habilitado") {
-            return back()->withErrors([
+            return [
                 'id_usuario' => 'El usuario no posee carnet vigente o licencia para ser designado conductor.'
-            ])->withInput();
+            ];
         } else if ($resultado[0] == "dependencia") {
-            return back()->withErrors([
+            return [
                 'id_dependencia' => 'La dependencia seleccionada no es valida ya que no pertenece al sector del usuario que desea reservar.'
-            ])->withInput();
+            ];
         } else if ($resultado[0] == "vehiculo_no_habilitado") {
-            return back()->withErrors([
+            return [
                 'id_vehiculo' => 'El vehiculo no se encuentra disponible para ser reservado.'
-            ])->withInput();
+            ];
         }
-        return back()->withErrors([
+        return [
             'id_vehiculo' => 'El vehiculo no se encuentra disponible en el rango de fechas seleccionado.'
-        ])->withInput();
+        ];
     }
 }

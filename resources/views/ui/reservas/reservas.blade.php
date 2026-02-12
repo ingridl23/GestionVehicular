@@ -1,48 +1,48 @@
 @extends('layout.app')
 
 @push('scripts')
-<script type="module" src="{{ Vite::asset('resources/js/filtros/filtrosReservas.js') }}"></script>
-<script type="module" src="{{ Vite::asset('resources/js/reservas/accionesReserva.js') }}"></script>
+  <script type="module" src="{{ Vite::asset('resources/js/filtros/filtrosReservas.js') }}"></script>
+  <script type="module" src="{{ Vite::asset('resources/js/reservas/accionesReserva.js') }}"></script>
 @endpush
 
 @php
-  $configAgregar = $ubicacion == 'interna'
-  ? [
-  'can' => 'solicitar_reserva_interna',
-  'route' => route('admin.reservas.form.agregar'),
-  'text' => 'Agregar reserva',
-  ]
-  : [
-  'can' => 'solicitar_prestamo',
-  'route' => route('admin.prestamo.form.agregar'),
-  'text' => 'Agregar préstamo',
-  ];
+$configAgregar = $ubicacion == 'interna'
+? [
+'can' => 'solicitar_reserva_interna',
+'route' => route('admin.reservas.form.agregar'),
+'text' => 'Agregar reserva',
+]
+: [
+'can' => 'solicitar_prestamo',
+'route' => route('admin.prestamo.form.agregar'),
+'text' => 'Agregar préstamo',
+];
 
-  $configEditar = $ubicacion == 'interna'
-  ? [
-  'can' => 'actualizar_reserva_interna',
-  'route' => route('admin.reservas.form.editar', ':id'),
-  ]
-  : [
-  'can' => 'actualizar_prestamo',
-  'route' => route('admin.prestamo.form.editar', ':id'),
-  ];
+$configEditar = $ubicacion == 'interna'
+? [
+'can' => 'actualizar_reserva_interna',
+'route' => route('admin.reservas.form.editar', ':id'),
+]
+: [
+'can' => 'actualizar_prestamo',
+'route' => route('admin.prestamo.form.editar', ':id'),
+];
 @endphp
 
 
 @section('content')
 <section class="bg-gray-100 dark:bg-gray-900 py-10 lg:py-[0px]">
-  
+
 
   @if($reservas->isEmpty())
-    <p class="text-center text-gray-600 ">No hay reservas</p>
+  <p class="text-center text-gray-600 ">No hay reservas</p>
   @else
   <div class="flex items-end justify-between">
     <button id="mostrarFiltros" type="button"
       class="rounded-md bg-blue-600 px-2 py-2 mb-2 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
       Filtros
     </button>
-    
+
     @can($configAgregar['can'])
     <a href="{{ $configAgregar['route'] }}"
       class="inline-block rounded-md bg-blue-600 px-2 py-2 mb-2 text-sm font-medium text-center text-white
@@ -57,18 +57,19 @@
   </div>
 
   <p id="mensajeNoHayReservas" class="hidden text-center text-sm text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-gray-900 border border-dashed border-gray-300 dark:border-gray-700 rounded-lg p-4"></p>
-          
+
   <div class="mx-auto px-0" id="contenedor-general">
     <div class="-mx-4 flex flex-wrap">
       <div class="w-full">
         <div class="max-w-full overflow-x-auto">
           <div class="hidden md:block">
-            <x-tabla-reservas-desktop :reservas="$reservas" :ubicacion="$ubicacion" :configEditar="$configEditar" :mostrarAcciones="$mostrarAcciones"  />
+            <x-tabla-reservas-desktop :reservas="$reservas" :ubicacion="$ubicacion" :configEditar="$configEditar" :mostrarAcciones="$mostrarAcciones" />
           </div>
 
           <div class="block md:hidden">
-            <x-lista-reservas-mobile :reservas="$reservas" :ubicacion="$ubicacion" :configEditar="$configEditar" :mostrarAcciones="$mostrarAcciones"  />
+            <x-lista-reservas-mobile :reservas="$reservas" :ubicacion="$ubicacion" :configEditar="$configEditar" :mostrarAcciones="$mostrarAcciones" />
           </div>
+
           <el-dialog>
             <dialog id="dialog-cancelar" aria-labelledby="dialog-title" class="fixed inset-0 size-auto max-h-none max-w-none overflow-y-auto bg-transparent backdrop:bg-transparent">
               <el-dialog-backdrop class="fixed inset-0 bg-gray-900/50 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in"></el-dialog-backdrop>
@@ -98,6 +99,10 @@
               </div>
             </dialog>
           </el-dialog>
+
+          
+
+
         </div>
       </div>
     </div>

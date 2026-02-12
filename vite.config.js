@@ -15,6 +15,7 @@ export default defineConfig({
                 'resources/js/reportes.js',
                 'resources/js/vehiculo.js',
                 'resources/js/accionesDependencias.js',
+                'resources/js/reservas/accionesAutorizarPrestamo.js',
             ],
             refresh: true,
         }),

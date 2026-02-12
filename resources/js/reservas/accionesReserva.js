@@ -1,5 +1,5 @@
-document.addEventListener("DOMContentLoaded", ()=>{
 
+document.addEventListener("DOMContentLoaded", ()=>{
     let reservaIdActiva = null;
 
         document.addEventListener('click', e => {

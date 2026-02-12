@@ -1,11 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Reservas;
-
-
-use App\Http\Requests\CrearReservaRequest;
 use App\Http\Requests\FiltroReservasRequest;
-use App\Http\Requests\ReservaFormRequest;
 use App\Models\Reserva;
 use App\Services\Reservas\ReservasExternasService;
 
@@ -41,9 +37,47 @@ class PrestamoController extends BaseReservaController{
         return view('ui.reservas.reservasPendientes', $data);
     }
 
-    public function autorizarPrestamos($id){
-        $this->service->autorizarPrestamos($id);
-        return $this->verReservasPendientes();
+    public function autorizarPrestamo($id){
+        $resultado = $this->service->autorizarPrestamo($id);
+           
+        if(is_array($resultado)){
+            $mensaje = $this->mensajesErrores($resultado);
+             return response()->json([
+                'success' => false,
+                'errors'  => true,
+                'message' => array_values($mensaje)[0]
+            ]);
+        }
+            
+
+        if($resultado){
+            return response()->json([
+                'success' => true,
+                'errors'  => false,
+                'message' => 'El prestamo fue autorizado correctamente.'
+            ]);
+        }
+        return response()->json([
+            'success' => false,
+            'errors' => false,
+            'message' => 'No se logro autorizar el préstamo, intentelo nuevamente.'
+        ]);
+       
+    }
+
+    public function rechazarPrestamo($id){
+       $resultado = $this->service->rechazarPrestamo($id);
+            
+        if($resultado){
+            return response()->json([
+                'success' => true,
+                'message' => 'El prestamo fue rechazado correctamente.'
+            ]);
+        }
+        return response()->json([
+            'success' => false,
+            'message' => 'No se logro rechazar el préstamo, intentelo nuevamente.'
+        ]);
     }
 
 

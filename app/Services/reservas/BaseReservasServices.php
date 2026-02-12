@@ -378,7 +378,7 @@ abstract class BaseReservasServices implements ReservaServiceInterface{
     }
 
 
-    public function autorizarPrestamos($id){
+    public function autorizarPrestamo($id){
         $reserva = Reserva::findOrFail($id);
 
         $fecha_inicio = $reserva->fecha_inicio_reserva;
@@ -392,14 +392,20 @@ abstract class BaseReservasServices implements ReservaServiceInterface{
         $validaciones = $this->valoresParametrosValidaciones($id_vehiculo, $fecha_inicio, $fecha_fin, $id_usuario, $id_dependencia_solicitante, $reserva->id);
 
         if($validaciones != null){
-            dd($validaciones);
             return $validaciones;
         }
 
         $id_estado_reserva = EstadosReserva::where("estado", "APROBADA")->value('id');
-        $reserva->update(['id_estado_reserva' => $id_estado_reserva]);
+        return $reserva->update(['id_estado_reserva' => $id_estado_reserva]);
 
         
+    }
+
+
+    public function rechazarPrestamo($id){
+        $reserva = Reserva::findOrFail($id);
+        $id_estado_reserva = EstadosReserva::where("estado", "RECHAZADA")->value('id');
+        return $reserva->update(['id_estado_reserva' => $id_estado_reserva]);
     }
 
     //Estado que tomará la reserva cuando se cree o se edite
