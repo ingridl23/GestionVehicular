@@ -63,28 +63,34 @@ abstract class BaseReservaController extends Controller
         ---------------------- */
 
         //filled se fija que exista y no este vacio
-        if (!empty($request->filled('nombre')) && $request->input('nombre') != '') {
-            $nombre = $request->input('nombre');
-            $query->where(function ($q) use ($nombre) {
+        if ($request->filled('nombre')) {
 
-                // Dependencia solicitante
-                $q->whereHas('dependencia_solicitante', function ($q2) use ($nombre) {
-                    $q2->where('nombre', 'LIKE', "%{$nombre}%");
-                })
+        $nombre = mb_strtolower(trim($request->nombre));
 
-                    // OR Usuario
-                    ->orWhereHas('usuario', function ($q3) use ($nombre) {
-                        $q3->where('name', 'LIKE', "%{$nombre}%")
-                            ->orWhere('lastname', 'LIKE', "%{$nombre}%");
-                    });
+        $query->where(function ($q) use ($nombre) {
+
+            // Buscar en usuario
+            $q->whereHas('usuario', function ($q2) use ($nombre) {
+                $q2->where(function ($sub) use ($nombre) {
+                    $sub->whereRaw("LOWER(name) LIKE ?", ["%{$nombre}%"])
+                        ->orWhereRaw("LOWER(lastname) LIKE ?", ["%{$nombre}%"]);
+                });
+            })
+
+            // O buscar en dependencia solicitante
+            ->orWhereHas('dependencia_solicitante', function ($q3) use ($nombre) {
+                $q3->whereRaw("LOWER(nombre) LIKE ?", ["%{$nombre}%"]);
             });
-        }
+
+        });
+    }
+
 
         /* ----------------------
          FILTRO POR EL ESTADO DE LA RESERVA
         ---------------------- */
 
-        if (!empty($request->filled('estado')) && $request->input('estado') != 'default') {
+        if ($request->filled('estado') && $request->input('estado') != 'default') {
             $activa = $request->input('estado');
             $query->where('id_estado_reserva', $activa);
         }
@@ -93,7 +99,7 @@ abstract class BaseReservaController extends Controller
          VEHICULO
         ---------------------- */
 
-        if (!empty($request->filled('vehiculo')) && $request->input('vehiculo') != 'default') {
+        if ($request->filled('vehiculo') && $request->input('vehiculo') != 'default') {
             $vehiculo = $request->input('vehiculo');
             $query->where('id_vehiculo', $vehiculo);
             // $query->whereHas('direccion', function ($q) use ($localidad) {
@@ -105,7 +111,7 @@ abstract class BaseReservaController extends Controller
          FECHA DE INICIO
         ---------------------- */
 
-        if (!empty($request->filled('fecha_inicio')) && $request->input('fecha_inicio') != '') {
+        if ($request->filled('fecha_inicio') && $request->input('fecha_inicio') != '') {
             $fecha_inicio = $request->input('fecha_inicio');
             $query->whereDate('fecha_inicio_reserva', $fecha_inicio);
         }
@@ -114,7 +120,7 @@ abstract class BaseReservaController extends Controller
          FECHA DE FIN
         ---------------------- */
 
-        if (!empty($request->filled('fecha_fin')) && $request->input('fecha_fin') != '') {
+        if ($request->filled('fecha_fin') && $request->input('fecha_fin') != '') {
             $fecha_fin = $request->input('fecha_fin');
             $query->whereDate('fecha_fin_reserva', $fecha_fin);
         }

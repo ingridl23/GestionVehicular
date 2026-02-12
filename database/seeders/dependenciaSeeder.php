@@ -476,7 +476,7 @@ class DependenciaSeeder extends Seeder
                 'id_dependencia_padre' => null,
             ],
             [
-                'nombre' => 'Dirreción de Higiene Veterinaria y Bromatología',
+                'nombre' => 'Dirección de Higiene Veterinaria y Bromatología',
                 'activa' => 1,
                 'id_direccion' => 25,
                 'id_dependencia_padre' => 77,
