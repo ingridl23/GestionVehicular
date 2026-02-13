@@ -43,6 +43,7 @@ $configEditar = $ubicacion == 'interna'
       Filtros
     </button>
 
+
     @can($configAgregar['can'])
     <a href="{{ $configAgregar['route'] }}"
       class="inline-block rounded-md bg-blue-600 px-2 py-2 mb-2 text-sm font-medium text-center text-white

@@ -28,9 +28,9 @@ class RouteServiceProvider extends ServiceProvider
                     ->group(base_path('routes/duenioDependencia.php'));
             }
 
-            if (file_exists(base_path('routes/operativoyJefeArea.php'))) {
+            if (file_exists(base_path('routes/operativo.php'))) {
                 Route::middleware('web')
-                    ->group(base_path('routes/operativoyJefeArea.php'));
+                    ->group(base_path('routes/operativo.php'));
             }
         });
     }

@@ -19,6 +19,7 @@
     </script>
     <!-- Tailwind CSS & Alpine.js -->
     @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/css/filtrosReservas.css'])
+    <link href="{{ asset('css/operador.css') }}" rel="stylesheet" />
 
     <style>
         body { font-family: 'Inter', system-ui, -apple-system, sans-serif; }

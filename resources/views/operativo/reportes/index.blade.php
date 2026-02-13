@@ -1,4 +1,4 @@
-@extends('layout.appOperativo')
+@extends('layout.app')
 
 @section('title', 'Mis reportes')
 

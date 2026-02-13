@@ -18,8 +18,8 @@ use App\Http\Controllers\ReporteController;
             ->middleware('permission:ver_vehiculos_dentro_dependencia');
 
 
-        Route::get('/dashboard',[UserController::class, 'dashboard2'])
-        ->name('dashboard2');
+            Route::get('/dashboard',[UserController::class, 'dashboard2'])
+    ->name('dashboard2');
 
         // crear reporte (usuario)
         Route::get('/reportes/crear', [ReporteController::class, 'create'])

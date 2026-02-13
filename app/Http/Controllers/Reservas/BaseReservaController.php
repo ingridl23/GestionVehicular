@@ -225,3 +225,4 @@ abstract class BaseReservaController extends Controller
         ];
     }
 }
+ 
