@@ -44,7 +44,7 @@
           </div>
 
           <div class="block md:hidden">
-            {{-- ACA LA VISTA MOBILE --}}
+            <x-lista-dependencia-mobile :dependencias="$dependencias" />
           </div>
 
         </div>
