@@ -4,6 +4,7 @@ use App\Http\Controllers\VehiculoController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ReporteController;
 
+use App\Http\Controllers\Reservas\ReservaController;
 
  Route::middleware(['auth', 'role:Operativo'])
     ->prefix('operativo')
@@ -34,6 +35,11 @@ use App\Http\Controllers\ReporteController;
 
         Route::get('/mis-reportes', [ReporteController::class, 'misReportesOperativo'])
             ->name('reportes.mis');
+
+        //EDITAR CONDUCTOR
+
+        Route::get('/editar-conductor/{id}', [ReservaController::class, 'formularioEditarConductor'])->name('editar-conductor');
+        Route::patch('/editar-conductor/{id}', [ReservaController::class, 'editarConductor'])->name('update.conductor');
 
        /* Route::patch('/reportes/{reporte}/estado', [ReporteController::class, 'cambiarEstado'])
     ->name('reportes.estado');*/

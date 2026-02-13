@@ -12,6 +12,7 @@ use App\Models\Vehiculo;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
+
 abstract class BaseReservasServices implements ReservaServiceInterface{
 
     public function verReservasPendientes(){
@@ -273,6 +274,29 @@ abstract class BaseReservasServices implements ReservaServiceInterface{
 
     }
 
+    public function editarConductor($request, $id){
+        $reserva = Reserva::findOrFail($id);
+        $fecha_inicio = $reserva->fecha_inicio_reserva;
+        $fecha_fin = $reserva->fecha_fin_reserva;
+        $id_vehiculo = $reserva->id_vehiculo;
+
+        $id_usuario = $request->id_usuario;
+
+        $id_dependencia_solicitante = $reserva->id_dependencia_solicitante;
+        
+
+        $validaciones = $this->valoresParametrosValidaciones($id_vehiculo, $fecha_inicio, $fecha_fin, $id_usuario, $id_dependencia_solicitante, $id);
+
+        if($validaciones != null){
+            return $validaciones;
+        }
+
+        //editar reserva
+        $reserva->update([
+            'id_usuario' => $id_usuario,
+        ]);
+    }
+
 
     /**
      * Ejecuta todas las validaciones necesarias para crear o editar
@@ -372,12 +396,13 @@ abstract class BaseReservasServices implements ReservaServiceInterface{
     $id_dependencia = User::where('id', $id_usuario)->value('id_dependencia');
     $dependencia = Dependencia::findOrFail($id_dependencia);
     $idsPermitidos = $this->obtenerDependenciasIds($dependencia);
-    
     if($dependencia->dependenciaPadre){
+        // Permite tener todos los id's en caso de ser la dependencia mas lejos de la raíz del arbol de dependencias
         $idsPermitidos = array_merge($idsPermitidos, $this->obtenerDependenciasPadres($dependencia));
+        $idsPermitidos = array_merge($this->obtenerDependenciasIds($dependencia->dependenciaPadre));
     }
-
-
+    
+    
     if(!in_array($id_dependencia_solicitante, $idsPermitidos)){
         return ['dependencia', true];
     }

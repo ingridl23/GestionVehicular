@@ -1,8 +1,9 @@
 <?php
 namespace App\Policies;
+
 use App\Models\Reserva;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
+
 
 class ReservaPolicy
 {
@@ -75,7 +76,7 @@ class ReservaPolicy
     {
         // Operativo: solo su reserva
         if ($user->hasRole('Operativo')) {
-            return $reserva->user_id === $user->id;
+            return $reserva->id_usuario === $user->id;
         }
 
         // Dueño Dependencia: reservas que involucren a su dependencia (puede ser solicitante o no)
@@ -105,7 +106,7 @@ class ReservaPolicy
     /**
      * Cancelar reserva
      */
-    public function cancelar(User $user, Reserva $reserva): bool{
+    public function cancelar(User $user): bool{
         return $user->hasAnyPermission(['cancelar_reserva_interna','cancelar_prestamo']);
     }
 
@@ -122,9 +123,6 @@ class ReservaPolicy
      /**
      * Actualizar reserva
      */
-    public function actualizar(User $user, Reserva $reserva): bool{
-        return $user->hasAnyPermission(['actualizar_reserva_interna','actualizar_prestamo']);
-    }
 
 
     /**
@@ -132,10 +130,10 @@ class ReservaPolicy
      */
     public function cambiarConductor(User $user, Reserva $reserva): bool
     {
+        
         return (
             $user->hasPermissionTo('asignar_conductor_suplente')
-            && $reserva->dependencia_id === $user->dependencia_id
-            && $reserva->estado === 'ACTIVA'
+            && $reserva->id_usuario === $user->id
         );
     }
 

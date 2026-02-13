@@ -195,6 +195,7 @@ $adminDependencia->syncPermissions([
 $conductor->syncPermissions([
     'ver_vehiculos_dentro_dependencia',
     'ver_reservas_internas',
+    'ver_reservas_prestamos',
     'iniciar_reporte_interno',
     'ver_reporte_iniciado',
     'actualizar_viaje',

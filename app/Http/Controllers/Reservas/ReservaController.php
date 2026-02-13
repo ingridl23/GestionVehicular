@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\Reservas;
 
 use App\Http\Requests\FiltroReservasRequest;
-use App\Http\Requests\ReservaFormRequest;
+
 use App\Models\Reserva;
 use App\Services\Reservas\ReservasInternasService;
+use Illuminate\Http\Request;
 
 class ReservaController extends BaseReservaController{
 
@@ -46,6 +47,41 @@ class ReservaController extends BaseReservaController{
             $query->soloInternas();
         }
         return $this->filtrarReservas($request, $query);
+    }
+
+    public function formularioEditarConductor($id){
+
+        $this->authorize('cambiarConductor', Reserva::findOrFail($id));
+        
+        $reserva = Reserva::findOrFail($id);
+        $datos = $this->service->datosParaFormEditar($id);
+        $usuarios = $datos['usuarios'];
+        $id_usuario_reserva = $reserva->id_usuario;
+        $id = $reserva->id;
+       
+        return view('operativo.editarConductor', compact('usuarios', 'id', 'id_usuario_reserva'));
+    }
+
+    public function editarConductor(Request $request, $id){
+
+        $request->validate([
+            'id_usuario' => 'required|integer|min:1|exists:users,id',
+        ],
+        [
+            'id_usuario.required' => 'Debe seleccionar un conductor.',
+            'id_usuario.integer'  => 'El conductor seleccionado no es válido.',
+            'id_usuario.min'      => 'Debe seleccionar un conductor válido.',
+            'id_usuario.exists'   => 'El conductor seleccionado no existe en el sistema.',
+        ]);
+
+        $resultado = $this->service->editarConductor($request, $id);
+
+        if (!empty($resultado) && $resultado[1]) {
+            return $this->mensajes($resultado);
+        }
+
+         return redirect()
+        ->route('reservas.internas');
     }
 
 

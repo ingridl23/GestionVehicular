@@ -15,6 +15,7 @@ interface ReservaServiceInterface
     public function datosParaFormCrear();
     public function crearReserva($request);
     public function editarReserva($request, $id);
+    public function editarConductor($request, $id);
     public function user();
     public function rol();
 
