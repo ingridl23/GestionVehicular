@@ -30,9 +30,7 @@ class EstadoVehiculoSeeder extends Seeder
             'estado' => 'EN_MANTENIMIENTO',
         ]);
 
-        EstadosVehiculo::query()->create([
-            'estado' => 'NO_DISPONIBLE',
-        ]);
+
 
     }
 }
