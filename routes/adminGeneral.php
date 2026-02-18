@@ -24,7 +24,7 @@ Route::middleware(['auth', 'role:Administrador General'])
        Route::get('/auditoria', [HistorialController::class,'index'])
        ->middleware('permission:ver_auditoria')->name('auditoria.index');
 
-      
+
 
       Route::resource('reportes', ReporteController::class)
             ->only(['index', 'show', 'update'])
@@ -69,18 +69,18 @@ Route::middleware(['auth', 'role:Administrador General'])
             Route::patch('/{id}', [DependenciaController::class, 'editarDependencia'])->middleware('permission:editar_dependencias')->name('update');
 
             Route::patch('/{id}/activa', [DependenciaController::class, 'cambiarActivaDependencia'])->middleware('permission:editar_dependencias')->name('toggle');
-            
+
         });
 
 
 });
 
-Route::middleware(['auth', 'role:Administrador General|Administrador de Dependencia|Jefe de Area'])
+Route::middleware(['auth', 'role:Administrador General|Administrador de Dependencia|Jefe de Area|Operativo'])
     ->prefix('admin')->name('admin.')
     ->group(function () {
             //MOSTRAR FORMULARIO DE INTERNA Y PRESTAMO
-            Route::get('/agregar-reserva', [ReservaController::class, 'mostrarFormulario'])->name('reservas.form.agregar')->middleware('permission:solicitar_reserva_interna'); 
-            Route::get('/agregar-prestamo', [PrestamoController::class, 'mostrarFormulario'])->name('prestamo.form.agregar')->middleware('permission:solicitar_prestamo'); 
+            Route::get('/agregar-reserva', [ReservaController::class, 'mostrarFormulario'])->name('reservas.form.agregar')->middleware('permission:solicitar_reserva_interna');
+            Route::get('/agregar-prestamo', [PrestamoController::class, 'mostrarFormulario'])->name('prestamo.form.agregar')->middleware('permission:solicitar_prestamo');
 
             //METODO PARA CREAR LA RESERVA INTERNA Y PRESTAMO
             Route::post('/agregar-reserva', [ReservaController::class, 'crearReserva'])->name('reservas.internas.crear')->middleware('permission:solicitar_reserva_interna');
@@ -96,16 +96,16 @@ Route::middleware(['auth', 'role:Administrador General|Administrador de Dependen
 Route::middleware(['auth', 'role:Administrador General|Administrador de Dependencia'])
     ->prefix('admin')->name('admin.')
     ->group(function () {
-        
+
         //EDITAR
-    
+
         //METODO PATCH
-        Route::patch('/editar-reserva/{id}', [ReservaController::class, 'editarReserva'])->middleware('permission:actualizar_reserva_interna')->name('reservas.internas.editar')->middleware('permission:actualizar_reserva_interna'); 
-        Route::patch('/editar-prestamo/{id}', [PrestamoController::class, 'editarReserva'])->middleware('permission:actualizar_prestamo')->name('reservas.externas.editar')->middleware('permission:actualizar_prestamo'); 
+        Route::patch('/editar-reserva/{id}', [ReservaController::class, 'editarReserva'])->middleware('permission:actualizar_reserva_interna')->name('reservas.internas.editar')->middleware('permission:actualizar_reserva_interna');
+        Route::patch('/editar-prestamo/{id}', [PrestamoController::class, 'editarReserva'])->middleware('permission:actualizar_prestamo')->name('reservas.externas.editar')->middleware('permission:actualizar_prestamo');
 
         //MOSTRAR FORMULARIOS
-        Route::get('/editar-reserva/{id}', [ReservaController::class, 'mostrarFormularioUpdate'])->name('reservas.form.editar')->middleware('permission:actualizar_reserva_interna'); 
-        Route::get('/editar-prestamo/{id}', [PrestamoController::class, 'mostrarFormularioUpdate'])->name('prestamo.form.editar')->middleware('permission:actualizar_prestamo'); 
+        Route::get('/editar-reserva/{id}', [ReservaController::class, 'mostrarFormularioUpdate'])->name('reservas.form.editar')->middleware('permission:actualizar_reserva_interna');
+        Route::get('/editar-prestamo/{id}', [PrestamoController::class, 'mostrarFormularioUpdate'])->name('prestamo.form.editar')->middleware('permission:actualizar_prestamo');
 
 
         //------------------------------------
@@ -117,7 +117,7 @@ Route::middleware(['auth', 'role:Administrador General|Administrador de Dependen
     });
 
 
-        
+
 
 
 

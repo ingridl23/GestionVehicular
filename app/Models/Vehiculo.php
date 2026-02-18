@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Date;
 class Vehiculo extends Model
 {
     use HasFactory, Notifiable;
-    protected $table = 'vehiculos';
+    protected $table = 'vehiculo';
 
 
     protected $fillable = [
@@ -59,7 +59,7 @@ class Vehiculo extends Model
         if (!$vehiculo || !$vehiculo->fecha_vtv) {
             return false;
         }
-        
+
         $fecha_hoy = Date::now();
         return $fecha_hoy->lessThanOrEqualTo($vehiculo->vtv);
     }

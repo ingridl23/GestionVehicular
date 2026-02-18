@@ -9,7 +9,7 @@ use Illuminate\Notifications\Notifiable;
 class Reserva extends Model
 {
     use HasFactory, Notifiable;
-    protected $table = 'reservas';
+    protected $table = 'reserva';
 
     protected $fillable = [
         'fecha_reserva',
@@ -79,7 +79,7 @@ class Reserva extends Model
             [$dependencia->id],
             $dependencia->obtenerIdsHijas()
         );
-       
+
         return $query
             // reservas internas
             ->whereIn('id_dependencia_duena', $idsPermitidos)
@@ -150,7 +150,7 @@ class Reserva extends Model
             });
         });
 
-        
+
         return $query->whereIn('id_estado_reserva', function ($sub) {
             $sub->select('id')
                 ->from('estados_reservas')
@@ -181,51 +181,33 @@ class Reserva extends Model
      * @param \Illuminate\Database\Eloquent\Builder $query
      * @return \Illuminate\Database\Eloquent\Builder
     */
-    public function scopeSoloInternas($query){
+   public function scopeSoloInternas($query, int $idDependencia)
+{
+    $dependencia = \App\Models\Dependencia::find($idDependencia);
 
-        return $query->where(function ($q) {
-
-            $q->whereColumn( 'id_dependencia_duena', 'id_dependencia_solicitante')
-
-                // Solicitante pertenece al árbol completo de la dueña
-                ->orWhereRaw("
-            reservas.id_dependencia_solicitante IN (
-                WITH RECURSIVE dependencias_arbol AS (
-                    SELECT id
-                    FROM dependencias
-                    WHERE id = reservas.id_dependencia_duena
-
-                    UNION ALL
-
-                    SELECT d.id
-                    FROM dependencias d
-                    INNER JOIN dependencias_arbol da
-                        ON d.id_dependencia_padre = da.id
-                )
-                SELECT id FROM dependencias_arbol
-            )
-        ")
-
-            // Dueña pertenece al árbol completo de la solicitante
-                ->orWhereRaw("
-            reservas.id_dependencia_duena IN (
-                WITH RECURSIVE dependencias_arbol AS (
-                    SELECT id
-                    FROM dependencias
-                    WHERE id = reservas.id_dependencia_solicitante
-
-                    UNION ALL
-
-                    SELECT d.id
-                    FROM dependencias d
-                    INNER JOIN dependencias_arbol da
-                        ON d.id_dependencia_padre = da.id
-                )
-                SELECT id FROM dependencias_arbol
-            )
-        ");
-        });
+    if (!$dependencia) {
+        return $query->whereRaw('1 = 0');
     }
+
+    $idsPermitidos = array_merge(
+        [$dependencia->id],
+        $dependencia->obtenerIdsHijas()
+    );
+
+    return $query->where(function ($q) use ($idsPermitidos) {
+
+        $q->whereColumn(
+            'id_dependencia_duena',
+            'id_dependencia_solicitante'
+        )
+
+        ->orWhere(function ($sub) use ($idsPermitidos) {
+            $sub->whereIn('id_dependencia_duena', $idsPermitidos)
+                ->whereIn('id_dependencia_solicitante', $idsPermitidos);
+        });
+    });
+}
+
 
     /**
  * Scope que filtra únicamente las reservas externas.
@@ -251,55 +233,38 @@ class Reserva extends Model
  * @param \Illuminate\Database\Eloquent\Builder $query
  * @return \Illuminate\Database\Eloquent\Builder
  */
-    public function scopeSoloExternas($query){
-        return $query->where(function ($q) {
+   public function scopeSoloExternas($query, int $idDependencia)
+{
+    $dependencia = \App\Models\Dependencia::find($idDependencia);
 
-            // Dependencias distintas
-            $q->whereColumn(
-                'id_dependencia_duena',
-                '!=',
-                'id_dependencia_solicitante'
-            )
-
-            // La solicitante NO pertenece al árbol completo de la dueña
-            ->whereRaw("
-                reservas.id_dependencia_solicitante NOT IN (
-                    WITH RECURSIVE dependencias_arbol AS (
-                        SELECT id
-                        FROM dependencias
-                        WHERE id = reservas.id_dependencia_duena
-
-                        UNION ALL
-
-                        SELECT d.id
-                        FROM dependencias d
-                        INNER JOIN dependencias_arbol da
-                            ON d.id_dependencia_padre = da.id
-                    )
-                    SELECT id FROM dependencias_arbol
-                )
-            ")
-
-            // La dueña NO pertenece al árbol completo de la solicitante
-            ->whereRaw("
-                reservas.id_dependencia_duena NOT IN (
-                    WITH RECURSIVE dependencias_arbol AS (
-                        SELECT id
-                        FROM dependencias
-                        WHERE id = reservas.id_dependencia_solicitante
-
-                        UNION ALL
-
-                        SELECT d.id
-                        FROM dependencias d
-                        INNER JOIN dependencias_arbol da
-                            ON d.id_dependencia_padre = da.id
-                    )
-                    SELECT id FROM dependencias_arbol
-                )
-            ");
-        });
+    if (!$dependencia) {
+        return $query->whereRaw('1 = 0');
     }
+
+    $idsArbol = array_merge(
+        [$dependencia->id],
+        $dependencia->obtenerIdsHijas()
+    );
+
+    return $query->where(function ($q) use ($idsArbol) {
+
+        // Son prestamos (no internas)
+        $q->whereColumn('id_dependencia_duena', '!=', 'id_dependencia_solicitante')
+
+        // Y donde solo una de las dos pertenece a mi arbol
+        ->where(function ($sub) use ($idsArbol) {
+            $sub->whereIn('id_dependencia_duena', $idsArbol)
+                ->whereNotIn('id_dependencia_solicitante', $idsArbol)
+
+            ->orWhere(function ($s) use ($idsArbol) {
+                $s->whereIn('id_dependencia_solicitante', $idsArbol)
+                  ->whereNotIn('id_dependencia_duena', $idsArbol);
+            });
+        });
+
+    });
+}
+
 
     public function scopePendientes($query){
         return $query->whereHas('estado_reserva', function ($q) {

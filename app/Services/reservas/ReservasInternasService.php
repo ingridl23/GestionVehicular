@@ -22,11 +22,13 @@ class ReservasInternasService extends BaseReservasServices{
         }
 
         else if($rol == 'Operativo'){
-            $query->obtenerDependenciasInternas($id_dependencia)->where('id_usuario', $this->user()->id);
+           $query->soloInternas($id_dependencia);
+
         }
-        else{
-            $query->soloInternas();
-        }
+       else{
+    $query->soloInternas($id_dependencia);
+}
+
 
         $reservas = $query->paginate(5);
         return $reservas;
@@ -68,7 +70,7 @@ class ReservasInternasService extends BaseReservasServices{
             ->whereIn('users.id_dependencia', $ids)
             ->get()
             ->map(function ($usuario) {
-            $usuario->carnet_vencido = 
+            $usuario->carnet_vencido =
                 !$usuario->carnet || $usuario->carnet->fecha_vencimiento->isPast();
             return $usuario;
         })->sortBy('carnet_vencido');
@@ -147,7 +149,7 @@ class ReservasInternasService extends BaseReservasServices{
         return $resultado;
     }
 
-    
+
 
 
     /**
@@ -176,16 +178,17 @@ class ReservasInternasService extends BaseReservasServices{
             //Internas de su dependencia
             if ($rol === 'Administrador de Dependencia' || $rol === 'Jefe de Area') {
                 $q->obtenerDependenciasInternas($id_dependencia);
-            } 
+            }
 
             // Sus reservas
             elseif ($rol === 'Operativo') {
                 $q->obtenerDependenciasInternas($id_dependencia)->where('id_usuario', $id_usuario);
-            } 
+            }
 
             // Todas las reservas que sean internas
             else {
-                $q->soloInternas();
+                $q->soloInternas($id_dependencia);
+
             }
 
         })
@@ -195,13 +198,14 @@ class ReservasInternasService extends BaseReservasServices{
 
             if ($rol === 'Administrador de Dependencia' || $rol === 'Jefe de Area') {
                 $q->obtenerDependenciasInternas($id_dependencia);
-            } 
+            }
             elseif ($rol === 'Operativo') {
                 $q->obtenerDependenciasInternas($id_dependencia)
                 ->where('id_usuario', $id_usuario);
-            } 
+            }
             else {
-                $q->soloInternas();
+           $q->soloInternas($id_dependencia);
+
             }
 
         }]);
@@ -213,5 +217,5 @@ class ReservasInternasService extends BaseReservasServices{
     }
 
 
-    
+
 }

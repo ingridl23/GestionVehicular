@@ -147,7 +147,7 @@ class UserController extends Controller
         $dependencias = Dependencia::orderBy('nombre')->get();
         $roles = Role::orderBy('name')->get();
 
-        return view('admin.usuarios.index', compact('usuarios', 'dependencias', 'roles'));
+        return view('admin.auditoria.usuarios', compact('usuarios', 'dependencias', 'roles'));
     }
 
     /**
