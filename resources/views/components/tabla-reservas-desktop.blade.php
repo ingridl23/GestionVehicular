@@ -99,7 +99,7 @@
                             @role('Operativo')
                                 @can('asignar_conductor_suplente')
                                 <a href="{{ route('operativo.editar-conductor', $reserva->id) }}" data-id="{{$reserva->id}}"
-                                    class="btn-editar m-1 inline-block rounded-md border border-yellow-600 px-2 py-2 text-yellow-600 hover:bg-yellow-600 hover:text-white dark:border-yellow-400 dark:text-yellow-400 dark:hover:bg-yellow-500 dark:hover:text-white"
+                                    class="m-1 inline-block rounded-md border border-yellow-600 px-2 py-2 text-yellow-600 hover:bg-yellow-600 hover:text-white dark:border-yellow-400 dark:text-yellow-400 dark:hover:bg-yellow-500 dark:hover:text-white"
                                     title="Editar conductor">
                                     <i class="fa-solid fa-pen-to-square"></i>
                                 </a>
