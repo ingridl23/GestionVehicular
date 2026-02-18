@@ -1,15 +1,15 @@
 document.addEventListener('DOMContentLoaded', ()=>{
     const form = document.getElementById("formFiltrosDependencias");
     let filtros = {};
-    let contenedor = document.getElementById("contenedor-depedencias");
-    //let contenedor_lista = document.getElementById("contenedor-reservas-listas");
+    let contenedor = document.getElementById("contenedor-dependencias");
+    let contenedor_lista = document.getElementById("contenedor-dependencias-listas");
 
 
     let textoNoDependencias = document.getElementById("mensajeNoHayDependencias");
     let contenedorGeneral = document.getElementById("contenedor-general");
 
     let htmlCopiaContenedorTabla = contenedor.innerHTML;
-    //let htmlCopiaContenedorLista = contenedor_lista.innerHTML;
+    let htmlCopiaContenedorLista = contenedor_lista.innerHTML;
 
     form.addEventListener("submit", (e) => {
         e.preventDefault();
@@ -19,10 +19,10 @@ document.addEventListener('DOMContentLoaded', ()=>{
                         
         textoNoDependencias.classList.remove("block");
         textoNoDependencias.classList.add("hidden");
-        buscarReservas(1);
+        buscarDependencias(1);
     });
 
-    async function buscarReservas(page = 1) {
+    async function buscarDependencias(page = 1) {
         filtros = {
             nombre: document.getElementById("nombre-filtro").value,
             ciudad: document.getElementById("ciudad-filtro").value,
@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
         
 
         try {
-            const res = await fetch(`/admin/dependencias/filtrar`, {
+            const res = await fetch(`/dependencias/filtrar`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
                 body: JSON.stringify(filtros),
             });
             const data = await res.json();
-            
+
             mostrarResultado(data.data);
             renderPaginacion(data);
         } catch (err) {
@@ -66,14 +66,14 @@ document.addEventListener('DOMContentLoaded', ()=>{
     }
 
     function mostrarResultado(dependencias) {
-        const { permissions: PERMISSIONS , routes: ROUTES} = window.RESERVAS_CONFIG;
+        const { permissions: PERMISSIONS , routes: ROUTES} = window.DEPENDENCIAS_CONFIG;
 
         let view = vistaActual();
 
         if (!dependencias.length) {
 
             contenedor.innerHTML = "";
-            //contenedor_lista.innerHTML = "";
+            contenedor_lista.innerHTML = "";
             contenedorGeneral.classList.add("md:hidden");
             contenedorGeneral.classList.remove("md:block");
             textoNoDependencias.classList.add("block");
@@ -84,9 +84,10 @@ document.addEventListener('DOMContentLoaded', ()=>{
         }
 
         contenedor.innerHTML = "";
-        //contenedor_lista.innerHTML = "";
-        document.getElementById("contenedor-general").classList.add("md:block");
-        document.getElementById("contenedor-general").classList.remove("md:hidden");
+        contenedor_lista.innerHTML = "";
+
+        contenedorGeneral.classList.add("md:block");
+        contenedorGeneral.classList.remove("md:hidden");
 
         dependencias.forEach((res) => {
 
@@ -125,50 +126,95 @@ document.addEventListener('DOMContentLoaded', ()=>{
             }
 
 
-            // if (view === "lista") {
+            if (view === "lista") {
 
-            //     contenedor_lista.innerHTML += `
-            //     <li class="rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-100 dark:bg-gray-900 p-4">
-            //         <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-gray-700 dark:text-gray-200">
-            //             <div>
-            //                 <span class="font-semibold">Inicio de uso:</span>
-            //                 ${fechaInicioFormateada}
-            //             </div>
+                let bloqueActiva;
 
-            //             <div>
-            //                 <span class="font-semibold">Fin de uso:</span>
-            //                 ${fechaFinFormateada}
-            //             </div>
-            //         </div>
+                if (window.DEPENDENCIAS_CONFIG.puedeCambiarActiva) {
+                    bloqueActiva = `
+                        <div class="mt-3 flex">
+                            <span class="font-semibold">Activa:</span>
+                            <label class="relative inline-flex w-11 h-6 cursor-pointer items-center ml-2">
+                                <input type="checkbox" 
+                                    class="peer sr-only toggle-activa"
+                                    ${res.activa ? 'checked' : ''}
+                                    data-id="${res.id}"
+                                    data-nombre="${res.nombre}">
 
-            //         <div class="mt-2 text-sm">
-            //             <span class="font-semibold">Estado:</span>
-            //             ${res.estado_reserva.estado}
-            //         </div>
+                                <span class="absolute inset-0 rounded-full bg-gray-400 transition-colors peer-checked:bg-blue-600"></span>
+                                <span class="absolute left-1 top-1 h-4 w-4 rounded-full bg-white transition-transform peer-checked:translate-x-5"></span>
+                            </label>
+                        </div>
+                    `;
+                } else {
+                    bloqueActiva = `
+                        <div class="mt-3 text-sm">
+                            <span class="font-semibold">Activa:</span>
+                            <span class="ml-2 font-semibold">
+                                ${res.activa ? 'Sí' : 'No'}
+                            </span>
+                        </div>
+                    `;
+                }
 
-            //         <div class="mt-1 text-sm">
-            //             <span class="font-semibold">Oficina solicitante:</span>
-            //             ${res.dependencia_solicitante.nombre}
-            //         </div>
-
-            //         <div class="mt-1 text-sm">
-            //             <span class="font-semibold">Conductor:</span>
-            //             ${res.usuario.name} ${res.usuario.lastname}
-            //         </div>
-
-            //         <div class="mt-1 text-sm">
-            //             <span class="font-semibold">Vehículo:</span>
-            //             ${res.vehiculo.dominio} ${res.vehiculo.marca} - ${res.vehiculo.anio}
-            //         </div>
+                contenedor_lista.innerHTML += `
+                <li class="rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-100 dark:bg-gray-900 p-4">
                     
-            //         <div class="mt-4 flex flex-wrap gap-2">
-            //             ${acciones}
-            //         </div>
-            //     </li>
-            //     `;
-            // }
+                        <div class="mt-2 text-sm">
+                            <span class="font-semibold">Nombre:</span>
+                            ${res.nombre}
+                        </div>
+
+                        <div class="mt-2 text-sm">
+                            <span class="font-semibold">Calle:</span>
+                            ${res.direccion.calle}
+                        </div>
+
+
+                    <div class="mt-2 text-sm">
+                        <span class="font-semibold">Altura:</span>
+                        ${res.direccion.altura}
+                    </div>
+
+                    <div class="mt-1 text-sm">
+                        <span class="font-semibold">Ciudad:</span>
+                        ${res.direccion.ciudad}
+                    </div>
+
+                    ${bloqueActiva}
+                    
+                    <div class="mt-4 flex flex-wrap gap-2">
+                        ${acciones}
+                    </div>
+                </li>
+                `;
+            }
 
             if (view === "tabla") {
+                let columnaActiva; 
+
+                if (window.DEPENDENCIAS_CONFIG.puedeCambiarActiva) {
+                    columnaActiva = `
+                        <td class="border-b border-gray-200 dark:border-gray-700 bg-gray-100 dark:bg-gray-900 px-2 py-5 text-center">
+                            <label class="relative inline-flex w-11 h-6 cursor-pointer items-center">
+                                <input type="checkbox" 
+                                    class="peer sr-only toggle-activa"
+                                    ${res.activa ? 'checked' : ''}
+                                    data-id="${res.id}"
+                                    data-nombre="${res.nombre}">
+
+                                <span class="absolute inset-0 rounded-full bg-gray-400 transition-colors peer-checked:bg-blue-600"></span>
+                                <span class="absolute left-1 top-1 h-4 w-4 rounded-full bg-white transition-transform peer-checked:translate-x-5"></span>
+                            </label>
+                        </td>
+                    `;
+                } else {
+                    columnaActiva = `
+                        <td class="border-b border-gray-200 dark:border-gray-700 bg-gray-100 dark:bg-gray-900 px-2 py-5 text-center font-semibold">
+                            ${res.activa ? 'Sí' : 'No'}
+                        </td>
+                    `;
+                }
                 contenedor.innerHTML += `
                 <tr class="hover:bg-gray-50">
                     <td class="border-b border-gray-200 dark:border-gray-700 bg-gray-100 dark:bg-gray-900 px-2 py-5 text-center text-base font-medium text-gray-700 dark:text-gray-200">${res.nombre}</td>
@@ -176,18 +222,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
                     <td class="border-b border-gray-200 dark:border-gray-700 bg-gray-100 dark:bg-gray-900 px-2 py-5 text-center text-base font-medium text-gray-700 dark:text-gray-200">${res.direccion.altura}</td>
                     <td class="border-b border-gray-200 dark:border-gray-700 bg-gray-100 dark:bg-gray-900 px-2 py-5 text-center text-base font-medium text-gray-700 dark:text-gray-200">${res.direccion.ciudad}</td>
                     
-                    
-                    <td class="border-b border-gray-200 dark:border-gray-700 bg-gray-100 dark:bg-gray-900 px-2 py-5 text-center">
-                      <label class="relative inline-flex w-11 h-6 cursor-pointer items-center">
-                          <input type="checkbox" class="peer sr-only" ${res.activa ? 'checked' : ''}>
-
-                          <span class="absolute inset-0 rounded-full bg-gray-400 transition-colors peer-checked:bg-blue-600">
-                          </span>
-
-                          <span class="absolute left-1 top-1 h-4 w-4 rounded-full bg-white transition-transform peer-checked:translate-x-5">
-                          </span>
-                      </label>
-                    </td>
+                    ${columnaActiva}
 
                     <td class="border-b border-gray-200 dark:border-gray-700 bg-gray-100 dark:bg-gray-900 px-2 py-5 text-center text-base font-medium text-gray-700 dark:text-gray-200">${acciones}</td>
                 </tr>
@@ -223,39 +258,10 @@ document.addEventListener('DOMContentLoaded', ()=>{
     function crearBoton(texto, page) {
         const btn = document.createElement("button");
         btn.textContent = texto;
-        btn.onclick = () => buscarReservas(page);
+        btn.onclick = () => buscarDependencias(page);
         return btn;
     }
 
-    // function cambiarEstadoDependencias(){
-    //     let dependencias = document.querySelectorAll('.form-check-input');
-    //     for (let i = 0; i < dependencias.length; i++) {
-    //         const dep = dependencias[i];
-    //         dep.addEventListener("change", async () =>{
-    //             let id = dep.dataset.id;
-    //             try{
-    //                 const res = await fetch(`api/cambiar-estado/${id}`, {
-    //                     method: "POST",
-    //                     headers: {
-    //                         "Content-Type": "application/json",
-    //                         "Accept":"application/json",
-    //                     },
-    //                 });
-    //             if (!res.ok) {
-    //                 throw new Error('Error al cambiar estado');
-    //             }
-                
-    //             }
-    //             catch(e){
-    //                 console.error(e);
-    //             }
-    //             }
-    //         )
-            
-    //     }
-    // };
-
-    // cambiarEstadoDependencias();
 
 
     let botonMostrarFiltros = document.getElementById("mostrarFiltrosDependencia");
@@ -281,5 +287,109 @@ document.addEventListener('DOMContentLoaded', ()=>{
             botonMostrarFiltros.innerHTML = "Filtros";
         }
     });
+
+
+    // LIMPIAR FILTROS
+
+    let botonLimpiar = document.getElementById("limpiarFiltros");
+
+    botonLimpiar.addEventListener("click", () => {
+        // Limpiar inputs
+        document
+            .querySelectorAll(
+                "#formFiltrosDependencias input, #formFiltrosDependencias select",
+            )
+            .forEach((el) => {
+                if (el.tagName === "SELECT") {
+                    el.value = "default";
+                } else {
+                    el.value = "";
+                }
+            });
+
+        // Ocultar resultados JS
+        document.getElementById("contenedor-js").style.display = "none";
+
+        // Mostrar contenido del servidor
+        document.querySelector(".contenedor-servidor").style.display = "flex";
+
+        contenedorGeneral.classList.remove("md:hidden");
+
+
+        // Limpiar contenedores JS
+
+        document.getElementById("contenedor-dependencias").innerHTML = htmlCopiaContenedorTabla;
+
+        //document.getElementById("contenedor-dependencias-listas").innerHTML =
+        //    htmlCopiaContenedorLista;
+
+        // Ocultar mensaje “No hay dependencias"
+        textoNoDependencias.classList.add("hidden");
+        textoNoDependencias.classList.remove("block");
+
+        // Resetear paginación JS
+        document.getElementById("paginacion").innerHTML = "";
+    });
+
+
+
+    document.addEventListener('change', function (e) {
+
+    if (e.target.classList.contains('toggle-activa')) {
+
+        const checkbox = e.target;
+        const nuevoEstado = checkbox.checked;
+        const nombre = checkbox.dataset.nombre;
+
+        const dialog = document.getElementById('confirmDialog');
+        const dialogText = document.getElementById('dialogText');
+
+        dialogText.textContent = 
+            nuevoEstado  ? `¿Querés activar la dependencia "${nombre}"?`
+                : `¿Seguro que querés desactivar la dependencia "${nombre}"? No podrá ser utilizada pero en caso de tener dependencias hijas no podrá ser desactivada.`;
+
+        dialog.showModal();
+
+        const confirmBtn = document.getElementById('confirmBtn');
+        const cancelBtn = document.getElementById('cancelBtn');
+
+        
+        //  Clonar botón para evitar múltiples listeners acumulados
+        confirmBtn.replaceWith(confirmBtn.cloneNode(true));
+        const newConfirmBtn = document.getElementById('confirmBtn');
+
+        newConfirmBtn.addEventListener('click', () => {
+
+            fetch(`/dependencias/${checkbox.dataset.id}/activa`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': window.csrfToken
+                },
+                body: JSON.stringify({ activa: nuevoEstado })
+            })
+            .then(res => res.json())
+            .then(data => {
+
+                if (!data.ok) {
+                    throw new Error(data.message);
+                }
+
+                alert(data.message);
+                dialog.close();
+            })
+            .catch(err => {
+                checkbox.checked = !nuevoEstado;
+                alert(err.message);
+                dialog.close();
+            });
+        });
+
+        cancelBtn.onclick = () => {
+            checkbox.checked = !nuevoEstado;
+            dialog.close();
+        };
+    }
+});
 
 })

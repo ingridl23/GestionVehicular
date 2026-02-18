@@ -1,9 +1,10 @@
-
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("formFiltrosReservas");
     let filtros = {};
     let contenedor = document.getElementById("contenedor-reservas");
-    let contenedor_lista = document.getElementById("contenedor-reservas-listas");
+    let contenedor_lista = document.getElementById(
+        "contenedor-reservas-listas",
+    );
 
     const { permissions: PERMISSIONS, routes: ROUTES } = window.RESERVAS_CONFIG;
     let textoNoReservas = document.getElementById("mensajeNoHayReservas");
@@ -15,9 +16,9 @@ document.addEventListener("DOMContentLoaded", () => {
     form.addEventListener("submit", (e) => {
         e.preventDefault();
 
-        document.getElementById('contenedor-js').style.display = 'block';
-        document.querySelector('.contenedor-servidor').style.display = 'none';
-                        
+        document.getElementById("contenedor-js").style.display = "block";
+        document.querySelector(".contenedor-servidor").style.display = "none";
+
         textoNoReservas.classList.remove("block");
         textoNoReservas.classList.add("hidden");
         buscarReservas(1);
@@ -43,11 +44,9 @@ document.addEventListener("DOMContentLoaded", () => {
         let url;
         if (busqueda == "interna") {
             url = "/filtrar-reservas-internas";
-        }
-        else if(busqueda == "autorizar"){
+        } else if (busqueda == "autorizar") {
             url = "/admin/filtrar-reservas-externas-autorizar";
-        } 
-        else {
+        } else {
             url = "/filtrar-reservas-externas";
         }
 
@@ -79,7 +78,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const { permissions: PERMISSIONS, routes: ROUTES } =
             window.RESERVAS_CONFIG;
 
-        
         let view = vistaActual();
 
         if (!reservas.length) {
@@ -90,14 +88,16 @@ document.addEventListener("DOMContentLoaded", () => {
             textoNoReservas.classList.add("block");
             textoNoReservas.classList.remove("hidden");
             textoNoReservas.innerHTML = `No hay resultados`;
-            
+
             return;
         }
 
         contenedor.innerHTML = "";
         contenedor_lista.innerHTML = "";
         document.getElementById("contenedor-general").classList.add("md:block");
-        document.getElementById("contenedor-general").classList.remove("md:hidden");
+        document
+            .getElementById("contenedor-general")
+            .classList.remove("md:hidden");
 
         reservas.forEach((res) => {
             let fecha_inicio = new Date(res.fecha_inicio_reserva);
@@ -121,7 +121,7 @@ document.addEventListener("DOMContentLoaded", () => {
             });
 
             let acciones = "";
-            if(PERMISSIONS.mostrarAcciones){
+            if (PERMISSIONS.mostrarAcciones) {
                 if (PERMISSIONS.ver) {
                     acciones += `
                         <a href="${ROUTES.ver.replace(":id", res.id)}"
@@ -165,10 +165,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     `;
                     }
                 }
-            }
-            else{
-                if(PERMISSIONS.ver){
-                        acciones += `
+            } else {
+                if (PERMISSIONS.ver) {
+                    acciones += `
                         <a href="${ROUTES.ver.replace(":id", res.id)}"
                                 class="m-1 inline-block rounded-md border border-blue-600 px-2 py-2 text-blue-600 hover:bg-blue-600 hover:text-white dark:border-blue-400 dark:text-blue-400 dark:hover:bg-blue-500 dark:hover:text-white"
                                 title="Ver detalles">
@@ -176,8 +175,8 @@ document.addEventListener("DOMContentLoaded", () => {
                               </a>
                     `;
                 }
-                
-                if(PERMISSIONS.autorizar){
+
+                if (PERMISSIONS.autorizar) {
                     acciones += `
                               <form action="${ROUTES.autorizar.replace(":id", res.id)}" 
                                     method="post" 
@@ -192,7 +191,7 @@ document.addEventListener("DOMContentLoaded", () => {
                               </form>
                         `;
                 }
-                if(PERMISSIONS.rechazar){
+                if (PERMISSIONS.rechazar) {
                     acciones += `
                               <form action="${ROUTES.rechazar.replace(":id", res.id)}" 
                                     method="post" 
@@ -207,15 +206,9 @@ document.addEventListener("DOMContentLoaded", () => {
                               </form>
                         `;
                 }
-                              
-                           
-                           
             }
-            
-
 
             if (view === "lista") {
-
                 contenedor_lista.innerHTML += `
                 <li class="rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-100 dark:bg-gray-900 p-4">
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-gray-700 dark:text-gray-200">
@@ -323,43 +316,50 @@ document.addEventListener("DOMContentLoaded", () => {
 
             setTimeout(() => {
                 filtros.classList.add("hidden");
-            }, 300); 
+            }, 300);
             botonMostrarFiltros.innerHTML = "Filtros";
         }
     });
 
     // LIMPIAR FILTROS
-    
-   let botonLimpiar = document.getElementById("limpiarFiltros");
 
-botonLimpiar.addEventListener("click", () => {
-    // Limpiar inputs
-    document.querySelectorAll("#formFiltrosReservas input, #formFiltrosReservas select")
-        .forEach(el => {
-            if (el.tagName === "SELECT") {
-                el.value = "default";
-            } else {
-                el.value = "";
-            }
-        });
+    let botonLimpiar = document.getElementById("limpiarFiltros");
 
-    // Ocultar resultados JS
-    document.getElementById("contenedor-js").style.display = "none";
+    botonLimpiar.addEventListener("click", () => {
+        // Limpiar inputs
+        document
+            .querySelectorAll(
+                "#formFiltrosReservas input, #formFiltrosReservas select",
+            )
+            .forEach((el) => {
+                if (el.tagName === "SELECT") {
+                    el.value = "default";
+                } else {
+                    el.value = "";
+                }
+            });
 
-    // Mostrar contenido del servidor
-    document.querySelector(".contenedor-servidor").style.display = "flex";
-    document.getElementById("contenedor-general").classList.remove("md:hidden");
+        // Ocultar resultados JS
+        document.getElementById("contenedor-js").style.display = "none";
 
-    // Limpiar contenedores JS
+        // Mostrar contenido del servidor
+        document.querySelector(".contenedor-servidor").style.display = "flex";
+        document
+            .getElementById("contenedor-general")
+            .classList.remove("md:hidden");
 
-    document.getElementById("contenedor-reservas").innerHTML = htmlCopiaContenedorTabla;
-    document.getElementById("contenedor-reservas-listas").innerHTML = htmlCopiaContenedorLista;
+        // Limpiar contenedores JS
 
-    // Ocultar mensaje “No hay reservas”
-    textoNoReservas.classList.add("hidden");
-    textoNoReservas.classList.remove("block");
+        document.getElementById("contenedor-reservas").innerHTML =
+            htmlCopiaContenedorTabla;
+        document.getElementById("contenedor-reservas-listas").innerHTML =
+            htmlCopiaContenedorLista;
 
-    // Resetear paginación JS
-    document.getElementById("paginacion").innerHTML = "";
-}); 
+        // Ocultar mensaje “No hay reservas”
+        textoNoReservas.classList.add("hidden");
+        textoNoReservas.classList.remove("block");
+
+        // Resetear paginación JS
+        document.getElementById("paginacion").innerHTML = "";
+    });
 });

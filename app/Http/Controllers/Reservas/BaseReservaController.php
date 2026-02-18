@@ -21,7 +21,7 @@ abstract class BaseReservaController extends Controller
     // permiso = ver_reservas_internas || ver_reservas_prestamos
     public function verReserva($id)
     {
-        $this->authorize('vistaIndividual', Reserva::findOrFail($id));
+        //$this->authorize('vistaIndividual', Reserva::findOrFail($id));
         $reserva = $this->service->verReserva($id, Auth::user());
         return view('ui.reservas.reserva', $reserva);
     }
@@ -50,7 +50,7 @@ abstract class BaseReservaController extends Controller
     public function mostrarFormularioUpdate($id)
     {
         $reserva = Reserva::findOrFail($id);
-        $this->authorize('actualizar', $reserva);
+        //$this->authorize('actualizar', $reserva);
         return view('ui.reservas.formularios.editar', $this->service->datosParaFormEditar($id));
     }
 
@@ -179,7 +179,7 @@ abstract class BaseReservaController extends Controller
     public function editarReserva(ReservaFormRequest $request, $id)
     {
         $reserva = Reserva::findOrFail($id);
-        $this->authorize('actualizar', $reserva);
+        //$this->authorize('actualizar', $reserva);
 
         $resultado = $this->service->editarReserva($request, $id);
 

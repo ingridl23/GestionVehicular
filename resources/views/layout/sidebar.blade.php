@@ -102,7 +102,7 @@
         <x-nav-item
             icon="fa-sitemap"
             label="Dependencias"
-            route="admin.dependencias.index"
+            route="dependencias.index"
             :active="request()->routeIs('dependencias.*')" />
         @endcan
 

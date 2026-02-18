@@ -100,7 +100,8 @@ class DependenciaService{
                 'message' => "No se puede desactivar la dependencia cuenta con {$bloqueo}"
             ], 422);
         }
-       
+
+
         $dependencia->activa = $request->activa;
         $dependencia->save();
 

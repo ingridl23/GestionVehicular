@@ -20,7 +20,7 @@
     </button>
 
     @can('crear_dependencias')
-    <a href="{{ route('admin.dependencias.create') }}"
+    <a href="{{ route('dependencias.create') }}"
       class="inline-block rounded-md bg-blue-600 px-2 py-2 mb-2 text-sm font-medium text-center text-white
                         hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
       Crear dependencia
@@ -116,7 +116,7 @@
     </div>
 
     <div id="contenedor-js" style="display:none;">
-      <div id="lista-reservas"></div>
+      <div id="lista-dependencias"></div>
       <div id="paginacion"></div>
     </div>
   </div>
@@ -125,16 +125,19 @@
 
 
 <script>
-  window.RESERVAS_CONFIG = {
+  window.DEPENDENCIAS_CONFIG = {
     permissions: {
       ver: @json(auth() -> user() -> can('ver_dependencias')),
       editar: @json(auth() -> user() -> can('editar_dependencias')),
       eliminar: @json(auth() -> user() -> can('eliminar_dependencias')),
     },
     routes: {
-      ver: "{{ route('admin.dependencias.show', ':id') }}",
-      editar: "{{ route('admin.dependencias.edit', ':id') }}",
-    }
+      ver: "{{ route('dependencias.show', ':id') }}",
+      editar: "{{ route('dependencias.edit', ':id') }}",
+    },
+    puedeCambiarActiva: @json(
+      auth()->user()->hasAnyRole(['Administrador General', 'Administrador de Dependencia'])
+    )
   };
 </script>
 

@@ -1,26 +1,26 @@
 document.addEventListener("DOMContentLoaded", ()=>{
 
     let dialogDelete = document.getElementById("dialog-cancelar");
-    let reservaIdActiva = null;
+    let dependenciaIdActiva = null;
 
         document.addEventListener('click', e => {
             const btn = e.target.closest('.btn-cancelar');
             if (!btn) return;
 
-            reservaIdActiva = btn.dataset.id;
+            dependenciaIdActiva = btn.dataset.id;
             
         });
 
         document.querySelector('.botonCancelarDependencia').addEventListener('click', (e) => {
             e.preventDefault();
-            cancelarReserva(reservaIdActiva);
+            eliminarDependencia(dependenciaIdActiva);
         });
 
     
 
-    async function cancelarReserva(id) {
+    async function eliminarDependencia(id) {
         try {
-            const res = await fetch(`/admin/dependencias/${id}`, {
+            const res = await fetch(`/dependencias/${id}`, {
                 method: "DELETE",
                 headers: {
                     "Accept": "application/json",
@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
             const data = await res.json();
 
             if (data.success) {
-                window.location.href = "/admin/dependencias";
+                window.location.href = "/dependencias";
             }
         } catch (err) {
             console.error(err);
@@ -77,7 +77,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
     });
 
     confirmBtn.addEventListener('click', () => {
-        fetch(`/admin/dependencias/${currentCheckbox.dataset.id}/activa`, {
+        fetch(`/dependencias/${currentCheckbox.dataset.id}/activa`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
@@ -87,6 +87,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
         })
         .then(async res => {
             const data = await res.json();
+            console.log(data.message);
 
             if (!res.ok || !data.ok) {
                 throw new Error(data.message);
