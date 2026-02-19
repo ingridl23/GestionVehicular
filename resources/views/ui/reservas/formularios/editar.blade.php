@@ -1,7 +1,7 @@
 @extends('layout.app')
 
 @section('content')
-<section class="bg-gray-100 dark:bg-gray-900 py-10 lg:py-0">
+<section class="py-10 lg:py-0">
     <div class="mx-auto px-0">
         <div class="-mx-4 flex flex-wrap">
             <div class="w-full">

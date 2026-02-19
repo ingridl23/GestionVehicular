@@ -2,7 +2,7 @@
 @extends('layout.app')
 
 @section('content')
-<section class="bg-gray-100 dark:bg-gray-900 py-10 lg:py-0">
+<section class="py-10 lg:py-0">
     <div class="mx-auto px-0">
         <div class="-mx-4 flex flex-wrap">
             <div class="w-full">
@@ -12,7 +12,7 @@
 
                         <x-dependencia-form-fields :direcciones="$direcciones" :dependencia="$dependencia" :dependencias_arbol="$dependencias_arbol" />
 
-
+                        <div class="flex justify-end gap-3">
                             <a href="{{ route('dependencias.index') }}"
                             class="inline-flex items-center justify-center
                                     rounded-md bg-gray-400 px-4 py-2
@@ -29,6 +29,8 @@
                                 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">
                                 Crear
                             </button>
+                        </div>
+                            
                         </div>
                     </form>
                 </div>

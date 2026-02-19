@@ -1,7 +1,7 @@
 @extends('layout.app')
 
 @section('content')
-<section class="max-w-6xl mx-auto p-6 space-y-6">
+<section class="max-w-6xl mx-auto p-2 space-y-6">
 
     <!-- Fechas -->
      <!--"border-b border-gray-200 dark:border-gray-700
