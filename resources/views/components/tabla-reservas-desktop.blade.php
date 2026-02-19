@@ -86,7 +86,7 @@
                       </a>
                       @endcanany
 
-                      @if($reserva->id_dependencia_solicitante && in_array($reserva->id_dependencia_solicitante, $ids))
+                      @if($ids && $reserva->id_dependencia_solicitante && in_array($reserva->id_dependencia_solicitante, $ids))
                         @can($configEditar['can'])
                           @if(!in_array($reserva->estado_reserva->estado, ['CANCELADA','RECHAZADA','FINALIZADA']))
                             <a href="{{ $configEditar['route'] }}" data-id="{{$reserva->id}}"

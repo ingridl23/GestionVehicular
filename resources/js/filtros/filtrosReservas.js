@@ -61,6 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 body: JSON.stringify(filtros),
             });
             const data = await res.json();
+
             mostrarResultado(data.data);
             renderPaginacion(data);
         } catch (err) {
@@ -178,32 +179,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 if (PERMISSIONS.autorizar) {
                     acciones += `
-                              <form action="${ROUTES.autorizar.replace(":id", res.id)}" 
-                                    method="post" 
-                                    class="inline-block m-1">
-                                    <input type="hidden" name="_token" value="${window.csrfToken}">
-                                    <input type="hidden" name="_method" value="PATCH">
-                                  <button type="submit"
-                                      class="rounded-md border border-blue-600 px-2 py-2 text-blue-600 hover:bg-blue-600 hover:text-white dark:border-blue-400 dark:text-blue-400 dark:hover:bg-blue-500 dark:hover:text-white"
+                                <button command="show-modal" commandfor="dialog-autorizar" data-id="${res.id}"
+                                  class="btn-autorizar rounded-md border border-green-600 px-2 py-2 text-green-600 hover:bg-green-700 hover:text-white dark:border-green-400 dark:text-green-400 dark:hover:bg-green-500 dark:hover:text-white"
                                       title="Autorizar préstamo">
-                                      <i class="fa-solid fa-circle-check text-green-600"></i>
-                                  </button>
-                              </form>
+                                      <i class="fa-solid fa-circle-check"></i>
+                              </button>
                         `;
                 }
                 if (PERMISSIONS.rechazar) {
                     acciones += `
-                              <form action="${ROUTES.rechazar.replace(":id", res.id)}" 
-                                    method="post" 
-                                    class="inline-block m-1">
-                                    <input type="hidden" name="_token" value="${window.csrfToken}">
-                                    <input type="hidden" name="_method" value="PATCH">
-                                  <button type="submit"
-                                      class="rounded-md border border-blue-600 px-2 py-2 text-blue-600 hover:bg-blue-600 hover:text-white dark:border-blue-400 dark:text-blue-400 dark:hover:bg-blue-500 dark:hover:text-white"
-                                      title="Rechazar préstamo">
-                                      <i class="fa-solid fa-circle-xmark text-red-600"></i>
-                                  </button>
-                              </form>
+                                <button command="show-modal" commandfor="dialog-rechazar" data-id="${res.id}"
+                                            class="btn-rechazar m-1 inline-block rounded-md border border-red-600 px-2 py-2 text-red-600 hover:bg-red-600 hover:text-white dark:border-red-400 dark:text-red-400 dark:hover:bg-red-500 dark:hover:text-white"
+                                            title="Rechazar préstamo" >
+                                            <i class="fa fa-times"></i>
+                              </button>
+                              
                         `;
                 }
             }
