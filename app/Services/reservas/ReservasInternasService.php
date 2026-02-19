@@ -22,11 +22,13 @@ class ReservasInternasService extends BaseReservasServices{
         }
 
         else if($rol == 'Operativo'){
-            $query->obtenerDependenciasInternas($id_dependencia)->where('id_usuario', $this->user()->id);
+           $query->obtenerDependenciasInternas($id_dependencia)->where('id_usuario', $this->user()->id);
+
         }
-        else{
+       else{
             $query->soloInternas();
         }
+
 
         $reservas = $query->paginate(5);
         return $reservas;
@@ -54,24 +56,35 @@ class ReservasInternasService extends BaseReservasServices{
     private function datosForm(){
         $id_dependencia = $this->user()->dependencia->id;
         $dependencia = Dependencia::with('dependenciasHijas')->find($id_dependencia);
-        $arbol = $this->obtenerDependenciasArbol($dependencia);
 
         $ids = $this->obtenerDependenciasIds($dependencia);
 
         $base = $this->obtenerDatosBase();
 
-        $vehiculos = $base['queryVehiculos']
-            ->whereIn('vehiculos.id_dependencia_duena', $ids)
-            ->get();
+        $queryVehiculos = $base['queryVehiculos'];
+        $queryUsuarios  = $base['queryUsuarios'];
 
-        $usuarios = $base['queryUsuarios']
-            ->whereIn('users.id_dependencia', $ids)
-            ->get()
+        if ($this->rol() !== 'Administrador General') {
+            $queryVehiculos->whereIn('vehiculo.id_dependencia_duena', $ids);
+            $queryUsuarios->whereIn('users.id_dependencia', $ids);
+        }
+
+        // Ejecutamos queries una sola vez
+        $vehiculos = $queryVehiculos->get();
+
+        $usuarios = $queryUsuarios->get()
             ->map(function ($usuario) {
-            $usuario->carnet_vencido = 
-                !$usuario->carnet || $usuario->carnet->fecha_vencimiento->isPast();
-            return $usuario;
-        })->sortBy('carnet_vencido');
+                $usuario->carnet_vencido =
+                    !$usuario->carnet || $usuario->carnet->fecha_vencimiento->isPast();
+                return $usuario;
+            })
+            ->sortBy('carnet_vencido');
+
+
+        $arbol = $this->rol() === 'Administrador General'
+            ? Dependencia::all()
+            : $this->obtenerDependenciasArbol($dependencia);
+        
         return compact('vehiculos', 'usuarios', 'arbol');
     }
 
@@ -123,6 +136,7 @@ class ReservasInternasService extends BaseReservasServices{
     public function datosParaFormEditar($id){
         $reserva = Reserva::findOrFail($id);
         $datos = $this->datosForm();
+        
 
         return [
             'vehiculos' => $datos['vehiculos'],
@@ -147,7 +161,7 @@ class ReservasInternasService extends BaseReservasServices{
         return $resultado;
     }
 
-    
+
 
 
     /**
@@ -176,16 +190,17 @@ class ReservasInternasService extends BaseReservasServices{
             //Internas de su dependencia
             if ($rol === 'Administrador de Dependencia' || $rol === 'Jefe de Area') {
                 $q->obtenerDependenciasInternas($id_dependencia);
-            } 
+            }
 
             // Sus reservas
             elseif ($rol === 'Operativo') {
                 $q->obtenerDependenciasInternas($id_dependencia)->where('id_usuario', $id_usuario);
-            } 
+            }
 
             // Todas las reservas que sean internas
             else {
                 $q->soloInternas();
+
             }
 
         })
@@ -195,13 +210,14 @@ class ReservasInternasService extends BaseReservasServices{
 
             if ($rol === 'Administrador de Dependencia' || $rol === 'Jefe de Area') {
                 $q->obtenerDependenciasInternas($id_dependencia);
-            } 
+            }
             elseif ($rol === 'Operativo') {
                 $q->obtenerDependenciasInternas($id_dependencia)
                 ->where('id_usuario', $id_usuario);
-            } 
+            }
             else {
-                $q->soloInternas();
+           $q->soloInternas();
+
             }
 
         }]);
@@ -213,5 +229,5 @@ class ReservasInternasService extends BaseReservasServices{
     }
 
 
-    
+
 }

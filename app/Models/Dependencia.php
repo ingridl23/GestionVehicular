@@ -9,6 +9,7 @@ class Dependencia extends Model
 {
     use HasFactory, Notifiable;
 
+
     protected $fillable = [
         'nombre',
         'activa',
@@ -62,7 +63,7 @@ class Dependencia extends Model
             [$dependencia->id],
             $dependencia->obtenerIdsHijas()
         );
-       
+
         return $query->where(function ($q) use ($idsPermitidos) {
             $q->whereIn('id', $idsPermitidos)
             ->orWhereIn('id_dependencia_padre', $idsPermitidos);
@@ -112,8 +113,10 @@ class Dependencia extends Model
             return 'usuarios asociados.';
         }
 
-        return null; 
+        return null;
     }
+
+
 
 
 }

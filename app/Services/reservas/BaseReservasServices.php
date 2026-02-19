@@ -22,12 +22,13 @@ abstract class BaseReservasServices implements ReservaServiceInterface{
             $query->obtenerDependenciasExternasPendientes($id_dependencia);
         }
         else if($this->rol() == "Administrador General"){
-            $query->soloExternas()->pendientes();
+            $query->soloExternas($id_dependencia)->pendientes();
+
         }
         else{
              abort(403, 'No tiene permisos para acceder a estas reservas.');
         }
-        
+
         $reservas = $query->paginate(5);
         return $reservas;
     }
@@ -60,15 +61,15 @@ abstract class BaseReservasServices implements ReservaServiceInterface{
      * @return array<string, \Illuminate\Database\Eloquent\Builder>
      */
     protected function obtenerDatosBase(){
-        $queryVehiculos = Vehiculo::join('estados_vehiculos', 'estados_vehiculos.id', '=', 'vehiculos.id_estado_vehiculo')
-            ->join('dependencias', 'dependencias.id', '=', 'vehiculos.id_dependencia_duena')
+        $queryVehiculos = Vehiculo::join('estados_vehiculos', 'estados_vehiculos.id', '=', 'vehiculo.id_estado_vehiculo')
+            ->join('dependencias', 'dependencias.id', '=', 'vehiculo.id_dependencia_duena')
             ->orderByRaw("
-                CASE 
-                    WHEN estados_vehiculos.estado = 'DISPONIBLE' THEN 0 
-                    ELSE 1 
+                CASE
+                    WHEN estados_vehiculos.estado = 'DISPONIBLE' THEN 0
+                    ELSE 1
                 END
             ")
-            ->select('vehiculos.*', 'dependencias.nombre');
+            ->select('vehiculo.*', 'dependencias.nombre');
 
         $queryUsuarios = User::with('carnet')
             ->join('dependencias', 'dependencias.id', '=', 'users.id_dependencia')
@@ -153,13 +154,13 @@ abstract class BaseReservasServices implements ReservaServiceInterface{
      */
 
     protected function obtenerDatosVerReservas(){
-         
+
         $query = Reserva::with('estado_reserva', 'vehiculo', 'usuario', 'dependencia_solicitante')
          ->orderByRaw("
             CASE (
             SELECT estado
             FROM estados_reservas
-            WHERE estados_reservas.id = reservas.id_estado_reserva
+            WHERE estados_reservas.id = reserva.id_estado_reserva
         )
                 WHEN 'APROBADA' THEN 1
                 WHEN 'PENDIENTE'  THEN 2
@@ -171,7 +172,7 @@ abstract class BaseReservasServices implements ReservaServiceInterface{
             END
         ")->orderBy('fecha_inicio_reserva');
         return($query);
-    } 
+    }
 
     /**
      * Obtiene la reserva según el $id que se pasa por parametro.
@@ -201,7 +202,7 @@ abstract class BaseReservasServices implements ReservaServiceInterface{
         if(!$reserva){
             return null;
         }
-       
+
         // Se busca el id del estado : CANCELADA
         $estado_cancelado = EstadosReserva::where("estado", "CANCELADA")->value('id');
         $reserva->update(['id_estado_reserva' => $estado_cancelado]);
@@ -222,7 +223,7 @@ abstract class BaseReservasServices implements ReservaServiceInterface{
 
         $id_dependencia_duena = Vehiculo::where('id', $id_vehiculo)->value('id_dependencia_duena');
         $id_estado_reserva = $this->obtenerEstadoReserva();
-        
+
         Reserva::create([
             'fecha_reserva'        => now(),
             'fecha_inicio_reserva' => $fecha_inicio,
@@ -244,9 +245,9 @@ abstract class BaseReservasServices implements ReservaServiceInterface{
         $id_usuario = $request->id_usuario;
         $reserva = Reserva::findOrFail($id);
          $id_dependencia_solicitante = $request->id_dependencia;
-        
 
-        
+
+
         // Se redirige a cada service (interna o externa) para ver que valores de los parametros
         //debe tomar
         $validaciones = $this->valoresParametrosValidaciones($id_vehiculo, $fecha_inicio, $fecha_fin, $id_usuario, $id_dependencia_solicitante, $id);
@@ -255,11 +256,11 @@ abstract class BaseReservasServices implements ReservaServiceInterface{
             return $validaciones;
         }
 
-       
-        
+
+
         $id_dependencia_duena = Vehiculo::where('id', $id_vehiculo)->value('id_dependencia_duena');
         $id_estado_reserva = $this->obtenerEstadoReserva();
-        
+
 
         //editar reserva
         $reserva->update([
@@ -283,7 +284,7 @@ abstract class BaseReservasServices implements ReservaServiceInterface{
         $id_usuario = $request->id_usuario;
 
         $id_dependencia_solicitante = $reserva->id_dependencia_solicitante;
-        
+
 
         $validaciones = $this->valoresParametrosValidaciones($id_vehiculo, $fecha_inicio, $fecha_fin, $id_usuario, $id_dependencia_solicitante, $id);
 
@@ -327,16 +328,16 @@ abstract class BaseReservasServices implements ReservaServiceInterface{
     // ===============================
     // VEHÍCULO OCUPADO QUE TENGA LA RESERVA APROBADA/EN CURSO/PENDIENTE
     // ===============================
-    $vehiculoQuery = Reserva::join('estados_reservas', 'estados_reservas.id', '=', 'reservas.id_estado_reserva')
+    $vehiculoQuery = Reserva::join('estados_reservas', 'estados_reservas.id', '=', 'reserva.id_estado_reserva')
         ->where('id_vehiculo', $id_vehiculo)
         ->whereIn('estados_reservas.estado', ['APROBADA', 'EN CURSO', 'PENDIENTE'])
         ->where(function ($q) use ($fecha_inicio, $fecha_fin) {
             $q->where('fecha_inicio_reserva', '<', $fecha_fin)
-              ->where('fecha_fin_reserva', '>', $fecha_inicio);      
+              ->where('fecha_fin_reserva', '>', $fecha_inicio);
         });
 
     if ($id != null) {
-        $vehiculoQuery->where('reservas.id', '!=', $id);
+        $vehiculoQuery->where('reserva.id', '!=', $id);
     }
 
     if ($vehiculoQuery->exists()) {
@@ -363,21 +364,21 @@ abstract class BaseReservasServices implements ReservaServiceInterface{
     }
 
     // ===============================
-    // USUARIO OCUPADO 
+    // USUARIO OCUPADO
     // ===============================
-    $usuarioQuery = Reserva::join('estados_reservas', 'estados_reservas.id', '=', 'reservas.id_estado_reserva')
+    $usuarioQuery = Reserva::join('estados_reservas', 'estados_reservas.id', '=', 'reserva.id_estado_reserva')
         ->where('id_usuario', $id_usuario)
         ->whereIn('estados_reservas.estado', ['APROBADA', 'EN CURSO', 'PENDIENTE'])
         ->where(function ($q) use ($fecha_inicio, $fecha_fin) {
             $q->where('fecha_inicio_reserva', '<', $fecha_fin)
               ->where('fecha_fin_reserva', '>', $fecha_inicio);
         });
-    
+
 
     if ($id) {
-        $usuarioQuery->where('reservas.id', '!=', $id);
+        $usuarioQuery->where('reserva.id', '!=', $id);
     }
-       
+
     if ($usuarioQuery->exists()) {
         return ['usuario', true];
     }
@@ -396,16 +397,29 @@ abstract class BaseReservasServices implements ReservaServiceInterface{
     $id_dependencia = User::where('id', $id_usuario)->value('id_dependencia');
     $dependencia = Dependencia::findOrFail($id_dependencia);
     $idsPermitidos = $this->obtenerDependenciasIds($dependencia);
+
     if($dependencia->dependenciaPadre){
         // Permite tener todos los id's en caso de ser la dependencia mas lejos de la raíz del arbol de dependencias
         $idsPermitidos = array_merge($idsPermitidos, $this->obtenerDependenciasPadres($dependencia));
+
         $idsPermitidos = array_merge($this->obtenerDependenciasIds($dependencia->dependenciaPadre));
     }
-    
-    
+
+
+    // Verifica que, si no es un préstamo, la dependencia solicitante se encuentre en el arbol que le corresponde
     if(!in_array($id_dependencia_solicitante, $idsPermitidos)){
         return ['dependencia', true];
     }
+
+     // Verifica que al ser un prestamo, la dependencia solicitante no se encuentre en el arbol que le corresponde
+     // Este caso se ve más en el administrador general ya que al crear o editar se le muestran todos los datos cargados en la base de datos
+    if($esPrestamo){
+        if(in_array($id_vehiculo, $idsPermitidos)){
+            return ['dependencia_prestamo', true];
+        }
+    }
+
+
 
     return null;
     }
@@ -420,8 +434,8 @@ abstract class BaseReservasServices implements ReservaServiceInterface{
         $id_usuario = $reserva->id_usuario;
 
         $id_dependencia_solicitante = $reserva->id_dependencia_solicitante;
-        
-        
+
+
         $validaciones = $this->valoresParametrosValidaciones($id_vehiculo, $fecha_inicio, $fecha_fin, $id_usuario, $id_dependencia_solicitante, $reserva->id);
 
         if($validaciones != null){
@@ -431,7 +445,7 @@ abstract class BaseReservasServices implements ReservaServiceInterface{
         $id_estado_reserva = EstadosReserva::where("estado", "APROBADA")->value('id');
         return $reserva->update(['id_estado_reserva' => $id_estado_reserva]);
 
-        
+
     }
 
 
@@ -445,7 +459,7 @@ abstract class BaseReservasServices implements ReservaServiceInterface{
     // Si es interna -> APROBADA (automaticamente)
     // Si es externa -> PENDIENTE hasta que alguien la autorice.
     abstract public function obtenerEstadoReserva();
-    
+
 
 
     protected function valoresParametrosValidaciones($id_vehiculo, $fecha_inicio, $fecha_fin, $id_usuario, $id_dependencia_solicitante, $id = null) {

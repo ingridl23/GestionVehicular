@@ -9,7 +9,7 @@ use Illuminate\Notifications\Notifiable;
 class Reserva extends Model
 {
     use HasFactory, Notifiable;
-    protected $table = 'reservas';
+    protected $table = 'reserva';
 
     protected $fillable = [
         'fecha_reserva',
@@ -79,7 +79,7 @@ class Reserva extends Model
             [$dependencia->id],
             $dependencia->obtenerIdsHijas()
         );
-       
+
         return $query
             // reservas internas
             ->whereIn('id_dependencia_duena', $idsPermitidos)
@@ -150,7 +150,7 @@ class Reserva extends Model
             });
         });
 
-        
+
         return $query->whereIn('id_estado_reserva', function ($sub) {
             $sub->select('id')
                 ->from('estados_reservas')
@@ -158,7 +158,7 @@ class Reserva extends Model
         });
     }
 
-    /**
+   /**
      * Scope que filtra únicamente las reservas internas.
      *
      * Se considera una reserva interna cuando la dependencia dueña del vehículo
@@ -189,11 +189,11 @@ class Reserva extends Model
 
                 // Solicitante pertenece al árbol completo de la dueña
                 ->orWhereRaw("
-            reservas.id_dependencia_solicitante IN (
+            reserva.id_dependencia_solicitante IN (
                 WITH RECURSIVE dependencias_arbol AS (
                     SELECT id
                     FROM dependencias
-                    WHERE id = reservas.id_dependencia_duena
+                    WHERE id = reserva.id_dependencia_duena
 
                     UNION ALL
 
@@ -208,11 +208,11 @@ class Reserva extends Model
 
             // Dueña pertenece al árbol completo de la solicitante
                 ->orWhereRaw("
-            reservas.id_dependencia_duena IN (
+            reserva.id_dependencia_duena IN (
                 WITH RECURSIVE dependencias_arbol AS (
                     SELECT id
                     FROM dependencias
-                    WHERE id = reservas.id_dependencia_solicitante
+                    WHERE id = reserva.id_dependencia_solicitante
 
                     UNION ALL
 
@@ -263,11 +263,11 @@ class Reserva extends Model
 
             // La solicitante NO pertenece al árbol completo de la dueña
             ->whereRaw("
-                reservas.id_dependencia_solicitante NOT IN (
+                reserva.id_dependencia_solicitante NOT IN (
                     WITH RECURSIVE dependencias_arbol AS (
                         SELECT id
                         FROM dependencias
-                        WHERE id = reservas.id_dependencia_duena
+                        WHERE id = reserva.id_dependencia_duena
 
                         UNION ALL
 
@@ -282,11 +282,11 @@ class Reserva extends Model
 
             // La dueña NO pertenece al árbol completo de la solicitante
             ->whereRaw("
-                reservas.id_dependencia_duena NOT IN (
+                reserva.id_dependencia_duena NOT IN (
                     WITH RECURSIVE dependencias_arbol AS (
                         SELECT id
                         FROM dependencias
-                        WHERE id = reservas.id_dependencia_solicitante
+                        WHERE id = reserva.id_dependencia_solicitante
 
                         UNION ALL
 
@@ -300,6 +300,7 @@ class Reserva extends Model
             ");
         });
     }
+
 
     public function scopePendientes($query){
         return $query->whereHas('estado_reserva', function ($q) {

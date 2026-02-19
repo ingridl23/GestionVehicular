@@ -215,11 +215,18 @@ abstract class BaseReservaController extends Controller
             return [
                 'id_dependencia' => 'La dependencia seleccionada no es valida ya que no pertenece al sector del usuario que desea reservar.'
             ];
-        } else if ($resultado[0] == "vehiculo_no_habilitado") {
+        }
+        else if ($resultado[0] == "dependencia_prestamo") {
+            return [
+                'id_dependencia' => 'La dependencia seleccionada no es valida ya que no corresponde a un préstamo entre dependencias, si desea generar una reserva interna, dirigirse a la ventana de "Internas".'
+            ];
+        }
+         else if ($resultado[0] == "vehiculo_no_habilitado") {
             return [
                 'id_vehiculo' => 'El vehiculo no se encuentra disponible para ser reservado.'
             ];
         }
+        
         return [
             'id_vehiculo' => 'El vehiculo no se encuentra disponible en el rango de fechas seleccionado.'
         ];
