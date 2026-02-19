@@ -22,7 +22,7 @@ abstract class BaseReservasServices implements ReservaServiceInterface{
             $query->obtenerDependenciasExternasPendientes($id_dependencia);
         }
         else if($this->rol() == "Administrador General"){
-            $query->soloExternas($id_dependencia)->pendientes();
+            $query->soloExternas()->pendientes();
 
         }
         else{
@@ -414,7 +414,8 @@ abstract class BaseReservasServices implements ReservaServiceInterface{
      // Verifica que al ser un prestamo, la dependencia solicitante no se encuentre en el arbol que le corresponde
      // Este caso se ve más en el administrador general ya que al crear o editar se le muestran todos los datos cargados en la base de datos
     if($esPrestamo){
-        if(in_array($id_vehiculo, $idsPermitidos)){
+        $vehiculo_id_dependencia = Vehiculo::where("id", $id_vehiculo)->value("id_dependencia_duena");
+        if(in_array($vehiculo_id_dependencia, $idsPermitidos)){
             return ['dependencia_prestamo', true];
         }
     }

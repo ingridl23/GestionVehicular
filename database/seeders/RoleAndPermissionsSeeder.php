@@ -147,9 +147,7 @@ $adminDependencia->syncPermissions([
     'ver_menu',
     'editar_personal_dependencia',
     'eliminar_personal_dependencia',
-    'crear_dependencias',
-    'editar_dependencias',
-    'eliminar_dependencias',
+
 
     // nuevos:
     'asignar_conductor_en_reserva_activa',
@@ -157,8 +155,7 @@ $adminDependencia->syncPermissions([
     'ver_reportes_operativos',
     'actualizar_reportes',
     'ver_dependencias',
-    'crear_dependencias_hijas',
-    'editar_dependencias_hijas',
+    
       // + permisos operativos:
     'ver_vehiculos_dentro_dependencia',
     'actualizar_reserva_interna',

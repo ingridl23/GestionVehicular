@@ -10,9 +10,6 @@
 <section class="bg-gray-100 dark:bg-gray-900 py-10 lg:py-[0px]">
 
 
-  @if($dependencias->isEmpty())
-  <p class="text-center text-gray-600 ">No hay dependencias cargadas</p>
-  @else
   <div class="flex items-end justify-between">
     <button id="mostrarFiltrosDependencia" type="button"
       class="rounded-md bg-blue-600 px-2 py-2 mb-2 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
@@ -27,6 +24,11 @@
     </a>
     @endcan
   </div>
+
+  @if($dependencias->isEmpty())
+  <p class="text-center text-gray-600 ">No hay dependencias cargadas</p>
+  @else
+  
   <div class="hidden opacity-0 -translate-y-4 transition-all duration-300 ease-out" id="filtros">
 
     <x-filtros-dependencias-fields :dependencias="$dependencias_filtros" :localidades="$localidades" />
