@@ -6,6 +6,7 @@
     @props([
         'reservas',
         'configEditar' => null,
+        'ids' => null,
         'mostrarAcciones'
     ])
 
@@ -85,15 +86,17 @@
                       </a>
                       @endcanany
 
-                      @can($configEditar['can'])
-                        @if(!in_array($reserva->estado_reserva->estado, ['CANCELADA','RECHAZADA','FINALIZADA']))
-                          <a href="{{ $configEditar['route'] }}" data-id="{{$reserva->id}}"
-                            class="btn-editar m-1 inline-block rounded-md border border-yellow-600 px-2 py-2 text-yellow-600 hover:bg-yellow-600 hover:text-white dark:border-yellow-400 dark:text-yellow-400 dark:hover:bg-yellow-500 dark:hover:text-white"
-                            title="Editar">
-                            <i class="fa-solid fa-pen-to-square"></i>
-                          </a>
-                          @endif
-                      @endcan
+                      @if($reserva->id_dependencia_solicitante && in_array($reserva->id_dependencia_solicitante, $ids))
+                        @can($configEditar['can'])
+                          @if(!in_array($reserva->estado_reserva->estado, ['CANCELADA','RECHAZADA','FINALIZADA']))
+                            <a href="{{ $configEditar['route'] }}" data-id="{{$reserva->id}}"
+                              class="btn-editar m-1 inline-block rounded-md border border-yellow-600 px-2 py-2 text-yellow-600 hover:bg-yellow-600 hover:text-white dark:border-yellow-400 dark:text-yellow-400 dark:hover:bg-yellow-500 dark:hover:text-white"
+                              title="Editar">
+                              <i class="fa-solid fa-pen-to-square"></i>
+                            </a>
+                            @endif
+                        @endcan
+                      @endif
 
                       @if(!in_array($reserva->estado_reserva->estado, ['CANCELADA','RECHAZADA','FINALIZADA']))
                             @role('Operativo')

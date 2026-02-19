@@ -17,6 +17,9 @@ class ReservasExternasService extends BaseReservasServices{
         $rol = $this->rol();
         $id_dependencia = $this->user()->dependencia->id;
         $query = $this->obtenerDatosVerReservas();
+                
+        $ids = $this->obtenerDependenciasIds(Dependencia::find($id_dependencia));
+
 
 
         if($rol == 'Administrador de Dependencia' || $rol == 'Jefe de Area'){
@@ -32,7 +35,10 @@ class ReservasExternasService extends BaseReservasServices{
 
 
         $reservas = $query->paginate(5);
-        return $reservas;
+        return [
+            'reservas' => $reservas,
+            'ids' => $ids
+        ];
     }
 
 
@@ -71,9 +77,9 @@ class ReservasExternasService extends BaseReservasServices{
 
         if ($this->rol() !== 'Administrador General') {
             $queryVehiculos->whereNotIn('vehiculo.id_dependencia_duena', $ids);
+            $queryUsuarios->whereIn('users.id_dependencia', $ids);
         }
 
-        // Ejecutamos queries una sola vez
         $vehiculos = $queryVehiculos->get();
 
         $usuarios = $queryUsuarios->get()

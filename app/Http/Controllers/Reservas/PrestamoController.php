@@ -17,8 +17,10 @@ class PrestamoController extends BaseReservaController{
     // permiso = ver_reservas_prestamos
     public function verReservas(){
         $this->authorize('viewAnyLoan', Reserva::class);
+        $datos = $this->service->verReservas();
         $data = array_merge(
-            ['reservas' => $this->service->verReservas()],
+            ['reservas' => $datos['reservas']],
+            ['ids' => $datos['ids']],
             $this->service->datosFiltros(),
             ['ubicacion' => 'externa'],
             ['mostrarAcciones' => true],

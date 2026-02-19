@@ -66,11 +66,11 @@ $configEditar = $ubicacion == 'interna'
       <div class="w-full">
         <div class="max-w-full overflow-x-auto">
           <div class="hidden md:block">
-            <x-tabla-reservas-desktop :reservas="$reservas" :ubicacion="$ubicacion" :configEditar="$configEditar" :mostrarAcciones="$mostrarAcciones" />
+            <x-tabla-reservas-desktop :reservas="$reservas" :ubicacion="$ubicacion" :ids="$ids" :configEditar="$configEditar" :mostrarAcciones="$mostrarAcciones" />
           </div>
 
           <div class="block md:hidden">
-            <x-lista-reservas-mobile :reservas="$reservas" :ubicacion="$ubicacion" :configEditar="$configEditar" :mostrarAcciones="$mostrarAcciones" />
+            <x-lista-reservas-mobile :reservas="$reservas" :ubicacion="$ubicacion" :ids="$ids" :configEditar="$configEditar" :mostrarAcciones="$mostrarAcciones" />
           </div>
 
           <el-dialog>
