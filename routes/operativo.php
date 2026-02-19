@@ -3,7 +3,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\VehiculoController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ReporteController;
-
 use App\Http\Controllers\Reservas\ReservaController;
 
  Route::middleware(['auth', 'role:Operativo'])
@@ -20,7 +19,7 @@ use App\Http\Controllers\Reservas\ReservaController;
 
 
             Route::get('/dashboard',[UserController::class, 'dashboard2'])
-    ->name('dashboard2');
+            ->name('dashboard2');
 
         // crear reporte (usuario)
         Route::get('/reportes/crear', [ReporteController::class, 'create'])
@@ -31,10 +30,14 @@ use App\Http\Controllers\Reservas\ReservaController;
 
 
         Route::get('/reportes', [ReporteController::class, 'misReportesOperativo'])
-            ->name('reportes.index');
+         ->name('reportes.index');
+
 
         Route::get('/mis-reportes', [ReporteController::class, 'misReportesOperativo'])
-            ->name('reportes.mis');
+         ->name('reportes.mis');
+
+       Route::get('/reportes-mensajeria', [ReporteController::class, 'misReportesOperativoDetalles'])
+            ->name('reportes.detalles');
 
         //EDITAR CONDUCTOR
 
@@ -44,7 +47,7 @@ use App\Http\Controllers\Reservas\ReservaController;
        /* Route::patch('/reportes/{reporte}/estado', [ReporteController::class, 'cambiarEstado'])
     ->name('reportes.estado');*/
 
-    // VIAJES
+       // VIAJES
 
 
 });

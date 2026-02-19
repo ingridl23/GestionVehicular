@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\Reportes;
+use App\Models\ReporteComentarios;
 use App\Models\Alerta;
 use App\Services\ReporteService;
 use Illuminate\Validation\Rule;
@@ -126,7 +127,8 @@ public function cambiarEstado(Request $request, Reportes $reporte)
 
     public function agregarComentario(Request $request, Reportes $reporte)
     {
-      $this->authorize('createMessage', Reportes::class);
+  $this->authorize('createMessage', $reporte);
+
 
        $request->validate([
         'comentario' => 'required|string'
@@ -189,5 +191,12 @@ public function misReportesOperativo()
     return view('operativo.reportes.index', compact('reportes', 'alertas'));
 }
 
+public function misReportesOperativoDetalles(){
+    $mensajes  = ReporteComentarios::where('id_usuario', auth()->id())
+        ->latest()
+        ->get();
+
+return view('operativo.reportes.show', compact('mensajes'));
+}
 
 }

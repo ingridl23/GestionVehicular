@@ -67,16 +67,21 @@ El código no tenía el return null, entonces para usuarios que no son Administr
     /**
      * Agregar mensajes / comentarios
      */
-    public function createMessage(User $user): bool
-    {
-        return $user->hasAnyPermission([
-            'iniciar_reporte_interno',
-            'ver_reportes_dependencia',
-            'ver_reportes_general',
-            'ver_reporte_iniciado',
-            'ver_reportes_operativos',
-        ]);
+    public function createMessage(User $user, Reportes $reporte): bool
+{
+
+    // Admin general puede todo
+    if ($user->hasRole('Administrador General')) {
+        return true;
     }
+    return $user->hasAnyPermission([
+        'iniciar_reporte_interno',
+        'ver_reportes_dependencia',
+        'ver_reportes_general',
+        'ver_reporte_iniciado',
+        'ver_reportes_operativos',
+    ]);
+}
 
     /**
      * Actualizar estado del reporte

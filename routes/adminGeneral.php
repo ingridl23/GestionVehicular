@@ -25,11 +25,11 @@ Route::middleware(['auth', 'role:Administrador General'])
        ->middleware('permission:ver_auditoria')->name('auditoria.index');
 
 
-
+/*
       Route::resource('reportes', ReporteController::class)
             ->only(['index', 'show', 'update'])
             ->middleware('permission:ver_reportes_dependencia');
-
+*/
 
        // Reportes globales
       Route::resource('reportes', ReporteController::class)
@@ -39,9 +39,7 @@ Route::middleware(['auth', 'role:Administrador General'])
     // Cambiar estado (admin)
     Route::patch('/reportes/{reporte}/estado', [ReporteController::class, 'cambiarEstado']);
 
-    Route::post('/reportes/{reporte}/comentarios',
-    [ReporteController::class, 'store']
-)->middleware('auth');
+
 
         Route::post(
             'reportes/{reporte}/comentarios',

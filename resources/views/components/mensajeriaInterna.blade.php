@@ -1,8 +1,7 @@
 <div
     id="mensajeriaInterna"
     class="flex items-end gap-3"
-    data-reporte-id="{{ $reporte_id }}"
->
+    data-reporte-id="{{ $reporte_id }}">
     <div class="flex-1">
         <textarea
             id="mensajeInput"

@@ -69,7 +69,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/reportes', [ReporteController::class, 'misReportes'])
             ->name('reportes.mis');
     // Mensajes en reportes
-    Route::post('/reportes/{reporte}/comentarios', [ReporteController::class, 'agregarComentario']);
+  //  Route::post('/reportes/{reporte}/comentarios', [ReporteController::class, 'agregarComentario']);
 
     // Rutas de dependencia
     Route::prefix('dependencia')->name('dependencia.')->group(function () {
@@ -80,11 +80,12 @@ Route::middleware(['auth'])->group(function () {
             ->middleware('permission:ver_prestamos');
 
         // Reportes
+        /*
         Route::get('/reportes/{reporte}', [ReporteController::class, 'show'])->name('reportes.show');
         Route::resource('reportes', ReporteController::class)
             ->only(['index'])
             ->middleware('permission:ver_reportes_dependencia|ver_reportes_general|ver_reportes_operativos');
-
+*/
         // Usuarios de la dependencia
         Route::get('/usuarios', [UserController::class, 'usuariosPorDependencia'])
             ->middleware('permission:ver_usuarios_dependencia')
@@ -98,10 +99,10 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/listado-reservas', [ReservaController::class, 'verReservas'])->middleware('permission:ver_reservas_internas')->name('reservas.internas');
     Route::get('/listado-prestamos', [PrestamoController::class, 'verReservas'])->middleware('permission:ver_reservas_prestamos')->name('reservas.prestamos');
-    
+
     Route::get('/listado-reservas/{id}', [ReservaController::class, 'verReserva'])->name('reservas.reserva'); //Vista individual
 
-    //FILTROS 
+    //FILTROS
     Route::post('/filtrar-reservas-internas', [ReservaController::class, 'filtrarReservasInternas'])->middleware('web');
     Route::post('/filtrar-reservas-externas', [PrestamoController::class, 'filtrarReservasExternas'])->middleware('web');
 

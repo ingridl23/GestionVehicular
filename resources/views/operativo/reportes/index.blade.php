@@ -75,13 +75,13 @@
                 </div>
             </div>
 
-            <!-- Botón ver más (opcional)
+
             <div class="bg-gray-50 dark:bg-gray-900 px-4 py-2 border-t border-gray-200 dark:border-gray-700">
-                <button class="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300">
+                <a href=" {{ route('operativo.reportes.detalles') }}"    class="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300">
                     Ver detalles →
-                </button>
+                </a>
             </div>
-        -->
+
         </div>
     @empty
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-8 text-center">
