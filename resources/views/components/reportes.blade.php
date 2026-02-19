@@ -190,6 +190,8 @@
         </div>
     </div>
 </div>
+
+
 <script>
 
     window.REPORTES_DATA = @json($reportesData);
@@ -200,7 +202,7 @@
 
 </script>
 
-@vite(['resources/js/reportes.js'])
+
 
 @endsection
 

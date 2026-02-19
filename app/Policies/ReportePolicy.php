@@ -35,20 +35,26 @@ El código no tenía el return null, entonces para usuarios que no son Administr
     /**
      * Ver reportes
      */
-    public function showReport(User $user): bool
+    public function view(User $user, Reportes $reporte)
     {
-        return $user->hasAnyPermission([
+
+        if( $user->hasAnyPermission([
             'ver_reportes_dependencia',
             'ver_reportes_general',
             'ver_reporte_iniciado',
             'ver_reportes_operativos',
-        ]);
+        ])){
+            return true;
+        }
+
+           // O si es el dueño del reporte
+             return $reporte->usuario_id === $user->id;
     }
 
     /**
      * Crear reporte
      */
-    public function createReport(?User $user): bool
+    public function create(?User $user): bool
     {
         // Si no hay usuario, denegar
         if (!$user) {
@@ -67,22 +73,27 @@ El código no tenía el return null, entonces para usuarios que no son Administr
     /**
      * Agregar mensajes / comentarios
      */
-    public function createMessage(User $user, Reportes $reporte): bool
+    /*
+    public function comment(User $user, Reportes $reporte)
 {
 
     // Admin general puede todo
     if ($user->hasRole('Administrador General')) {
         return true;
     }
-    return $user->hasAnyPermission([
+
+
+    if($user->hasAnyPermission([
         'iniciar_reporte_interno',
         'ver_reportes_dependencia',
         'ver_reportes_general',
         'ver_reporte_iniciado',
         'ver_reportes_operativos',
-    ]);
+    ])){
+            return true;
+    }
 }
-
+*/
     /**
      * Actualizar estado del reporte
      */

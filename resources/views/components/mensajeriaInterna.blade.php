@@ -19,8 +19,7 @@
         class="flex items-center justify-center w-10 h-10 rounded-full
                bg-blue-600 hover:bg-blue-700 text-white
                focus:outline-none focus:ring-2 focus:ring-blue-500"
-        title="Enviar mensaje"
-    >
+        title="Enviar mensaje">
         <i class="fas fa-paper-plane text-sm"></i>
     </button>
 </div>
