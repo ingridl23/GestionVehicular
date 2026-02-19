@@ -5,6 +5,7 @@
         'reservas',
         'configEditar' => null,
         'ids' => null,
+        'ubicacion' => null,
         'mostrarAcciones'
     ])
 
@@ -73,6 +74,7 @@
                   <td class="border-b border-gray-200 dark:border-gray-700 bg-gray-100 dark:bg-gray-900 px-2 py-5 text-center text-base font-medium text-gray-700 dark:text-gray-200">
                     {{ $reserva->vehiculo->dominio }} - {{ $reserva->vehiculo->marca }} - {{ $reserva->vehiculo->anio }}
                   </td>
+
                   @if($mostrarAcciones)
                     <td class="border-b border-gray-200 dark:border-gray-700 bg-gray-100 dark:bg-gray-900 px-2 py-5 text-center text-base font-medium text-gray-700 dark:text-gray-200">
                       
@@ -84,7 +86,7 @@
                       </a>
                       @endcanany
 
-                      @if($ids && $reserva->id_dependencia_solicitante && in_array($reserva->id_dependencia_solicitante, $ids))
+                      @if(($ubicacion === "interna" || ($ids && in_array($reserva->id_dependencia_solicitante, $ids))) && $reserva->id_dependencia_solicitante)
                         @can($configEditar['can'])
                           @if(!in_array($reserva->estado_reserva->estado, ['CANCELADA','RECHAZADA','FINALIZADA']))
                             <a href="{{ $configEditar['route'] }}" data-id="{{$reserva->id}}"

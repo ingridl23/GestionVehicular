@@ -73,10 +73,10 @@ $configEditar = $ubicacion == 'interna'
             <x-lista-reservas-mobile :reservas="$reservas" :ubicacion="$ubicacion" :ids="$ids" :configEditar="$configEditar" :mostrarAcciones="$mostrarAcciones" />
           </div>
 
+          
           <dialog id="dialog-cancelar" class="p-0 backdrop:bg-black/50 rounded-lg">
 
             <div class="bg-gray-800 rounded-lg shadow-xl w-full max-w-md mx-auto">
-
               <div class="p-6">
                 <div class="flex items-center gap-4">
 
@@ -105,7 +105,6 @@ $configEditar = $ubicacion == 'interna'
               </div>
 
               <div class="flex justify-end gap-3 bg-gray-700/30 px-6 py-4 rounded-b-lg">
-
                 <button type="button"
                         onclick="this.closest('dialog').close()"
                         class="px-4 py-2 text-sm font-medium text-white bg-white/10 hover:bg-white/20 rounded-md">
@@ -116,9 +115,7 @@ $configEditar = $ubicacion == 'interna'
                         class="botonCancelar px-4 py-2 text-sm font-medium text-white bg-red-500 hover:bg-red-400 rounded-md">
                   Desactivar
                 </button>
-
               </div>
-
             </div>
 
           </dialog>

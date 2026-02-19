@@ -2,6 +2,7 @@
 
 @push('scripts')
   <script type="module" src="{{ Vite::asset('resources/js/filtros/filtrosReservas.js') }}"></script>
+  <script type="module" src="{{ Vite::asset('resources/js/reservas/accionesAutorizarPrestamo.js') }}"></script>
 @endpush
 
 @section('content')
