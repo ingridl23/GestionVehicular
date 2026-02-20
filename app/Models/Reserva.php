@@ -9,7 +9,7 @@ use Illuminate\Notifications\Notifiable;
 class Reserva extends Model
 {
     use HasFactory, Notifiable;
-    protected $table = 'reserva';
+    protected $table = 'reservas';
 
     protected $fillable = [
         'fecha_reserva',

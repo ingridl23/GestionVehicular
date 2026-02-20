@@ -17,8 +17,10 @@ return new class extends Migration
             $table->dateTime('fecha_fin');
             $table->string('observaciones')->nullable();
             $table->foreignId('id_ultima_ubicacion')->references('id')->on('direcciones')->onDelete('restrict');
-            $table->foreignId('id_reserva')->references('id')->on('reserva')->onDelete('cascade');
-            $table->foreignId('id_vehiculo')->references('id')->on('vehiculo')->onDelete('cascade');
+         $table->foreignId('id_reserva')
+      ->constrained('reservas')
+      ->onDelete('cascade');
+            $table->foreignId('id_vehiculo')->references('id')->on('vehiculos')->onDelete('cascade');
             $table->timestamps();
         });
     }
