@@ -36,8 +36,13 @@ use App\Http\Controllers\Reservas\ReservaController;
         Route::get('/mis-reportes', [ReporteController::class, 'misReportesOperativo'])
          ->name('reportes.mis');
 
-       Route::get('/reportes-mensajeria', [ReporteController::class, 'misReportesOperativoDetalles'])
-            ->name('reportes.detalles');
+      Route::get('/reportes/{reporte}', [ReporteController::class, 'show'])
+    ->name('reportes.detalles');
+
+Route::post(
+    '/reportes/{reporte}/comentarios',
+    [ReporteController::class, 'agregarComentario']
+)->name('reportes.comentarios');
 
         //EDITAR CONDUCTOR
 

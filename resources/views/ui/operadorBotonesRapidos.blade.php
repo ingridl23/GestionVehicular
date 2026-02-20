@@ -12,12 +12,12 @@
         Comenzar reporte
     </button>
 
-    <button  action="{{ route('operativo.editar-conductor') }}" class="btn-rapido">Asignar conductor</button>
+    <button  action="{{ route('operativo.editar-conductor','$id') }}" class="btn-rapido">Asignar conductor</button>
 </section>
 
 {{-- BOTONES DE VIAJE --}}
 <section class="flex gap-6">
-    <button           class="btn-iniciar flex-1">Iniciar viaje</button>
+    <button class="btn-iniciar flex-1">Iniciar viaje</button>
 
     <button
         class="btn-finalizar flex-1 {{ auth()->user()->viajeActivo ? '' : 'opacity-50 cursor-not-allowed' }}"

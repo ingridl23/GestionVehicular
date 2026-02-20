@@ -40,4 +40,8 @@ class Reportes extends Model
     {
         return $this->estado === EstadoReporte::ATENDIDO;
     }
+
+    public function isCerrado():bool{
+        return $this->estado === EstadoReporte::CERRADO;
+    }
 }

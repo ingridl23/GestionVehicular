@@ -1,3 +1,5 @@
+console.log("JS cargado");
+
 document.addEventListener('DOMContentLoaded', () => {
 
     // ===============================
@@ -66,6 +68,45 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const filterUsuario = document.getElementById('filterUsuario');
     if (filterUsuario) filterUsuario.addEventListener('input', filtrar);
+
+
+    // ===============================
+    // Auto-selección para vista show()
+    // ===============================
+    if (document.querySelectorAll('.reporte-item').length === 0 &&
+        reportesData.length === 1) {
+
+        reporteActivo = reportesData[0];
+
+        const sinSeleccion = document.getElementById('sinSeleccion');
+        if (sinSeleccion) sinSeleccion.classList.add('hidden');
+
+        const reporteSeleccionado = document.getElementById('reporteSeleccionado');
+        if (reporteSeleccionado) reporteSeleccionado.classList.remove('hidden');
+
+        const avatar = document.getElementById('chatAvatar');
+        if (avatar) {
+            avatar.textContent =
+                reporteActivo.usuario_nombre.substring(0, 2).toUpperCase();
+        }
+
+        const usuario = document.getElementById('chatUsuario');
+        if (usuario) usuario.textContent = reporteActivo.usuario_nombre;
+
+        const titulo = document.getElementById('chatTitulo');
+        if (titulo) titulo.textContent = reporteActivo.titulo;
+
+        const entidad = document.getElementById('chatEntidad');
+        if (entidad) {
+            entidad.textContent =
+                `${reporteActivo.entidad_tipo} #${reporteActivo.entidad_id}`;
+        }
+
+        const selectEstado = document.getElementById('selectEstado');
+        if (selectEstado) selectEstado.value = reporteActivo.estado;
+
+        renderMensajes();
+    }
 
 
     // ===============================
@@ -145,26 +186,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Comentarios
         reporteActivo.comentarios.forEach(c => {
-            const esPropio = c.usuario_id === usuarioActualId;
 
-            body.innerHTML += esPropio ? `
-                <div class="flex justify-end">
-                    <div class="bg-blue-600 text-white rounded-t-lg rounded-bl-lg px-4 py-2.5 max-w-[75%]">
-                        <p class="text-xs font-semibold">Vos</p>
-                        <p class="text-sm">${c.comentario}</p>
-                        <p class="text-xs text-right">${c.fecha}</p>
-                    </div>
-                </div>
-            ` : `
-                <div class="flex justify-start">
-                    <div class="bg-white dark:bg-gray-800 border rounded-t-lg rounded-br-lg px-4 py-2.5 max-w-[75%]">
-                        <p class="text-xs font-semibold text-blue-600">${c.nombre}</p>
-                        <p class="text-sm">${c.comentario}</p>
-                        <p class="text-xs text-right">${c.fecha}</p>
-                    </div>
-                </div>
-            `;
+            const esPropio = Number(c.id_usuario) === Number(usuarioActualId);
+
+            const claseContenedor = esPropio ?
+                'flex justify-end' :
+                'flex justify-start';
+
+            const claseBurbuja = esPropio ?
+                'bg-blue-600 text-white rounded-t-lg rounded-bl-lg' :
+                'bg-white dark:bg-gray-800 border rounded-t-lg rounded-br-lg';
+
+            body.innerHTML += `
+        <div class="${claseContenedor}">
+            <div class="${claseBurbuja} px-4 py-2.5 max-w-[75%]">
+                <p class="text-xs font-semibold ${esPropio ? '' : 'text-blue-600'}">
+                    ${esPropio ? 'Vos' : c.nombre}
+                </p>
+                <p class="text-sm">${c.comentario}</p>
+                <p class="text-xs text-right">${c.fecha}</p>
+            </div>
+        </div>
+    `;
         });
+
 
         body.scrollTop = body.scrollHeight;
     }
@@ -203,6 +248,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Mensajería interna (hook externo)
     // ===============================
     window.agregarMensajeAlChat = function(comentario) {
+
+        console.log("push desde agregarmensajealchat");
+
         if (!reporteActivo) return;
         reporteActivo.comentarios.push(comentario);
         renderMensajes();
@@ -226,6 +274,7 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('Seleccioná un reporte primero');
             return;
         }
+        console.log("push desde enviarMensaje");
 
         const mensaje = textarea.value.trim();
 
@@ -235,7 +284,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         errorMsg.classList.add('hidden');
-        fetch(`/reportes/${reporteActivo.id}/comentarios`, {
+        fetch(`/${window.BASE_REPORTES_URL}/reportes/${reporteActivo.id}/comentarios`, {
+
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -245,20 +295,90 @@ document.addEventListener('DOMContentLoaded', () => {
                     comentario: mensaje
                 })
             })
-            .then(res => {
-                if (!res.ok) throw new Error('Error al guardar mensaje');
+            .then(async res => {
+                if (!res.ok) {
+                    const text = await res.text();
+                    console.error('ERROR BACKEND:', text);
+                    throw new Error(text);
+                }
                 return res.json();
             })
-            .then(data => {
-                // viene del controller → ya persistido
-                reporteActivo.comentarios.push(data.comentario);
-                renderMensajes();
-                textarea.value = '';
+
+        .then(data => {
+            console.log("comentarios antes:", reporteActivo.comentarios);
+            console.log("nuevo comentario:", data.comentario);
+
+            reporteActivo.comentarios.push(data.comentario);
+            renderMensajes();
+            textarea.value = ''; //  limpiar input
+            textarea.focus(); //  volver a enfocar
+        })
+
+        .catch(() => {
+            alert('No se pudo enviar el mensaje');
+        });
+    }
+
+
+    /******************************************************************************************************* */
+    /********************* FUNCIONALIDAD DE ASIGNAR BOTON DE ELIMINAR REPORTE SOLO SI ESTA CERRADO ******** */
+    //**************************************************************************************************** */
+
+
+    document.addEventListener('click', function(e) {
+
+        if (!e.target.classList.contains('btn-eliminar')) return;
+
+        e.stopPropagation(); // evitar que seleccione el reporte
+
+        const reporteId = e.target.dataset.id;
+
+        if (!confirm('¿Seguro que querés eliminar este reporte?')) return;
+
+        fetch(`/admin/reportes/${reporteId}/eliminar`, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(res => {
+                if (!res.ok) throw new Error();
+                return res.json();
+            })
+            .then(() => {
+
+                // eliminar del DOM
+                const item = document.querySelector(`.reporte-item[data-id="${reporteId}"]`);
+                if (item) item.remove();
+
+                // eliminar del array
+                const index = reportesData.findIndex(r => r.id == reporteId);
+                if (index !== -1) {
+                    reportesData.splice(index, 1);
+                }
+
+                //  limpiar panel derecho si era el activo
+                if (reporteActivo && reporteActivo.id == reporteId) {
+                    reporteActivo = null;
+                    document.getElementById('reporteSeleccionado').classList.add('hidden');
+                    document.getElementById('sinSeleccion').classList.remove('hidden');
+                }
+
+                console.log("Reporte eliminado correctamente");
             })
             .catch(() => {
-                alert('No se pudo enviar el mensaje');
+                alert('No se pudo eliminar el reporte');
             });
-    }
+
+    });
+
+
+
+
+
+
+
 
 
 

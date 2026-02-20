@@ -33,14 +33,14 @@ public function index()
             'estado' => $r->estado,
             'entidad_tipo' => $r->entidad_tipo,
             'entidad_id' => $r->entidad_id,
-            'usuario_id' => $r->usuario->id,
+            'id_usuario' => $r->usuario->id,
             'usuario_nombre' => $r->usuario->name,
             'fecha' => $r->created_at->format('d/m H:i'),
             'comentarios' => $r->comentarios->map(function ($c) {
                 return [
                     'id' => $c->id,
                     'comentario' => $c->comentario,
-                    'usuario_id' => $c->usuario->id,
+                    'id_usuario' => $c->usuario->id,
                     'nombre' => $c->usuario->name,
                     'fecha' => $c->created_at->format('d/m H:i'),
                 ];
@@ -84,15 +84,34 @@ public function index()
         ->with('success', 'Reporte creado correctamente');
 }
 
-   public function show(Reportes $reporte)
+
+
+
+public function show(Reportes $reporte)
 {
-    $this->authorize('showReport', $reporte);
+   // $this->authorize('view', $reporte);
+    $reporte->load('comentarios.usuario');
+$reportesData = [[
+        'id' => $reporte->id,
+        'titulo' => $reporte->titulo,
+        'descripcion' => $reporte->descripcion,
+        'estado' => $reporte->estado,
+        'entidad_tipo' => $reporte->entidad_tipo,
+        'entidad_id' => $reporte->entidad_id,
+       'id_usuario' => $reporte->id_usuario,
+        'usuario_nombre' => $reporte->usuario->name,
+        'fecha' => $reporte->created_at->format('d/m H:i'),
+        'comentarios' => $reporte->comentarios->map(fn ($c) => [
+            'comentario' => $c->comentario,
+            'id_usuario' => $c->usuario->id,
+            'nombre' => $c->usuario->name,
+            'fecha' => $c->created_at->format('d/m H:i'),
+        ])->values()
+    ]];
 
-    return view('operativo.reportes.show', [
-        'reporte' => $reporte->load('usuario', 'comentarios.usuario')
-    ]);
+    return view('operativo.reportes.show', compact('reporte', 'reportesData'));
+
 }
-
 
 
 /**
@@ -124,10 +143,10 @@ public function cambiarEstado(Request $request, Reportes $reporte)
 
 /***************************************************************************************************************** */
     /**Seguimiento de Comentarios en Reportes */
-
+// Quedo en conocimiento que esta funcionalidad queda sin policy hasta que se resuelva que no reconozce el permiso
     public function agregarComentario(Request $request, Reportes $reporte)
     {
-  $this->authorize('createMessage', $reporte);
+     // $this->authorize('commet', $reporte);
 
 
        $request->validate([
@@ -142,7 +161,7 @@ public function cambiarEstado(Request $request, Reportes $reporte)
    return response()->json([
     'comentario' => [
         'comentario' => $reporte->comentarios->last()->comentario,
-        'usuario_id' => auth()->id(),
+        'id_usuario' => auth()->id(),
         'nombre' => auth()->user()->name,
         'fecha' => now()->format('d/m H:i')
     ]
@@ -165,12 +184,12 @@ public function misReportes()
         'estado' => $r->estado,
         'entidad_tipo' => $r->entidad_tipo,
         'entidad_id' => $r->entidad_id,
-        'usuario_id' => $r->usuario->id,
+        'id_usuario' => $r->usuario->id,
         'usuario_nombre' => $r->usuario->name,
         'fecha' => $r->created_at->format('d/m H:i'),
         'comentarios' => $r->comentarios->map(fn ($c) => [
             'comentario' => $c->comentario,
-            'usuario_id' => $c->usuario->id,
+            'id_usuario' => $c->usuario->id,
             'nombre' => $c->usuario->name,
             'fecha' => $c->created_at->format('d/m H:i'),
         ])->values()
@@ -191,12 +210,21 @@ public function misReportesOperativo()
     return view('operativo.reportes.index', compact('reportes', 'alertas'));
 }
 
-public function misReportesOperativoDetalles(){
-    $mensajes  = ReporteComentarios::where('id_usuario', auth()->id())
-        ->latest()
-        ->get();
+public function deleteReporte($id){
+$reporte = Reportes::findOrFail($id);
 
-return view('operativo.reportes.show', compact('mensajes'));
+    if (!$reporte->isCerrado()) {
+        return response()->json([
+            'message' => 'Solo se pueden eliminar reportes cerrados'
+        ], 403);
+    }
+
+    $reporte->delete();
+
+    return response()->json([
+        'message' => 'Reporte eliminado correctamente'
+    ]);
+
 }
 
 }

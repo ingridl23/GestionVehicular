@@ -63,15 +63,14 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/profile/{usuario}/update', [UserController::class, 'updateProfile'])->name('profile.admin-update');
 
     /**************************  REPORTES  **********************/
-
-
+    // Reportes
    // ver mi reporte (chat)
         Route::get('/reportes', [ReporteController::class, 'misReportes'])
             ->name('reportes.mis');
-    // Mensajes en reportes
-  //  Route::post('/reportes/{reporte}/comentarios', [ReporteController::class, 'agregarComentario']);
 
-    // Rutas de dependencia
+
+   /********************************** Rutas de dependencia ************************************************/
+
     Route::prefix('dependencia')->name('dependencia.')->group(function () {
 
         // Préstamos
@@ -79,13 +78,6 @@ Route::middleware(['auth'])->group(function () {
             ->name('prestamos.index')
             ->middleware('permission:ver_prestamos');
 
-        // Reportes
-        /*
-        Route::get('/reportes/{reporte}', [ReporteController::class, 'show'])->name('reportes.show');
-        Route::resource('reportes', ReporteController::class)
-            ->only(['index'])
-            ->middleware('permission:ver_reportes_dependencia|ver_reportes_general|ver_reportes_operativos');
-*/
         // Usuarios de la dependencia
         Route::get('/usuarios', [UserController::class, 'usuariosPorDependencia'])
             ->middleware('permission:ver_usuarios_dependencia')
