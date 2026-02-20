@@ -4,25 +4,33 @@ document.addEventListener("DOMContentLoaded", ()=>{
     let reservaIdAutorizar = null;
 
 
-        document.addEventListener('click', e => {
-            const btnRechazar = e.target.closest('.btn-rechazar');
-            if (btnRechazar) {
-                reservaIdActiva = btnRechazar.dataset.id;
-            }
-
-            const btnAutorizar = e.target.closest('.btn-autorizar');
-            if (btnAutorizar) {
-                reservaIdAutorizar = btnAutorizar.dataset.id;
-            }
+        document.querySelectorAll('.btn-rechazar').forEach(btn => {
+            btn.addEventListener('click', function () {
+                reservaIdActiva = this.dataset.id;
+                 document.getElementById('dialog-rechazar').showModal();
+            });
         });
+        
+
+
+        document.querySelectorAll('.btn-autorizar').forEach(btn => {
+            btn.addEventListener('click', function () {
+                reservaIdAutorizar = this.dataset.id;
+            });
+        });
+           
 
         document.querySelector('.botonRechazar').addEventListener('click', (e) => {
             e.preventDefault();
+            if (!reservaIdActiva) return;
+
             rechazarPrestamo(reservaIdActiva);
         });
 
         document.querySelector('.botonAutorizar').addEventListener('click', (e) => {
             e.preventDefault();
+            if (!reservaIdAutorizar) return;
+
             autorizarPrestamo(reservaIdAutorizar);
         });
 
@@ -63,7 +71,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
                 },
             });
             const data = await res.json();
-            console.log(data.message);
+
             if (data.success || data.errors) {
                     alert(data.message);
                     window.location.href = "/admin/autorizar-prestamos";

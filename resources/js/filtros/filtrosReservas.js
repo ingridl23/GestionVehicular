@@ -126,10 +126,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (PERMISSIONS.ver) {
                     acciones += `
                         <a href="${ROUTES.ver.replace(":id", res.id)}"
-                        class="m-1 inline-block rounded-md border border-blue-600 px-2 py-2 text-blue-600 hover:bg-blue-600 
-                        hover:text-white dark:border-blue-400 dark:text-blue-400 dark:hover:bg-blue-500 dark:hover:text-white"
+                        class="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300"
                         title="Ver detalles">
-                            <i class="fa-solid fa-eye"></i>
+                            <i class="fas fa-eye"></i>
                         </a>
                     `;
                 }
@@ -142,10 +141,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     ) {
                         acciones += `
                         <a href="${ROUTES.editar.replace(":id", res.id)}"
-                        class="m-1 inline-block rounded-md border border-yellow-600 px-2 py-2 text-yellow-600 hover:bg-yellow-600 
-                        hover:text-white dark:border-yellow-400 dark:text-yellow-400 dark:hover:bg-yellow-500 dark:hover:text-white"
+                        class="text-yellow-600 hover:text-yellow-900 dark:text-yellow-400 dark:hover:text-yellow-300"
                         title="Editar">
-                            <i class="fa-solid fa-pen-to-square"></i>
+                            <i class="fas fa-edit"></i>
                         </a>
                     `;
                     }
@@ -159,8 +157,8 @@ document.addEventListener("DOMContentLoaded", () => {
                     ) {
                         acciones += `
                         <button command="show-modal" commandfor="dialog-cancelar" data-id="${res.id}"
-                                class="btn-cancelar m-1 inline-block rounded-md border border-red-600 px-2 py-2 text-red-600 hover:bg-red-600 hover:text-white dark:border-red-400 dark:text-red-400 dark:hover:bg-red-500 dark:hover:text-white"
-                                title="eliminar" >
+                                class="btn-cancelar text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300"
+                                title="Cancelar" >
                                 <i class="fa fa-times"></i>
                             </button>
                     `;
@@ -170,9 +168,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (PERMISSIONS.ver) {
                     acciones += `
                         <a href="${ROUTES.ver.replace(":id", res.id)}"
-                                class="m-1 inline-block rounded-md border border-blue-600 px-2 py-2 text-blue-600 hover:bg-blue-600 hover:text-white dark:border-blue-400 dark:text-blue-400 dark:hover:bg-blue-500 dark:hover:text-white"
+                                class="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300"
                                 title="Ver detalles">
-                                <i class="fa-solid fa-eye"></i>
+                                <i class="fas fa-eye"></i>
                               </a>
                     `;
                 }
@@ -180,7 +178,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (PERMISSIONS.autorizar) {
                     acciones += `
                                 <button command="show-modal" commandfor="dialog-autorizar" data-id="${res.id}"
-                                  class="btn-autorizar rounded-md border border-green-600 px-2 py-2 text-green-600 hover:bg-green-700 hover:text-white dark:border-green-400 dark:text-green-400 dark:hover:bg-green-500 dark:hover:text-white"
+                                  class="btn-autorizar text-green-600 hover:text-green-900 dark:text-green-400 dark:hover:text-green-300"
                                       title="Autorizar préstamo">
                                       <i class="fa-solid fa-circle-check"></i>
                               </button>
@@ -189,7 +187,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (PERMISSIONS.rechazar) {
                     acciones += `
                                 <button command="show-modal" commandfor="dialog-rechazar" data-id="${res.id}"
-                                            class="btn-rechazar m-1 inline-block rounded-md border border-red-600 px-2 py-2 text-red-600 hover:bg-red-600 hover:text-white dark:border-red-400 dark:text-red-400 dark:hover:bg-red-500 dark:hover:text-white"
+                                            class="btn-rechazar text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300"
                                             title="Rechazar préstamo" >
                                             <i class="fa fa-times"></i>
                               </button>
@@ -243,15 +241,19 @@ document.addEventListener("DOMContentLoaded", () => {
             if (view === "tabla") {
                 contenedor.innerHTML += `
                 <tr class="hover:bg-gray-50">
-                    <td class="border-b border-gray-200 dark:border-gray-700 bg-gray-100 dark:bg-gray-900 px-2 py-5 text-center text-base font-medium text-gray-700 dark:text-gray-200">${fechaInicioFormateada}</td>
-                    <td class="border-b border-gray-200 dark:border-gray-700 bg-gray-100 dark:bg-gray-900 px-2 py-5 text-center text-base font-medium text-gray-700 dark:text-gray-200">${fechaFinFormateada}</td>
-                    <td class="border-b border-gray-200 dark:border-gray-700 bg-gray-100 dark:bg-gray-900 px-2 py-5 text-center text-base font-medium text-gray-700 dark:text-gray-200">${res.estado_reserva.estado}</td>
-                    <td class="border-b border-gray-200 dark:border-gray-700 bg-gray-100 dark:bg-gray-900 px-2 py-5 text-center text-base font-medium text-gray-700 dark:text-gray-200">${res.dependencia_solicitante.nombre}</td>
-                    <td class="border-b border-gray-200 dark:border-gray-700 bg-gray-100 dark:bg-gray-900 px-2 py-5 text-center text-base font-medium text-gray-700 dark:text-gray-200">${res.usuario.name} ${res.usuario.lastname}</td>
-                    <td class="border-b border-gray-200 dark:border-gray-700 bg-gray-100 dark:bg-gray-900 px-2 py-5 text-center text-base font-medium text-gray-700 dark:text-gray-200">
+                    <td class="px-6 py-8 whitespace-nowrap text-sm text-gray-900 dark:text-white">${fechaInicioFormateada}</td>
+                    <td class="px-6 py-8 whitespace-nowrap text-sm text-gray-900 dark:text-white">${fechaFinFormateada}</td>
+                    <td class="px-6 py-8 whitespace-nowrap text-sm text-gray-900 dark:text-white">${res.estado_reserva.estado}</td>
+                    <td class="px-6 py-8 whitespace-nowrap text-sm text-gray-900 dark:text-white">${res.dependencia_solicitante.nombre}</td>
+                    <td class="px-6 py-8 whitespace-nowrap text-sm text-gray-900 dark:text-white">${res.usuario.name} ${res.usuario.lastname}</td>
+                    <td class="px-6 py-8 whitespace-nowrap text-sm text-gray-900 dark:text-white">
                         ${res.vehiculo.dominio} ${res.vehiculo.marca} - ${res.vehiculo.anio}
                     </td>
-                    <td class="border-b border-gray-200 dark:border-gray-700 bg-gray-100 dark:bg-gray-900 px-2 py-5 text-center text-base font-medium text-gray-700 dark:text-gray-200">${acciones}</td>
+                    <td class="px-6 py-8 whitespace-nowrap text-sm text-gray-900 dark:text-white">
+                    <div class="flex justify-start gap-4">
+                        ${acciones}
+                    </div>
+                    </td>
                 </tr>
             `;
             }

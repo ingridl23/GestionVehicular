@@ -2,19 +2,34 @@
 
 @push('scripts')
   <script type="module" src="{{ Vite::asset('resources/js/filtros/filtrosReservas.js') }}"></script>
+  <script type="module" src="{{ Vite::asset('resources/js/reservas/accionesAutorizarPrestamo.js') }}"></script>
 @endpush
+
+@section('page-title', 'Administración de Dependencias')
+@section('page-description', 'Gestión de autorizar préstamos del sistema')
 
 @section('content')
 
-<section class="bg-gray-100 dark:bg-gray-900 py-10 lg:py-[0px]">
-  
+<section class="py-10 lg:py-[0px]">
+
+  <div class="container mx-auto px-4 py-6">
+
+  <!-- Header con botón de crear -->
+    <div class="flex justify-between items-center mb-6">
+      <div>
+        <h1 class="text-2xl font-bold text-gray-900 dark:text-white"> Préstamos del Sistema</h1>
+        <p class="text-gray-600 dark:text-gray-400 mt-1">
+          Total de préstamos pendientes: <span class="font-semibold">Aca va el total</span>
+        </p>
+      </div>
+    </div>
 
   @if($reservas->isEmpty())
     <p class="text-center text-gray-600 ">No hay reservas</p>
   @else
-  <div class="flex items-end justify-between">
+  <div class="flex items-end justify-between mb-4">
     <button id="mostrarFiltros" type="button"
-      class="rounded-md bg-blue-600 px-2 py-2 mb-2 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+      class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg flex items-center gap-2 transition-colors">
       Filtros
     </button>
   </div>
@@ -52,6 +67,106 @@
 
   </div>
   @endif
+
+    <!--DIALOG RECHAZAR-->
+  <dialog id="dialog-rechazar" class="p-0 backdrop:bg-black/50 rounded-lg">
+
+  <div class="bg-gray-800 rounded-lg shadow-xl w-full max-w-md mx-auto">
+
+    <div class="p-6">
+      <div class="flex items-center gap-4">
+
+        <!-- Icono -->
+        <div class="flex h-12 w-12 items-center justify-center rounded-full bg-red-500/10">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="1.5" class="h-6 w-6 text-red-400">
+            <path d="M12 9v3.75m0 3.75h.007M4.93 19h14.14c1.54 0 
+                     2.5-1.67 1.73-3L13.73 4c-.77-1.33-2.69-1.33-3.46 
+                     0L3.2 16c-.77 1.33.19 3 1.73 3Z" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-semibold text-white">
+            Rechazar préstamo
+          </h3>
+        </div>
+      </div>
+
+      <p class="mt-4 text-sm text-gray-400">
+        ¿Está seguro de que desea rechazar este préstamo?
+        El vehiculo, día y horario quedarán disponibles nuevamente 
+        y esta acción no podrá deshacerse.
+      </p>
+    </div>
+
+    <div class="flex justify-end gap-3 bg-gray-700/30 px-6 py-4 rounded-b-lg">
+      <button type="button" onclick="this.closest('dialog').close()" class="px-4 py-2 text-sm font-medium text-white bg-white/10 hover:bg-white/20 rounded-md">
+        Cancelar
+      </button>
+
+      <button type="button" class="botonRechazar px-4 py-2 text-sm font-medium text-white bg-red-500 hover:bg-red-400 rounded-md">
+        Rechazar préstamo
+      </button>
+    </div>
+
+  </div>
+  </dialog>
+
+  <!--DIALOG AUTORIZAR-->
+<dialog id="dialog-autorizar" class="p-0 backdrop:bg-black/50 rounded-lg">
+
+  <div class="bg-white dark:bg-gray-900 rounded-lg shadow-xl w-full max-w-md mx-auto">
+
+    <div class="p-6">
+      <div class="flex items-center gap-4">
+
+        <!-- Icono -->
+        <div class="flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-500/10">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="1.5"
+               class="h-6 w-6 text-blue-600 dark:text-blue-400">
+            <path d="M9 12.75 11.25 15 15 9.75"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"/>
+            <circle cx="12" cy="12" r="9"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"/>
+          </svg>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+            Autorizar préstamo
+          </h3>
+        </div>
+      </div>
+
+      <p class="mt-4 text-sm text-gray-600 dark:text-gray-300">
+        ¿Está seguro de que desea autorizar este préstamo? 
+        La solicitud quedará aprobada y el vehículo quedará asignado 
+        para la fecha y horario indicados.
+
+      </p>
+    </div>
+
+    <div class="flex justify-end gap-3 bg-gray-100 dark:bg-gray-800 px-6 py-4 rounded-b-lg">
+      <button type="button"
+              onclick="this.closest('dialog').close()"
+              class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md">
+        Cancelar
+      </button>
+
+      <button type="button"
+              class="botonAutorizar px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-md">
+        Autorizar préstamo
+      </button>
+    </div>
+
+  </div>
+</dialog>
+  
+  </div>
 </section>
 
 <script>

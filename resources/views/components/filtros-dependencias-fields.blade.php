@@ -11,25 +11,29 @@
         <!-- Nombre -->
         <div class="flex flex-col">
             <label for="nombre-filtro"
-                   class="mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">
-                Buscar por nombre
+                   class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                   <i class="fas fa-search mr-1"></i>
+                Buscar
             </label>
-            <input type="text" name="nombre" id="nombre-filtro"
-                   class="rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700
-                          px-3 py-2 text-sm text-gray-700 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <input type="text" name="nombre" id="nombre-filtro" placeholder="Nombre de la dependencia"
+                   class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
+                           bg-white dark:bg-gray-700 text-gray-900 dark:text-white
+                           focus:ring-2 focus:ring-blue-500 focus:border-transparent">
         </div>
 
         <!-- Ciudad -->
 
         <div class="flex flex-col">
             <label for="ciudad-filtro"
-                   class="mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">
+                   class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                   <i class="fas fa-city mr-1"></i>
                 Ciudad
             </label>
             <select name="ciudad-filtro" id="ciudad-filtro"
-                    class="rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700
-                           px-3 py-2 text-sm text-gray-700 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                <option value="default">Seleccionar</option>
+                    class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
+                        bg-white dark:bg-gray-700 text-gray-900 dark:text-white
+                        focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                <option value="default">Todas</option>
                 @foreach ($localidades as $localidad)
                     <option value="{{ $localidad->ciudad }}">{{ $localidad->ciudad }}</option>
                 @endforeach
@@ -39,23 +43,28 @@
         <!-- Calle -->
         <div class="flex flex-col">
             <label for="calle-filtro"
-                   class="mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">
+                   class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                   <i class="fas fa-road mr-1"></i>
                 Calle
             </label>
-            <input type="text" name="calle-filtro" id="calle-filtro"
-                   class="rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700
-                          px-3 py-2 text-sm text-gray-700 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <input type="text" name="calle-filtro" id="calle-filtro" placeholder="Nombre de la calle"
+                   class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
+                           bg-white dark:bg-gray-700 text-gray-900 dark:text-white
+                           focus:ring-2 focus:ring-blue-500 focus:border-transparent">
         </div>
 
 
         <!-- Activa -->
         <div class="flex flex-col">
             <label for="activa-filtro"
-                   class="mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">
+                   class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                   <i class="fas fa-toggle-on mr-1"></i>
                 Activa
             </label>
-            <select name="activa-filtro" id="activa-filtro">
-                <option value="">Seleccionar</option>
+            <select name="activa-filtro" id="activa-filtro" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
+                        bg-white dark:bg-gray-700 text-gray-900 dark:text-white
+                        focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                <option value="">Todas</option>
                 <option value="1">Si</option>
                 <option value="0">No</option>
             </select>
@@ -64,13 +73,15 @@
         <!-- Dependencia padre -->
         <div class="flex flex-col">
             <label for="id_dependencia_padre"
-                   class="mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">
+                   class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                   <i class="fas fa-building mr-1"></i>
                 Dependencia padre
             </label>
             <select name="id_dependencia_padre" id="id_dependencia_padre"
-                    class="rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700
-                           px-3 py-2 text-sm text-gray-700 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                <option value="default">Seleccionar</option>
+                    class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
+                        bg-white dark:bg-gray-700 text-gray-900 dark:text-white
+                        focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                <option value="default">Todas</option>
                 @foreach ($dependencias as $dependencia)
                     <option value="{{ $dependencia->id }}">{{ $dependencia->nombre }}</option>
                 @endforeach
@@ -81,18 +92,22 @@
 
         <!-- Boton -->
         
-        <div class="flex items-end">
-            <button id="limpiarFiltros" type="button"
-                class="w-full mr-1 rounded-md bg-gray-400 px-4 py-2 text-sm font-medium text-white
-                        hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:hover:bg-gray-900">
-                Limpiar filtros
-            </button>
+        <div class="flex flex-col md:flex-row md:justify-end md:items-end gap-2">
+
             <button id="busquedaFiltrosDependencias" type="submit"
-                    class="w-full ml-1 rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white
-                           hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                Buscar
+                class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg 
+                    flex items-center gap-2 transition-colors justify-center">
+                <i class="fas fa-filter"></i>
+                Filtrar
             </button>
-            
+
+            <button id="limpiarFiltros" type="button"
+                class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-2 rounded-lg 
+                    flex items-center gap-2 transition-colors justify-center">
+                <i class="fas fa-times"></i>
+                Limpiar
+            </button>
+
         </div>
 
     </div>
