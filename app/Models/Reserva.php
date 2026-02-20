@@ -158,7 +158,7 @@ class Reserva extends Model
         });
     }
 
-    /**
+   /**
      * Scope que filtra únicamente las reservas internas.
      *
      * Se considera una reserva interna cuando la dependencia dueña del vehículo
@@ -181,33 +181,51 @@ class Reserva extends Model
      * @param \Illuminate\Database\Eloquent\Builder $query
      * @return \Illuminate\Database\Eloquent\Builder
     */
-   public function scopeSoloInternas($query, int $idDependencia)
-{
-    $dependencia = \App\Models\Dependencia::find($idDependencia);
+    public function scopeSoloInternas($query){
 
-    if (!$dependencia) {
-        return $query->whereRaw('1 = 0');
-    }
+        return $query->where(function ($q) {
 
-    $idsPermitidos = array_merge(
-        [$dependencia->id],
-        $dependencia->obtenerIdsHijas()
-    );
+            $q->whereColumn( 'id_dependencia_duena', 'id_dependencia_solicitante')
 
-    return $query->where(function ($q) use ($idsPermitidos) {
+                // Solicitante pertenece al árbol completo de la dueña
+                ->orWhereRaw("
+            reserva.id_dependencia_solicitante IN (
+                WITH RECURSIVE dependencias_arbol AS (
+                    SELECT id
+                    FROM dependencias
+                    WHERE id = reserva.id_dependencia_duena
 
-        $q->whereColumn(
-            'id_dependencia_duena',
-            'id_dependencia_solicitante'
-        )
+                    UNION ALL
 
-        ->orWhere(function ($sub) use ($idsPermitidos) {
-            $sub->whereIn('id_dependencia_duena', $idsPermitidos)
-                ->whereIn('id_dependencia_solicitante', $idsPermitidos);
+                    SELECT d.id
+                    FROM dependencias d
+                    INNER JOIN dependencias_arbol da
+                        ON d.id_dependencia_padre = da.id
+                )
+                SELECT id FROM dependencias_arbol
+            )
+        ")
+
+            // Dueña pertenece al árbol completo de la solicitante
+                ->orWhereRaw("
+            reserva.id_dependencia_duena IN (
+                WITH RECURSIVE dependencias_arbol AS (
+                    SELECT id
+                    FROM dependencias
+                    WHERE id = reserva.id_dependencia_solicitante
+
+                    UNION ALL
+
+                    SELECT d.id
+                    FROM dependencias d
+                    INNER JOIN dependencias_arbol da
+                        ON d.id_dependencia_padre = da.id
+                )
+                SELECT id FROM dependencias_arbol
+            )
+        ");
         });
-    });
-}
-
+    }
 
     /**
  * Scope que filtra únicamente las reservas externas.
@@ -233,37 +251,55 @@ class Reserva extends Model
  * @param \Illuminate\Database\Eloquent\Builder $query
  * @return \Illuminate\Database\Eloquent\Builder
  */
-   public function scopeSoloExternas($query, int $idDependencia)
-{
-    $dependencia = \App\Models\Dependencia::find($idDependencia);
+    public function scopeSoloExternas($query){
+        return $query->where(function ($q) {
 
-    if (!$dependencia) {
-        return $query->whereRaw('1 = 0');
-    }
+            // Dependencias distintas
+            $q->whereColumn(
+                'id_dependencia_duena',
+                '!=',
+                'id_dependencia_solicitante'
+            )
 
-    $idsArbol = array_merge(
-        [$dependencia->id],
-        $dependencia->obtenerIdsHijas()
-    );
+            // La solicitante NO pertenece al árbol completo de la dueña
+            ->whereRaw("
+                reserva.id_dependencia_solicitante NOT IN (
+                    WITH RECURSIVE dependencias_arbol AS (
+                        SELECT id
+                        FROM dependencias
+                        WHERE id = reserva.id_dependencia_duena
 
-    return $query->where(function ($q) use ($idsArbol) {
+                        UNION ALL
 
-        // Son prestamos (no internas)
-        $q->whereColumn('id_dependencia_duena', '!=', 'id_dependencia_solicitante')
+                        SELECT d.id
+                        FROM dependencias d
+                        INNER JOIN dependencias_arbol da
+                            ON d.id_dependencia_padre = da.id
+                    )
+                    SELECT id FROM dependencias_arbol
+                )
+            ")
 
-        // Y donde solo una de las dos pertenece a mi arbol
-        ->where(function ($sub) use ($idsArbol) {
-            $sub->whereIn('id_dependencia_duena', $idsArbol)
-                ->whereNotIn('id_dependencia_solicitante', $idsArbol)
+            // La dueña NO pertenece al árbol completo de la solicitante
+            ->whereRaw("
+                reserva.id_dependencia_duena NOT IN (
+                    WITH RECURSIVE dependencias_arbol AS (
+                        SELECT id
+                        FROM dependencias
+                        WHERE id = reserva.id_dependencia_solicitante
 
-            ->orWhere(function ($s) use ($idsArbol) {
-                $s->whereIn('id_dependencia_solicitante', $idsArbol)
-                  ->whereNotIn('id_dependencia_duena', $idsArbol);
-            });
+                        UNION ALL
+
+                        SELECT d.id
+                        FROM dependencias d
+                        INNER JOIN dependencias_arbol da
+                            ON d.id_dependencia_padre = da.id
+                    )
+                    SELECT id FROM dependencias_arbol
+                )
+            ");
         });
-
-    });
-}
+    }
 
 
     public function scopePendientes($query){

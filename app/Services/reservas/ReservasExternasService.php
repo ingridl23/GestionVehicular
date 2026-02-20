@@ -17,6 +17,9 @@ class ReservasExternasService extends BaseReservasServices{
         $rol = $this->rol();
         $id_dependencia = $this->user()->dependencia->id;
         $query = $this->obtenerDatosVerReservas();
+                
+        $ids = $this->obtenerDependenciasIds(Dependencia::find($id_dependencia));
+
 
 
         if($rol == 'Administrador de Dependencia' || $rol == 'Jefe de Area'){
@@ -27,12 +30,15 @@ class ReservasExternasService extends BaseReservasServices{
             $query->obtenerDependenciasExternas($id_dependencia)->where('id_usuario', $this->user()->id);
         }
        else{
-    $query->soloExternas($id_dependencia);
-}
+            $query->soloExternas();
+        }
 
 
         $reservas = $query->paginate(5);
-        return $reservas;
+        return [
+            'reservas' => $reservas,
+            'ids' => $ids
+        ];
     }
 
 
@@ -61,38 +67,38 @@ class ReservasExternasService extends BaseReservasServices{
         $id_dependencia = $this->user()->dependencia->id;
         $dependencia = Dependencia::find($id_dependencia);
         $ids = $this->obtenerDependenciasIds($dependencia);
-
-        $rol = $this->rol();
-        if($rol == 'Administrador General'){
-            $arbol = Dependencia::all();
-        }
-        else{
-            $arbol = $this->obtenerDependenciasArbol($dependencia);
-        }
-
-
         $base = $this->obtenerDatosBase();
+        $rol = $this->rol();
 
-        $vehiculos = $base['queryVehiculos']
-            ->whereNotIn('vehiculos.id_dependencia_duena', $ids)
-            ->orderByRaw("
-                CASE
-                    WHEN vehiculos.habilitado_prestamo = 1 THEN 0
-                    ELSE 1
-                END
-            ")
-            ->get();
+        
 
-        $usuarios = $base['queryUsuarios']
-            ->get()
+        $queryVehiculos = $base['queryVehiculos'];
+        $queryUsuarios  = $base['queryUsuarios'];
+
+        if ($this->rol() !== 'Administrador General') {
+            $queryVehiculos->whereNotIn('vehiculo.id_dependencia_duena', $ids);
+            $queryUsuarios->whereIn('users.id_dependencia', $ids);
+        }
+
+        $vehiculos = $queryVehiculos->get();
+
+        $usuarios = $queryUsuarios->get()
             ->map(function ($usuario) {
-            $usuario->carnet_vencido =
-                !$usuario->carnet || $usuario->carnet->fecha_vencimiento->isPast();
-            return $usuario;
-        })->sortBy('carnet_vencido');
+                $usuario->carnet_vencido =
+                    !$usuario->carnet || $usuario->carnet->fecha_vencimiento->isPast();
+                return $usuario;
+            })
+            ->sortBy('carnet_vencido');
 
+
+        $arbol = $this->rol() === 'Administrador General'
+            ? Dependencia::all()
+            : $this->obtenerDependenciasArbol($dependencia);
+        
         return compact('vehiculos', 'usuarios', 'arbol');
+
     }
+
 
     /**
      * Obtiene los datos necesarios para mostrar el formulario de crear de una reserva externa.
@@ -206,7 +212,7 @@ class ReservasExternasService extends BaseReservasServices{
                 $q->obtenerDependenciasExternas($id_dependencia)->where('id_usuario', $this->user()->id)->groupBy('id_vehiculo');
             }
             else{
-              $q->soloExternas($id_dependencia)->groupBy('id_vehiculo');
+              $q->soloExternas()->groupBy('id_vehiculo');
 
             }
         })

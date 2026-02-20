@@ -2,6 +2,7 @@
      @props([
         'reservas',
         'configEditar' => null,
+        'ids' => null,
         'mostrarAcciones'
     ])
 

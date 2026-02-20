@@ -45,10 +45,12 @@ Route::middleware(['auth', 'role:Administrador General'])
             'reportes/{reporte}/comentarios',
             [ReporteController::class, 'agregarComentario']
         )->name('reportes.comentarios');
+});
 
-       //sub prefijo para permisos y eventos de dependencias
-       //abarca para dependencias hijas tambien
-       Route::prefix('dependencias')->name('dependencias.')->group(function () {
+
+
+       Route::middleware(['auth', 'role:Administrador General|Administrador de Dependencia|Jefe de Area'])
+       ->prefix('dependencias')->name('dependencias.')->group(function () {
 
             Route::post('/filtrar', [DependenciaController::class, 'filtrarDependencias'])->middleware('permission:ver_dependencias')->name('filtrar');
 
@@ -70,10 +72,7 @@ Route::middleware(['auth', 'role:Administrador General'])
 
         });
 
-
-});
-
-Route::middleware(['auth', 'role:Administrador General|Administrador de Dependencia|Jefe de Area|Operativo'])
+Route::middleware(['auth', 'role:Administrador General|Administrador de Dependencia|Jefe de Area'])
     ->prefix('admin')->name('admin.')
     ->group(function () {
             //MOSTRAR FORMULARIO DE INTERNA Y PRESTAMO

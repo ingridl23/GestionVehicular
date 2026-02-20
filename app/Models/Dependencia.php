@@ -9,6 +9,7 @@ class Dependencia extends Model
 {
     use HasFactory, Notifiable;
 
+
     protected $fillable = [
         'nombre',
         'activa',

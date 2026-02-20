@@ -34,9 +34,6 @@ $configEditar = $ubicacion == 'interna'
 <section class="bg-gray-100 dark:bg-gray-900 py-10 lg:py-[0px]">
 
 
-  @if($reservas->isEmpty())
-  <p class="text-center text-gray-600 ">No hay reservas</p>
-  @else
   <div class="flex items-end justify-between">
     <button id="mostrarFiltros" type="button"
       class="rounded-md bg-blue-600 px-2 py-2 mb-2 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
@@ -52,6 +49,11 @@ $configEditar = $ubicacion == 'interna'
     </a>
     @endcan
   </div>
+
+  @if($reservas->isEmpty())
+  <p class="text-center text-gray-600 ">No hay reservas</p>
+  @else
+  
   <div class="hidden opacity-0 -translate-y-4 transition-all duration-300 ease-out" id="filtros">
     <x-filtros-reserva-fields :vehiculos_filtros="$vehiculos_filtros" :estados_filtros="$estados_filtros" :ubicacion="$ubicacion" />
 
@@ -64,11 +66,11 @@ $configEditar = $ubicacion == 'interna'
       <div class="w-full">
         <div class="max-w-full overflow-x-auto">
           <div class="hidden md:block">
-            <x-tabla-reservas-desktop :reservas="$reservas" :ubicacion="$ubicacion" :configEditar="$configEditar" :mostrarAcciones="$mostrarAcciones" />
+            <x-tabla-reservas-desktop :reservas="$reservas" :ubicacion="$ubicacion" :ids="$ids" :configEditar="$configEditar" :mostrarAcciones="$mostrarAcciones" />
           </div>
 
           <div class="block md:hidden">
-            <x-lista-reservas-mobile :reservas="$reservas" :ubicacion="$ubicacion" :configEditar="$configEditar" :mostrarAcciones="$mostrarAcciones" />
+            <x-lista-reservas-mobile :reservas="$reservas" :ubicacion="$ubicacion" :ids="$ids" :configEditar="$configEditar" :mostrarAcciones="$mostrarAcciones" />
           </div>
 
           <el-dialog>

@@ -21,7 +21,7 @@ abstract class BaseReservaController extends Controller
     // permiso = ver_reservas_internas || ver_reservas_prestamos
     public function verReserva($id)
     {
-        $this->authorize('vistaIndividual', Reserva::findOrFail($id));
+        //$this->authorize('vistaIndividual', Reserva::findOrFail($id));
         $reserva = $this->service->verReserva($id, Auth::user());
         return view('ui.reservas.reserva', $reserva);
     }
@@ -50,7 +50,7 @@ abstract class BaseReservaController extends Controller
     public function mostrarFormularioUpdate($id)
     {
         $reserva = Reserva::findOrFail($id);
-        $this->authorize('actualizar', $reserva);
+        //$this->authorize('actualizar', $reserva);
         return view('ui.reservas.formularios.editar', $this->service->datosParaFormEditar($id));
     }
 
@@ -179,7 +179,7 @@ abstract class BaseReservaController extends Controller
     public function editarReserva(ReservaFormRequest $request, $id)
     {
         $reserva = Reserva::findOrFail($id);
-        $this->authorize('actualizar', $reserva);
+        //$this->authorize('actualizar', $reserva);
 
         $resultado = $this->service->editarReserva($request, $id);
 
@@ -215,11 +215,18 @@ abstract class BaseReservaController extends Controller
             return [
                 'id_dependencia' => 'La dependencia seleccionada no es valida ya que no pertenece al sector del usuario que desea reservar.'
             ];
-        } else if ($resultado[0] == "vehiculo_no_habilitado") {
+        }
+        else if ($resultado[0] == "dependencia_prestamo") {
+            return [
+                'id_dependencia' => 'La dependencia seleccionada no es valida ya que no corresponde a un préstamo entre dependencias, si desea generar una reserva interna, dirigirse a la ventana de "Internas".'
+            ];
+        }
+         else if ($resultado[0] == "vehiculo_no_habilitado") {
             return [
                 'id_vehiculo' => 'El vehiculo no se encuentra disponible para ser reservado.'
             ];
         }
+        
         return [
             'id_vehiculo' => 'El vehiculo no se encuentra disponible en el rango de fechas seleccionado.'
         ];

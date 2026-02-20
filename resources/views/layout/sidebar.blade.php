@@ -102,7 +102,7 @@
         <x-nav-item
             icon="fa-sitemap"
             label="Dependencias"
-            route="admin.dependencias.index"
+            route="dependencias.index"
             :active="request()->routeIs('dependencias.*')" />
         @endcan
 
@@ -173,7 +173,7 @@
                 <x-nav-item
                     icon="fa-chart-line"
                     label="Reportes"
-                    route="dependencia.reportes.index"
+                    route="operativo.reportes.index"
                     :active="request()->routeIs('dependencia.reportes.*')"
                 />
             @elseif(auth()->user()->hasRole('Operativo'))

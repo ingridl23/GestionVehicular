@@ -7,8 +7,7 @@ use App\Http\Requests\FiltroDependenciasRequest;
 use App\Http\Requests\DependenciaRequest;
 use Illuminate\Validation\ValidationException;
 use App\Services\DependenciaService;
-
-
+use Illuminate\Support\Facades\Auth;
 
 class DependenciaController extends Controller{
 
@@ -64,14 +63,14 @@ class DependenciaController extends Controller{
     // Actualiza el estado de la dependencia, alternando entre activa (1) e inactiva (0) según su estado actual.
     public function cambiarActivaDependencia($id, Request $request){
 
-        $validated = $request->validate([
+        $request->validate([
             'activa' => 'required|boolean',
 
         ]);
         //$dependencia = $this->service->verDependencia($id);
         //$this->authorize('toggle', $dependencia);
 
-        return $this->service->cambiarActivaDependencia($id, $validated);
+        return $this->service->cambiarActivaDependencia($id, $request);
     }
 
 
@@ -112,7 +111,7 @@ class DependenciaController extends Controller{
     $this->service->crearDependencia($request->validated());
 
     return redirect()
-        ->route('admin.dependencias.index')
+        ->route('dependencias.index')
         ->with('success', 'La dependencia fue creada correctamente.');
 }
 
@@ -143,7 +142,7 @@ class DependenciaController extends Controller{
     );
 
     return redirect()
-        ->route('admin.dependencias.index')
+        ->route('dependencias.index')
         ->with('success', 'La dependencia fue actualizada correctamente.');
 }
 
@@ -153,6 +152,19 @@ class DependenciaController extends Controller{
     public function filtrarDependencias(Request $request){
         //$this->authorize('view', Dependencia::class);
         $query = Dependencia::with(['dependenciaPadre','direccion']);
+
+        $roles = Auth::user()->getRoleNames();
+
+        $rol = $roles[0] ;
+        $id_dependencia =  Auth::user()->dependencia->id;
+
+        if ($rol === 'Administrador de Dependencia') {
+            $query->obtenerDependenciasInternas($id_dependencia);
+        }
+
+        elseif ($rol === 'Jefe de Area') {
+            $query->where('id', $id_dependencia);
+        }
 
 
         /* ----------------------
@@ -247,6 +259,8 @@ class DependenciaController extends Controller{
         else{
             $query->orderBy("nombre");
         }
+
+
 
         /* ----------------------
          PAGINACIÓN

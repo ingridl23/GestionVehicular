@@ -6,14 +6,14 @@
         <div class="-mx-4 flex flex-wrap">
             <div class="w-full">
                 <div class="max-w-full overflow-x-auto">
-                    <form action="{{ route('admin.dependencias.update', $dependencia->id) }}" method="post">
+                    <form action="{{ route('dependencias.update', $dependencia->id) }}" method="post">
                         @method('PATCH')
                         @csrf
 
                         <x-dependencia-form-fields :direcciones="$direcciones" :dependencia="$dependencia" :dependencias_arbol="$dependencias_arbol" />
 
 
-                            <a href="{{ route('admin.dependencias.index') }}"
+                            <a href="{{ route('dependencias.index') }}"
                             class="inline-flex items-center justify-center
                                     rounded-md bg-gray-400 px-4 py-2
                                     text-sm font-medium text-white

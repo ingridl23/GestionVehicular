@@ -17,8 +17,10 @@ class PrestamoController extends BaseReservaController{
     // permiso = ver_reservas_prestamos
     public function verReservas(){
         $this->authorize('viewAnyLoan', Reserva::class);
+        $datos = $this->service->verReservas();
         $data = array_merge(
-            ['reservas' => $this->service->verReservas()],
+            ['reservas' => $datos['reservas']],
+            ['ids' => $datos['ids']],
             $this->service->datosFiltros(),
             ['ubicacion' => 'externa'],
             ['mostrarAcciones' => true],
@@ -118,7 +120,7 @@ class PrestamoController extends BaseReservaController{
         $query = Reserva::with('estado_reserva', 'vehiculo', 'usuario', 'dependencia_solicitante')->orderBy('fecha_inicio_reserva');
 
         if($rol == 'Administrador de Dependencia' || $rol == 'Administrador General'){
-            $query->obtenerDependenciasExternas($id_dependencia)->whereIn('id_estado_reserva', function ($sub) {
+            $query->soloExternas()->whereIn('id_estado_reserva', function ($sub) {
             $sub->select('id')
                 ->from('estados_reservas')
                 ->whereIn('estado', ['PENDIENTE']);

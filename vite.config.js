@@ -14,6 +14,7 @@ export default defineConfig({
                 'resources/js/scriptsOperativo.js',
                 'resources/js/reportes.js',
                 'resources/js/vehiculo.js',
+                'resources/js/vehiculo-detalle.js',
                 'resources/js/accionesDependencias.js',
                 'resources/js/reservas/accionesAutorizarPrestamo.js',
             ],
