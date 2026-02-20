@@ -1,5 +1,6 @@
 <?php
 namespace App\Http\Controllers;
+use Illuminate\Validation\Rule;
 use App\Models\User;
 use App\Models\Dependencia;
 use App\Models\Alerta;
@@ -168,7 +169,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        Gate::authorize('createUsers', User::class);
+        Gate::authorize('createUser', User::class);
 
         $data = $request->validate([
             'name' => 'required|string|max:100',
@@ -246,7 +247,7 @@ class UserController extends Controller
      */
     public function edit(User $usuario)
     {
-        Gate::authorize('updateUsers', $usuario);
+        Gate::authorize('update', $usuario);
 
         $dependencias = Dependencia::orderBy('nombre')->get();
         $roles = Role::orderBy('name')->get();
@@ -259,13 +260,18 @@ class UserController extends Controller
      */
     public function update(Request $request, User $usuario)
     {
-        Gate::authorize('updateUsers', $usuario);
+        Gate::authorize('update', $usuario);
 
         $data = $request->validate([
             'name' => 'required|string|max:100',
             'lastname' => 'required|string|max:100',
             'email' => 'required|email|unique:users,email,' . $usuario->id,
-            'legajo' => 'nullable|string|max:20',
+            'legajo' => [
+            'nullable',
+            'string',
+            'max:20',
+             Rule::unique('users', 'legajo')->ignore($usuario->id),
+    ],
             'id_dependencia' => 'required|exists:dependencias,id',
             'role' => 'required|string|exists:roles,name',
             'password' => 'nullable|min:8'
@@ -336,19 +342,30 @@ class UserController extends Controller
     }
 
     /**
-     * Actualizar mi perfil (usuario logueado)
+     * Actualizar mi perfil (usuario logueado) o si el admin selecciona un usuario
      */
     public function updateProfile(Request $request)
     {
-        $usuario = Auth::user();
+       $usuario = Auth::user();
 
-        // Validación base (lo que puede editar cualquier usuario)
-        $rules = [
-            'name' => 'required|string|max:100',
-            'lastname' => 'required|string|max:100',
-            'email' => 'required|email|unique:users,email,' . $usuario->id,
-            'legajo' => 'nullable|string|max:20',
-        ];
+    $validated = $request->validate([
+        'name' => ['required', 'string', 'max:100'],
+        'lastname' => ['required', 'string', 'max:100'],
+        'email' => [
+            'required',
+            'email',
+            Rule::unique('users', 'email')->ignore($usuario->id),
+        ],
+        'legajo' => [
+            'nullable',
+            'string',
+            'max:20',
+            Rule::unique('users', 'legajo')->ignore($usuario->id),
+        ],
+    ]);
+
+
+
 
         // Solo admin puede cambiar dependencia
         if ($usuario->hasRole('Administrador General')) {

@@ -22,12 +22,12 @@ class ReservasInternasService extends BaseReservasServices{
         }
 
         else if($rol == 'Operativo'){
-           $query->obtenerDependenciasInternas($id_dependencia)->where('id_usuario', $this->user()->id);
+           $query->soloInternas($id_dependencia);
 
         }
        else{
-            $query->soloInternas();
-        }
+    $query->soloInternas($id_dependencia);
+}
 
 
         $reservas = $query->paginate(5);
@@ -56,35 +56,24 @@ class ReservasInternasService extends BaseReservasServices{
     private function datosForm(){
         $id_dependencia = $this->user()->dependencia->id;
         $dependencia = Dependencia::with('dependenciasHijas')->find($id_dependencia);
+        $arbol = $this->obtenerDependenciasArbol($dependencia);
 
         $ids = $this->obtenerDependenciasIds($dependencia);
 
         $base = $this->obtenerDatosBase();
 
-        $queryVehiculos = $base['queryVehiculos'];
-        $queryUsuarios  = $base['queryUsuarios'];
+        $vehiculos = $base['queryVehiculos']
+            ->whereIn('vehiculos.id_dependencia_duena', $ids)
+            ->get();
 
-        if ($this->rol() !== 'Administrador General') {
-            $queryVehiculos->whereIn('vehiculo.id_dependencia_duena', $ids);
-            $queryUsuarios->whereIn('users.id_dependencia', $ids);
-        }
-
-        // Ejecutamos queries una sola vez
-        $vehiculos = $queryVehiculos->get();
-
-        $usuarios = $queryUsuarios->get()
+        $usuarios = $base['queryUsuarios']
+            ->whereIn('users.id_dependencia', $ids)
+            ->get()
             ->map(function ($usuario) {
-                $usuario->carnet_vencido =
-                    !$usuario->carnet || $usuario->carnet->fecha_vencimiento->isPast();
-                return $usuario;
-            })
-            ->sortBy('carnet_vencido');
-
-
-        $arbol = $this->rol() === 'Administrador General'
-            ? Dependencia::all()
-            : $this->obtenerDependenciasArbol($dependencia);
-        
+            $usuario->carnet_vencido =
+                !$usuario->carnet || $usuario->carnet->fecha_vencimiento->isPast();
+            return $usuario;
+        })->sortBy('carnet_vencido');
         return compact('vehiculos', 'usuarios', 'arbol');
     }
 
@@ -136,7 +125,6 @@ class ReservasInternasService extends BaseReservasServices{
     public function datosParaFormEditar($id){
         $reserva = Reserva::findOrFail($id);
         $datos = $this->datosForm();
-        
 
         return [
             'vehiculos' => $datos['vehiculos'],
@@ -199,7 +187,7 @@ class ReservasInternasService extends BaseReservasServices{
 
             // Todas las reservas que sean internas
             else {
-                $q->soloInternas();
+                $q->soloInternas($id_dependencia);
 
             }
 
@@ -216,7 +204,7 @@ class ReservasInternasService extends BaseReservasServices{
                 ->where('id_usuario', $id_usuario);
             }
             else {
-           $q->soloInternas();
+           $q->soloInternas($id_dependencia);
 
             }
 

@@ -22,7 +22,7 @@ abstract class BaseReservasServices implements ReservaServiceInterface{
             $query->obtenerDependenciasExternasPendientes($id_dependencia);
         }
         else if($this->rol() == "Administrador General"){
-            $query->soloExternas()->pendientes();
+                    $query->soloExternas($id_dependencia)->pendientes();
 
         }
         else{

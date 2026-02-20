@@ -17,7 +17,7 @@
             </p>
         </div>
 
-        @can('crear_usuarios')
+        @can('crear_usuario')
         <button
             onclick="openCreateModal()"
             class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors"
@@ -190,7 +190,7 @@
                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                             <div class="flex justify-end gap-2">
                                 <a
-                                    href="{{ route('profile.show', $usuario->id) }}"
+                                    href="{{ route('admin.usuarios.show', $usuario->id) }}"
                                     class="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300"
                                     title="Ver perfil">
                                     <i class="fas fa-eye"></i>
