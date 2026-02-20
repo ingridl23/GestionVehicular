@@ -71,7 +71,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
                 },
             });
             const data = await res.json();
-            console.log(data.message);
+
             if (data.success || data.errors) {
                     alert(data.message);
                     window.location.href = "/admin/autorizar-prestamos";

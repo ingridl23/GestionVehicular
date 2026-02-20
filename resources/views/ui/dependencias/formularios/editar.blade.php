@@ -14,19 +14,11 @@
 
                         <div class="flex justify-end gap-3">
                             <a href="{{ route('dependencias.index') }}"
-                            class="inline-flex items-center justify-center
-                                    rounded-md bg-gray-400 px-4 py-2
-                                    text-sm font-medium text-white
-                                    hover:bg-gray-700
-                                    focus:outline-none focus:ring-2 focus:ring-blue-500
-                                    dark:bg-gray-700 dark:hover:bg-gray-900
-                                    text-gray-700 dark:text-white">
+                            class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-2 rounded-lg flex items-center gap-2 transition-colors">
                                 Cancelar
                             </a>
 
-                            <button type="submit" class="rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white
-                                hover:bg-blue-700 focus-visible:outline focus-visible:outline-2
-                                focus-visible:outline-offset-2 focus-visible:outline-indigo-500">
+                            <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg flex items-center gap-2 transition-colors">
                                 Editar
                             </button>
                         </div>

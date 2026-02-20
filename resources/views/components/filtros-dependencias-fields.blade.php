@@ -81,18 +81,17 @@
 
         <!-- Boton -->
         
-        <div class="flex items-end">
-            <button id="limpiarFiltros" type="button"
-                class="w-full mr-1 rounded-md bg-gray-400 px-4 py-2 text-sm font-medium text-white
-                        hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:hover:bg-gray-900">
-                Limpiar filtros
-            </button>
+        <div class="flex justify-end items-end gap-2" >
             <button id="busquedaFiltrosDependencias" type="submit"
-                    class="w-full ml-1 rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white
-                           hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                Buscar
+                    class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg flex items-center gap-2 transition-colors">
+                <i class="fas fa-filter"></i>
+                Filtrar
             </button>
-            
+            <button id="limpiarFiltros" type="button"
+                class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-2 rounded-lg flex items-center gap-2 transition-colors">
+                <i class="fas fa-times"></i>
+                Limpiar
+            </button>
         </div>
 
     </div>

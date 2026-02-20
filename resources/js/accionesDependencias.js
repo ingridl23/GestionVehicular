@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
             const nombre = this.dataset.nombre;
 
             dialogText.textContent = nuevoEstado
-                ? `¿Querés activar la dependencia "${nombre}"?`
+                ? `Desea activar la dependencia "${nombre}"?`
                 : `¿Seguro que querés desactivar la dependencia "${nombre}"? No podrá ser utilizada pero en caso de tener dependencias hijas no podrá ser desactivada.`;
 
             dialog.showModal();
@@ -87,7 +87,6 @@ document.addEventListener("DOMContentLoaded", ()=>{
         })
         .then(async res => {
             const data = await res.json();
-            console.log(data.message);
 
             if (!res.ok || !data.ok) {
                 throw new Error(data.message);

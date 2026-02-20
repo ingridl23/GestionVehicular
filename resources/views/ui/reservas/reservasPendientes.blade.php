@@ -13,9 +13,9 @@
   @if($reservas->isEmpty())
     <p class="text-center text-gray-600 ">No hay reservas</p>
   @else
-  <div class="flex items-end justify-between">
+  <div class="flex items-end justify-between mb-2">
     <button id="mostrarFiltros" type="button"
-      class="rounded-md bg-blue-600 px-2 py-2 mb-2 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+      class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg flex items-center gap-2 transition-colors">
       Filtros
     </button>
   </div>

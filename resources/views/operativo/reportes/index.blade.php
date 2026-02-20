@@ -6,7 +6,7 @@
 <div class="space-y-4">
 
  <div class="flex gap-5 justify-center pt-6 border-t border-gray-200 dark:border-gray-700">
-                <a href="{{ route('dashboard') }}"
+                <a href="{{ route('reservas.internas') }}" 
                    class="px-6 py-3 text-center bg-gray-500 hover:bg-gray-600 text-white rounded-lg transition-colors">
                     <i class="fas fa-arrow-left mr-2"></i>
                     Volver
