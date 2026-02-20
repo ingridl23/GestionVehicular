@@ -40,21 +40,25 @@ $configEditar = $ubicacion == 'interna'
   <div class="container mx-auto px-4 py-6">
 
     <!-- Header con botón de crear -->
-    <div class="flex justify-between items-center mb-6">
-      <div>
-        <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Reservas del Sistema</h1>
-        <p class="text-gray-600 dark:text-gray-400 mt-1">
-          Total de reservas: <span class="font-semibold">Aca va el total</span>
-        </p>
-      </div>
+    <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-6 gap-4">
+
+        <div>
+          <h1 class="text-2xl font-bold text-gray-900 dark:text-white"> Reservas del Sistema</h1>
+          <p class="text-gray-600 dark:text-gray-400 mt-1"> Total de reservas: 
+            <span class="font-semibold">Aca va el total</span>
+          </p>
+        </div>
 
       @can($configAgregar['can'])
       <a href="{{ $configAgregar['route'] }}"
-        class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg flex items-center gap-2 transition-colors">
+        class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg 
+                flex items-center justify-center gap-2 transition-colors
+                w-full md:w-auto md:self-auto self-stretch">
         {{ $configAgregar['text'] }}
       </a>
       @endcan
     </div>
+
 
     <div class="flex items-end justify-between mb-4">
       <button id="mostrarFiltros" type="button"

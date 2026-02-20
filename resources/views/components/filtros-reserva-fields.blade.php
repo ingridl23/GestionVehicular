@@ -87,20 +87,23 @@
         </div>
 
         <!-- Boton -->
-        
-        <div class="flex justify-end items-end gap-2">
+
+        <div class="flex flex-col md:flex-row md:justify-end md:items-end gap-2">
+
             <button id="busquedaFiltrosReservas" type="submit"
-                    class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg flex items-center gap-2 transition-colors">
-                    <i class="fas fa-filter"></i>
+                class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg 
+                    flex items-center gap-2 transition-colors justify-center">
+                <i class="fas fa-filter"></i>
                 Filtrar
             </button>
+
             <button id="limpiarFiltros" type="button"
-                class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-2 rounded-lg flex items-center gap-2 transition-colors">
+                class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-2 rounded-lg 
+                    flex items-center gap-2 transition-colors justify-center">
                 <i class="fas fa-times"></i>
                 Limpiar
             </button>
-            
-            
+
         </div>
 
     </div>
