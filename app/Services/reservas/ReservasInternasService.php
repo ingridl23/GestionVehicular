@@ -29,9 +29,14 @@ class ReservasInternasService extends BaseReservasServices{
             $query->soloInternas();
         }
 
+        $total = $query->count();
 
-        $reservas = $query->paginate(5);
-        return $reservas;
+        $reservas = $query->paginate(10);
+
+        return [
+            'reservas' => $reservas,
+            'total' => $total
+        ];
     }
 
 

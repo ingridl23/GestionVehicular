@@ -29,8 +29,13 @@ abstract class BaseReservasServices implements ReservaServiceInterface{
              abort(403, 'No tiene permisos para acceder a estas reservas.');
         }
 
-        $reservas = $query->paginate(5);
-        return $reservas;
+        $total = $query->count();
+        $reservas = $query->paginate(10);
+
+        return [
+            'reservas' => $reservas,
+            'total' => $total
+        ];
     }
 
     public function user(){

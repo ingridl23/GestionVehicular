@@ -21,6 +21,7 @@ class PrestamoController extends BaseReservaController{
         $data = array_merge(
             ['reservas' => $datos['reservas']],
             ['ids' => $datos['ids']],
+            ['total' => $datos['total']],
             $this->service->datosFiltros(),
             ['ubicacion' => 'externa'],
             ['mostrarAcciones' => true],
@@ -32,8 +33,10 @@ class PrestamoController extends BaseReservaController{
     // permission:ver_solicitudes_prestamos
     public function verReservasPendientes(){
         $this->authorize('ViewPendingLoans', Reserva::class);
+        $datos = $this->service->verReservasPendientes();
         $data = array_merge(
-            ['reservas' => $this->service->verReservasPendientes()],
+            ['reservas' => $datos['reservas']],
+            ['total' => $datos['total']],
             ['mostrarAcciones' => false],
             ['ubicacion' => 'autorizar'],
             $this->service->datosFiltros(),

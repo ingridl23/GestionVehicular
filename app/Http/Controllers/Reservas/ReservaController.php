@@ -19,9 +19,11 @@ class ReservaController extends BaseReservaController{
     // permiso = ver_reservas_internas
     public function verReservas(){
         $this->authorize('viewAny', Reserva::class);
+        $datos = $this->service->verReservas();
         $data = array_merge(
-            ['reservas' => $this->service->verReservas()],
+            ['reservas' => $datos['reservas']],
             ['ids' => null],
+            ['total' => $datos['total']],
             $this->service->datosFiltros(),
             ['ubicacion' => 'interna'],
             ['mostrarAcciones' => true],

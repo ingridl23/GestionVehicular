@@ -21,8 +21,10 @@ class DependenciaController extends Controller{
     // permiso = ver dependencias
     public function verDependencias(){
         $this->authorize('vistaGeneral', Dependencia::class);
+        $datos = $this->service->verDependencias();
          $data = array_merge(
-            ['dependencias' => $this->service->verDependencias()],
+            ['dependencias' => $datos['dependencias']],
+            ['total' => $datos['total']],
             $this->service->datosFiltros()
         );
         return view('ui.dependencias.dependencias', $data);

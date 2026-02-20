@@ -33,11 +33,13 @@ class ReservasExternasService extends BaseReservasServices{
             $query->soloExternas();
         }
 
+        $total = $query->count();
 
-        $reservas = $query->paginate(5);
+        $reservas = $query->paginate(10);
         return [
             'reservas' => $reservas,
-            'ids' => $ids
+            'ids' => $ids,
+            'total' => $total
         ];
     }
 
