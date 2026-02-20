@@ -50,13 +50,17 @@ class UserPolicy
                 && $user->can('crear_usuario');
         }
 
+        if($user->hasRole('Administrador General')){
+            return true;
+        }
+
         return false;
     }
 
     /**
      * Actualizar usuario
      */
-    public function updateUser(User $user, User $objetivo): bool
+    public function update(User $user, User $objetivo): bool
     {
         if ($user->hasRole('Dueño Dependencia')) {
             return $objetivo->id_dependencia === $user->id_dependencia
@@ -69,7 +73,7 @@ class UserPolicy
     /**
      * Eliminar usuario
      */
-    public function deleteUser(User $user, User $objetivo): bool
+    public function delete(User $user, User $objetivo): bool
     {
         if ($user->hasRole('Dueño Dependencia')) {
             return $objetivo->id_dependencia === $user->id_dependencia

@@ -65,7 +65,11 @@
         </div>
 
         <!-- Profile Body -->
-        <form action="{{ route('profile.update') }}" method="POST" class="p-6">
+     @if($esAdmin && auth()->id() !== $usuario->id)
+    <form action="{{ route('admin.usuarios.update', $usuario) }}" method="POST" class="p-6">
+@else
+    <form action="{{ route('profile.update') }}" method="POST" class="p-6">
+@endif
             @csrf
             @method('PUT')
 
@@ -168,11 +172,19 @@
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                             Rol
                         </label>
-                        <p class="text-gray-900 dark:text-white">
-                            {{ $usuario->roles->first()->name ?? 'Sin rol asignado' }}
-                        </p>
+                        @if($esAdmin && auth()->id() !== $usuario->id)
+    <select name="role">
+        @foreach(\Spatie\Permission\Models\Role::all() as $rol)
+            <option value="{{ $rol->name }}"
+                {{ $usuario->hasRole($rol->name) ? 'selected' : '' }}>
+                {{ $rol->name }}
+            </option>
+        @endforeach
+    </select>
+@else
+    <p class="text-gray-900 dark:text-white">{{ $usuario->roles->first()->name ?? 'Sin rol asignado' }}</p>
+@endif
                     </div>
-
                 </div>
             </div>
 
