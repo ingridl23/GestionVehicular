@@ -5,15 +5,29 @@
   <script type="module" src="{{ Vite::asset('resources/js/reservas/accionesAutorizarPrestamo.js') }}"></script>
 @endpush
 
+@section('page-title', 'Administración de Dependencias')
+@section('page-description', 'Gestión de autorizar préstamos del sistema')
+
 @section('content')
 
 <section class="py-10 lg:py-[0px]">
-  
+
+  <div class="container mx-auto px-4 py-6">
+
+  <!-- Header con botón de crear -->
+    <div class="flex justify-between items-center mb-6">
+      <div>
+        <h1 class="text-2xl font-bold text-gray-900 dark:text-white"> Préstamos del Sistema</h1>
+        <p class="text-gray-600 dark:text-gray-400 mt-1">
+          Total de préstamos pendientes: <span class="font-semibold">Aca va el total</span>
+        </p>
+      </div>
+    </div>
 
   @if($reservas->isEmpty())
     <p class="text-center text-gray-600 ">No hay reservas</p>
   @else
-  <div class="flex items-end justify-between mb-2">
+  <div class="flex items-end justify-between mb-4">
     <button id="mostrarFiltros" type="button"
       class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg flex items-center gap-2 transition-colors">
       Filtros
@@ -151,7 +165,8 @@
 
   </div>
 </dialog>
-
+  
+  </div>
 </section>
 
 <script>

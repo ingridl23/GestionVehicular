@@ -6,22 +6,38 @@
 @endpush
 
 
+@section('page-title', 'Administración de Dependencias')
+@section('page-description', 'Gestión de Dependencias del sistema')
+
+
 @section('content')
 <section class="py-10 lg:py-[0px]">
 
+  <div class="container mx-auto px-4 py-6">
+  
+  <!-- Header con botón de crear -->
+    <div class="flex justify-between items-center mb-6">
+        <div>
+            <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Dependencias del Sistema</h1>
+            <p class="text-gray-600 dark:text-gray-400 mt-1">
+                Total de dependencias: <span class="font-semibold">Aca va el total</span>
+            </p>
+        </div>
 
-  <div class="flex items-end justify-between mb-2">
-    <button id="mostrarFiltrosDependencia" type="button"
-      class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg flex items-center gap-2 transition-colors">
-      Filtros
-    </button>
-
-    @can('crear_dependencias')
+        @can('crear_dependencias')
     <a href="{{ route('dependencias.create') }}"
       class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg flex items-center gap-2 transition-colors">
       Crear dependencia
     </a>
     @endcan
+    
+    </div>
+
+  <div class="flex items-end justify-between mb-4">
+    <button id="mostrarFiltrosDependencia" type="button"
+      class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg flex items-center gap-2 transition-colors">
+      Filtros
+    </button>
   </div>
 
   @if($dependencias->isEmpty())
@@ -156,6 +172,7 @@
     </div>
   </div>
   @endif
+    </div>
 </section>
 
 

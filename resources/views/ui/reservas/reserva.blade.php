@@ -73,9 +73,15 @@
 
         <p class="text-gray-700">
             <span class="font-medium text-gray-800 dark:text-gray-100" >Estado:</span>
-            <span class="ml-2 px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-sm font-semibold">
-                {{ $reserva->estado_reserva->estado }}
-            </span>
+            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
+                {{ $reserva->estado_reserva->estado == 'APROBADA' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' : '' }}
+                {{ $reserva->estado_reserva->estado == 'EN CURSO' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200' : '' }}
+                {{ $reserva->estado_reserva->estado == 'PENDIENTE' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200' : '' }}
+                {{ $reserva->estado_reserva->estado == 'CANCELADA' ? 'bg-rose-100 text-rose-800 dark:bg-rose-900 dark:text-rose-200' : '' }}
+                {{ $reserva->estado_reserva->estado == 'FINALIZADA' ? 'bg-gray-300 text-gray-900 dark:bg-gray-100 dark:text-gray-900' : '' }}
+                {{ $reserva->estado_reserva->estado == 'RECHAZADA' ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200' : '' }}
+            ">
+            {{ $reserva->estado_reserva->estado }} </span>
         </p>
     </div>
 
