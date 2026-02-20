@@ -60,8 +60,8 @@
         <!-- Lista de reportes -->
         <div id="listaReportes" class="flex-1 overflow-y-auto">
             @forelse($reportes as $reporte)
-            <button
-                type="button"
+            <div
+
                 class="reporte-item w-full text-left px-4 py-3 border-b border-gray-100 dark:border-gray-700 hover:bg-white dark:hover:bg-gray-800 transition-colors"
                 data-id="{{ $reporte->id }}"
                 data-titulo="{{ $reporte->titulo }}"
@@ -72,8 +72,8 @@
                 data-usuario-id="{{ $reporte->usuario->id }}"
                 data-usuario-nombre="{{ $reporte->usuario->name }}"
                 data-fecha="{{ $reporte->created_at->format('d/m H:i') }}"
-             "
             >
+
                 <div class="flex items-start gap-3">
                     <!-- Avatar usuario -->
                     <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white text-sm font-semibold flex-shrink-0 mt-0.5">
@@ -112,10 +112,20 @@
                                 @elseif($reporte->estado === 'cerrado') Cerrado
                                 @endif
                             </span>
+
                         </div>
+       @if($reporte->estado->value === 'cerrado')
+    <button
+        type="button"
+        class="btn-eliminar text-xs text-red-500 hover:text-red-700 mt-1"
+        data-id="{{ $reporte->id }}"
+    >
+        Eliminar
+    </button>
+@endif
                     </div>
                 </div>
-            </button>
+            </div>
             @empty
                 <div class="px-4 py-8 text-center">
                     <i class="fas fa-file-alt text-gray-300 dark:text-gray-600 text-3xl mb-3"></i>
@@ -193,7 +203,7 @@
 
 
 <script>
-
+    window.BASE_REPORTES_URL = "admin";
     window.REPORTES_DATA = @json($reportesData);
     window.USUARIO_ACTUAL_ID = {{ auth()->id() }};
 

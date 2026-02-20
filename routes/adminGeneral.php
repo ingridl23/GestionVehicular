@@ -39,12 +39,14 @@ Route::middleware(['auth', 'role:Administrador General'])
     // Cambiar estado (admin)
     Route::patch('/reportes/{reporte}/estado', [ReporteController::class, 'cambiarEstado']);
 
+    //ruta para habilitar eliminar un reporte ya atendido y cerrado.
+   Route::delete('/reportes/{reporteId}/eliminar', [ReporteController::class, 'deleteReporte'])->name('reporte.eliminar');
 
-
-        Route::post(
-            'reportes/{reporte}/comentarios',
+   // Mensajes en reportes
+        Route::post('/reportes/{reporte}/comentarios',
             [ReporteController::class, 'agregarComentario']
         )->name('reportes.comentarios');
+
 });
 
 

@@ -210,6 +210,21 @@ public function misReportesOperativo()
     return view('operativo.reportes.index', compact('reportes', 'alertas'));
 }
 
+public function deleteReporte($id){
+$reporte = Reportes::findOrFail($id);
 
+    if (!$reporte->isCerrado()) {
+        return response()->json([
+            'message' => 'Solo se pueden eliminar reportes cerrados'
+        ], 403);
+    }
+
+    $reporte->delete();
+
+    return response()->json([
+        'message' => 'Reporte eliminado correctamente'
+    ]);
+
+}
 
 }

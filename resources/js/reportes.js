@@ -320,5 +320,66 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
+    /******************************************************************************************************* */
+    /********************* FUNCIONALIDAD DE ASIGNAR BOTON DE ELIMINAR REPORTE SOLO SI ESTA CERRADO ******** */
+    //**************************************************************************************************** */
+
+
+    document.addEventListener('click', function(e) {
+
+        if (!e.target.classList.contains('btn-eliminar')) return;
+
+        e.stopPropagation(); // evitar que seleccione el reporte
+
+        const reporteId = e.target.dataset.id;
+
+        if (!confirm('¿Seguro que querés eliminar este reporte?')) return;
+
+        fetch(`/admin/reportes/${reporteId}/eliminar`, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(res => {
+                if (!res.ok) throw new Error();
+                return res.json();
+            })
+            .then(() => {
+
+                // eliminar del DOM
+                const item = document.querySelector(`.reporte-item[data-id="${reporteId}"]`);
+                if (item) item.remove();
+
+                // eliminar del array
+                const index = reportesData.findIndex(r => r.id == reporteId);
+                if (index !== -1) {
+                    reportesData.splice(index, 1);
+                }
+
+                //  limpiar panel derecho si era el activo
+                if (reporteActivo && reporteActivo.id == reporteId) {
+                    reporteActivo = null;
+                    document.getElementById('reporteSeleccionado').classList.add('hidden');
+                    document.getElementById('sinSeleccion').classList.remove('hidden');
+                }
+
+                console.log("Reporte eliminado correctamente");
+            })
+            .catch(() => {
+                alert('No se pudo eliminar el reporte');
+            });
+
+    });
+
+
+
+
+
+
+
+
+
 
 });
