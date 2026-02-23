@@ -71,6 +71,22 @@ class User extends Authenticatable
         return $this->carnet && $this->carnet->vigente;
     }
 
+public function licenciaVigente(): bool
+{
+    if (!$this->fecha_vencimiento_licencia) {
+        return false;
+    }
 
+    return now()->lessThanOrEqualTo($this->fecha_vencimiento_licencia);
+}
 
+public function carnetPorVencer(int $dias = 30): bool
+{
+    if (!$this->carnet) {
+        return false;
+    }
+
+    return now()->diffInDays($this->carnet->fecha_vencimiento, false) <= $dias
+        && now()->lessThanOrEqualTo($this->carnet->fecha_vencimiento);
+}
 }

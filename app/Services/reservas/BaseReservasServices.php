@@ -18,7 +18,7 @@ abstract class BaseReservasServices implements ReservaServiceInterface{
     public function verReservasPendientes(){
         $id_dependencia = $this->user()->dependencia->id;
         $query = $this->obtenerDatosVerReservas();
-        
+
         if($this->rol() == "Administrador de Dependencia"){
             $query->obtenerDependenciasExternasPendientes($id_dependencia);
         }
@@ -389,13 +389,22 @@ abstract class BaseReservasServices implements ReservaServiceInterface{
         return ['usuario', true];
     }
 
-    // ===============================
-    // USUARIO HABILITADO
-    // ===============================
-    if (!Carnet::carnetVigente($id_usuario)) {
-        return ['usuario_no_habilitado', true];
-    }
+  // ===============================
+// USUARIO HABILITADO Y CARNET CUBRE TODO EL PERÍODO
+// ===============================
 
+$usuario = User::with('carnet')->find($id_usuario);
+
+if (!$usuario || !$usuario->carnet) {
+    return ['usuario_sin_carnet', true];
+}
+
+$fechaVencimiento = $usuario->carnet->fecha_vencimiento;
+
+// Si vence antes de terminar la reserva
+if ($fechaVencimiento->lt($fecha_fin)) {
+    return ['carnet_no_cubre_periodo', true];
+}
     // ===============================
     // DEPENDENCIA VALIDA
     // ===============================
@@ -434,6 +443,18 @@ abstract class BaseReservasServices implements ReservaServiceInterface{
 
     public function autorizarPrestamo($id){
         $reserva = Reserva::findOrFail($id);
+
+        $usuario = $reserva->usuario()->with('carnet')->first();
+
+        if (!$usuario->carnet) {
+              return ['usuario_sin_carnet', true];
+            }
+
+        $fechaVencimiento = $usuario->carnet->fecha_vencimiento;
+
+       if ($fechaVencimiento->lt($reserva->fecha_fin)) {
+              return ['carnet_no_cubre_periodo', true];
+         }
 
         $fecha_inicio = $reserva->fecha_inicio_reserva;
         $fecha_fin =$reserva->fecha_fin_reserva;
