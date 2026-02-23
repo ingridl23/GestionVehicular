@@ -19,7 +19,7 @@
       <div>
         <h1 class="text-2xl font-bold text-gray-900 dark:text-white"> Préstamos del Sistema</h1>
         <p class="text-gray-600 dark:text-gray-400 mt-1">
-          Total de préstamos pendientes: <span class="font-semibold">Aca va el total</span>
+          Total de préstamos pendientes: <span class="font-semibold">{{$total}}</span>
         </p>
       </div>
     </div>

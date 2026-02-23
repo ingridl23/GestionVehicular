@@ -38,9 +38,13 @@ class DependenciaService{
             $query->where('id', $id_dependencia);
         }
 
+        $total = $query->count();
         $dependencias = $query->orderBy('nombre')->paginate(10);
 
-        return $dependencias;
+        return [
+            'dependencias' => $dependencias,
+            'total' => $total
+        ];
     }
 
     public function datosFiltros(){

@@ -21,6 +21,7 @@ class PrestamoController extends BaseReservaController{
         $data = array_merge(
             ['reservas' => $datos['reservas']],
             ['ids' => $datos['ids']],
+            ['total' => $datos['total']],
             $this->service->datosFiltros(),
             ['ubicacion' => 'externa'],
             ['mostrarAcciones' => true],
@@ -32,8 +33,10 @@ class PrestamoController extends BaseReservaController{
     // permission:ver_solicitudes_prestamos
     public function verReservasPendientes(){
         $this->authorize('ViewPendingLoans', Reserva::class);
+        $datos = $this->service->verReservasPendientes();
         $data = array_merge(
-            ['reservas' => $this->service->verReservasPendientes()],
+            ['reservas' => $datos['reservas']],
+            ['total' => $datos['total']],
             ['mostrarAcciones' => false],
             ['ubicacion' => 'autorizar'],
             $this->service->datosFiltros(),
@@ -119,8 +122,15 @@ class PrestamoController extends BaseReservaController{
         $id_dependencia = $this->service->user()->dependencia->id;
         $query = Reserva::with('estado_reserva', 'vehiculo', 'usuario', 'dependencia_solicitante')->orderBy('fecha_inicio_reserva');
 
-        if($rol == 'Administrador de Dependencia' || $rol == 'Administrador General'){
+        if($rol == 'Administrador General'){
             $query->soloExternas()->whereIn('id_estado_reserva', function ($sub) {
+            $sub->select('id')
+                ->from('estados_reservas')
+                ->whereIn('estado', ['PENDIENTE']);
+            });
+        }
+        if($rol == 'Administrador de Dependencia'){
+            $query->obtenerDependenciasExternasPendientes($id_dependencia)->whereIn('id_estado_reserva', function ($sub) {
             $sub->select('id')
                 ->from('estados_reservas')
                 ->whereIn('estado', ['PENDIENTE']);

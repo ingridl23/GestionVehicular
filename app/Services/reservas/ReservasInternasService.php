@@ -22,16 +22,21 @@ class ReservasInternasService extends BaseReservasServices{
         }
 
         else if($rol == 'Operativo'){
-           $query->soloInternas($id_dependencia);
+            $query->obtenerDependenciasInternas($id_dependencia)->where('id_usuario', $this->user()->id);
 
         }
        else{
-    $query->soloInternas($id_dependencia);
-}
+            $query->soloInternas($id_dependencia);
+        }
 
+        $total = $query->count();
 
-        $reservas = $query->paginate(5);
-        return $reservas;
+        $reservas = $query->paginate(10);
+
+        return [
+            'reservas' => $reservas,
+            'total' => $total
+        ];
     }
 
 
@@ -63,7 +68,7 @@ class ReservasInternasService extends BaseReservasServices{
         $base = $this->obtenerDatosBase();
 
         $vehiculos = $base['queryVehiculos']
-            ->whereIn('vehiculos.id_dependencia_duena', $ids)
+            ->whereIn('vehiculo.id_dependencia_duena', $ids)
             ->get();
 
         $usuarios = $base['queryUsuarios']
