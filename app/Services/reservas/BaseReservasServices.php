@@ -18,6 +18,7 @@ abstract class BaseReservasServices implements ReservaServiceInterface{
     public function verReservasPendientes(){
         $id_dependencia = $this->user()->dependencia->id;
         $query = $this->obtenerDatosVerReservas();
+        
         if($this->rol() == "Administrador de Dependencia"){
             $query->obtenerDependenciasExternasPendientes($id_dependencia);
         }

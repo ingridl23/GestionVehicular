@@ -226,11 +226,11 @@ class ReservasExternasService extends BaseReservasServices{
         ->with(['reservas' => function ($q) use ($rol, $id_dependencia) {
 
             if($rol == 'Administrador de Dependencia' || $rol == 'Jefe de Area'){
-            $q->soloExternas($id_dependencia)->groupBy('id_vehiculo');
-        }
+                $q->obtenerDependenciasExternas($id_dependencia)->groupBy('id_vehiculo');
+            }
 
             else if($rol == 'Operativo'){
-                $q->soloExternas($id_dependencia)->where('id_usuario', $this->user()->id)->groupBy('id_vehiculo');
+                 $q->obtenerDependenciasExternas($id_dependencia)->where('id_usuario', $this->user()->id)->groupBy('id_vehiculo');
             }
             else{
                 $q->soloExternas($id_dependencia)->groupBy('id_vehiculo');

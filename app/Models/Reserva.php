@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
 
 class Reserva extends Model
 {
@@ -170,41 +171,37 @@ class Reserva extends Model
      * - La dependencia solicitante pertenece al árbol completo de la dependencia dueña.
      * - La dependencia dueña pertenece al árbol completo de la dependencia solicitante.
      *
-     * Para resolver la jerarquía completa de dependencias se utiliza un
-     * CTE recursivo (WITH RECURSIVE), permitiendo recorrer todos los niveles
-     * de relaciones padre–hijo sin límite de profundidad.
-     *
-     * Requisitos:
-     * - Base de datos compatible con CTE recursivos (MySQL 8+, PostgreSQL).
-     * - No compatible con MySQL 5.7 ni SQLite.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
      * @return \Illuminate\Database\Eloquent\Builder
     */
-   public function scopeSoloInternas($query, int $idDependencia)
-{
-    $dependencia = \App\Models\Dependencia::find($idDependencia);
+   public function scopeSoloInternas($query){
 
-    if (!$dependencia) {
-        return $query->whereRaw('1 = 0');
+    $dependencias = \App\Models\Dependencia::all();
+
+    $mapaArboles = [];
+
+    foreach ($dependencias as $dep) {
+        $mapaArboles[$dep->id] = array_merge(
+            [$dep->id],
+            $dep->obtenerIdsHijas()
+        );
     }
 
-    $idsPermitidos = array_merge(
-        [$dependencia->id],
-        $dependencia->obtenerIdsHijas()
-    );
-
-    return $query->where(function ($q) use ($idsPermitidos) {
+    return $query->where(function ($q) use ($mapaArboles) {
 
         $q->whereColumn(
             'id_dependencia_duena',
             'id_dependencia_solicitante'
-        )
+        );
 
-        ->orWhere(function ($sub) use ($idsPermitidos) {
-            $sub->whereIn('id_dependencia_duena', $idsPermitidos)
-                ->whereIn('id_dependencia_solicitante', $idsPermitidos);
-        });
+        foreach ($mapaArboles as $ids) {
+            $q->orWhere(function ($sub) use ($ids) {
+                $sub->whereIn('id_dependencia_duena', $ids)
+                    ->whereIn('id_dependencia_solicitante', $ids);
+            });
+        }
+
     });
 }
 
@@ -219,50 +216,32 @@ class Reserva extends Model
  *
  * Criterios aplicados:
  * - La dependencia dueña y la solicitante son distintas.
- * - La dependencia solicitante NO pertenece al árbol completo de la dueña.
- * - La dependencia dueña NO pertenece al árbol completo de la solicitante.
+ * - La dependencia solicitante NO pertenece al árbol de la dueña.
+ * - La dependencia dueña NO pertenece al árbol  de la solicitante.
  *
- * Para evaluar correctamente la jerarquía completa de dependencias se utilizan
- * CTEs recursivos (WITH RECURSIVE), permitiendo excluir cualquier relación
- * padre–hijo en todos los niveles.
- *
- *  Requisitos:
- * - Base de datos compatible con CTE recursivos (MySQL 8+, PostgreSQL).
- * - No compatible con MySQL 5.7 ni SQLite.
  *
  * @param \Illuminate\Database\Eloquent\Builder $query
  * @return \Illuminate\Database\Eloquent\Builder
  */
-   public function scopeSoloExternas($query, int $idDependencia)
-{
-    $dependencia = \App\Models\Dependencia::find($idDependencia);
+   public function scopeSoloExternas($query){
+    return $query
+        ->whereColumn('reserva.id_dependencia_duena', '!=', 'reserva.id_dependencia_solicitante')
 
-    if (!$dependencia) {
-        return $query->whereRaw('1 = 0');
-    }
+        // La solicitante NO es hija directa de la dueña
+        ->whereNotExists(function ($q) {
+            $q->select(DB::raw(1))
+              ->from('dependencias as d1')
+              ->whereColumn('d1.id', 'reserva.id_dependencia_solicitante')
+              ->whereColumn('d1.id_dependencia_padre', 'reserva.id_dependencia_duena');
+        })
 
-    $idsArbol = array_merge(
-        [$dependencia->id],
-        $dependencia->obtenerIdsHijas()
-    );
-
-    return $query->where(function ($q) use ($idsArbol) {
-
-        // Son prestamos (no internas)
-        $q->whereColumn('id_dependencia_duena', '!=', 'id_dependencia_solicitante')
-
-        // Y donde solo una de las dos pertenece a mi arbol
-        ->where(function ($sub) use ($idsArbol) {
-            $sub->whereIn('id_dependencia_duena', $idsArbol)
-                ->whereNotIn('id_dependencia_solicitante', $idsArbol)
-
-            ->orWhere(function ($s) use ($idsArbol) {
-                $s->whereIn('id_dependencia_solicitante', $idsArbol)
-                  ->whereNotIn('id_dependencia_duena', $idsArbol);
-            });
+        // La dueña NO es hija directa de la solicitante
+        ->whereNotExists(function ($q) {
+            $q->select(DB::raw(1))
+              ->from('dependencias as d2')
+              ->whereColumn('d2.id', 'reserva.id_dependencia_duena')
+              ->whereColumn('d2.id_dependencia_padre', 'reserva.id_dependencia_solicitante');
         });
-
-    });
 }
 
 
