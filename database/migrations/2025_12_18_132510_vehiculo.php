@@ -22,8 +22,8 @@ return new class extends Migration
             $table->boolean('control_satelital')->default(true); //por defecto al cargar primera vez
             $table->boolean('habilitado_prestamo')->default(true); //por defecto al cargar primera vez
             $table->string('condiciones_prestamo')->nullable();
-            $table->integer('kilometros');
-            $table->date('VTV');
+            $table->integer('kilometros')->default(0);
+            $table->date('vtv');
             $table->timestamps();
         });
     }

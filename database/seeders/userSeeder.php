@@ -20,7 +20,7 @@ class UserSeeder extends Seeder
         $roleJefeOficina = Role::firstOrCreate(['name' => 'Jefe de Area']);
         $roleOperativo = Role::firstOrCreate(['name' => 'Operativo']);
         $roleAdminGeneral = Role::firstOrCreate(['name' => 'Administrador General']);
-
+        $roleComputos = Role::firstOrCreate(['name'=> 'Computos']);
         //Se crean los usuarios
         $adminDependenciaUser = User::query()->create([
             'name' => 'admin',
@@ -61,13 +61,21 @@ class UserSeeder extends Seeder
             'id_dependencia' => 2,
             'email_verified_at' => now()
         ]);
-
+   $adminComputos = User::query()->create([
+            'name' => 'Computos',
+            'lastname' => 'TsAs',
+            'email' => 'computos@tresarroyos.gov.ar',
+            'password' => Hash::make('Computos2026'),
+            'legajo' => 10,
+            'id_dependencia' => 26,
+            'email_verified_at' => now()
+        ]);
 
         $adminDependenciaUser->assignRole($roleAdminDependencia);
         $jefeDeOficina->assignRole($roleJefeOficina);
         $conductor->assignRole($roleOperativo);
         $administradorGeneral->assignRole($roleAdminGeneral);
-
+        $adminComputos->assignRole($roleComputos);
 
 
 

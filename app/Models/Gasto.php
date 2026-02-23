@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
+use App\Models\EstadosNafta;
 
 class Gasto extends Model
 {
@@ -18,7 +19,7 @@ class Gasto extends Model
     ];
 
     public function user() {
-        return $this->belongsTo(User::class, 'id_viaje');
+        return $this->belongsTo(User::class, 'id_usuario');
     }
     public function viajes()
     {
@@ -29,4 +30,5 @@ class Gasto extends Model
     {
         return $this->belongsTo(Estados_nafta::class, 'id_estados_nafta');
     }
+
 }

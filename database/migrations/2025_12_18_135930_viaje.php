@@ -11,18 +11,41 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('viaje', function(Blueprint $table){
-            $table->id();
-            $table->dateTime('fecha_inicio');
-            $table->dateTime('fecha_fin');
-            $table->string('observaciones')->nullable();
-            $table->foreignId('id_ultima_ubicacion')->references('id')->on('direcciones')->onDelete('restrict');
-         $table->foreignId('id_reserva')
-      ->constrained('reservas')
-      ->onDelete('cascade');
-            $table->foreignId('id_vehiculo')->references('id')->on('vehiculos')->onDelete('cascade');
-            $table->timestamps();
-        });
+     Schema::create('viaje', function (Blueprint $table) {
+    $table->id();
+
+    $table->foreignId('id_reserva')
+        ->constrained('reservas')
+        ->onDelete('cascade');
+
+    $table->foreignId('id_vehiculo')
+        ->constrained('vehiculos')
+        ->onDelete('cascade');
+
+    $table->dateTime('fecha_inicio');
+    $table->dateTime('fecha_fin')->nullable();
+
+    $table->integer('kilometros_inicio');
+    $table->integer('kilometros_fin')->nullable();
+
+    $table->foreignId('id_estado_nafta_inicio')
+        ->constrained('estados_naftas')
+        ->onDelete('restrict');
+
+    $table->foreignId('id_estado_nafta_fin')
+        ->nullable()
+        ->constrained('estados_naftas')
+        ->onDelete('restrict');
+
+    $table->foreignId('id_ultima_ubicacion')
+        ->nullable()
+        ->constrained('direcciones')
+        ->onDelete('restrict');
+
+    $table->string('observaciones')->nullable();
+
+    $table->timestamps();
+});
     }
 
     /**
