@@ -14,7 +14,7 @@ use App\Services\CombustibleApiService;
 
 // Ruta raíz redirige al login
 Route::get('/', [HomeController::class, 'inicio']);
-Route::get('/reset', [HomeController::class, 'reset'])->name('auth.passwords.reset');
+
 
 // *******************  RUTAS PROTEGIDAS (requieren autenticación)   **************************
 Route::middleware(['auth', 'permission:ver_todos_usuarios|ver_personal_dependencia'])->group(function () {

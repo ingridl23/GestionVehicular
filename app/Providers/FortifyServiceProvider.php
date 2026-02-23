@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Providers;
+
+use App\Actions\Fortify\ResetUserPassword;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
@@ -13,6 +15,7 @@ use Laravel\Fortify\Contracts\LoginResponse as LoginResponseContract;
 
 // IMPLEMENTACIÓN
 use App\Http\Responses\LoginResponse as CustomLoginResponse;
+use Illuminate\Validation\ValidationException;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -20,22 +23,40 @@ class FortifyServiceProvider extends ServiceProvider
     {
         //  Binding correcto: CONTRATO → IMPLEMENTACIÓN
         $this->app->singleton(
-            LoginResponse::class,
+            LoginResponseContract::class,
             CustomLoginResponse::class
         );
     }
 
     public function boot(): void
     {
+        Fortify::resetUserPasswordsUsing(ResetUserPassword::class);
+
+        Fortify::requestPasswordResetLinkView(function () {
+            return view('auth.forgot-password');
+        });
+
+        Fortify::resetPasswordView(function ($request) {
+            return view('auth.reset-password', [
+                'request' => $request
+            ]);
+        });
+
         // Vista de login
         Fortify::loginView(function () {
             return view('welcome');
         });
 
+
+
         // Autenticación personalizada (honeypot)
         Fortify::authenticateUsing(function (Request $request) {
-            if ($request->filled('oculto')) {
-                return null;
+
+            
+             if ($request->filled('oculto')) {
+                throw ValidationException::withMessages([
+                    'email' => ['Credenciales inválidas.'],
+                ]);
             }
 
             $user = \App\Models\User::where('email', $request->email)->first();
@@ -44,7 +65,10 @@ class FortifyServiceProvider extends ServiceProvider
                 return $user;
             }
 
-            return null;
+            throw ValidationException::withMessages([
+                'email' => ['Las credenciales no coinciden con nuestros registros.'],
+            ]);
+
         });
 
         // Rate limit login
