@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Date;
 class Vehiculo extends Model
 {
     use HasFactory, Notifiable;
-    protected $table = 'vehiculo';
+    protected $table = 'vehiculos';
 
 
     protected $fillable = [
@@ -24,9 +24,14 @@ class Vehiculo extends Model
         'habilitado_prestamo',
         'condiciones_prestamo',
         'kilometros',
-        'VTV',
+        'vtv',
 
     ];
+    protected $casts = [
+    'control_satelital' => 'boolean',
+    'habilitado_prestamo' => 'boolean',
+    'vtv' => 'date',
+];
 
     public function dependenciaDuena(){
         return $this->belongsTo(Dependencia::class, 'id_dependencia_duena');
@@ -56,7 +61,7 @@ class Vehiculo extends Model
     public static function vtv_vigente($id){
         $vehiculo = Vehiculo::find($id);
 
-        if (!$vehiculo || !$vehiculo->fecha_vtv) {
+        if (!$vehiculo || !$vehiculo->vtv) {
             return false;
         }
 

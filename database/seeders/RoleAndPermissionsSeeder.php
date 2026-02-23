@@ -70,7 +70,7 @@ class RoleAndPermissionsSeeder extends Seeder
     'solicitar_prestamo',
     'visualizar_reserva_asignada',
 
-    //NUEVO 
+    //NUEVO
     'rechazar_prestamos',
 
     // Dependencias
@@ -145,6 +145,7 @@ $adminDependencia->syncPermissions([
     'visualizar_reserva_asignada',
     'ver_personal_dependencia',
     'ver_menu',
+    'crear_usuario',
     'editar_personal_dependencia',
     'eliminar_personal_dependencia',
 
@@ -154,8 +155,8 @@ $adminDependencia->syncPermissions([
     'ver_reservas_dependencia_en_curso',
     'ver_reportes_operativos',
     'actualizar_reportes',
-    'ver_dependencias',
-    
+
+
       // + permisos operativos:
     'ver_vehiculos_dentro_dependencia',
     'actualizar_reserva_interna',
