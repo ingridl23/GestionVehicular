@@ -68,7 +68,7 @@ class ReservasInternasService extends BaseReservasServices{
         $base = $this->obtenerDatosBase();
 
         $vehiculos = $base['queryVehiculos']
-            ->whereIn('vehiculo.id_dependencia_duena', $ids)
+            ->whereIn('vehiculos.id_dependencia_duena', $ids)
             ->get();
 
         $usuarios = $base['queryUsuarios']
