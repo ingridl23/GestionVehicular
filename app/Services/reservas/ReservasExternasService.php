@@ -78,7 +78,7 @@ class ReservasExternasService extends BaseReservasServices{
         $queryUsuarios  = $base['queryUsuarios'];
 
         if ($this->rol() !== 'Administrador General') {
-            $queryVehiculos->whereNotIn('vehiculo.id_dependencia_duena', $ids);
+            $queryVehiculos->whereNotIn('vehiculos.id_dependencia_duena', $ids);
             $queryUsuarios->whereIn('users.id_dependencia', $ids);
         }
 

@@ -13,22 +13,18 @@ class LoginResponse implements LoginResponseContract
      * @param  \Illuminate\Http\Request  $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
-public function toResponse($request)
-{
-    $request->session()->invalidate();
-    $request->session()->regenerateToken();
+public function toResponse($request){
 
     $user = auth()->user();
 
-    if ($user->hasRole('Administrador General')) {
+    if (!$user->hasRole('Operativo')) {
+       
         return redirect()->route('dashboard');
     }
 
-    if ($user->hasRole('Operativo')) {
+    else {
         return redirect()->route('operativo.dashboard2');
     }
-
-    abort(403);
 }
 
 }

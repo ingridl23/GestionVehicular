@@ -13,8 +13,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Gate;
 use Spatie\Permission\Models\Role;
 
-class UserController extends Controller
-{
+class UserController extends Controller{
 
 
 
@@ -320,6 +319,7 @@ class UserController extends Controller
 
     /**
      * Ver mi perfil (usuario logueado)
+     * Solo el administrador general puede cambiar sus datos, los demas solo pueden ver
      */
     public function myProfile()
     {
@@ -332,11 +332,11 @@ class UserController extends Controller
         $dependencias = $esAdmin ? Dependencia::all() : collect();
         $esConductorBase = $usuario->hasRole('Operativo');
         if($esAdmin){
-
             return view('auth.profile', compact('usuario', 'puedeEditar', 'esAdmin', 'dependencias'));
         }
 
-        if($esConductorBase){
+        else{
+            $puedeEditar = false;
             return view('auth.profileOperativo', compact('usuario','dependencias','esAdmin','puedeEditar'));
         }
     }
@@ -370,9 +370,11 @@ class UserController extends Controller
         // Solo admin puede cambiar dependencia
         if ($usuario->hasRole('Administrador General')) {
             $rules['id_dependencia'] = 'sometimes|exists:dependencias,id';
+
+            $validated = $request->validate($rules);
         }
 
-        $validated = $request->validate($rules);
+
 
         // Si no es admin, remover campo de dependencia si viene
         if (!$usuario->hasRole('Administrador General')) {

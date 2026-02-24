@@ -67,15 +67,15 @@ abstract class BaseReservasServices implements ReservaServiceInterface{
      * @return array<string, \Illuminate\Database\Eloquent\Builder>
      */
     protected function obtenerDatosBase(){
-        $queryVehiculos = Vehiculo::join('estados_vehiculos', 'estados_vehiculos.id', '=', 'vehiculo.id_estado_vehiculo')
-            ->join('dependencias', 'dependencias.id', '=', 'vehiculo.id_dependencia_duena')
+        $queryVehiculos = Vehiculo::join('estados_vehiculos', 'estados_vehiculos.id', '=', 'vehiculos.id_estado_vehiculo')
+            ->join('dependencias', 'dependencias.id', '=', 'vehiculos.id_dependencia_duena')
             ->orderByRaw("
                 CASE
                     WHEN estados_vehiculos.estado = 'DISPONIBLE' THEN 0
                     ELSE 1
                 END
             ")
-            ->select('vehiculo.*', 'dependencias.nombre');
+            ->select('vehiculos.*', 'dependencias.nombre');
 
         $queryUsuarios = User::with('carnet')
             ->join('dependencias', 'dependencias.id', '=', 'users.id_dependencia')
@@ -166,7 +166,7 @@ abstract class BaseReservasServices implements ReservaServiceInterface{
             CASE (
             SELECT estado
             FROM estados_reservas
-            WHERE estados_reservas.id = reserva.id_estado_reserva
+            WHERE estados_reservas.id = reservas.id_estado_reserva
         )
                 WHEN 'APROBADA' THEN 1
                 WHEN 'PENDIENTE'  THEN 2
@@ -191,7 +191,7 @@ abstract class BaseReservasServices implements ReservaServiceInterface{
      */
 
     public function verReserva($id){
-        $reserva = Reserva::with('estado_reserva', 'vehiculo.estadoNafta', 'usuario.carnet', 'dependencia_solicitante.direccion', 'dependencia_duena.direccion')
+        $reserva = Reserva::with('estado_reserva', 'vehiculos.estadoNafta', 'usuario.carnet', 'dependencia_solicitante.direccion', 'dependencia_duena.direccion')
         ->find($id);
         $vtvVigente = Vehiculo::vtv_vigente($reserva->vehiculo->id);
         $carnetVigente = Carnet::carnetVigente($reserva->usuario->id);
@@ -334,7 +334,7 @@ abstract class BaseReservasServices implements ReservaServiceInterface{
     // ===============================
     // VEHÍCULO OCUPADO QUE TENGA LA RESERVA APROBADA/EN CURSO/PENDIENTE
     // ===============================
-    $vehiculoQuery = Reserva::join('estados_reservas', 'estados_reservas.id', '=', 'reserva.id_estado_reserva')
+    $vehiculoQuery = Reserva::join('estados_reservas', 'estados_reservas.id', '=', 'reservas.id_estado_reserva')
         ->where('id_vehiculo', $id_vehiculo)
         ->whereIn('estados_reservas.estado', ['APROBADA', 'EN CURSO', 'PENDIENTE'])
         ->where(function ($q) use ($fecha_inicio, $fecha_fin) {
@@ -343,7 +343,7 @@ abstract class BaseReservasServices implements ReservaServiceInterface{
         });
 
     if ($id != null) {
-        $vehiculoQuery->where('reserva.id', '!=', $id);
+        $vehiculoQuery->where('reservas.id', '!=', $id);
     }
 
     if ($vehiculoQuery->exists()) {
@@ -372,7 +372,7 @@ abstract class BaseReservasServices implements ReservaServiceInterface{
     // ===============================
     // USUARIO OCUPADO
     // ===============================
-    $usuarioQuery = Reserva::join('estados_reservas', 'estados_reservas.id', '=', 'reserva.id_estado_reserva')
+    $usuarioQuery = Reserva::join('estados_reservas', 'estados_reservas.id', '=', 'reservas.id_estado_reserva')
         ->where('id_usuario', $id_usuario)
         ->whereIn('estados_reservas.estado', ['APROBADA', 'EN CURSO', 'PENDIENTE'])
         ->where(function ($q) use ($fecha_inicio, $fecha_fin) {
@@ -382,7 +382,7 @@ abstract class BaseReservasServices implements ReservaServiceInterface{
 
 
     if ($id) {
-        $usuarioQuery->where('reserva.id', '!=', $id);
+        $usuarioQuery->where('reservas.id', '!=', $id);
     }
 
     if ($usuarioQuery->exists()) {
