@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Models\Alerta;
 use Illuminate\Http\JsonResponse;
 use Illuminate\View\View;
@@ -45,8 +44,8 @@ class AlertaController extends Controller
                     'id' => $alerta->id,
                     'titulo' => $alerta->tipo ?? 'Alerta',
                     'mensaje' => $alerta->mensaje,
-                    'icono' => $this->getIcono($alerta->tipo),
-                    'color' => $this->getColor($alerta->tipo),
+                    'icono' => $alerta->icono,
+                    'color' => $alerta->color,
                     'fecha' => $alerta->fecha_generada->diffForHumans(),
                 ];
             });
@@ -88,6 +87,7 @@ class AlertaController extends Controller
     /**
      * Obtener ícono según tipo de alerta
      */
+    /*
     private function getIcono(string $tipo): string
     {
         return match($tipo) {
@@ -102,7 +102,7 @@ class AlertaController extends Controller
 
     /**
      * Obtener color según tipo de alerta
-     */
+     *//*
     private function getColor(string $tipo): string
     {
         return match($tipo) {
@@ -113,5 +113,5 @@ class AlertaController extends Controller
             'combustible_bajo' => 'yellow',
             default => 'blue'
         };
-    }
+    }*/
 }
