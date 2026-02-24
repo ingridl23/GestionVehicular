@@ -173,7 +173,7 @@
                 <x-nav-item
                     icon="fa-chart-line"
                     label="Reportes"
-                    route="operativo.reportes.index"
+                    route="dependencia.reportes.index"
                     :active="request()->routeIs('dependencia.reportes.*')"
                 />
             @elseif(auth()->user()->hasRole('Operativo'))

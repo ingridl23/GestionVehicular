@@ -76,7 +76,7 @@
                             </p>
 
                             <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-                                
+
                                 <!-- Vehículo -->
                                 <div class="sm:col-span-3">
                                     <label class="block text-sm font-medium text-gray-900 dark:text-white">
@@ -92,14 +92,14 @@
                                                 @if($vehiculo->estadoVehiculo->estado != 'DISPONIBLE')
                                                     <option value="" disabled class="text-gray-400">
                                                         {{ $vehiculo->dominio }} {{ $vehiculo->marca }}
-                                                        {{ $vehiculo->modelo }} {{ $vehiculo->anio }} (Pertenece: {{$vehiculo->nombre}} - {{$vehiculo->estado_vehiculo->estado}})
-                                                    </option> 
+                                                        {{ $vehiculo->modelo }} {{ $vehiculo->anio }} (Pertenece: {{$vehiculo->nombre}} - {{$vehiculo->estado}})
+                                                    </option>
                                                 @elseif($ubicacion && $ubicacion == 'externa' && $vehiculo->habilitado_prestamo == false)
                                                     <option value="" disabled class="text-gray-400">
                                                         {{ $vehiculo->dominio }} {{ $vehiculo->marca }}
                                                         {{ $vehiculo->modelo }} {{ $vehiculo->anio }} (Pertenece: {{$vehiculo->nombre}} - El vehículo no se encuentra habilitado para préstamo)
                                                     </option>
-                                                @else 
+                                                @else
                                                     <option value="{{ $vehiculo->id }}" @selected(old('id_vehiculo', $reserva?->id_vehiculo) == $vehiculo->id)>
                                                         {{ $vehiculo->dominio }} {{ $vehiculo->marca }}
                                                         {{ $vehiculo->modelo }} {{ $vehiculo->anio }} (Pertenece: {{$vehiculo->nombre}})
@@ -209,6 +209,6 @@
                             </div>
                         </div>
 
-                        
+
 
 </div>

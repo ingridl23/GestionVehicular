@@ -90,7 +90,19 @@ Route::middleware(['auth'])->group(function () {
             ->name('usuarios');
     });
 
-    /*************************************  RESERVAS GENERAL   ******************************* */
+
+    Route::middleware(['auth', 'role:Administrador de Dependencia'])
+    ->prefix('dependencia')
+    ->name('dependencia.')
+    ->group(function () {
+
+        Route::get('/reportes', [ReporteController::class, 'index'])
+            ->middleware('permission:ver_reportes_dependencia')
+            ->name('reportes.index');
+});
+
+
+    /*************************************  RESERVAS GENERAL   **********************************/
 
     //Aca se declararon las rutas que puede acceder todos los usuarios (independientemente del rol)
     //Las especificas por rol se declararon en AdminGeneral.php

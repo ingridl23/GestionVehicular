@@ -4,39 +4,45 @@
 @endforeach
 
 {{-- BOTONES RÁPIDOS --}}
-<section class="flex flex-col gap-10 mb-10">
-    <button class="btn-rapido" action="{{ route('admin.reservas.form.agregar') }}" >Iniciar reserva</button>
+<section class="flex flex-col gap-10 mb-10 ">
+    <a class="btn-rapido text-center" action="{{ route('admin.reservas.form.agregar') }}" >Iniciar reserva</a>
 
-    <button class="btn-rapido"
+    <a class="btn-rapido  text-center"
         onclick="window.location='{{ route('operativo.reportes.create') }}'">
         Comenzar reporte
-    </button>
+</a>
 
-    <button  action="{{ route('operativo.editar-conductor','$id') }}" class="btn-rapido">Asignar conductor</button>
+<a  action="{{ isset($reservaActiva) ? route('operativo.editar-conductor', $reservaActiva->id): '#' }}" class="btn-rapido  text-center">Asignar conductor</a>
 </section>
+
+
 
 {{-- BOTONES DE VIAJE --}}
-
 <section class="flex gap-6">
- <form method="POST" action="{{ route('viajes.iniciar', $reservaActiva->id ?? '') }}">
-    @csrf
-    <button
-        class="btn-iniciar flex-1 {{ isset($reservaActiva) ? '' : 'opacity-50 cursor-not-allowed' }}"
-        {{ isset($reservaActiva) ? '' : 'disabled' }}>
-        Iniciar viaje
-    </button>
-</form>
 
-<form method="POST" action="{{ route('viajes.iniciar', $reservaActiva->id ?? '') }}">
-    @csrf
+    {{-- INICIAR VIAJE --}}
+    <form method="POST"
+          action="{{ isset($reservaActiva) ? route('viajes.iniciar', $reservaActiva->id) : '#' }}"
+          class="flex-1">
+        @csrf
+        <button
+            type="submit"
+            class="btn-iniciar w-full {{ isset($reservaActiva) ? '' : 'opacity-50 cursor-not-allowed' }}"
+            {{ isset($reservaActiva) ? '' : 'disabled' }}>
+            Iniciar viaje
+        </button>
+    </form>
+
+    {{-- FINALIZAR VIAJE --}}
+    <button
+        type="button"
+        id="btnFinalizar"
         class="btn-finalizar flex-1 {{ auth()->user()->viajeActivo ? '' : 'opacity-50 cursor-not-allowed' }}"
-      {{ auth()->user()->viajeActivo ? '' : 'disabled' }}>
+        {{ auth()->user()->viajeActivo ? '' : 'disabled' }}>
         Finalizar viaje
     </button>
-</form>
 
 </section>
-
 
 <div id="modalFinalizar" class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center">
     <div class="bg-white p-6 rounded-lg w-96">
@@ -57,4 +63,8 @@
         </button>
     </div>
 </div>
-@vite('js/viajeModal.js');
+<script>
+    window.viajeId = {{ auth()->user()->viajeActivo->id ?? 'null' }};
+</script>
+
+@vite('resources/js/viajeModal.js')
