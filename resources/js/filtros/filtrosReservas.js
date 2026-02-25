@@ -61,8 +61,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 body: JSON.stringify(filtros),
             });
             const data = await res.json();
-
-            mostrarResultado(data.data);
+            
+            mostrarResultado(data);
             renderPaginacion(data);
         } catch (err) {
             console.error(err);
@@ -75,7 +75,10 @@ document.addEventListener("DOMContentLoaded", () => {
             : "lista";
     }
 
-    function mostrarResultado(reservas) {
+    function mostrarResultado(data) {
+        let reservas = data.reservas;
+        let ids = data.ids;
+
         const { permissions: PERMISSIONS, routes: ROUTES } =
             window.RESERVAS_CONFIG;
 
@@ -133,6 +136,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     `;
                 }
 
+            //@if(($ubicacion === "interna" || ($ids && in_array($reserva->id_dependencia_solicitante, $ids))) && $reserva->id_dependencia_solicitante)
+                if(window.APP_CONFIG.ubicacion == "interna" || ids.includes(res.id_dependencia_solicitante)){
+
                 if (PERMISSIONS.editar) {
                     if (
                         res.estado_reserva.estado != "RECHAZADA" &&
@@ -163,6 +169,8 @@ document.addEventListener("DOMContentLoaded", () => {
                             </button>
                     `;
                     }
+                }
+                                    
                 }
             } else {
                 if (PERMISSIONS.ver) {
@@ -364,4 +372,48 @@ document.addEventListener("DOMContentLoaded", () => {
         // Resetear paginación JS
         document.getElementById("paginacion").innerHTML = "";
     });
+
+
+    let botonExterno = document.getElementById("filtroPrestamoExterno");
+    let botonInterno = document.getElementById("filtroPrestamoInterno");
+
+    let botonTodas = document.getElementById("filtroPrestamoTodos");
+
+    botonTodas.addEventListener("click", ()=>{
+        buscarReservas();
+    })
+
+    botonInterno.addEventListener("click", ()=>{
+        let url = "/filtrar-prestamos-internos";
+        obtenerDatos(url);
+    });
+
+    botonExterno.addEventListener("click", ()=>{
+        let url = "/filtrar-prestamos-externos";
+        obtenerDatos(url);
+    });
+
+    async function obtenerDatos(url){
+        try {
+            const res = await fetch(url, {
+                method: "POST",
+                headers: {
+                    "X-CSRF-TOKEN": window.csrfToken,
+                    "Accept": "application/json",
+                },
+            });
+
+            if (!res.ok) {
+                throw new Error("Error HTTP: " + res.status);
+            }
+
+            console.log(res.status);
+            const data = await res.json();
+            console.log(data);
+            mostrarResultado(data);
+
+        } catch (err) {
+            console.error(err);
+        }
+    }
 });

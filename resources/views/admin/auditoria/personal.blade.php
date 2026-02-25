@@ -1,5 +1,4 @@
 
-@section('content')
 @extends('layout.app')
 
 @section('page-title', 'Administración de Usuarios')
@@ -115,9 +114,11 @@
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                             Estado
                         </th>
+                        @role("Administrador General")
                         <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                             Acciones
                         </th>
+                        @endrole
                     </tr>
                 </thead>
                 <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
@@ -170,7 +171,9 @@
                                 {{ $usuario->enabled ? 'Activo' : 'Inactivo' }}
                             </span>
                         </td>
+                        @role("Administrador General")
                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                            
                             <div class="flex justify-end gap-2">
                                 <a
                                     href="{{ route('admin.usuarios.show', $usuario->id) }}"
@@ -179,7 +182,7 @@
                                     <i class="fas fa-eye"></i>
                                 </a>
 
-                                @can('editar_usuarios')
+                                @can('editar_usuario')
                                 <button
                                     onclick="openEditModal({{ $usuario->id }})"
                                     class="text-yellow-600 hover:text-yellow-900 dark:text-yellow-400 dark:hover:text-yellow-300"
@@ -188,7 +191,7 @@
                                 </button>
                                 @endcan
 
-                                @can('eliminar_usuarios')
+                                @can('eliminar_usuario')
                                 <button
                                     onclick="confirmDelete({{ $usuario->id }})"
                                     class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300"
@@ -197,7 +200,9 @@
                                 </button>
                                 @endcan
                             </div>
+                           
                         </td>
+                         @endrole
                     </tr>
                     @empty
                     <tr>
@@ -286,7 +291,7 @@
                 </div>
 
                 <div class="flex justify-end gap-2 mt-6">
-                    <button type="button" onclick="closeModal()"
+                    <button type="button" onclick="cerrarModal()"
                         class="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600">
                         Cancelar
                     </button>
@@ -300,7 +305,13 @@
     </div>
 </div>
 
+@push('scripts')
 <script>
+
+function cerrarModal() {
+    document.getElementById('userModal').classList.add('hidden');
+}
+
 function openCreateModal() {
     document.getElementById('modalTitle').textContent = 'Crear Usuario';
     document.getElementById('userForm').action = '{{ route("admin.usuarios.store") }}';
@@ -319,9 +330,7 @@ function openEditModal(userId) {
     document.getElementById('userModal').classList.remove('hidden');
 }
 
-function closeModal() {
-    document.getElementById('userModal').classList.add('hidden');
-}
+
 
 function confirmDelete(userId) {
     if (confirm('¿Estás seguro de que deseas eliminar este usuario?')) {
@@ -347,7 +356,7 @@ function confirmDelete(userId) {
     }
 }
 </script>
-
+@endpush
 
 
 @endsection

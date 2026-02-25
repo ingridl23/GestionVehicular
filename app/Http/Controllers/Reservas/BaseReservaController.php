@@ -149,12 +149,10 @@ abstract class BaseReservaController extends Controller
 
         $query->orderBy($sortField, $sortOrder);
 
-        /* ----------------------
-         PAGINACIÓN
-        ---------------------- */
-        $reservas = $query->paginate(5);
 
-        return response()->json($reservas);
+        $reservas = $query->get();
+
+        return response()->json(['reservas' => $reservas]);
     }
 
     //permiso = 'solicitar_reserva_interna' || 'solicitar_prestamo',

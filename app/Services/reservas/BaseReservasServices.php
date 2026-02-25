@@ -191,7 +191,7 @@ abstract class BaseReservasServices implements ReservaServiceInterface{
      */
 
     public function verReserva($id){
-        $reserva = Reserva::with('estado_reserva', 'vehiculos.estadoNafta', 'usuario.carnet', 'dependencia_solicitante.direccion', 'dependencia_duena.direccion')
+        $reserva = Reserva::with('estado_reserva', 'vehiculo.estadoNafta', 'usuario.carnet', 'dependencia_solicitante.direccion', 'dependencia_duena.direccion')
         ->find($id);
         $vtvVigente = Vehiculo::vtv_vigente($reserva->vehiculo->id);
         $carnetVigente = Carnet::carnetVigente($reserva->usuario->id);
@@ -471,5 +471,53 @@ abstract class BaseReservasServices implements ReservaServiceInterface{
 
     protected function valoresParametrosValidaciones($id_vehiculo, $fecha_inicio, $fecha_fin, $id_usuario, $id_dependencia_solicitante, $id = null) {
         return $this->validaciones($id_vehiculo, $fecha_inicio, $fecha_fin, $id_usuario, $id_dependencia_solicitante, $id, false);
+    }
+
+
+    public function verPrestamosExternos(){
+        $rol = $this->rol();
+        $id_dependencia = $this->user()->dependencia->id;
+        $query = $this->obtenerDatosVerReservas();
+
+        $ids = $this->obtenerDependenciasIds(Dependencia::find($id_dependencia));
+
+
+        if($rol == 'Administrador de Dependencia' || $rol == 'Jefe de Area'){
+            $query->obtenerDependenciasExternas($id_dependencia)->where('id_dependencia_duena' , $ids);
+        }
+
+        else if($rol == 'Operativo'){
+            $query->obtenerDependenciasExternas($id_dependencia)->where('id_usuario', $this->user()->id)->where('id_dependencia_duena' , $ids);
+        }
+       else{
+           $query->soloExternas($id_dependencia)->where('id_dependencia_duena' , $ids);
+        }
+
+        return response()->json(['reservas' => $query->get()]);
+    
+    }
+
+    public function verPrestamosInternos(){
+        $rol = $this->rol();
+        $id_dependencia = $this->user()->dependencia->id;
+        $query = $this->obtenerDatosVerReservas();
+
+        $ids = $this->obtenerDependenciasIds(Dependencia::find($id_dependencia));
+
+
+        if($rol == 'Administrador de Dependencia' || $rol == 'Jefe de Area'){
+            $query->obtenerDependenciasExternas($id_dependencia)->whereIn('id_dependencia_solicitante' , $ids);
+        }
+
+        else if($rol == 'Operativo'){
+            $query->obtenerDependenciasExternas($id_dependencia)->where('id_usuario', $this->user()->id)->whereIn('id_dependencia_solicitante' , $ids);
+        }
+       else{
+           $query->soloExternas($id_dependencia)->whereIn('id_dependencia_solicitante' , $ids);
+        }
+
+
+        return response()->json(['reservas' => $query->get()]);
+
     }
 }

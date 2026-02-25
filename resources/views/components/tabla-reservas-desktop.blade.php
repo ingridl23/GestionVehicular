@@ -94,28 +94,29 @@
             @endcanany
 
             @if(($ubicacion === "interna" || ($ids && in_array($reserva->id_dependencia_solicitante, $ids))) && $reserva->id_dependencia_solicitante)
-            @can($configEditar['can'])
-            @if(!in_array($reserva->estado_reserva->estado, ['CANCELADA','RECHAZADA','FINALIZADA']))
-            <a href="{{ $configEditar['route'] }}" data-id="{{$reserva->id}}"
-              class="btn-editar text-yellow-600 hover:text-yellow-900 dark:text-yellow-400 dark:hover:text-yellow-300"
-              title="Editar">
-              <i class="fas fa-edit"></i>
-            </a>
-            @endif
-            @endcan
-            @endif
+              @can($configEditar['can'])
+                @if(!in_array($reserva->estado_reserva->estado, ['CANCELADA','RECHAZADA','FINALIZADA']))
+                <a href="{{ $configEditar['route'] }}" data-id="{{$reserva->id}}"
+                  class="btn-editar text-yellow-600 hover:text-yellow-900 dark:text-yellow-400 dark:hover:text-yellow-300"
+                  title="Editar">
+                  <i class="fas fa-edit"></i>
+                </a>
+                @endif
+              @endcan
+            
 
-            @if(!in_array($reserva->estado_reserva->estado, ['CANCELADA','RECHAZADA','FINALIZADA']))
-            @role('Operativo')
-            @can('asignar_conductor_suplente')
-            <a href="{{ route('operativo.editar-conductor', $reserva->id) }}" data-id="{{$reserva->id}}"
-              class="text-yellow-600 hover:text-yellow-900 dark:text-yellow-400 dark:hover:text-yellow-300"
-              title="Editar conductor">
-              <i class="fas fa-edit"></i>
-            </a>
-            @endcan
-            @endrole
-            @endif
+              @if(!in_array($reserva->estado_reserva->estado, ['CANCELADA','RECHAZADA','FINALIZADA']))
+                @role('Operativo')
+                  @can('asignar_conductor_suplente')
+                  <a href="{{ route('operativo.editar-conductor', $reserva->id) }}" data-id="{{$reserva->id}}"
+                    class="text-yellow-600 hover:text-yellow-900 dark:text-yellow-400 dark:hover:text-yellow-300"
+                    title="Editar conductor">
+                    <i class="fas fa-edit"></i>
+                  </a>
+                  @endcan
+                @endrole
+              @endif
+
 
             @canany(['cancelar_reserva_interna', 'cancelar_prestamo'])
             @if(!in_array($reserva->estado_reserva->estado, ['CANCELADA','RECHAZADA','FINALIZADA']))
@@ -126,6 +127,7 @@
             </button>
             @endif
             @endcanany
+            @endif
             </div>
           </td>
           @else
@@ -161,6 +163,5 @@
         @endforeach
       </tbody>
     </table>
-
   </div>
 </div>

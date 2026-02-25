@@ -67,6 +67,16 @@ $configEditar = $ubicacion == 'interna'
       </button>
     </div>
 
+    @hasanyrole(["Administrador de Dependencia|Jefe de Area"])
+    @if($ubicacion ==='externa')
+    <div class="flex items-end mb-4 text-xs">
+      <button href="#" id="filtroPrestamoTodos" class="bg-gray-400 mr-2 hover:bg-gray-700 text-white px-3 py-2 rounded-lg flex items-center gap-2 transition-colors dark:bg-gray-800 dark:hover:bg-gray-700">Todas</button>
+      <button href="{{route('filtrar.prestamos.externos')}}" id="filtroPrestamoExterno" class="bg-gray-400 mr-2 hover:bg-gray-700 text-white px-3 py-2 rounded-lg flex items-center gap-2 transition-colors dark:bg-gray-800 dark:hover:bg-gray-700">Solicitadas a mi dependencia</button>
+      <button href="{{route('filtrar.prestamos.internos')}}" id="filtroPrestamoInterno" class="bg-gray-400 mr-2 hover:bg-gray-700 text-white px-3 py-2 rounded-lg flex items-center gap-2 transition-colors dark:bg-gray-800 dark:hover:bg-gray-700">Solicitadas a otra dependencia</button>
+    </div>
+    @endif
+    @endhasanyrole
+
     @if($reservas->isEmpty())
     <p class="text-center text-gray-600 ">No hay reservas</p>
     @else

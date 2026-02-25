@@ -225,22 +225,22 @@ class Reserva extends Model
  */
    public function scopeSoloExternas($query){
     return $query
-        ->whereColumn('reserva.id_dependencia_duena', '!=', 'reserva.id_dependencia_solicitante')
+        ->whereColumn('reservas.id_dependencia_duena', '!=', 'reservas.id_dependencia_solicitante')
 
         // La solicitante NO es hija directa de la dueña
         ->whereNotExists(function ($q) {
             $q->select(DB::raw(1))
               ->from('dependencias as d1')
-              ->whereColumn('d1.id', 'reserva.id_dependencia_solicitante')
-              ->whereColumn('d1.id_dependencia_padre', 'reserva.id_dependencia_duena');
+              ->whereColumn('d1.id', 'reservas.id_dependencia_solicitante')
+              ->whereColumn('d1.id_dependencia_padre', 'reservas.id_dependencia_duena');
         })
 
         // La dueña NO es hija directa de la solicitante
         ->whereNotExists(function ($q) {
             $q->select(DB::raw(1))
               ->from('dependencias as d2')
-              ->whereColumn('d2.id', 'reserva.id_dependencia_duena')
-              ->whereColumn('d2.id_dependencia_padre', 'reserva.id_dependencia_solicitante');
+              ->whereColumn('d2.id', 'reservas.id_dependencia_duena')
+              ->whereColumn('d2.id_dependencia_padre', 'reservas.id_dependencia_solicitante');
         });
 }
 

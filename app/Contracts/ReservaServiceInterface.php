@@ -17,6 +17,8 @@ interface ReservaServiceInterface
     public function editarReserva($request, $id);
     public function editarConductor($request, $id);
     public function user();
+    public function verPrestamosExternos();
+    public function verPrestamosInternos();
     public function rol();
 
     public function verReservasPendientes();

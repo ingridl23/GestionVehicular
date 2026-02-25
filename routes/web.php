@@ -98,6 +98,10 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/filtrar-reservas-internas', [ReservaController::class, 'filtrarReservasInternas'])->middleware('web');
     Route::post('/filtrar-reservas-externas', [PrestamoController::class, 'filtrarReservasExternas'])->middleware('web');
 
+    Route::post('/filtrar-prestamos-internos', [PrestamoController::class, 'verPrestamosInternos'])->name('filtrar.prestamos.internos');
+    
+    Route::post('/filtrar-prestamos-externos', [PrestamoController::class, 'verPrestamosExternos'])->name('filtrar.prestamos.externos');
+
 });
 
 

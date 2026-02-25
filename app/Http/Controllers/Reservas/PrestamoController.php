@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Reservas;
 use App\Http\Requests\FiltroReservasRequest;
+use App\Models\Dependencia;
 use App\Models\Reserva;
 use App\Services\Reservas\ReservasExternasService;
 
@@ -100,6 +101,8 @@ class PrestamoController extends BaseReservaController{
     public function filtrarReservasExternas(FiltroReservasRequest $request){
         $rol = $this->service->rol();
         $id_dependencia = $this->service->user()->dependencia->id;
+        $ids = $this->service->obtenerDependenciasIds(Dependencia::find($id_dependencia));
+
         $query = Reserva::with('estado_reserva', 'vehiculo', 'usuario', 'dependencia_solicitante')->orderBy('fecha_inicio_reserva');
 
         if($rol == 'Administrador de Dependencia' || $rol == 'Jefe de Area'){
@@ -112,7 +115,12 @@ class PrestamoController extends BaseReservaController{
         else{
             $query->soloExternas();
         }
-        return $this->filtrarReservas($request, $query);
+        $response = $this->filtrarReservas($request, $query);
+
+        $data = $response->getData(true);
+        $data['ids'] = $ids;
+
+        return response()->json($data);
     }
 
 
@@ -137,6 +145,34 @@ class PrestamoController extends BaseReservaController{
             });
         }
         return $this->filtrarReservas($request, $query);
+    }
+
+
+    public function verPrestamosExternos(){
+        $id_dependencia = $this->service->user()->dependencia->id;
+        
+        $ids = $this->service->obtenerDependenciasIds(Dependencia::find($id_dependencia));
+
+        $datos = $this->service->verPrestamosExternos();
+        $data = $datos->getData(true);
+        $data['ids'] = $ids;
+
+        return response()->json($data);
+
+    }
+
+    public function verPrestamosInternos(){
+        $id_dependencia = $this->service->user()->dependencia->id;
+        
+        $datos = $this->service->verPrestamosInternos();
+
+        $ids = $this->service->obtenerDependenciasIds(Dependencia::find($id_dependencia));
+
+        $data = $datos->getData(true);
+        $data['ids'] = $ids;
+
+        return response()->json($data);
+
     }
 
 }
