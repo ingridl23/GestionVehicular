@@ -96,7 +96,27 @@ class PrestamoController extends BaseReservaController{
     }
 
 
-
+    /**
+     * Filtra las reservas externas según el rol del usuario autenticado.
+     *
+     * - Administrador de Dependencia y Jefe de Área:
+     *   Obtienen todas las reservas externas vinculadas a su dependencia.
+     *
+     * - Operativo:
+     *   Obtiene únicamente las reservas externas de su dependencia
+     *   donde el conductor designado sea el usuario.
+     *
+     * - Administrador General:
+     *   Obtienen todas las reservas externas sin restricción por dependencia.
+     *
+     * Además, se obtienen los IDs del árbol de dependencias asociado al usuario
+     * para enviarlos en la respuesta. Finalmente, la consulta base se procesa
+     * mediante el método filtrarReservas() para aplicar filtros adicionales
+     * provenientes del request y se retorna la respuesta en formato JSON.
+     *
+     * @param FiltroReservasRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
 
     public function filtrarReservasExternas(FiltroReservasRequest $request){
         $rol = $this->service->rol();
@@ -115,15 +135,36 @@ class PrestamoController extends BaseReservaController{
         else{
             $query->soloExternas();
         }
-        $response = $this->filtrarReservas($request, $query);
+        $paginado = $this->filtrarReservas($request, $query);
 
-        $data = $response->getData(true);
-        $data['ids'] = $ids;
-
-        return response()->json($data);
+        return response()->json([
+        'data' => $paginado->items(),
+        'meta' => [
+            'current_page' => $paginado->currentPage(),
+            'last_page' => $paginado->lastPage(),
+            'per_page' => $paginado->perPage(),
+            'total' => $paginado->total(),
+        ],
+        'ids' => $ids
+    ]);
     }
 
 
+    /**
+     * Filtra las reservas pendientes de autorización de préstamos según el rol del usuario autenticado.
+     *
+     * - Si el usuario es Administrador General, obtiene todas las reservas externas
+     *   en estado PENDIENTE.
+     * - Si el usuario es Administrador de Dependencia, obtiene únicamente las reservas
+     *   externas pendientes vinculadas a su dependencia.
+     *
+     * La consulta se construye dinámicamente aplicando los scopes correspondientes
+     * y luego se envía al método filtrarReservas() para aplicar filtros adicionales
+     * provenientes del request.
+     *
+     * @param FiltroReservasRequest $request
+     * @return mixed
+     */
 
     public function filtrarAutorizarPrestamos(FiltroReservasRequest $request){
         $rol = $this->service->rol();
@@ -148,30 +189,46 @@ class PrestamoController extends BaseReservaController{
     }
 
 
+    
     public function verPrestamosExternos(){
         $id_dependencia = $this->service->user()->dependencia->id;
         
         $ids = $this->service->obtenerDependenciasIds(Dependencia::find($id_dependencia));
 
-        $datos = $this->service->verPrestamosExternos();
-        $data = $datos->getData(true);
-        $data['ids'] = $ids;
+        $paginado = $this->service->verPrestamosExternos();
+        
 
-        return response()->json($data);
-
+       return response()->json([
+        'data' => $paginado->items(),
+        'meta' => [
+            'current_page' => $paginado->currentPage(),
+            'last_page' => $paginado->lastPage(),
+            'per_page' => $paginado->perPage(),
+            'total' => $paginado->total(),
+        ],
+        'ids' => $ids
+    ]);
     }
+
 
     public function verPrestamosInternos(){
         $id_dependencia = $this->service->user()->dependencia->id;
         
-        $datos = $this->service->verPrestamosInternos();
+        $paginado = $this->service->verPrestamosInternos();
+        
 
         $ids = $this->service->obtenerDependenciasIds(Dependencia::find($id_dependencia));
 
-        $data = $datos->getData(true);
-        $data['ids'] = $ids;
-
-        return response()->json($data);
+        return response()->json([
+        'data' => $paginado->items(),
+        'meta' => [
+            'current_page' => $paginado->currentPage(),
+            'last_page' => $paginado->lastPage(),
+            'per_page' => $paginado->perPage(),
+            'total' => $paginado->total(),
+        ],
+        'ids' => $ids
+    ]);
 
     }
 

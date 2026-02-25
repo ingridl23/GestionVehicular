@@ -8,7 +8,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\HistorialController;
 use App\Http\Controllers\ViajeController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\DependenciaController;
+
 use App\Http\Controllers\Reservas\PrestamoController;
 use App\Http\Controllers\Reservas\ReservaController as ReservaController;
 use App\Services\CombustibleApiService;

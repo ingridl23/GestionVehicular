@@ -151,7 +151,7 @@ $configEditar = $ubicacion == 'interna'
         </div>
       </div>
 
-      <div id="contenedor-js" style="display:none;">
+      <div id="contenedor-js">
         <div id="lista-reservas"></div>
         <div id="paginacion"></div>
       </div>

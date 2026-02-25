@@ -59,13 +59,27 @@ class Reserva extends Model
         return $this->hasMany(Viaje::class);
     }
 
-    // Obtiene:
-    //Casos que involucran la dependencia del usuario con dependencias internas
-    // independencias hijas involucradas
-    // id_dependencia -> hija
-    // hija -> id_dependencia
-    // hija -> hija
-    // nieja -> hija
+
+    /**
+     * Scope que filtra las reservas internas pertenecientes al árbol
+     * de una dependencia determinada.
+     *
+     * Obtiene la dependencia padre junto con todas sus dependencias hijas
+     * y construye un listado de IDs permitidos (padre + descendientes).
+     * hija -> id_dependencia
+     * hija -> hija
+     * nieja -> hija
+     *
+     * Luego filtra las reservas donde:
+     *  - La dependencia dueña del vehículo pertenezca al árbol.
+     *  - La dependencia solicitante también pertenezca al mismo árbol.
+     *
+     * En caso de que la dependencia no exista, retorna una consulta vacía.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param int $id_dependencia ID de la dependencia base.
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
 
     public function scopeObtenerDependenciasInternas($query, $id_dependencia)
     {
@@ -89,17 +103,35 @@ class Reserva extends Model
             ->whereIn('id_dependencia_solicitante', $idsPermitidos);
     }
 
-    // Obtiene:
-    // Reservas que involucran a la dependencia ($id_dependencia)
-    //Reservas que involucran a las hijas (ya sea solicitante o dueña)
-    // Contempla casos donde se tienen nietos
-    // id_dependencia -> externa
-    // externa -> id_dependencia
-    // externa -> hija
-    // hija -> externa
-    // nieja -> externa
 
-    public function scopeObtenerDependenciasExternas($query, $id_dependencia)
+
+    /**
+     * Scope que filtra las reservas externas respecto a una dependencia determinada.
+     *
+     * Se considera reserva externa cuando existe una relación entre dependencias
+     * donde una pertenece al árbol (padre + hijas) de la dependencia indicada
+     * y la otra no.
+     *
+     * Casos contemplados:
+     *  - La dependencia (o alguna de sus hijas) es dueña del vehículo
+     *    y la dependencia solicitante es externa al árbol.
+     *
+     *  - La dependencia (o alguna de sus hijas) es solicitante
+     *    y la dependencia dueña es externa al árbol.
+     * 
+     *  id_dependencia -> externa
+     *  externa -> id_dependencia
+     *  externa -> hija
+     *  hija -> externa
+     *  nieja -> externa
+     *
+     * Si la dependencia no existe, retorna una consulta vacía.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param int $id_dependencia ID de la dependencia base.
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeObtenerDependenciasExternas($query, $id_dependencia, $incluirAmbosSentidos = true)
     {
         $dependencia = Dependencia::with('dependenciasHijas')->find($id_dependencia);
 
@@ -112,69 +144,47 @@ class Reserva extends Model
             $dependencia->obtenerIdsHijas()
         );
 
-        return $query->where(function ($q) use ($idsArbol) {
-
-            // Yo (o mis hijas) soy dueño y el solicitante es externo
-            $q->where(function ($q1) use ($idsArbol) {
-                $q1->whereIn('id_dependencia_duena', $idsArbol)
-                    ->whereNotIn('id_dependencia_solicitante', $idsArbol);
-            })
-
-                // O yo (o mis hijas) soy solicitante y el dueño es externo
-                ->orWhere(function ($q1) use ($idsArbol) {
-                    $q1->whereIn('id_dependencia_solicitante', $idsArbol)
-                        ->whereNotIn('id_dependencia_duena', $idsArbol);
-                });
-        });
-    }
-
-
-    public function scopeObtenerDependenciasExternasPendientes($query, $id_dependencia)
-    {
-        $dependencia = Dependencia::with('dependenciasHijas')->find($id_dependencia);
-
-        if (!$dependencia) {
-            return $query->whereRaw('1 = 0');
-        }
-
-        $idsArbol = array_merge(
-            [$dependencia->id],
-            $dependencia->obtenerIdsHijas()
-        );
-
-        $query->where(function ($q) use ($idsArbol) {
+        return $query->where(function ($q) use ($idsArbol, $incluirAmbosSentidos) {
 
             // Yo (o mis hijas) soy dueño y el solicitante es externo
             $q->where(function ($q1) use ($idsArbol) {
                 $q1->whereIn('id_dependencia_duena', $idsArbol)
                     ->whereNotIn('id_dependencia_solicitante', $idsArbol);
             });
-        });
 
-
-        return $query->whereIn('id_estado_reserva', function ($sub) {
-            $sub->select('id')
-                ->from('estados_reservas')
-                ->whereIn('estado', ['PENDIENTE']);
+            // Solo si quiero ambos sentidos
+            if ($incluirAmbosSentidos) {
+                $q->orWhere(function ($q1) use ($idsArbol) {
+                    $q1->whereIn('id_dependencia_solicitante', $idsArbol)
+                    ->whereNotIn('id_dependencia_duena', $idsArbol);
+                });
+            }
         });
     }
 
+
+
     /**
-     * Scope que filtra únicamente las reservas internas.
+     * Scope que filtra únicamente las reservas internas dentro de la
+     * estructura jerárquica de dependencias.
      *
-     * Se considera una reserva interna cuando la dependencia dueña del vehículo
-     * y la dependencia solicitante pertenecen al mismo árbol jerárquico,
-     * independientemente del nivel (misma dependencia, hija, nieta, bisnieta, etc.).
+     * Se considera reserva interna cuando:
+     *  - La dependencia dueña y la solicitante son la misma, o
+     *  - Ambas pertenecen al mismo árbol jerárquico (misma dependencia
+     *    padre y sus hijas).
      *
-     * Criterios aplicados:
-     * - La dependencia dueña y la solicitante son la misma.
-     * - La dependencia solicitante pertenece al árbol completo de la dependencia dueña.
-     * - La dependencia dueña pertenece al árbol completo de la dependencia solicitante.
+     * Para ello:
+     *  - Se construye un mapa de todos los árboles de dependencias
+     *    (cada dependencia junto con sus hijas).
+     *  - Se filtran las reservas donde ambas dependencias
+     *    (dueña y solicitante) pertenezcan al mismo conjunto de IDs.
      *
+     * Esto garantiza que la reserva se realice dentro del mismo sector
+     * organizacional y no corresponda a un préstamo externo.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
      * @return \Illuminate\Database\Eloquent\Builder
-    */
+     */
    public function scopeSoloInternas($query){
 
     $dependencias = \App\Models\Dependencia::all();
@@ -182,10 +192,7 @@ class Reserva extends Model
     $mapaArboles = [];
 
     foreach ($dependencias as $dep) {
-        $mapaArboles[$dep->id] = array_merge(
-            [$dep->id],
-            $dep->obtenerIdsHijas()
-        );
+        $mapaArboles[$dep->id] = array_merge([$dep->id], $dep->obtenerIdsHijas());
     }
 
     return $query->where(function ($q) use ($mapaArboles) {
@@ -207,25 +214,26 @@ class Reserva extends Model
 
 
     /**
- * Scope que filtra únicamente las reservas externas.
- *
- * Se considera una reserva externa cuando la dependencia dueña del vehículo
- * y la dependencia solicitante NO pertenecen al mismo árbol jerárquico,
- * es decir, no existe relación directa ni indirecta entre ellas
- * (no son la misma, ni hijas, ni nietas, ni bisnietas, etc.).
- *
- * Criterios aplicados:
- * - La dependencia dueña y la solicitante son distintas.
- * - La dependencia solicitante NO pertenece al árbol de la dueña.
- * - La dependencia dueña NO pertenece al árbol  de la solicitante.
- *
- *
- * @param \Illuminate\Database\Eloquent\Builder $query
- * @return \Illuminate\Database\Eloquent\Builder
- */
+     * Scope que filtra únicamente las reservas externas puras.
+     *
+     * Se considera reserva externa cuando:
+     *  - La dependencia dueña del vehículo es distinta a la dependencia solicitante.
+     *  - No existe relación directa padre-hija entre ambas dependencias
+     *    (ni la solicitante es hija directa de la dueña,
+     *     ni la dueña es hija directa de la solicitante).
+     *
+     * Para ello:
+     *  - Se compara que los IDs de dependencia sean diferentes.
+     *  - Se utilizan subconsultas con whereNotExists para descartar relaciones jerárquicas directas entre ambas dependencias.
+     *
+     * Esto garantiza que la reserva corresponda a un préstamo real
+     * entre sectores independientes dentro de la estructura organizacional.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
    public function scopeSoloExternas($query){
-    return $query
-        ->whereColumn('reservas.id_dependencia_duena', '!=', 'reservas.id_dependencia_solicitante')
+    return $query->whereColumn('reservas.id_dependencia_duena', '!=', 'reservas.id_dependencia_solicitante')
 
         // La solicitante NO es hija directa de la dueña
         ->whereNotExists(function ($q) {
