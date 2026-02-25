@@ -77,8 +77,7 @@
 
         <button
             onclick="resolverTodas()"
-            class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition-colors"
-        >
+            class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition-colors">
             <i class="fas fa-check-double mr-2"></i>
             Marcar todas como leídas
         </button>
@@ -89,12 +88,10 @@
             <div class="flex items-start gap-4 p-4 rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
 
                 <!-- Icono -->
-                <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0
-                    {{ $alerta->tipo === 'vehiculo_fuera_servicio' ? 'bg-red-100 dark:bg-red-900/20' : '' }}
-                    {{ $alerta->tipo === 'licencia_vencimiento' ? 'bg-yellow-100 dark:bg-yellow-900/20' : '' }}
-                    {{ $alerta->tipo === 'mantenimiento_pendiente' ? 'bg-blue-100 dark:bg-blue-900/20' : '' }}
-                    {{ $alerta->tipo === 'reserva_rechazada' ? 'bg-orange-100 dark:bg-orange-900/20' : '' }}
-                ">
+             <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0
+                 bg-{{ $alerta->color }}-100 dark:bg-{{ $alerta->color }}-900/20">
+           <i class="fas {{ $alerta->icono }} text-{{ $alerta->color }}-600 dark:text-{{ $alerta->color }}-400"></i>
+            </div>
                     <i class="fas
                         {{ $alerta->tipo === 'vehiculo_fuera_servicio' ? 'fa-car-crash text-red-600 dark:text-red-400' : '' }}
                         {{ $alerta->tipo === 'licencia_vencimiento' ? 'fa-id-card text-yellow-600 dark:text-yellow-400' : '' }}

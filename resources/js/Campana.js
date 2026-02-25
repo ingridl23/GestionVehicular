@@ -1,5 +1,5 @@
 // Este archivo ya NO es necesario porque usamos Alpine.js en navbar.blade.php
-// Puedes eliminarlo o dejarlo comentado
+// eliminarlo o dejarlo comentado
 
 /*
 document.addEventListener('DOMContentLoaded', () => {

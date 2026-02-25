@@ -4,6 +4,7 @@ use Illuminate\Validation\Rule;
 use App\Models\User;
 use App\Models\Dependencia;
 use App\Models\Alerta;
+use App\Models\EstadosNafta;
 use App\Models\Reserva;
 use App\Models\Vehiculo;
 use App\Models\Viaje;
@@ -90,6 +91,7 @@ class UserController extends Controller{
 
 
       $alertas = Alerta::latest()->take(10)->get();
+      $estadosNafta = EstadosNafta::get();
     // luego, cuando tengas datos reales:
     // $stats['licencias'] = Licencia::vencidas()->count
         $user = Auth::user();
@@ -99,7 +101,8 @@ class UserController extends Controller{
     'stats',
     'alertas',
     'disponibles',
-    'reservados'
+    'reservados',
+    'estadosNafta'
 ));
 
     }

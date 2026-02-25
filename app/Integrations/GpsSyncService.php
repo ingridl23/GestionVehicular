@@ -1,5 +1,5 @@
 <?php
-namespace App\Integrations\GPS;
+namespace App\Integrations\GPS\Contracts;
 
 use App\Models\Vehiculo;
 use App\Services\AlertaService;

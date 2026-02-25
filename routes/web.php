@@ -6,6 +6,7 @@ use App\Http\Controllers\AlertaController;
 use App\Http\Controllers\ReporteController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\HistorialController;
+use App\Http\Controllers\ViajeController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\DependenciaController;
 use App\Http\Controllers\Reservas\PrestamoController;
@@ -68,7 +69,12 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/reportes', [ReporteController::class, 'misReportes'])
             ->name('reportes.mis');
 
+ /********************************VIAJES ******************************************** */
+ Route::post('/viajes/iniciar/{reserva}', [ViajeController::class, 'iniciar'])
+    ->name('viajes.iniciar');
 
+    Route::post('/viajes/finalizar/{viaje}', [ViajeController::class, 'finalizar'])
+    ->name('viajes.finalizar');
    /********************************** Rutas de dependencia ************************************************/
 
     Route::prefix('dependencia')->name('dependencia.')->group(function () {
@@ -84,7 +90,19 @@ Route::middleware(['auth'])->group(function () {
             ->name('usuarios');
     });
 
-    /*************************************  RESERVAS GENERAL   ******************************* */
+
+    Route::middleware(['auth', 'role:Administrador de Dependencia'])
+    ->prefix('dependencia')
+    ->name('dependencia.')
+    ->group(function () {
+
+        Route::get('/reportes', [ReporteController::class, 'index'])
+            ->middleware('permission:ver_reportes_dependencia')
+            ->name('reportes.index');
+});
+
+
+    /*************************************  RESERVAS GENERAL   **********************************/
 
     //Aca se declararon las rutas que puede acceder todos los usuarios (independientemente del rol)
     //Las especificas por rol se declararon en AdminGeneral.php

@@ -109,27 +109,16 @@ class Alerta extends Model
             'combustible_bajo' => 'fa-gas-pump',
             'licencia_vencimiento' => 'fa-id-badge',
             default => 'fa-bell'
-        };
-    }
+            };
+            }
 
-    /**
-     * Obtener color según tipo de alerta
-     */
-    public function getColorAttribute(): string
-    {
-        return match($this->nivel ?? $this->tipo) {
-            'critica', 'vehiculo_fuera_servicio', 'vtv_vencida' => 'red',
-            'warning', 'vtv_por_vencer', 'reserva_por_vencer' => 'yellow',
-            'info', 'mantenimiento_pendiente' => 'blue',
-            default => 'gray'
-        };
-    }
+            /**
+             * Obtener color según tipo de alerta
+            */
 
-    /**
-     * Obtener título formateado
-     */
-    public function getTituloAttribute(): string
-    {
-        return ucfirst(str_replace('_', ' ', $this->tipo));
-    }
+
+
+
+
+
 }

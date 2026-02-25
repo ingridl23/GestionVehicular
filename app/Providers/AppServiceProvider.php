@@ -6,12 +6,16 @@ use Illuminate\Support\ServiceProvider;
 use App\Models\Alerta;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Auth;
-
+use App\Integrations\Gps\Contracts\GpsProviderInterface;
+use App\Integrations\Gps\GestyaProvider;
 class AppServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        //
+        $this->app->bind(
+        GpsProviderInterface::class,
+        GestyaProvider::class
+    );
     }
 
     public function boot(): void

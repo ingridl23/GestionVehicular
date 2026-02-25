@@ -8,7 +8,7 @@ use App\Http\Controllers\HistorialController;
 use App\Http\Controllers\Reservas\PrestamoController;
 use App\Http\Controllers\Reservas\ReservaController;
 
-Route::middleware(['auth', 'role:Administrador General'])
+Route::middleware(['auth', 'role:Administrador General|Administrador de Dependencia'])
     ->prefix('admin')
     ->name('admin.')
     ->group(function () {
