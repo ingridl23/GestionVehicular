@@ -161,7 +161,7 @@ abstract class BaseReservasServices implements ReservaServiceInterface{
 
     protected function obtenerDatosVerReservas(){
 
-        $query = Reserva::with('estado_reserva', 'vehiculo', 'usuario', 'dependencia_solicitante')
+        $query = Reserva::with('estado_reserva', 'vehiculos', 'usuario', 'dependencia_solicitante')
          ->orderByRaw("
             CASE (
             SELECT estado
@@ -250,7 +250,7 @@ abstract class BaseReservasServices implements ReservaServiceInterface{
         $id_vehiculo = $request->id_vehiculo;
         $id_usuario = $request->id_usuario;
         $reserva = Reserva::findOrFail($id);
-         $id_dependencia_solicitante = $request->id_dependencia;
+        $id_dependencia_solicitante = $request->id_dependencia;
 
 
 
@@ -515,7 +515,7 @@ if ($fechaVencimiento->lt($fecha_fin)) {
         }
 
         return response()->json(['reservas' => $query->get()]);
-    
+
     }
 
     public function verPrestamosInternos(){

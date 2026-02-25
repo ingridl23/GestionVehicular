@@ -26,7 +26,7 @@ class ReservaFormRequest extends FormRequest
         return [
             'fecha_inicio'=>'required|date|after:now',
             'fecha_fin'=>'required|date|after_or_equal:fecha_inicio',
-            'id_vehiculo'=>'required|integer|exists:vehiculo,id|not_in:default',
+            'id_vehiculo'=>'required|integer|exists:vehiculos,id|not_in:default',
             'id_usuario'=>'required|integer|exists:users,id|not_in:default',
             'id_dependencia'=>'required|integer|exists:dependencias,id',
         ];
@@ -49,7 +49,7 @@ class ReservaFormRequest extends FormRequest
             'id_usuario.required' => 'Debe seleccionar un usuario responsable.',
             'id_usuario.integer'  => 'El usuario seleccionado no es válido.',
             'id_usuario.exists'   => 'El usuario seleccionado no existe.',
-            
+
             'id_dependencia.required' => 'Debe seleccionar una dependencia para guardar la reserva.',
             'id_dependencia.integer'  => 'La dependencia seleccionada no es válida.',
             'id_dependencia.exists'   => 'La dependencia seleccionada no existe.',

@@ -12,37 +12,38 @@
         title="Vehículos Activos"
         value="{{$reservados}}"
         icon="fa-car"
-        trend="+3 este mes"
-        :trend-up="true"
+
         color="blue"
     />
 <!--agregar contadores que faltan aca  -->
     <x-stat-card
         title="Reservas Activas"
-        value="8"
+           value="{{$reservascount}}"
         icon="fa-calendar-check"
-        trend="2 pendientes"
-        :trend-up="false"
+
         color="green"
     />
 
     <x-stat-card
-        title="Reportes Abiertos"
-        value="5"
+        title="Reportes Pendientes"
+          value="{{$reportesp}}"
         icon="fa-file-alt"
-        trend="-2 desde ayer"
+
+
+        color="yellow"
+    />
+
+        <x-stat-card
+        title="Reportes Abiertos"
+          value="{{$reportesA}}"
+        icon="fa-file-alt"
+
         :trend-up="true"
         color="yellow"
     />
 
-    <x-stat-card
-        title="Alertas Activas"
-        value="3"
-        icon="fa-bell"
-        trend="Requieren atención"
-        :trend-up="false"
-        color="red"
-    />
+
+
 
 </div>
 
@@ -132,6 +133,9 @@
                             {{ $vehiculo->dominio }}
                         </p>
                     </div>
+@php
+    $estado = strtoupper($vehiculo->estadoVehiculo?->estado ?? '');
+@endphp
 
                     <span class="px-3 py-1 text-xs font-medium rounded-full
                         @if($vehiculo->estadoVehiculo?->estado === 'Disponible')
@@ -157,42 +161,54 @@
             <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
                 Reservas Recientes
             </h2>
-            <a href="#"
+            <a href="   {{ route('reservas.internas') }} "
                class="text-sm text-blue-600 dark:text-blue-400 hover:underline">
                 Ver todas
             </a>
         </div>
 
         <div class="space-y-3">
-            @for($i = 1; $i <= 4; $i++)
+            @forelse($ultimasReservas as $reserva)
                 <div class="flex items-center gap-4 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700/50">
 
                     <div class="w-10 h-10 bg-blue-100 dark:bg-blue-900/20 rounded-full flex items-center justify-center text-blue-600 dark:text-blue-400 font-semibold text-sm">
-                        JD
+                      {{ strtoupper(substr($reserva->usuario?->name ?? 'N', 0, 1)) }}
                     </div>
 
                     <div class="flex-1">
                         <p class="text-sm font-medium text-gray-900 dark:text-white">
-                            Reunión Cliente {{ $i }}
+                              {{ $reserva->vehiculo?->marca }} {{ $reserva->vehiculo?->modelo }}
                         </p>
                         <p class="text-xs text-gray-500 dark:text-gray-400">
-                            {{ now()->addDays($i)->format('d M Y') }}
+                             {{ $reserva->fecha_inicio_reserva?->format('d/m/Y H:i') }}
                         </p>
                     </div>
+@php
+    $estado = strtoupper($reserva->estado_reserva?->estado ?? '');
+@endphp
 
-                    <span class="px-3 py-1 text-xs font-medium rounded-full
-                        {{ $i == 1
-                            ? 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/20 dark:text-yellow-400'
-                            : 'bg-green-100 text-green-700 dark:bg-green-900/20 dark:text-green-400' }}">
-                        {{ $i == 1 ? 'Pendiente' : 'Aprobada' }}
-                    </span>
+              <span class="px-3 py-1 text-xs font-medium rounded-full
+                @if($reserva->estado_reserva?->estado === 'PENDIENTE')
+                    bg-yellow-100 text-yellow-700 dark:bg-yellow-900/20 dark:text-yellow-400
+                @elseif($reserva->estado_reserva?->estado === 'EN_CURSO')
+                    bg-blue-100 text-blue-700 dark:bg-blue-900/20 dark:text-blue-400
+                @else
+                    bg-green-100 text-green-700 dark:bg-green-900/20 dark:text-green-400
+                @endif">
+                {{ $reserva->estado_reserva?->estado ?? 'N/A' }}
+            </span>
+
 
                 </div>
-            @endfor
+        @empty
+        <p class="text-sm text-gray-500 dark:text-gray-400">
+            No hay reservas recientes
+        </p>
+                @endforelse
+            </div>
         </div>
-    </div>
 
-</div>
+    </div>
 
 
 

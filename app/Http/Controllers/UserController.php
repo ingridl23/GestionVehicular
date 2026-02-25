@@ -6,6 +6,7 @@ use App\Models\Dependencia;
 use App\Models\Alerta;
 use App\Models\EstadosNafta;
 use App\Models\Reserva;
+use App\Models\Reportes;
 use App\Models\Vehiculo;
 use App\Models\Viaje;
 use Illuminate\Http\Request;
@@ -36,6 +37,13 @@ class UserController extends Controller{
         ->orderBy('created_at', 'desc')
         ->take(4)
         ->get();
+  $reservascount = Reserva::whereHas('estado_reserva', function ($q) {
+    $q->where('estado', 'EN_CURSO');
+})->count();
+  $ultimasReservas = Reserva::with('estado_reserva')
+        ->orderBy('created_at', 'desc')
+        ->take(4)
+        ->get();
 
     $vehiculosStats = [
     $total = Vehiculo::count(),
@@ -49,7 +57,9 @@ class UserController extends Controller{
         $q->where('estado', 'EN_MANTENIMIENTO')
     )->count(),
     $baja = Vehiculo::whereHas('estadoVehiculo', fn($q) =>
-        $q->where('estado', 'BAJA'))->count()
+        $q->where('estado', 'BAJA'))->count(),
+         $reportesp = Reportes::where('estado','pendiente')->count(),
+    $reportesA = Reportes::where('estado','en_revision')->count(),
 ];
     // luego, cuando tengas datos reales:
     // $stats['licencias'] = Licencia::vencidas()->count()
@@ -59,11 +69,11 @@ class UserController extends Controller{
         }
 
         if ($user->hasRole('Administrador General')) {
-            return view('admin.auditoria.index', compact('user','ultimosVehiculos','disponibles','total','reservados','mantenimiento','baja'));
+            return view('admin.auditoria.index', compact('user','ultimosVehiculos','disponibles','total','reservados','mantenimiento','baja','reservascount','reportesp','reportesA','ultimasReservas'));
         }
 
         if ($user->hasAnyRole(['Administrador de Dependencia', 'Jefe de Area'])) {
-            return view('admin.auditoria.index', compact('user','stats','alertas','ultimosVehiculos','disponibles','total','reservados','mantenimiento','baja'));
+            return view('admin.auditoria.index', compact('user','stats','alertas','ultimosVehiculos','reservascount','disponibles','total','reservados','mantenimiento','baja','reportesp','reportesA','ultimasReservas'));
         }
 
         abort(403);
@@ -180,7 +190,11 @@ class UserController extends Controller{
             'email' => 'required|email|unique:users',
             'password' => 'required|min:8',
             'id_dependencia' => 'required|exists:dependencias,id',
-            'role' => 'required|string|exists:roles,name'
+            'role' => 'required|string|exists:roles,name',
+            'role' => 'required|string|exists:roles,name',
+            'fecha_emision' => 'required|date',
+            'fecha_vencimiento' => 'required|date|after:fecha_emision',
+            'vigente' => 'required|in:true,false'
         ]);
 
         $user = User::create([
@@ -192,6 +206,14 @@ class UserController extends Controller{
             'id_dependencia' => $data['id_dependencia'],
             'enabled' => true,
         ]);
+
+         //  CREAR CARNET
+        $user->carnet()->create([
+        'fecha_emision' => $data['fecha_emision'],
+        'fecha_vencimiento' => $data['fecha_vencimiento'],
+        'vigente' => filter_var($data['vigente'], FILTER_VALIDATE_BOOLEAN),
+    ]);
+
 
         $user->assignRole($data['role']);
 
@@ -205,7 +227,7 @@ class UserController extends Controller{
     public function show(User $usuario)
     {
         $user = Auth::user();
-
+        $usuario->load(['dependencia', 'roles', 'carnet']);
         // Verificar permisos
         $esAdmin = $user->hasRole('Administrador General');
         $esAdminDependencia = $user->hasRole('Administrador de Dependencia');
@@ -276,8 +298,13 @@ class UserController extends Controller{
     ],
             'id_dependencia' => 'required|exists:dependencias,id',
             'role' => 'required|string|exists:roles,name',
-            'password' => 'nullable|min:8'
-        ]);
+            'password' => 'nullable|min:8',
+
+            // CARNET
+            'fecha_emision' => 'required|date',
+            'fecha_vencimiento' => 'required|date|after:fecha_emision',
+            'vigente' => 'required|in:true,false',
+            ]);
 
         // Actualizar datos básicos
         $updateData = [
@@ -288,12 +315,23 @@ class UserController extends Controller{
             'id_dependencia' => $data['id_dependencia'],
         ];
 
+
+
         // Solo actualizar contraseña si se proporciona
         if (!empty($data['password'])) {
             $updateData['password'] = Hash::make($data['password']);
         }
 
         $usuario->update($updateData);
+
+           $usuario->carnet()->updateOrCreate(
+    ['id_usuario' => $usuario->id],
+    [
+        'fecha_emision' => $data['fecha_emision'],
+        'fecha_vencimiento' => $data['fecha_vencimiento'],
+        'vigente' => filter_var($data['vigente'], FILTER_VALIDATE_BOOLEAN),
+    ]
+);
 
         // Actualizar rol
         $usuario->syncRoles([$data['role']]);
@@ -327,7 +365,7 @@ class UserController extends Controller{
     public function myProfile()
     {
         $usuario = Auth::user();
-        $usuario->load(['dependencia', 'roles']);
+        $usuario->load(['dependencia', 'roles', 'carnet']);
 
         // Todos pueden ver su propio perfil
         $puedeEditar = true;
@@ -365,6 +403,9 @@ class UserController extends Controller{
             'max:20',
             Rule::unique('users', 'legajo')->ignore($usuario->id),
         ],
+
+
+
     ]);
 
 

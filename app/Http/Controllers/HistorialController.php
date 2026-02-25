@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Reportes;
+use App\Models\Reserva;
 use App\Models\Vehiculo;
 class HistorialController extends Controller{
 
@@ -11,6 +12,7 @@ public function index(){
         ->take(4)
         ->get();
 
+
       $vehiculosStats = [
     $total = Vehiculo::count(),
     $disponibles = Vehiculo::whereHas('estadoVehiculo', fn($q) =>
@@ -19,6 +21,8 @@ public function index(){
     $reservados = Vehiculo::whereHas('estadoVehiculo', fn($q) =>
         $q->where('estado', 'EN_USO')
     )->count(),
+
+
     $mantenimiento = Vehiculo::whereHas('estadoVehiculo', fn($q) =>
         $q->where('estado', 'EN_MANTENIMIENTO')
     )->count(),
@@ -27,7 +31,7 @@ public function index(){
 ];
 
 
-    return View ('admin.auditoria.index', compact('ultimosVehiculos','total','disponibles','reservados','mantenimiento','baja'));
+    return View ('admin.auditoria.index', compact('ultimosVehiculos','ultimasReservas','total','disponibles','reservados','reportesp','reportesA','mantenimiento','baja'));
 }
 
     public function resumen()

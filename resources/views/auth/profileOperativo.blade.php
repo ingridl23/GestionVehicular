@@ -1,11 +1,11 @@
- 
+
  @extends('layout.app')
 
 @section('page-title', 'Perfil de Usuario')
 @section('page-description', 'Información del usuario')
 
 @section('content')
- 
+
  <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
@@ -61,10 +61,7 @@
                             </span>
                         @endif
 
-                        <span class="px-3 py-1 {{ $usuario->enabled ? 'bg-green-500' : 'bg-red-500' }} text-white text-sm rounded-full flex items-center gap-1">
-                            <i class="fas {{ $usuario->enabled ? 'fa-check-circle' : 'fa-times-circle' }}"></i>
-                            {{ $usuario->enabled ? 'Activo' : 'Inactivo' }}
-                        </span>
+
                     </div>
                 </div>
             </div>
@@ -135,6 +132,31 @@
                             <p class="text-gray-900 dark:text-white">{{ $usuario->legajo ?? 'N/A' }}</p>
                         @endif
                     </div>
+
+
+                      <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                            Licencia de Conducir
+                        </label>
+
+                        @if($puedeEditar)
+                            <input type="date" name="fecha_emision" value="{{ old('fecha_emision', $usuario->carnet->fecha_emision) }}"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                        @else
+                            <p class="text-gray-900 dark:text-white">{{ $usuario->carnet->fecha_emision ?? 'N/A' }}</p>
+                        @endif
+
+                          @if($puedeEditar)
+                            <input type="date" name="fecha_vencimiento" value="{{ old('fecha_vencimiento', $usuario->carnet->fecha_vencimiento) }}"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                        @else
+                            <p class="text-gray-900 dark:text-white">{{ $usuario->carnet->fecha_vencimiento ?? 'N/A' }}</p>
+                        @endif
+                          <p class="text-gray-900 dark:text-white">{{ $usuario->carnet->vigente ?? 'N/A' }}</p>
+
+
+                    </div>
+
 
                 </div>
             </div>

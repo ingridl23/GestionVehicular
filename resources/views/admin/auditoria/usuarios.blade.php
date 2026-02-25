@@ -300,6 +300,29 @@
                             @endforeach
                         </select>
                     </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Licencia de conducir</label>
+                       <p class="font-small text-gray-400">fecha de emision</p>
+                        <input type="date" name="fecha_emision" required
+                            class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                        <p class="font-small text-gray-400">fecha de vencimiento</p>
+                            <input type="date" name="fecha_vencimiento" required
+                            class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                         <p class="font-small text-gray-400"> estado de la licencia</p>
+                         <select name="vigente" required
+                            class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                            <option value="true">Vigencia Activa</option>
+
+                           <option value="false">Vigencia caducada</option>
+
+                        </select>
+
+
+                        </div>
+
+
+
                 </div>
 
                 <div class="flex justify-end gap-2 mt-6">
