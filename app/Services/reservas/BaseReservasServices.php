@@ -15,19 +15,56 @@ use Illuminate\Support\Facades\Auth;
 
 abstract class BaseReservasServices implements ReservaServiceInterface{
 
+
+    public function user(){
+        return Auth::user();
+    }
+
+    public function rol(){
+        $rol = $this->user()->getRoleNames();
+        return $rol[0] ;
+    }
+
+    protected function id_dependencia(){
+        return $this->user()->dependencia->id;
+    }
+
+
+    /**
+     * Obtiene las reservas externas pendientes según el rol del usuario autenticado.
+     *
+     * - Administrador de Dependencia:
+     *   Visualiza las reservas externas pendientes asociadas al arbol jerarquico de la dependencia del usuario.
+     * 
+     *
+     * - Administrador General:
+     *   Visualiza todas las reservas externas pendientes del sistema.
+     *
+     * - Otros roles:
+     *   No tienen permiso para acceder a esta información (retorna 403).
+     *
+     * La consulta se construye a partir de obtenerDatosVerReservas(),
+     * luego se calcula el total de registros y se retornan los resultados
+     * paginados (10 por página).
+     *
+     * @return array{
+     *     reservas: \Illuminate\Contracts\Pagination\LengthAwarePaginator,
+     *     total: int
+     * }
+     */
     public function verReservasPendientes(){
-        $id_dependencia = $this->user()->dependencia->id;
+        $id_dependencia = $this->id_dependencia();
         $query = $this->obtenerDatosVerReservas();
 
         if($this->rol() == "Administrador de Dependencia"){
-            $query->obtenerDependenciasExternasPendientes($id_dependencia);
+            $query->obtenerDependenciasExternas($id_dependencia, false)->pendientes();
         }
         else if($this->rol() == "Administrador General"){
-                    $query->soloExternas($id_dependencia)->pendientes();
+            $query->soloExternas($id_dependencia)->pendientes();
 
         }
         else{
-             abort(403, 'No tiene permisos para acceder a estas reservas.');
+            abort(403, 'No tiene permisos para acceder a estas reservas.');
         }
 
         $total = $query->count();
@@ -37,15 +74,6 @@ abstract class BaseReservasServices implements ReservaServiceInterface{
             'reservas' => $reservas,
             'total' => $total
         ];
-    }
-
-    public function user(){
-        return Auth::user();
-    }
-
-    public function rol(){
-        $rol = $this->user()->getRoleNames();
-        return $rol[0] ;
     }
 
     /**
@@ -115,14 +143,14 @@ abstract class BaseReservasServices implements ReservaServiceInterface{
         return $ids;
     }
 
-        /**
+    /**
      * Obtiene de forma recursiva las dependencias pertenecientes al arbol de la dependencia padre
      *
      * Se utiliza recursividad para recorrer el árbol completo
      * de dependencias sin importar la profundidad.
      *
      * @param  Dependencia $dependencia  Dependencia raíz desde donde iniciar el recorrido
-     * @return array<Dependencia>                Array con las dependencias encontradas
+     * @return array<Dependencia> Array con las dependencias encontradas
      */
     function obtenerDependenciasArbol($dependencia){
 
@@ -187,9 +215,8 @@ abstract class BaseReservasServices implements ReservaServiceInterface{
      *
      *
      * @param  Int $id  ID de la dependencia a buscar
-     * @return array<int>                Array con los IDs de todas las dependencias encontradas
+     * @return array<int> Array con los IDs de todas las dependencias encontradas
      */
-
     public function verReserva($id){
         $reserva = Reserva::with('estado_reserva', 'vehiculo.estadoNafta', 'usuario.carnet', 'dependencia_solicitante.direccion', 'dependencia_duena.direccion')
         ->find($id);
@@ -203,6 +230,7 @@ abstract class BaseReservasServices implements ReservaServiceInterface{
         return null;
     }
 
+
     public function cancelarReserva($id){
        $reserva = Reserva::findOrFail($id);
         if(!$reserva){
@@ -213,6 +241,7 @@ abstract class BaseReservasServices implements ReservaServiceInterface{
         $estado_cancelado = EstadosReserva::where("estado", "CANCELADA")->value('id');
         $reserva->update(['id_estado_reserva' => $estado_cancelado]);
     }
+
 
 
     public function crearReserva($request){
@@ -252,17 +281,11 @@ abstract class BaseReservasServices implements ReservaServiceInterface{
         $reserva = Reserva::findOrFail($id);
          $id_dependencia_solicitante = $request->id_dependencia;
 
-
-
-        // Se redirige a cada service (interna o externa) para ver que valores de los parametros
-        //debe tomar
         $validaciones = $this->valoresParametrosValidaciones($id_vehiculo, $fecha_inicio, $fecha_fin, $id_usuario, $id_dependencia_solicitante, $id);
 
         if($validaciones != null){
             return $validaciones;
         }
-
-
 
         $id_dependencia_duena = Vehiculo::where('id', $id_vehiculo)->value('id_dependencia_duena');
         $id_estado_reserva = $this->obtenerEstadoReserva();
@@ -278,8 +301,10 @@ abstract class BaseReservasServices implements ReservaServiceInterface{
             'id_dependencia_duena' => $id_dependencia_duena,
             'id_dependencia_solicitante' => $id_dependencia_solicitante,
         ]);
-
     }
+
+
+
 
     public function editarConductor($request, $id){
         $reserva = Reserva::findOrFail($id);
@@ -331,116 +356,129 @@ abstract class BaseReservasServices implements ReservaServiceInterface{
 
     public function validaciones($id_vehiculo, $fecha_inicio, $fecha_fin, $id_usuario, $id_dependencia_solicitante, $id = null, $esPrestamo = false) {
 
-    // ===============================
-    // VEHÍCULO OCUPADO QUE TENGA LA RESERVA APROBADA/EN CURSO/PENDIENTE
-    // ===============================
-    $vehiculoQuery = Reserva::join('estados_reservas', 'estados_reservas.id', '=', 'reservas.id_estado_reserva')
-        ->where('id_vehiculo', $id_vehiculo)
-        ->whereIn('estados_reservas.estado', ['APROBADA', 'EN CURSO', 'PENDIENTE'])
-        ->where(function ($q) use ($fecha_inicio, $fecha_fin) {
-            $q->where('fecha_inicio_reserva', '<', $fecha_fin)
-              ->where('fecha_fin_reserva', '>', $fecha_inicio);
-        });
+        // ===============================
+        // VEHÍCULO OCUPADO QUE TENGA LA RESERVA APROBADA/EN CURSO/PENDIENTE
+        // ===============================
+        $vehiculoQuery = Reserva::join('estados_reservas', 'estados_reservas.id', '=', 'reservas.id_estado_reserva')
+            ->where('id_vehiculo', $id_vehiculo)
+            ->whereIn('estados_reservas.estado', ['APROBADA', 'EN CURSO', 'PENDIENTE'])
+            ->where(function ($q) use ($fecha_inicio, $fecha_fin) {
+                $q->where('fecha_inicio_reserva', '<', $fecha_fin)
+                ->where('fecha_fin_reserva', '>', $fecha_inicio);
+            });
 
-    if ($id != null) {
-        $vehiculoQuery->where('reservas.id', '!=', $id);
-    }
-
-    if ($vehiculoQuery->exists()) {
-        return ['vehiculo', true];
-    }
-
-    // ===============================
-    // VEHÍCULO HABILITADO
-    // ===============================
-    $vehiculoQuery = Vehiculo::where('id', $id_vehiculo)
-        ->whereHas('estadoVehiculo', function ($q) {
-            $q->where('estado', 'DISPONIBLE');
-        });
-
-    // ===============================
-    // VEHÍCULO HABILITADO PARA PRESTAMO
-    // ===============================
-    if ($esPrestamo) {
-        $vehiculoQuery->where('habilitado_prestamo', true);
-    }
-
-    if (!$vehiculoQuery->exists()) {
-        return ['vehiculo_no_habilitado', true];
-    }
-
-    // ===============================
-    // USUARIO OCUPADO
-    // ===============================
-    $usuarioQuery = Reserva::join('estados_reservas', 'estados_reservas.id', '=', 'reservas.id_estado_reserva')
-        ->where('id_usuario', $id_usuario)
-        ->whereIn('estados_reservas.estado', ['APROBADA', 'EN CURSO', 'PENDIENTE'])
-        ->where(function ($q) use ($fecha_inicio, $fecha_fin) {
-            $q->where('fecha_inicio_reserva', '<', $fecha_fin)
-              ->where('fecha_fin_reserva', '>', $fecha_inicio);
-        });
-
-
-    if ($id) {
-        $usuarioQuery->where('reservas.id', '!=', $id);
-    }
-
-    if ($usuarioQuery->exists()) {
-        return ['usuario', true];
-    }
-
-  // ===============================
-// USUARIO HABILITADO Y CARNET CUBRE TODO EL PERÍODO
-// ===============================
-
-$usuario = User::with('carnet')->find($id_usuario);
-
-if (!$usuario || !$usuario->carnet) {
-    return ['usuario_sin_carnet', true];
-}
-
-$fechaVencimiento = $usuario->carnet->fecha_vencimiento;
-
-// Si vence antes de terminar la reserva
-if ($fechaVencimiento->lt($fecha_fin)) {
-    return ['carnet_no_cubre_periodo', true];
-}
-    // ===============================
-    // DEPENDENCIA VALIDA
-    // ===============================
-
-    $id_dependencia = User::where('id', $id_usuario)->value('id_dependencia');
-    $dependencia = Dependencia::findOrFail($id_dependencia);
-    $idsPermitidos = $this->obtenerDependenciasIds($dependencia);
-
-    if($dependencia->dependenciaPadre){
-        // Permite tener todos los id's en caso de ser la dependencia mas lejos de la raíz del arbol de dependencias
-        $idsPermitidos = array_merge($idsPermitidos, $this->obtenerDependenciasPadres($dependencia));
-
-        $idsPermitidos = array_merge($this->obtenerDependenciasIds($dependencia->dependenciaPadre));
-    }
-
-
-    // Verifica que, si no es un préstamo, la dependencia solicitante se encuentre en el arbol que le corresponde
-    if(!in_array($id_dependencia_solicitante, $idsPermitidos)){
-        return ['dependencia', true];
-    }
-
-     // Verifica que al ser un prestamo, la dependencia solicitante no se encuentre en el arbol que le corresponde
-     // Este caso se ve más en el administrador general ya que al crear o editar se le muestran todos los datos cargados en la base de datos
-    if($esPrestamo){
-        $vehiculo_id_dependencia = Vehiculo::where("id", $id_vehiculo)->value("id_dependencia_duena");
-        if(in_array($vehiculo_id_dependencia, $idsPermitidos)){
-            return ['dependencia_prestamo', true];
+        if ($id != null) {
+            $vehiculoQuery->where('reservas.id', '!=', $id);
         }
+
+        if ($vehiculoQuery->exists()) {
+            return ['vehiculo', true];
+        }
+
+        // ===============================
+        // VEHÍCULO HABILITADO
+        // ===============================
+        $vehiculoQuery = Vehiculo::where('id', $id_vehiculo)
+            ->whereHas('estadoVehiculo', function ($q) {
+                $q->where('estado', 'DISPONIBLE');
+            });
+
+        // ===============================
+        // VEHÍCULO HABILITADO PARA PRESTAMO
+        // ===============================
+        if ($esPrestamo) {
+            $vehiculoQuery->where('habilitado_prestamo', true);
+        }
+
+        if (!$vehiculoQuery->exists()) {
+            return ['vehiculo_no_habilitado', true];
+        }
+
+        // ===============================
+        // USUARIO OCUPADO
+        // ===============================
+        $usuarioQuery = Reserva::join('estados_reservas', 'estados_reservas.id', '=', 'reservas.id_estado_reserva')
+            ->where('id_usuario', $id_usuario)
+            ->whereIn('estados_reservas.estado', ['APROBADA', 'EN CURSO', 'PENDIENTE'])
+            ->where(function ($q) use ($fecha_inicio, $fecha_fin) {
+                $q->where('fecha_inicio_reserva', '<', $fecha_fin)
+                ->where('fecha_fin_reserva', '>', $fecha_inicio);
+            });
+
+
+        if ($id) {
+            $usuarioQuery->where('reservas.id', '!=', $id);
+        }
+
+        if ($usuarioQuery->exists()) {
+            return ['usuario', true];
+        }
+
+        // ===============================
+        // USUARIO HABILITADO Y CARNET CUBRE TODO EL PERÍODO
+        // ===============================
+
+        $usuario = User::with('carnet')->find($id_usuario);
+
+        if (!$usuario || !$usuario->carnet) {
+            return ['usuario_sin_carnet', true];
+        }
+
+        $fechaVencimiento = $usuario->carnet->fecha_vencimiento;
+
+        // Si vence antes de terminar la reserva
+        if ($fechaVencimiento->lt($fecha_fin)) {
+            return ['carnet_no_cubre_periodo', true];
+        }
+
+        // ===============================
+        // DEPENDENCIA VALIDA
+        // ===============================
+
+        $id_dependencia = User::where('id', $id_usuario)->value('id_dependencia');
+        $dependencia = Dependencia::findOrFail($id_dependencia);
+        $idsPermitidos = $this->obtenerDependenciasIds($dependencia);
+
+        if($dependencia->dependenciaPadre){
+            // Permite tener todos los id's en caso de ser la dependencia mas lejos de la raíz del arbol de dependencias
+            $idsPermitidos = array_merge($idsPermitidos, $this->obtenerDependenciasPadres($dependencia));
+
+            $idsPermitidos = array_merge($this->obtenerDependenciasIds($dependencia->dependenciaPadre));
+        }
+
+
+        // Verifica que, si no es un préstamo, la dependencia solicitante se encuentre en el arbol que le corresponde
+        if(!in_array($id_dependencia_solicitante, $idsPermitidos)){
+            return ['dependencia', true];
+        }
+
+        // Verifica que al ser un prestamo, la dependencia solicitante no se encuentre en el arbol que le corresponde
+        // Este caso se ve más en el administrador general ya que al crear o editar se le muestran todos los datos cargados en la base de datos
+        if($esPrestamo){
+            $vehiculo_id_dependencia = Vehiculo::where("id", $id_vehiculo)->value("id_dependencia_duena");
+            if(in_array($vehiculo_id_dependencia, $idsPermitidos)){
+                return ['dependencia_prestamo', true];
+            }
+        }
+
+        return null;
     }
 
-
-
-    return null;
-    }
-
-
+    /**
+     * Autoriza un préstamo (reserva externa) si cumple con todas las validaciones correspondientes.
+     *
+     * Validaciones realizadas:
+     *  - Verifica que el usuario tenga carnet asociado.
+     *  - Verifica que el carnet cubra todo el período de la reserva.
+     *  - Ejecuta validaciones adicionales (vehiculo disponible en fecha , vehiculo disponible y habilitado para prestamo, usuario disponible).
+     *
+     * Si alguna validación falla, retorna un arreglo indicando el tipo de error.
+     * Si todas las validaciones son correctas, actualiza el estado de la reserva
+     * a "APROBADA".
+     *
+     * @param int $id ID de la reserva a autorizar.
+     * @return bool|array True si se actualiza correctamente o array con error.
+     */
     public function autorizarPrestamo($id){
         $reserva = Reserva::findOrFail($id);
 
@@ -460,9 +498,7 @@ if ($fechaVencimiento->lt($fecha_fin)) {
         $fecha_fin =$reserva->fecha_fin_reserva;
         $id_vehiculo = $reserva->id_vehiculo;
         $id_usuario = $reserva->id_usuario;
-
         $id_dependencia_solicitante = $reserva->id_dependencia_solicitante;
-
 
         $validaciones = $this->valoresParametrosValidaciones($id_vehiculo, $fecha_inicio, $fecha_fin, $id_usuario, $id_dependencia_solicitante, $reserva->id);
 
@@ -472,9 +508,8 @@ if ($fechaVencimiento->lt($fecha_fin)) {
 
         $id_estado_reserva = EstadosReserva::where("estado", "APROBADA")->value('id');
         return $reserva->update(['id_estado_reserva' => $id_estado_reserva]);
-
-
     }
+
 
 
     public function rechazarPrestamo($id){
@@ -483,62 +518,106 @@ if ($fechaVencimiento->lt($fecha_fin)) {
         return $reserva->update(['id_estado_reserva' => $id_estado_reserva]);
     }
 
+
     //Estado que tomará la reserva cuando se cree o se edite
     // Si es interna -> APROBADA (automaticamente)
     // Si es externa -> PENDIENTE hasta que alguien la autorice.
     abstract public function obtenerEstadoReserva();
 
 
+    
+
+    /**
+    * Prepara y delega los parámetros necesarios para ejecutar las validaciones
+    * de negocio de una reserva.
+    *
+    * Este método actúa como intermediario hacia el método validaciones(),
+    * enviando los valores específicos que cada clase hija necesita evaluar.
+    *
+    * Se encuentra definido en las clases hijas, donde cada una puede
+    * interpretar o utilizar los parámetros de manera diferente según
+    * el tipo de reserva (por ejemplo, interna o préstamo).
+    *
+    * @param int $id_vehiculo
+    * @param \Carbon\Carbon|string $fecha_inicio
+    * @param \Carbon\Carbon|string $fecha_fin
+    * @param int $id_usuario
+    * @param int $id_dependencia_solicitante
+    * @param int|null $id ID de la reserva (opcional, útil en ediciones)
+    * @return mixed Resultado de las validaciones de negocio.
+    */
 
     protected function valoresParametrosValidaciones($id_vehiculo, $fecha_inicio, $fecha_fin, $id_usuario, $id_dependencia_solicitante, $id = null) {
         return $this->validaciones($id_vehiculo, $fecha_inicio, $fecha_fin, $id_usuario, $id_dependencia_solicitante, $id, false);
     }
 
 
+    /**
+     * Obtiene y retorna las reservas correspondientes a préstamos externos (donde yo soy el dueño del vehiculo y me lo solicita otra dependencia).
+     *
+     * - Administrador de Dependencia y Jefe de Área:
+     *   Visualizan los préstamos externos vinculados a su dependencia,
+     *   filtrando por las dependencias que pertenecen a su árbol jerárquico.
+     *
+     *
+     * - Si es otro rol:
+     *   Devuelve null a no tener los permisos correspondientes.
+     *
+     * La respuesta se retorna en formato JSON con el listado de reservas si se genero efectivamente.
+     * La respuesta se retorna en formato JSON con el valor null al no cumplir con los requisitos.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function verPrestamosExternos(){
         $rol = $this->rol();
-        $id_dependencia = $this->user()->dependencia->id;
+        $id_dependencia = $this->id_dependencia();
         $query = $this->obtenerDatosVerReservas();
 
         $ids = $this->obtenerDependenciasIds(Dependencia::find($id_dependencia));
 
 
         if($rol == 'Administrador de Dependencia' || $rol == 'Jefe de Area'){
-            $query->obtenerDependenciasExternas($id_dependencia)->where('id_dependencia_duena' , $ids);
-        }
-
-        else if($rol == 'Operativo'){
-            $query->obtenerDependenciasExternas($id_dependencia)->where('id_usuario', $this->user()->id)->where('id_dependencia_duena' , $ids);
+            $query->obtenerDependenciasExternas($id_dependencia)->whereIn('id_dependencia_duena' , $ids);
         }
        else{
-           $query->soloExternas($id_dependencia)->where('id_dependencia_duena' , $ids);
+           return response()->json(['reservas' => null]);
         }
 
-        return response()->json(['reservas' => $query->get()]);
+        return $query->paginate(3);
     
     }
 
+    /**
+     * Obtiene y retorna las reservas correspondientes a préstamos internos (donde yo no soy el dueño del vehiculo y lo solicito otra dependencia).
+     *
+     * - Administrador de Dependencia y Jefe de Área:
+     *   Visualizan los préstamos internos vinculados a las dependencias que pertenecen a su árbol jerárquico.
+     *
+     * - Si es otro rol:
+     *   Devuelve null a no tener los permisos correspondientes.
+     *
+     * La respuesta se retorna en formato JSON con el listado de reservas si se genero efectivamente.
+     * La respuesta se retorna en formato JSON con el valor null al no cumplir con los requisitos.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+
     public function verPrestamosInternos(){
         $rol = $this->rol();
-        $id_dependencia = $this->user()->dependencia->id;
+        $id_dependencia = $this->id_dependencia();
         $query = $this->obtenerDatosVerReservas();
-
         $ids = $this->obtenerDependenciasIds(Dependencia::find($id_dependencia));
-
 
         if($rol == 'Administrador de Dependencia' || $rol == 'Jefe de Area'){
             $query->obtenerDependenciasExternas($id_dependencia)->whereIn('id_dependencia_solicitante' , $ids);
         }
 
-        else if($rol == 'Operativo'){
-            $query->obtenerDependenciasExternas($id_dependencia)->where('id_usuario', $this->user()->id)->whereIn('id_dependencia_solicitante' , $ids);
-        }
        else{
-           $query->soloExternas($id_dependencia)->whereIn('id_dependencia_solicitante' , $ids);
+           return null;
         }
 
 
-        return response()->json(['reservas' => $query->get()]);
+       return $query->paginate(3);
 
     }
 }

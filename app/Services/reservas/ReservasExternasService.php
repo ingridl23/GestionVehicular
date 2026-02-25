@@ -15,17 +15,13 @@ class ReservasExternasService extends BaseReservasServices{
 
     public function verReservas(){
         $rol = $this->rol();
-        $id_dependencia = $this->user()->dependencia->id;
+        $id_dependencia = $this->id_dependencia();
         $query = $this->obtenerDatosVerReservas();
-
         $ids = $this->obtenerDependenciasIds(Dependencia::find($id_dependencia));
-
-
 
         if($rol == 'Administrador de Dependencia' || $rol == 'Jefe de Area'){
             $query->obtenerDependenciasExternas($id_dependencia);
         }
-
         else if($rol == 'Operativo'){
             $query->obtenerDependenciasExternas($id_dependencia)->where('id_usuario', $this->user()->id);
         }
@@ -66,13 +62,11 @@ class ReservasExternasService extends BaseReservasServices{
      * }
      */
     private function datosForm(){
-        $id_dependencia = $this->user()->dependencia->id;
+        $id_dependencia = $this->id_dependencia();
         $dependencia = Dependencia::find($id_dependencia);
         $ids = $this->obtenerDependenciasIds($dependencia);
         $base = $this->obtenerDatosBase();
         $rol = $this->rol();
-
-
 
         $queryVehiculos = $base['queryVehiculos'];
         $queryUsuarios  = $base['queryUsuarios'];
@@ -193,7 +187,7 @@ class ReservasExternasService extends BaseReservasServices{
      */
     public function datosFiltros(){
         $rol = $this->rol();
-        $id_dependencia = $this->user()->dependencia->id;
+        $id_dependencia = $this->id_dependencia();
 
         /**
          * Se obtienen únicamente los vehículos que tengan al menos

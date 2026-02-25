@@ -13,7 +13,7 @@ class ReservasInternasService extends BaseReservasServices{
 
     public function verReservas(){
         $rol = $this->rol();
-        $id_dependencia = $this->user()->dependencia->id;
+        $id_dependencia = $this->id_dependencia();
 
        $query = $this->obtenerDatosVerReservas();
 
@@ -59,7 +59,7 @@ class ReservasInternasService extends BaseReservasServices{
      * }
      */
     private function datosForm(){
-        $id_dependencia = $this->user()->dependencia->id;
+        $id_dependencia = $this->id_dependencia();
         $dependencia = Dependencia::with('dependenciasHijas')->find($id_dependencia);
         $arbol = $this->obtenerDependenciasArbol($dependencia);
 
@@ -174,7 +174,7 @@ class ReservasInternasService extends BaseReservasServices{
      */
     public function datosFiltros(){
         $rol = $this->rol();
-        $id_dependencia = $this->user()->dependencia->id;
+        $id_dependencia = $this->id_dependencia();
         $id_usuario = $this->user()->id;
 
         //whereHas -> vehiculos que tengan al menos una reserva que cumpla con las condiciones (FILTRA)

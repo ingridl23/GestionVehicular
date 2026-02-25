@@ -49,12 +49,34 @@ abstract class BaseReservaController extends Controller
     //permiso = 'actualizar_prestamo' || 'actualizar_reserva_interna'
     public function mostrarFormularioUpdate($id)
     {
-        $reserva = Reserva::findOrFail($id);
         //$this->authorize('actualizar', $reserva);
         return view('ui.reservas.formularios.editar', $this->service->datosParaFormEditar($id));
     }
 
 
+    /**
+     * Aplica filtros dinámicos a la consulta de reservas según los parámetros
+     * recibidos en el request y retorna el resultado en formato JSON.
+     *
+     * Filtros disponibles:
+     *  - Nombre: busca por nombre o apellido del conductor (usuario)
+     *    o por nombre de la dependencia solicitante.
+     *  - Estado: filtra por ID de estado de la reserva.
+     *  - Vehículo: filtra por ID de vehículo.
+     *  - Fecha de inicio: filtra por fecha exacta de inicio de reserva.
+     *  - Fecha de fin: filtra por fecha exacta de fin de reserva.
+     *
+     * Además, permite ordenar los resultados dinámicamente mediante:
+     *  - sort_field (campo de ordenamiento)
+     *  - sort_order (asc o desc)
+     *
+     * Solo se permiten campos y órdenes definidos en listas
+     * para evitar valores inválidos.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Http\JsonResponse
+     */
     // permiso = filtrar_reservas_internas || filtrar_prestamos
     public function filtrarReservas($request, $query){
 
@@ -65,25 +87,25 @@ abstract class BaseReservaController extends Controller
         //filled se fija que exista y no este vacio
         if ($request->filled('nombre')) {
 
-        $nombre = mb_strtolower(trim($request->nombre));
+            $nombre = mb_strtolower(trim($request->nombre));
 
-        $query->where(function ($q) use ($nombre) {
+            $query->where(function ($q) use ($nombre) {
 
-            // Buscar en usuario
-            $q->whereHas('usuario', function ($q2) use ($nombre) {
-                $q2->where(function ($sub) use ($nombre) {
-                    $sub->whereRaw("LOWER(name) LIKE ?", ["%{$nombre}%"])
-                        ->orWhereRaw("LOWER(lastname) LIKE ?", ["%{$nombre}%"]);
+                // Buscar en usuario
+                $q->whereHas('usuario', function ($q2) use ($nombre) {
+                    $q2->where(function ($sub) use ($nombre) {
+                        $sub->whereRaw("LOWER(name) LIKE ?", ["%{$nombre}%"])
+                            ->orWhereRaw("LOWER(lastname) LIKE ?", ["%{$nombre}%"]);
+                    });
+                })
+
+                // O buscar en dependencia solicitante
+                ->orWhereHas('dependencia_solicitante', function ($q3) use ($nombre) {
+                    $q3->whereRaw("LOWER(nombre) LIKE ?", ["%{$nombre}%"]);
                 });
-            })
 
-            // O buscar en dependencia solicitante
-            ->orWhereHas('dependencia_solicitante', function ($q3) use ($nombre) {
-                $q3->whereRaw("LOWER(nombre) LIKE ?", ["%{$nombre}%"]);
             });
-
-        });
-    }
+        }
 
 
         /* ----------------------
@@ -102,9 +124,6 @@ abstract class BaseReservaController extends Controller
         if ($request->filled('vehiculo') && $request->input('vehiculo') != 'default') {
             $vehiculo = $request->input('vehiculo');
             $query->where('id_vehiculo', $vehiculo);
-            // $query->whereHas('direccion', function ($q) use ($localidad) {
-            //     $q->where('ciudad', $localidad);
-            // });
         }
 
         /* ----------------------
@@ -150,19 +169,17 @@ abstract class BaseReservaController extends Controller
         $query->orderBy($sortField, $sortOrder);
 
 
-        $reservas = $query->get();
-
-        return response()->json(['reservas' => $reservas]);
+        return $query->paginate(10);
     }
 
     //permiso = 'solicitar_reserva_interna' || 'solicitar_prestamo',
     public function crearReserva(ReservaFormRequest $request){
 
         $this->authorize('create', Reserva::class);
+
         $resultado = $this->service->crearReserva($request);
 
         if (!empty($resultado) && $resultado[1]) {
-
             return $this->mensajes($resultado);
         }
 
@@ -173,6 +190,21 @@ abstract class BaseReservaController extends Controller
 
     }
 
+    /**
+     * Actualiza una reserva existente.
+     *
+     * Busca la reserva por su ID y delega la lógica de actualización al service.
+     * Si el service retorna un resultado indicando error de validación de negocio,
+     * se devuelven los mensajes correspondientes.
+     *
+     * En caso de éxito, redirige según el tipo de reserva:
+     *  - "interna": redirige al listado de reservas internas.
+     *  - "prestamo": redirige al listado de préstamos entre dependencias.
+     *
+     * @param ReservaFormRequest $request Datos validados del formulario.
+     * @param int $id ID de la reserva a editar.
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
+     */
     //permiso = 'actualizar_reserva_interna' || 'actualizar_prestamo',
     public function editarReserva(ReservaFormRequest $request, $id)
     {
@@ -199,7 +231,25 @@ abstract class BaseReservaController extends Controller
     }
 
 
-
+    /**
+     * Devuelve los mensajes de error personalizados según el resultado
+     * de las validaciones al intentar crear o modificar una reserva.
+     *
+     * Evalúa el tipo de error recibido en el arreglo $resultado y retorna
+     * un array asociativo donde:
+     *  - La clave corresponde al campo del formulario que contiene el error.
+     *  - El valor es el mensaje descriptivo que se mostrará al usuario.
+     *
+     * Los posibles errores contemplados incluyen:
+     *  - Usuario no disponible en el rango de fechas.
+     *  - Usuario no habilitado como conductor.
+     *  - Dependencia inválida o fuera del sector correspondiente.
+     *  - Error en préstamo entre dependencias.
+     *  - Vehículo no habilitado o no disponible.
+     *
+     * @param array $resultado Resultado de la validación de reglas de negocio.
+     * @return array Mensajes de error asociados a los campos del formulario.
+     */
     protected function mensajesErrores($resultado){
         if ($resultado[0] == "usuario") {
             return [

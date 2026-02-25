@@ -1,10 +1,12 @@
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("formFiltrosReservas");
-    let filtros = {};
+
     let contenedor = document.getElementById("contenedor-reservas");
     let contenedor_lista = document.getElementById(
         "contenedor-reservas-listas",
     );
+    let currentUrl = null;
+    let filtrosActuales = {};
 
     const { permissions: PERMISSIONS, routes: ROUTES } = window.RESERVAS_CONFIG;
     let textoNoReservas = document.getElementById("mensajeNoHayReservas");
@@ -21,53 +23,61 @@ document.addEventListener("DOMContentLoaded", () => {
 
         textoNoReservas.classList.remove("block");
         textoNoReservas.classList.add("hidden");
-        buscarReservas(1);
-    });
 
-    async function buscarReservas(page = 1) {
-        filtros = {
+        filtrosActuales = {
             nombre: document.getElementById("nombre-filtro").value,
             fecha_inicio: document.getElementById("fecha-inicio").value,
             fecha_fin: document.getElementById("fecha-fin").value,
             estado: document.getElementById("estado-filtro").value,
             vehiculo: document.getElementById("vehiculo-filtro").value,
-            page,
         };
 
-        // Limpiar vacíos / default
-        Object.keys(filtros).forEach((key) => {
-            if (!filtros[key] || filtros[key] === "default") {
-                delete filtros[key];
+        Object.keys(filtrosActuales).forEach((key) => {
+            if (!filtrosActuales[key] || filtrosActuales[key] === "default") {
+                delete filtrosActuales[key];
             }
         });
+
         let busqueda = form.dataset.busqueda;
-        let url;
+
         if (busqueda == "interna") {
-            url = "/filtrar-reservas-internas";
+            currentUrl = "/filtrar-reservas-internas";
         } else if (busqueda == "autorizar") {
-            url = "/admin/filtrar-reservas-externas-autorizar";
+            currentUrl = "/admin/filtrar-reservas-externas-autorizar";
         } else {
-            url = "/filtrar-reservas-externas";
+            currentUrl = "/filtrar-reservas-externas";
         }
 
-        try {
-            const res = await fetch(`${url}`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    Accept: "application/json",
-                    "X-CSRF-TOKEN": window.csrfToken,
-                },
-                body: JSON.stringify(filtros),
-            });
-            const data = await res.json();
-            
-            mostrarResultado(data);
-            renderPaginacion(data);
-        } catch (err) {
-            console.error(err);
+        fetchReservas(1);
+    });
+
+    async function fetchReservas(page = 1) {
+    filtrosActuales.page = page;
+
+    try {
+        const res = await fetch(currentUrl, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+                "X-CSRF-TOKEN": window.csrfToken,
+            },
+            body: JSON.stringify(filtrosActuales),
+        });
+
+        if (!res.ok) {
+            throw new Error("Error HTTP: " + res.status);
         }
+
+        const data = await res.json();
+
+        mostrarResultado(data.data, data.ids ?? []);
+        renderPaginacion(data.meta);
+
+    } catch (err) {
+        console.error(err);
     }
+}
 
     function vistaActual() {
         return window.matchMedia("(min-width: 768px)").matches
@@ -75,10 +85,7 @@ document.addEventListener("DOMContentLoaded", () => {
             : "lista";
     }
 
-    function mostrarResultado(data) {
-        let reservas = data.reservas;
-        let ids = data.ids;
-
+    function mostrarResultado(reservas, ids = null) {
         const { permissions: PERMISSIONS, routes: ROUTES } =
             window.RESERVAS_CONFIG;
 
@@ -136,7 +143,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     `;
                 }
 
-            //@if(($ubicacion === "interna" || ($ids && in_array($reserva->id_dependencia_solicitante, $ids))) && $reserva->id_dependencia_solicitante)
                 if(window.APP_CONFIG.ubicacion == "interna" || ids.includes(res.id_dependencia_solicitante)){
 
                 if (PERMISSIONS.editar) {
@@ -303,11 +309,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function crearBoton(texto, page) {
-        const btn = document.createElement("button");
-        btn.textContent = texto;
-        btn.onclick = () => buscarReservas(page);
-        return btn;
-    }
+    const btn = document.createElement("button");
+    btn.textContent = texto;
+    btn.onclick = () => fetchReservas(page);
+    return btn;
+}
 
     let botonMostrarFiltros = document.getElementById("mostrarFiltros");
     botonMostrarFiltros.addEventListener("click", () => {
@@ -380,40 +386,30 @@ document.addEventListener("DOMContentLoaded", () => {
     let botonTodas = document.getElementById("filtroPrestamoTodos");
 
     botonTodas.addEventListener("click", ()=>{
-        buscarReservas();
+        let busqueda = form.dataset.busqueda;
+
+        if (busqueda == "interna") {
+            currentUrl = "/filtrar-reservas-internas";
+        } else {
+            currentUrl = "/filtrar-reservas-externas";
+        }
+
+        fetchReservas(1);
     })
 
-    botonInterno.addEventListener("click", ()=>{
-        let url = "/filtrar-prestamos-internos";
-        obtenerDatos(url);
+
+
+    botonInterno.addEventListener("click", () => {
+        currentUrl = "/filtrar-prestamos-internos";
+        filtrosActuales = {};
+        fetchReservas(1);
     });
 
-    botonExterno.addEventListener("click", ()=>{
-        let url = "/filtrar-prestamos-externos";
-        obtenerDatos(url);
+    botonExterno.addEventListener("click", () => {
+        currentUrl = "/filtrar-prestamos-externos";
+        filtrosActuales = {};
+        fetchReservas(1);
     });
 
-    async function obtenerDatos(url){
-        try {
-            const res = await fetch(url, {
-                method: "POST",
-                headers: {
-                    "X-CSRF-TOKEN": window.csrfToken,
-                    "Accept": "application/json",
-                },
-            });
 
-            if (!res.ok) {
-                throw new Error("Error HTTP: " + res.status);
-            }
-
-            console.log(res.status);
-            const data = await res.json();
-            console.log(data);
-            mostrarResultado(data);
-
-        } catch (err) {
-            console.error(err);
-        }
-    }
 });

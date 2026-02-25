@@ -33,6 +33,26 @@ class ReservaController extends BaseReservaController{
     }
 
 
+    /**
+     * Filtra las reservas internas según el rol del usuario autenticado.
+     *
+     * - Administrador de Dependencia y Jefe de Área:
+     *   Obtienen todas las reservas internas vinculadas a su dependencia o sus hijas.
+     *
+     * - Operativo:
+     *   Obtiene únicamente las reservas internas de su dependencia
+     *   donde el conductor designado sea el usuario.
+     *
+     * - Administrador General:
+     *   Obtienen todas las reservas internas sin restricción por cada dependencia.
+     *
+     * Finalmente, la consulta base se procesa mediante el método filtrarReservas() para aplicar filtros adicionales
+     * provenientes del request y se retorna la respuesta en formato JSON.
+     *
+     * @param FiltroReservasRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+
     public function filtrarReservasInternas(FiltroReservasRequest $request){
         $rol = $this->service->rol();
         $id_dependencia = $this->service->user()->dependencia->id;
@@ -49,9 +69,33 @@ class ReservaController extends BaseReservaController{
         else{
             $query->soloInternas();
         }
-        return $this->filtrarReservas($request, $query);
+        $paginado = $this->filtrarReservas($request, $query);
+
+        return response()->json([
+        'data' => $paginado->items(),
+        'meta' => [
+            'current_page' => $paginado->currentPage(),
+            'last_page' => $paginado->lastPage(),
+            'per_page' => $paginado->perPage(),
+            'total' => $paginado->total(),
+        ],
+    ]);
     }
 
+
+    /**
+     * Muestra el formulario para editar el conductor (usuario) asignado a una reserva.
+     *
+     * Primero valida la autorización del usuario autenticado mediante la policy
+     * correspondiente ('cambiarConductor'). Luego obtiene la reserva y los datos
+     * necesarios para el formulario (como la lista de usuarios disponibles).
+     *
+     * Finalmente, retorna la vista con la información necesaria para permitir
+     * la modificación del conductor asignado.
+     *
+     * @param int $id ID de la reserva
+     * @return \Illuminate\View\View
+     */
     public function formularioEditarConductor($id){
 
         $this->authorize('cambiarConductor', Reserva::findOrFail($id));
@@ -64,6 +108,8 @@ class ReservaController extends BaseReservaController{
        
         return view('operativo.editarConductor', compact('usuarios', 'id', 'id_usuario_reserva'));
     }
+
+
 
     public function editarConductor(Request $request, $id){
 
