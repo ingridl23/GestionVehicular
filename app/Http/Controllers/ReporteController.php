@@ -9,7 +9,7 @@ use Illuminate\Validation\Rule;
 use App\Policies\ReportePolicy;
 use Illuminate\Http\Request;
 use App\Enums\EstadoReporte;
-
+use App\Notifications\UsuarioModificadoNotification;
 class ReporteController extends Controller
 {
 public function index()
@@ -133,6 +133,15 @@ public function cambiarEstado(Request $request, Reportes $reporte)
         'estado' => $request->estado
     ]);
 
+    if ($request->estado === EstadoReporte::ATENDIDO->value) {
+    $reporte->usuario->notify(
+        new UsuarioModificadoNotification(
+            'Tu reporte fue marcado como resuelto',
+            'info'
+        )
+    );
+}
+
     return response()->json([
         'success' => true,
         'message' => 'Estado actualizado correctamente',
@@ -157,6 +166,16 @@ public function cambiarEstado(Request $request, Reportes $reporte)
         'id_usuario' => $request->user()->id,
         'comentario' => $request->comentario
     ]);
+
+// 🔔 Notificar solo si quien comenta NO es el creador
+    if ($reporte->id_usuario !== auth()->id()) {
+        $reporte->usuario->notify(
+            new UsuarioModificadoNotification(
+                'Tu reporte recibió una nueva respuesta',
+                'success'
+            )
+        );
+    }
 
    return response()->json([
     'comentario' => [

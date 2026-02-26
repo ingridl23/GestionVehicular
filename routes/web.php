@@ -111,16 +111,16 @@ Route::middleware(['auth'])->group(function () {
  /*********************************************************************************************/
     /***************************  NOTIFICACIONES *************************************************/
     /*********************************************************************************************/
-    Route::post('/notificaciones/{id}/leer', function ($id) {
-        $notificacion = auth()->user()
-            ->notifications()
-            ->findOrFail($id);
+   Route::post('/notificaciones/{id}/leer', function ($id) {
+    $notificacion = auth()->user()
+        ->unreadNotifications()
+        ->where('id', $id)
+        ->firstOrFail();
 
-        $notificacion->markAsRead();
+    $notificacion->markAsRead();
 
-        return back();
-    })->name('notificaciones.leer');
-
+    return response()->json(['success' => true]);
+})->middleware('auth')->name('notificaciones.leer');
 
     /*************************************  RESERVAS GENERAL   **********************************/
 

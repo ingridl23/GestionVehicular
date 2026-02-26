@@ -169,7 +169,7 @@
                     route="admin.reportes.index"
                     :active="request()->routeIs('admin.reportes.*')"
                 />
-            @elseif(auth()->user()->hasAnyRole(['Administrador de Dependencia', 'Jefe de Area']))
+            @elseif(auth()->user()->hasAnyRole(['Administrador de Dependencia']))
                 <x-nav-item
                     icon="fa-chart-line"
                     label="Reportes"

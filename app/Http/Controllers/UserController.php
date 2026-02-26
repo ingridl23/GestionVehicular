@@ -246,7 +246,7 @@ $ultimosUsuarios = User::with('dependencia')
         $user->assignRole($data['role']);
 $user->notify(
     new UsuarioModificadoNotification(
-        'Tu rol fue actualizado por un administrador',
+        'Tu rol fue creado por un administrador',
         'warning'
     )
 );
@@ -339,42 +339,59 @@ $user->notify(
             'vigente' => 'required|in:true,false',
             ]);
 
-        // Actualizar datos básicos
-        $updateData = [
-            'name' => $data['name'],
-            'lastname' => $data['lastname'],
-            'email' => $data['email'],
-            'legajo' => $data['legajo'] ?? null,
-            'id_dependencia' => $data['id_dependencia'],
-        ];
+      // 🔹 GUARDAR ESTADO ANTERIOR
+    $oldRole = $usuario->getRoleNames()->first();
+    $oldDependencia = $usuario->id_dependencia;
 
+    // 🔹 Actualizar datos básicos
+    $updateData = [
+        'name' => $data['name'],
+        'lastname' => $data['lastname'],
+        'email' => $data['email'],
+        'legajo' => $data['legajo'] ?? null,
+        'id_dependencia' => $data['id_dependencia'],
+    ];
 
+    if (!empty($data['password'])) {
+        $updateData['password'] = Hash::make($data['password']);
+    }
 
-        // Solo actualizar contraseña si se proporciona
-        if (!empty($data['password'])) {
-            $updateData['password'] = Hash::make($data['password']);
-        }
+    $usuario->update($updateData);
 
-        $usuario->update($updateData);
+    // 🔹 Actualizar carnet
+    $usuario->carnet()->updateOrCreate(
+        ['id_usuario' => $usuario->id],
+        [
+            'fecha_emision' => $data['fecha_emision'],
+            'fecha_vencimiento' => $data['fecha_vencimiento'],
+            'vigente' => filter_var($data['vigente'], FILTER_VALIDATE_BOOLEAN),
+        ]
+    );
 
-           $usuario->carnet()->updateOrCreate(
-    ['id_usuario' => $usuario->id],
-    [
-        'fecha_emision' => $data['fecha_emision'],
-        'fecha_vencimiento' => $data['fecha_vencimiento'],
-        'vigente' => filter_var($data['vigente'], FILTER_VALIDATE_BOOLEAN),
-    ]
-);
+    // 🔹 Actualizar rol
+    $usuario->syncRoles([$data['role']]);
 
-        // Actualizar rol
-        $usuario->syncRoles([$data['role']]);
+    // 🔹 NOTIFICACIONES
 
+    // Si cambió el rol
+    if ($oldRole !== $data['role']) {
         $usuario->notify(
-    new UsuarioModificadoNotification(
-        'Tu rol fue actualizado por un administrador',
-        'warning'
-    )
-);
+            new UsuarioModificadoNotification(
+                'Tu rol fue cambiado a ' . $data['role'],
+                'warning'
+            )
+        );
+    }
+
+    // Si cambió la dependencia
+    if ($oldDependencia != $data['id_dependencia']) {
+        $usuario->notify(
+            new UsuarioModificadoNotification(
+                'Fuiste asignado a una nueva dependencia',
+                'info'
+            )
+        );
+    }
 
         return redirect()->route('admin.usuarios.index')
             ->with('success', 'Usuario actualizado correctamente');

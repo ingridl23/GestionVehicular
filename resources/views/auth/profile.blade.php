@@ -269,7 +269,7 @@
 
             <!-- Botones de acción -->
             <div class="flex gap-3 justify-end pt-6 border-t border-gray-200 dark:border-gray-700">
-                <a href="{{ route('admin.usuarios.index') }}"
+                <a href="{{ url()->previous() }}"
                    class="px-6 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-lg transition-colors">
                     <i class="fas fa-arrow-left mr-2"></i>
                     Volver

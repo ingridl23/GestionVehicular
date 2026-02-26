@@ -18,8 +18,8 @@ public function toResponse($request){
     $user = auth()->user();
 
     if (!$user->hasRole('Operativo')) {
-       
-        return redirect()->route('dashboard');
+
+        return redirect()->route('auditoria.index');
     }
 
     else {

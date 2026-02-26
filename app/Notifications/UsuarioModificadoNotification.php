@@ -31,6 +31,7 @@ class UsuarioModificadoNotification extends Notification
         return [
             'mensaje' => $this->mensaje,
             'tipo' => $this->tipo,
+             'fecha' => now()->format('d/m H:i')
         ];
     }
 
@@ -57,15 +58,4 @@ class UsuarioModificadoNotification extends Notification
 */
 
 
-    /**
-     * Get the array representation of the notification.
-     *
-     * @return array<string, mixed>
-     */
-    public function toArray(object $notifiable): array
-    {
-        return [
-            //
-        ];
-    }
 }

@@ -166,7 +166,7 @@ $adminDependencia->syncPermissions([
     'ver_reservas_dependencia_en_curso',
     'actualizar_reserva_operativa',
     'asignar_conductor_en_reserva_activa',
-    'ver_reportes_operativos',
+
     'finalizar_reserva_interna',
     'descargar_datos'
 
@@ -179,11 +179,11 @@ $adminDependencia->syncPermissions([
             'ver_reservas_internas',
             'ver_reservas_prestamos',
             'ver_reportes_dependencia',
+            'ver_reportes_operativos',
             'modificar_asignacion_vehiculo',
             'asignar_conductor_suplente',
             'ver_vehiculos_dentro_dependencia',
             'ver_reservas_dependencia_en_curso',
-            'ver_reportes_operativos',
             'descargar_datos',
             'ver_dependencias',
             'ver_menu',

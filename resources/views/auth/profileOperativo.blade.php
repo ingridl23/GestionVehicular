@@ -140,17 +140,18 @@
                         </label>
 
                         @if($puedeEditar)
-                            <input type="date" name="fecha_emision" value="{{ old('fecha_emision', $usuario->carnet->fecha_emision) }}"
+                            <input type="date" name="fecha_emision" value="{{ old('fecha_emision', $usuario->carnet?->fecha_emision) }}"
                                 class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                         @else
-                            <p class="text-gray-900 dark:text-white">{{ $usuario->carnet->fecha_emision ?? 'N/A' }}</p>
+                            <p class="text-gray-900 dark:text-white">{{ $usuario->carnet?->fecha_emision->format('d/m/Y') ?? 'N/A' }}</p>
+
                         @endif
 
                           @if($puedeEditar)
-                            <input type="date" name="fecha_vencimiento" value="{{ old('fecha_vencimiento', $usuario->carnet->fecha_vencimiento) }}"
+                            <input type="date" name="fecha_vencimiento" value="{{ old('fecha_vencimiento', $usuario->carnet?->fecha_vencimiento) }}"
                                 class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                         @else
-                            <p class="text-gray-900 dark:text-white">{{ $usuario->carnet->fecha_vencimiento ?? 'N/A' }}</p>
+                            <p class="text-gray-900 dark:text-white">{{ $usuario->carnet?->fecha_vencimiento->format('d/m/Y') ?? 'N/A' }}</p>
                         @endif
                           <p class="text-gray-900 dark:text-white">{{ $usuario->carnet->vigente ?? 'N/A' }}</p>
 
@@ -258,7 +259,7 @@
 
             <!-- Botones de acción -->
             <div class="flex gap-3 justify-end pt-6 border-t border-gray-200 dark:border-gray-700">
-                <a href="{{ route('dashboard') }}"
+                <a href="{{ url()->previous() }}"
                    class="px-6 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-lg transition-colors">
                     <i class="fas fa-arrow-left mr-2"></i>
                     Volver

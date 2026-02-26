@@ -49,22 +49,24 @@
             x-show="open"
             @click.away="open = false"
             x-transition
-            class="absolute right-0 mt-2 w-80 bg-white dark:bg-gray-800 shadow-xl rounded-lg z-50 border dark:border-gray-700"
-        >
+            class="absolute right-0 mt-2 w-80 bg-white dark:bg-gray-800 shadow-xl rounded-lg z-50 border dark:border-gray-700" >
 
             <div class="p-3 font-semibold text-gray-700 dark:text-gray-200 border-b">
                 Notificaciones
             </div>
 
             @forelse($notificaciones as $notificacion)
-                <div class="p-3 border-b hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer">
-                    <p class="text-sm text-gray-800 dark:text-gray-200">
-                        {{ $notificacion->data['mensaje'] ?? '' }}
-                    </p>
-                    <p class="text-xs text-gray-500">
-                        {{ $notificacion->created_at->diffForHumans() }}
-                    </p>
-                </div>
+    <div
+        class="p-3 border-b hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer"
+        onclick="marcarLeida('{{ $notificacion->id }}')"
+    >
+        <p class="text-sm text-gray-800 dark:text-gray-200">
+            {{ $notificacion->data['mensaje'] ?? '' }}
+        </p>
+        <p class="text-xs text-gray-500">
+            {{ $notificacion->created_at->diffForHumans() }}
+        </p>
+    </div>
             @empty
                 <div class="p-3 text-sm text-gray-500">
                     Sin notificaciones
@@ -75,6 +77,22 @@
     @endauth
 
 </div>
+
+{{--  para que la campana pueda registrar que el usuario ya leyo la notificacion --}}
+<script>
+function marcarLeida(id) {
+    fetch(`/notificaciones/${id}/leer`, {
+        method: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+            'Content-Type': 'application/json'
+        }
+    }).then(() => {
+        location.reload();
+    });
+}
+</script>
+
         <!-- User Menu -->
         <div class="relative" x-data="{ open: false }">
             <button
