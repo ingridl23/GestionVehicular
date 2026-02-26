@@ -5,12 +5,51 @@ use App\Models\Alerta;
 use Illuminate\Http\JsonResponse;
 use Illuminate\View\View;
 use App\Enums\TipoAlerta;
-
+/**
+ * Controlador encargado de la gestión de alertas del sistema.
+ *
+ * Este controlador administra la visualización, consulta y resolución
+ * de alertas generadas por diferentes eventos del sistema de gestión vehicular.
+ *
+ * Las alertas pueden estar asociadas a:
+ * - Vencimiento de licencias
+ * - Mantenimiento pendiente de vehículos
+ * - Vehículos fuera de servicio
+ * - Reservas rechazadas
+ * - Combustible bajo
+ *
+ * Funcionalidades principales:
+ * - Mostrar listado paginado de alertas activas
+ * - Proveer estadísticas para dashboard
+ * - Exponer API para alertas recientes (navbar)
+ * - Filtrar alertas por entidad relacionada
+ * - Resolver (desactivar) alertas
+ *
+ * @package App\Http\Controllers
+ */
 class AlertaController extends Controller
 {
     /**
      * Mostrar vista de alertas
      */
+
+    /**
+ * Mostrar vista principal de alertas activas.
+ *
+ * Obtiene todas las alertas activas y genera estadísticas
+ * agrupadas por tipo para ser utilizadas en el panel de visualización.
+ *
+ * Reglas de negocio:
+ * - Solo se muestran alertas activas.
+ * - Se ordenan por fecha de generación descendente.
+ * - Se paginan en bloques de 20 registros.
+ *
+ * Estadísticas generadas:
+ * - Total de alertas activas
+ * - Cantidad de alertas por tipo (licencias, mantenimiento, vehículos)
+ *
+ * @return View Vista con listado paginado y estadísticas de alertas.
+ */
   public function index(): View
 {
     $alertasQuery = Alerta::where('activa', true);
@@ -33,8 +72,25 @@ class AlertaController extends Controller
     /**
      * API: Obtener alertas recientes para el navbar
      */
+
+    /**
+ * Obtener alertas recientes para el navbar (API).
+ *
+ * Devuelve las últimas 5 alertas activas ordenadas por fecha de generación.
+ * Se transforma la colección para enviar únicamente los campos necesarios
+ * al frontend.
+ *
+ * Reglas de negocio:
+ * - Solo alertas activas.
+ * - Máximo 5 resultados.
+ * - Formateo de fecha en formato relativo (diffForHumans).
+ *
+ * @return JsonResponse Lista de alertas recientes en formato JSON.
+ */
     public function recientes(): JsonResponse
     {
+
+
         $alertas = Alerta::where('activa', true)
             ->latest('fecha_generada')
             ->limit(5)
