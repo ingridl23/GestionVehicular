@@ -253,5 +253,45 @@
         </div>
     </div>
 
+
+    <!-- Recent System for Users -->
+    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6">
+        <div class="flex items-center justify-between mb-4">
+            <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Usuarios registrados recientemente</h2>
+            <a href="   {{ route('admin.usuarios.index') }} "  class="text-sm text-blue-600 dark:text-blue-400 hover:underline">
+                Ver todos
+            </a>
+        </div>
+
+
+        <div class="space-y-3">
+            @forelse($ultimosUsuarios as $usuario)
+                <div class="flex items-center gap-4 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700/50">
+
+                    <div class="w-12 h-12 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-car text-gray-600 dark:text-gray-400"></i>
+                    </div>
+
+                    <div class="flex-1">
+                        <p class="text-sm font-medium text-gray-900 dark:text-white">
+                            {{ strtoupper(substr($usuario->name ?? 'N', 0, 1)) }}
+                        </p>
+                        <p class="text-xs text-gray-500 dark:text-gray-400">
+                            {{ $usuario->getRoleNames()->implode(', ') }} {{ $usuario->dependencia->nombre ?? 'sin dependencia'}}
+                        </p>
+                           <p class="text-xs text-gray-500 dark:text-gray-400">
+                             {{ $usuario->created_at->format('d/m/Y H:i') }}
+                        </p>
+                    </div>
+
+                </div>
+            @empty
+                <p class="text-sm text-gray-500 dark:text-gray-400">
+                    No hay usuarios añadidos recientemente
+                </p>
+            @endforelse
+        </div>
+    </div>
+
 @endsection
 

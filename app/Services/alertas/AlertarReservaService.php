@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Services;
-
 use App\Models\Reserva;
 use App\Enums\TipoAlerta;
 use App\Models\EstadosReserva;

@@ -25,13 +25,56 @@
         </button>
 
         <!-- Notifications -->
-        <div class="relative">
-            <button class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 relative">
-                <i class="far fa-bell text-lg"></i>
-                <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
-            </button>
-        </div>
+  <div x-data="{ open: false }" class="relative">
 
+    @auth
+        @php
+            $notificaciones = auth()->user()->unreadNotifications->take(5);
+        @endphp
+
+        <!-- Botón -->
+        <button
+            @click="open = !open"
+            class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 relative"
+        >
+            <i class="far fa-bell text-lg"></i>
+
+            @if(auth()->user()->unreadNotifications->count())
+                <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+            @endif
+        </button>
+
+        <!-- Dropdown -->
+        <div
+            x-show="open"
+            @click.away="open = false"
+            x-transition
+            class="absolute right-0 mt-2 w-80 bg-white dark:bg-gray-800 shadow-xl rounded-lg z-50 border dark:border-gray-700"
+        >
+
+            <div class="p-3 font-semibold text-gray-700 dark:text-gray-200 border-b">
+                Notificaciones
+            </div>
+
+            @forelse($notificaciones as $notificacion)
+                <div class="p-3 border-b hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer">
+                    <p class="text-sm text-gray-800 dark:text-gray-200">
+                        {{ $notificacion->data['mensaje'] ?? '' }}
+                    </p>
+                    <p class="text-xs text-gray-500">
+                        {{ $notificacion->created_at->diffForHumans() }}
+                    </p>
+                </div>
+            @empty
+                <div class="p-3 text-sm text-gray-500">
+                    Sin notificaciones
+                </div>
+            @endforelse
+
+        </div>
+    @endauth
+
+</div>
         <!-- User Menu -->
         <div class="relative" x-data="{ open: false }">
             <button

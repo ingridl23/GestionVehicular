@@ -36,6 +36,9 @@ Route::middleware(['auth'])->group(function () {
     // Auditoría y dashboard
    Route::get('/auditoria', [UserController::class, 'dashboard'])->name('auditoria.index');
 
+
+
+
     // Vehículos
     Route::get('/vehiculos', [VehiculoController::class, 'sectionVehiculo'])->name('vehiculos.index');
     Route::get('/vehiculos/{vehiculo}', [VehiculoController::class, 'detalle'])->name('vehiculos.show');
@@ -91,6 +94,8 @@ Route::middleware(['auth'])->group(function () {
     });
 
 
+
+
     Route::middleware(['auth', 'role:Administrador de Dependencia'])
     ->prefix('dependencia')
     ->name('dependencia.')
@@ -99,7 +104,22 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/reportes', [ReporteController::class, 'index'])
             ->middleware('permission:ver_reportes_dependencia')
             ->name('reportes.index');
+
+
 });
+
+ /*********************************************************************************************/
+    /***************************  NOTIFICACIONES *************************************************/
+    /*********************************************************************************************/
+    Route::post('/notificaciones/{id}/leer', function ($id) {
+        $notificacion = auth()->user()
+            ->notifications()
+            ->findOrFail($id);
+
+        $notificacion->markAsRead();
+
+        return back();
+    })->name('notificaciones.leer');
 
 
     /*************************************  RESERVAS GENERAL   **********************************/

@@ -14,8 +14,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Gate;
 use Spatie\Permission\Models\Role;
-
+use App\Notifications\UsuarioModificadoNotification;
 class UserController extends Controller{
+
 
 
 
@@ -48,6 +49,10 @@ class UserController extends Controller{
 
   $ultimosConductores = Reserva::with('usuario')->orderBy('created_at','desc')->take(4)->get();
 
+$ultimosUsuarios = User::with('dependencia')
+    ->latest()
+    ->take(4)
+    ->get();
 
     $vehiculosStats = [
     $total = Vehiculo::count(),
@@ -92,11 +97,11 @@ class UserController extends Controller{
         }
 
         if ($user->hasRole('Administrador General')) {
-            return view('admin.auditoria.index', compact('user','ultimosVehiculos','disponibles','total','reservados','mantenimiento','baja','reportesp','reportesA','ultimasReservas','ultimosVehiculos','reservascount','total','disponibles','reservados','mantenimiento','baja','ultimosConductores'));
+            return view('admin.auditoria.index', compact('user','ultimosVehiculos','disponibles','total','reservados','mantenimiento','baja','reportesp','reportesA','ultimasReservas','ultimosVehiculos','reservascount','total','disponibles','reservados','mantenimiento','baja','ultimosConductores','ultimosUsuarios'));
         }
 
         if ($user->hasAnyRole(['Administrador de Dependencia', 'Jefe de Area'])) {
-            return view('admin.auditoria.index', compact('user','stats','alertas','ultimosVehiculos','disponibles','total','reservados','mantenimiento','baja','reportesp','reportesA','ultimasReservas','ultimosVehiculos','reservascount','total','disponibles','reservados','mantenimiento','baja','ultimosConductores'));
+            return view('admin.auditoria.index', compact('user','stats','alertas','ultimosVehiculos','disponibles','total','reservados','mantenimiento','baja','reportesp','reportesA','ultimasReservas','ultimosVehiculos','reservascount','total','disponibles','reservados','mantenimiento','baja','ultimosConductores','ultimosUsuarios'));
         }
 
         abort(403);
@@ -239,7 +244,12 @@ class UserController extends Controller{
 
 
         $user->assignRole($data['role']);
-
+$user->notify(
+    new UsuarioModificadoNotification(
+        'Tu rol fue actualizado por un administrador',
+        'warning'
+    )
+);
         return redirect()->route('admin.usuarios.index')
             ->with('success', 'Usuario creado correctamente');
     }
@@ -358,6 +368,13 @@ class UserController extends Controller{
 
         // Actualizar rol
         $usuario->syncRoles([$data['role']]);
+
+        $usuario->notify(
+    new UsuarioModificadoNotification(
+        'Tu rol fue actualizado por un administrador',
+        'warning'
+    )
+);
 
         return redirect()->route('admin.usuarios.index')
             ->with('success', 'Usuario actualizado correctamente');
