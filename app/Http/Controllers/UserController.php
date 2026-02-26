@@ -37,13 +37,17 @@ class UserController extends Controller{
         ->orderBy('created_at', 'desc')
         ->take(4)
         ->get();
-  $reservascount = Reserva::whereHas('estado_reserva', function ($q) {
-    $q->where('estado', 'EN_CURSO');
-})->count();
+
   $ultimasReservas = Reserva::with('estado_reserva')
         ->orderBy('created_at', 'desc')
         ->take(4)
         ->get();
+          $reservascount = Reserva::whereHas('estado_reserva', function ($q) {
+    $q->where('estado', 'EN_CURSO');
+})->count();
+
+  $ultimosConductores = Reserva::with('usuario')->orderBy('created_at','desc')->take(4)->get();
+
 
     $vehiculosStats = [
     $total = Vehiculo::count(),
@@ -61,6 +65,25 @@ class UserController extends Controller{
          $reportesp = Reportes::where('estado','pendiente')->count(),
     $reportesA = Reportes::where('estado','en_revision')->count(),
 ];
+
+   $vehiculosStats = [
+    $total = Vehiculo::count(),
+    $disponibles = Vehiculo::whereHas('estadoVehiculo', fn($q) =>
+        $q->where('estado', 'DISPONIBLE')
+    )->count(),
+    $reservados = Vehiculo::whereHas('estadoVehiculo', fn($q) =>
+        $q->where('estado', 'EN_USO')
+    )->count(),
+
+
+    $mantenimiento = Vehiculo::whereHas('estadoVehiculo', fn($q) =>
+        $q->where('estado', 'EN_MANTENIMIENTO')
+    )->count(),
+    $baja = Vehiculo::whereHas('estadoVehiculo', fn($q) =>
+        $q->where('estado', 'BAJA'))->count()
+];
+
+
     // luego, cuando tengas datos reales:
     // $stats['licencias'] = Licencia::vencidas()->count()
         $alertas = Alerta::latest()->paginate(10);
@@ -69,11 +92,11 @@ class UserController extends Controller{
         }
 
         if ($user->hasRole('Administrador General')) {
-            return view('admin.auditoria.index', compact('user','ultimosVehiculos','disponibles','total','reservados','mantenimiento','baja','reservascount','reportesp','reportesA','ultimasReservas'));
+            return view('admin.auditoria.index', compact('user','ultimosVehiculos','disponibles','total','reservados','mantenimiento','baja','reportesp','reportesA','ultimasReservas','ultimosVehiculos','reservascount','total','disponibles','reservados','mantenimiento','baja','ultimosConductores'));
         }
 
         if ($user->hasAnyRole(['Administrador de Dependencia', 'Jefe de Area'])) {
-            return view('admin.auditoria.index', compact('user','stats','alertas','ultimosVehiculos','reservascount','disponibles','total','reservados','mantenimiento','baja','reportesp','reportesA','ultimasReservas'));
+            return view('admin.auditoria.index', compact('user','stats','alertas','ultimosVehiculos','disponibles','total','reservados','mantenimiento','baja','reportesp','reportesA','ultimasReservas','ultimosVehiculos','reservascount','total','disponibles','reservados','mantenimiento','baja','ultimosConductores'));
         }
 
         abort(403);

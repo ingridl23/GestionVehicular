@@ -210,9 +210,48 @@
 
     </div>
 
+{{-- aca va otra fila de resumen para cambios de conductores --}}
+
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+
+    <!-- Recent Conductors -->
+    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6">
+        <div class="flex items-center justify-between mb-4">
+            <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Conductores Asignados recientemente</h2>
+            <a href="   {{ route('reservas.internas') }} "  class="text-sm text-blue-600 dark:text-blue-400 hover:underline">
+                Ver todos
+            </a>
+        </div>
 
 
+        <div class="space-y-3">
+            @forelse($ultimosConductores as $conductor)
+                <div class="flex items-center gap-4 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700/50">
 
+                    <div class="w-12 h-12 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-car text-gray-600 dark:text-gray-400"></i>
+                    </div>
+
+                    <div class="flex-1">
+                        <p class="text-sm font-medium text-gray-900 dark:text-white">
+                            {{ strtoupper(substr($conductor->usuario?->name ?? 'N', 0, 1)) }}
+                        </p>
+                        <p class="text-xs text-gray-500 dark:text-gray-400">
+                            {{ $conductor->vehiculo->marca }} {{ $conductor->vehiculo->modelo }}
+                        </p>
+                           <p class="text-xs text-gray-500 dark:text-gray-400">
+                             {{ $conductor->reserva->fecha_inicio_reserva->format('d/m/Y H:i') }}
+                        </p>
+                    </div>
+
+                </div>
+            @empty
+                <p class="text-sm text-gray-500 dark:text-gray-400">
+                    No hay conductores modificados recientemente
+                </p>
+            @endforelse
+        </div>
+    </div>
 
 @endsection
 

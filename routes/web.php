@@ -26,15 +26,15 @@ Route::middleware(['auth', 'permission:ver_todos_usuarios|ver_personal_dependenc
 Route::middleware(['auth'])->group(function () {
 
     // Dashboard
-    Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard');
+  //  Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard');
 
     // Alertas
     Route::get('/alertas/recientes', [AlertaController::class, 'recientes']);
     Route::get('/alertas', [AlertaController::class, 'index'])->name('alertas.index');
     Route::get('/alertas/{tipo}/{id}', [AlertaController::class, 'porEntidad'])->name('alertas.porEntidad');
 
-    // Auditoría
-    Route::get('/auditoria', [HistorialController::class, 'index'])->name('auditoria.index');
+    // Auditoría y dashboard
+   Route::get('/auditoria', [UserController::class, 'dashboard'])->name('auditoria.index');
 
     // Vehículos
     Route::get('/vehiculos', [VehiculoController::class, 'sectionVehiculo'])->name('vehiculos.index');
@@ -117,7 +117,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/filtrar-reservas-externas', [PrestamoController::class, 'filtrarReservasExternas'])->middleware('web');
 
     Route::post('/filtrar-prestamos-internos', [PrestamoController::class, 'verPrestamosInternos'])->name('filtrar.prestamos.internos');
-    
+
     Route::post('/filtrar-prestamos-externos', [PrestamoController::class, 'verPrestamosExternos'])->name('filtrar.prestamos.externos');
 
 });
