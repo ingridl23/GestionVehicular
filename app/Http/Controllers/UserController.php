@@ -339,11 +339,11 @@ $user->notify(
             'vigente' => 'required|in:true,false',
             ]);
 
-      // 🔹 GUARDAR ESTADO ANTERIOR
+      //  GUARDAR ESTADO ANTERIOR
     $oldRole = $usuario->getRoleNames()->first();
     $oldDependencia = $usuario->id_dependencia;
 
-    // 🔹 Actualizar datos básicos
+    //  Actualizar datos básicos
     $updateData = [
         'name' => $data['name'],
         'lastname' => $data['lastname'],
@@ -358,7 +358,7 @@ $user->notify(
 
     $usuario->update($updateData);
 
-    // 🔹 Actualizar carnet
+    //  Actualizar carnet
     $usuario->carnet()->updateOrCreate(
         ['id_usuario' => $usuario->id],
         [
@@ -368,10 +368,10 @@ $user->notify(
         ]
     );
 
-    // 🔹 Actualizar rol
+    // Actualizar rol
     $usuario->syncRoles([$data['role']]);
 
-    // 🔹 NOTIFICACIONES
+    // NOTIFICACIONES
 
     // Si cambió el rol
     if ($oldRole !== $data['role']) {

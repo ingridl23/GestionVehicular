@@ -4,8 +4,19 @@ import collapse from '@alpinejs/collapse';
 import Alpine from 'alpinejs';
 
 //import './perfilGestionVehicular';
+
 import './reportes';
 import './vehiculo';
+
+import {
+    closeUserModal,
+    openEditModal,
+    openUserCreateModal
+} from './users-modal';
+
+window.openUserCreateModal = openUserCreateModal;
+window.openEditModal = openEditModal;
+window.closeUserModal = closeUserModal;
 // Registrar plugin de collapse
 Alpine.plugin(collapse);
 

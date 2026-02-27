@@ -1,5 +1,5 @@
-@section('content')
 @extends('layout.app')
+
 
 @section('page-title', 'Administración de Usuarios')
 @section('page-description', 'Gestión de Usuarios del sistema')
@@ -19,7 +19,7 @@
 
         @can('crear_usuario')
         <button
-            onclick="openCreateModal()"
+            onclick="openUserCreateModal()"
             class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors"
         >
             <i class="fas fa-plus"></i>
@@ -326,7 +326,7 @@
                 </div>
 
                 <div class="flex justify-end gap-2 mt-6">
-                    <button type="button" onclick="closeModal()"
+                    <button type="button" onclick="closeUserModal()"
                         class="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600">
                         Cancelar
                     </button>
@@ -341,51 +341,7 @@
 </div>
 
 <script>
-function openCreateModal() {
-    document.getElementById('modalTitle').textContent = 'Crear Usuario';
-    document.getElementById('userForm').action = '{{ route("admin.usuarios.store") }}';
-    document.getElementById('formMethod').value = 'POST';
-    document.getElementById('passwordField').required = true;
-    document.getElementById('userForm').reset();
-    document.getElementById('userModal').classList.remove('hidden');
-}
 
-function openEditModal(userId) {
-    // Aquí deberías cargar los datos del usuario vía AJAX
-    document.getElementById('modalTitle').textContent = 'Editar Usuario';
-    document.getElementById('userForm').action = `/admin/usuarios/${userId}`;
-    document.getElementById('formMethod').value = 'PUT';
-    document.getElementById('passwordField').required = false;
-    document.getElementById('userModal').classList.remove('hidden');
-}
-
-function closeModal() {
-    document.getElementById('userModal').classList.add('hidden');
-}
-
-function confirmDelete(userId) {
-    if (confirm('¿Estás seguro de que deseas eliminar este usuario?')) {
-        const form = document.createElement('form');
-        form.method = 'POST';
-        form.action = `/admin/usuarios/${userId}`;
-
-        const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
-        const csrfInput = document.createElement('input');
-        csrfInput.type = 'hidden';
-        csrfInput.name = '_token';
-        csrfInput.value = csrfToken;
-
-        const methodInput = document.createElement('input');
-        methodInput.type = 'hidden';
-        methodInput.name = '_method';
-        methodInput.value = 'DELETE';
-
-        form.appendChild(csrfInput);
-        form.appendChild(methodInput);
-        document.body.appendChild(form);
-        form.submit();
-    }
-}
 </script>
 
 
