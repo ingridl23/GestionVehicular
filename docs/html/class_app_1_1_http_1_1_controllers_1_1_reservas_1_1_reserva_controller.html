@@ -91,13 +91,16 @@ $(function(){initNavTree('class_app_1_1_http_1_1_controllers_1_1_reservas_1_1_re
   <div class="headertitle"><div class="title">App\Http\Controllers\Reservas\ReservaController Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Controlador de reservas internas dentro de la misma dependencia.  
+ <a href="#details">More...</a></p>
 <div class="dynheader">
 Inheritance diagram for App\Http\Controllers\Reservas\ReservaController:</div>
 <div class="dyncontent">
  <div class="center">
   <img src="class_app_1_1_http_1_1_controllers_1_1_reservas_1_1_reserva_controller.png" usemap="#App_5CHttp_5CControllers_5CReservas_5CReservaController_map" alt=""/>
   <map id="App_5CHttp_5CControllers_5CReservas_5CReservaController_map" name="App_5CHttp_5CControllers_5CReservas_5CReservaController_map">
-<area href="class_app_1_1_http_1_1_controllers_1_1_reservas_1_1_base_reserva_controller.html" alt="App\Http\Controllers\Reservas\BaseReservaController" shape="rect" coords="0,112,319,136"/>
+<area href="class_app_1_1_http_1_1_controllers_1_1_reservas_1_1_base_reserva_controller.html" title="Controlador abstracto base para la gestión de reservas." alt="App\Http\Controllers\Reservas\BaseReservaController" shape="rect" coords="0,112,319,136"/>
 <area href="class_app_1_1_http_1_1_controllers_1_1_controller.html" alt="App\Http\Controllers\Controller" shape="rect" coords="0,56,319,80"/>
   </map>
 </div></div>
@@ -127,7 +130,15 @@ Additional Inherited Members</h2></td></tr>
 <tr class="inherit_header pro_attribs_class_app_1_1_http_1_1_controllers_1_1_reservas_1_1_base_reserva_controller"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pro_attribs_class_app_1_1_http_1_1_controllers_1_1_reservas_1_1_base_reserva_controller')"><span class="dynarrow"><span class="arrowhead closed"></span></span>Protected Attributes inherited from <a class="el" href="class_app_1_1_http_1_1_controllers_1_1_reservas_1_1_base_reserva_controller.html">App\Http\Controllers\Reservas\BaseReservaController</a></td></tr>
 <tr class="memitem:a432ab8bcf5dc7eee1eb2bae7e6dd97b0 inherit pro_attribs_class_app_1_1_http_1_1_controllers_1_1_reservas_1_1_base_reserva_controller" id="r_a432ab8bcf5dc7eee1eb2bae7e6dd97b0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interface_app_1_1_contracts_1_1_reserva_service_interface.html">ReservaServiceInterface</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_app_1_1_http_1_1_controllers_1_1_reservas_1_1_base_reserva_controller.html#a432ab8bcf5dc7eee1eb2bae7e6dd97b0">$service</a></td></tr>
 </table>
-<a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Controlador de reservas internas dentro de la misma dependencia. </p>
+<p>Extiende BaseReservaController.</p>
+<p>Implementa:</p><ul>
+<li>Listado</li>
+<li>Filtros internos</li>
+<li>Cambio de conductor </li>
+</ul>
+</div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="acf7ff1bafffa304f02110f659cfe77cb" name="acf7ff1bafffa304f02110f659cfe77cb"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#acf7ff1bafffa304f02110f659cfe77cb">&#9670;&#160;</a></span>__construct()</h2>
 
@@ -164,6 +175,15 @@ Additional Inherited Members</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Actualiza el conductor asignado a una reserva.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">\Illuminate\Http\Request</td><td class="paramname">$request</td><td></td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$id</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>\Illuminate\Http\RedirectResponse </dd></dl>
 
 </div>
 </div>
@@ -239,6 +259,8 @@ Additional Inherited Members</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Muestra listado de reservas internas.</p>
+<dl class="section return"><dt>Returns</dt><dd>\Illuminate\View\View </dd></dl>
 
 </div>
 </div>

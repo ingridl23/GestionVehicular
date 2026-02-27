@@ -91,6 +91,9 @@ $(function(){initNavTree('class_app_1_1_http_1_1_controllers_1_1_reservas_1_1_ba
   <div class="headertitle"><div class="title">App\Http\Controllers\Reservas\BaseReservaController Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Controlador abstracto base para la gestión de reservas.  
+ <a href="#details">More...</a></p>
 <div class="dynheader">
 Inheritance diagram for App\Http\Controllers\Reservas\BaseReservaController:</div>
 <div class="dyncontent">
@@ -98,8 +101,8 @@ Inheritance diagram for App\Http\Controllers\Reservas\BaseReservaController:</di
   <img src="class_app_1_1_http_1_1_controllers_1_1_reservas_1_1_base_reserva_controller.png" usemap="#App_5CHttp_5CControllers_5CReservas_5CBaseReservaController_map" alt=""/>
   <map id="App_5CHttp_5CControllers_5CReservas_5CBaseReservaController_map" name="App_5CHttp_5CControllers_5CReservas_5CBaseReservaController_map">
 <area href="class_app_1_1_http_1_1_controllers_1_1_controller.html" alt="App\Http\Controllers\Controller" shape="rect" coords="164,56,483,80"/>
-<area href="class_app_1_1_http_1_1_controllers_1_1_reservas_1_1_prestamo_controller.html" alt="App\Http\Controllers\Reservas\PrestamoController" shape="rect" coords="0,168,319,192"/>
-<area href="class_app_1_1_http_1_1_controllers_1_1_reservas_1_1_reserva_controller.html" alt="App\Http\Controllers\Reservas\ReservaController" shape="rect" coords="329,168,648,192"/>
+<area href="class_app_1_1_http_1_1_controllers_1_1_reservas_1_1_prestamo_controller.html" title="Controlador encargado de la gestión de reservas externas (préstamos entre dependencias)." alt="App\Http\Controllers\Reservas\PrestamoController" shape="rect" coords="0,168,319,192"/>
+<area href="class_app_1_1_http_1_1_controllers_1_1_reservas_1_1_reserva_controller.html" title="Controlador de reservas internas dentro de la misma dependencia." alt="App\Http\Controllers\Reservas\ReservaController" shape="rect" coords="329,168,648,192"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -123,7 +126,21 @@ Protected Member Functions</h2></td></tr>
 Protected Attributes</h2></td></tr>
 <tr class="memitem:a432ab8bcf5dc7eee1eb2bae7e6dd97b0" id="r_a432ab8bcf5dc7eee1eb2bae7e6dd97b0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interface_app_1_1_contracts_1_1_reserva_service_interface.html">ReservaServiceInterface</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a432ab8bcf5dc7eee1eb2bae7e6dd97b0">$service</a></td></tr>
 </table>
-<a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Controlador abstracto base para la gestión de reservas. </p>
+<p>Define la estructura común para:</p><ul>
+<li>Visualización individual</li>
+<li>Cancelación</li>
+<li>Creación</li>
+<li>Edición</li>
+<li>Filtros dinámicos</li>
+</ul>
+<p>La lógica de negocio es delegada a una implementación de ReservaServiceInterface siguiendo el principio DIP.</p>
+<p>Es extendido por:</p><ul>
+<li>ReservaController (reservas internas)</li>
+<li>PrestamoController (reservas externas) </li>
+</ul>
+</div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="adbd470c73b3a3ac87f9a4009a5b816b9" name="adbd470c73b3a3ac87f9a4009a5b816b9"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#adbd470c73b3a3ac87f9a4009a5b816b9">&#9670;&#160;</a></span>__construct()</h2>
 
@@ -156,6 +173,15 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Cancela una reserva existente.</p>
+<p>Valida autorización mediante policy. Delegación de cancelación al service.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">int</td><td class="paramname">$id</td><td>ID de la reserva. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>\Illuminate\Http\JsonResponse </dd></dl>
 
 </div>
 </div>
@@ -173,6 +199,15 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Crea una nueva reserva (interna o préstamo).</p>
+<p>Delegación total al service. Maneja redirección según tipo_reserva.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">\App\Http\Requests\ReservaFormRequest</td><td class="paramname">$request</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>\Illuminate\Http\RedirectResponse </dd></dl>
 
 </div>
 </div>
@@ -267,6 +302,14 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Devuelve errores de negocio al formulario anterior.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">array</td><td class="paramname">$resultado</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>\Illuminate\Http\RedirectResponse </dd></dl>
 
 </div>
 </div>
@@ -328,6 +371,9 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Muestra el formulario de creación de reserva.</p>
+<p>Requiere autorización previa.</p>
+<dl class="section return"><dt>Returns</dt><dd>\Illuminate\View\View </dd></dl>
 
 </div>
 </div>
@@ -345,6 +391,14 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Muestra el formulario de edición de reserva.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">int</td><td class="paramname">$id</td><td>ID de la reserva. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>\Illuminate\View\View </dd></dl>
 
 </div>
 </div>
@@ -362,6 +416,15 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Muestra el detalle de una reserva específica.</p>
+<p>La lógica de obtención se delega al service correspondiente teniendo en cuenta el usuario autenticado.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">int</td><td class="paramname">$id</td><td>Identificador de la reserva. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>\Illuminate\View\View </dd></dl>
 
 </div>
 </div>

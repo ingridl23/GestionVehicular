@@ -8,6 +8,23 @@ use App\Models\Reserva;
 use App\Services\Reservas\ReservasInternasService;
 use Illuminate\Http\Request;
 
+/**
+ * @class ReservaController
+ * @brief Controlador de reservas internas dentro de la misma dependencia.
+ *
+ * Extiende BaseReservaController.
+ *
+ * Implementa:
+ * - Listado
+ * - Filtros internos
+ * - Cambio de conductor
+ *
+ * @package App\Http\Controllers\Reservas
+ */
+
+
+
+
 class ReservaController extends BaseReservaController{
 
 
@@ -16,6 +33,12 @@ class ReservaController extends BaseReservaController{
         parent::__construct($service);
     }
 
+
+    /**
+ * Muestra listado de reservas internas.
+ *
+ * @return \Illuminate\View\View
+ */
     // permiso = ver_reservas_internas
     public function verReservas(){
         $this->authorize('viewAny', Reserva::class);
@@ -99,18 +122,24 @@ class ReservaController extends BaseReservaController{
     public function formularioEditarConductor($id){
 
         $this->authorize('cambiarConductor', Reserva::findOrFail($id));
-        
+
         $reserva = Reserva::findOrFail($id);
         $datos = $this->service->datosParaFormEditar($id);
         $usuarios = $datos['usuarios'];
         $id_usuario_reserva = $reserva->id_usuario;
         $id = $reserva->id;
-       
+
         return view('operativo.editarConductor', compact('usuarios', 'id', 'id_usuario_reserva'));
     }
 
 
-
+/**
+ * Actualiza el conductor asignado a una reserva.
+ *
+ * @param \Illuminate\Http\Request $request
+ * @param int $id
+ * @return \Illuminate\Http\RedirectResponse
+ */
     public function editarConductor(Request $request, $id){
 
         $request->validate([

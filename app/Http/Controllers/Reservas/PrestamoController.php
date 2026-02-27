@@ -6,7 +6,19 @@ use App\Models\Dependencia;
 use App\Models\Reserva;
 use App\Services\Reservas\ReservasExternasService;
 
-
+/**
+ * @class PrestamoController
+ * @brief Controlador encargado de la gestión de reservas externas
+ *        (préstamos entre dependencias).
+ *
+ * Extiende BaseReservaController.
+ * Implementa lógica específica para:
+ * - Autorización de préstamos
+ * - Rechazo
+ * - Filtros externos
+ *
+ * @package App\Http\Controllers\Reservas
+ */
 class PrestamoController extends BaseReservaController{
 
     public function __construct(ReservasExternasService $service)
@@ -14,7 +26,11 @@ class PrestamoController extends BaseReservaController{
         parent::__construct($service);
     }
 
-
+/**
+ * Muestra listado de reservas externas.
+ *
+ * @return \Illuminate\View\View
+ */
     // permiso = ver_reservas_prestamos
     public function verReservas(){
         $this->authorize('viewAnyLoan', Reserva::class);
@@ -30,7 +46,11 @@ class PrestamoController extends BaseReservaController{
         return view('ui.reservas.reservas', $data);
     }
 
-
+/**
+ * Muestra reservas externas pendientes de autorización.
+ *
+ * @return \Illuminate\View\View
+ */
     // permission:ver_solicitudes_prestamos
     public function verReservasPendientes(){
         $this->authorize('ViewPendingLoans', Reserva::class);
@@ -47,12 +67,19 @@ class PrestamoController extends BaseReservaController{
         return view('ui.reservas.reservasPendientes', $data);
     }
 
-
+/**
+ * Autoriza un préstamo entre dependencias.
+ *
+ * Maneja errores de negocio y devuelve respuesta JSON.
+ *
+ * @param int $id
+ * @return \Illuminate\Http\JsonResponse
+ */
     // permission:autorizar_prestamos
     public function autorizarPrestamo($id){
         $this->authorize('authorizeLoans', Reserva::findOrFail($id));
         $resultado = $this->service->autorizarPrestamo($id);
-           
+
         if(is_array($resultado)){
             $mensaje = $this->mensajesErrores($resultado);
              return response()->json([
@@ -61,7 +88,7 @@ class PrestamoController extends BaseReservaController{
                 'message' => array_values($mensaje)[0]
             ]);
         }
-            
+
         if($resultado){
             return response()->json([
                 'success' => true,
@@ -74,15 +101,20 @@ class PrestamoController extends BaseReservaController{
             'errors' => false,
             'message' => 'No se logro autorizar el préstamo, intentelo nuevamente.'
         ]);
-       
+
     }
 
-
+/**
+ * Rechaza un préstamo.
+ *
+ * @param int $id
+ * @return \Illuminate\Http\JsonResponse
+ */
     // permission:rechazar_prestamos
     public function rechazarPrestamo($id){
         $this->authorize('rejectLoans', Reserva::findOrFail($id));
        $resultado = $this->service->rechazarPrestamo($id);
-            
+
         if($resultado){
             return response()->json([
                 'success' => true,
@@ -189,14 +221,18 @@ class PrestamoController extends BaseReservaController{
     }
 
 
-    
+/**
+ * Retorna préstamos externos paginados en formato JSON.
+ *
+ * @return \Illuminate\Http\JsonResponse
+ */
     public function verPrestamosExternos(){
         $id_dependencia = $this->service->user()->dependencia->id;
-        
+
         $ids = $this->service->obtenerDependenciasIds(Dependencia::find($id_dependencia));
 
         $paginado = $this->service->verPrestamosExternos();
-        
+
 
        return response()->json([
         'data' => $paginado->items(),
@@ -210,12 +246,16 @@ class PrestamoController extends BaseReservaController{
     ]);
     }
 
-
+/**
+ * Retorna préstamos internos paginados en formato JSON.
+ *
+ * @return \Illuminate\Http\JsonResponse
+ */
     public function verPrestamosInternos(){
         $id_dependencia = $this->service->user()->dependencia->id;
-        
+
         $paginado = $this->service->verPrestamosInternos();
-        
+
 
         $ids = $this->service->obtenerDependenciasIds(Dependencia::find($id_dependencia));
 

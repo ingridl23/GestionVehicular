@@ -1,12 +1,32 @@
 <?php
-
 namespace App\Http\Controllers\Reservas;
-
 use App\Contracts\ReservaServiceInterface;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ReservaFormRequest;
 use App\Models\Reserva;
 use Illuminate\Support\Facades\Auth;
+
+/**
+ * @class BaseReservaController
+ * @brief Controlador abstracto base para la gestión de reservas.
+ *
+ * Define la estructura común para:
+ * - Visualización individual
+ * - Cancelación
+ * - Creación
+ * - Edición
+ * - Filtros dinámicos
+ *
+ * La lógica de negocio es delegada a una implementación de
+ * ReservaServiceInterface siguiendo el principio DIP.
+ *
+ * Es extendido por:
+ * - ReservaController (reservas internas)
+ * - PrestamoController (reservas externas)
+ *
+ * @package App\Http\Controllers\Reservas
+ * @abstract
+ */
 
 abstract class BaseReservaController extends Controller
 {
@@ -17,7 +37,15 @@ abstract class BaseReservaController extends Controller
     {
         $this->service = $service;
     }
-
+/**
+ * Muestra el detalle de una reserva específica.
+ *
+ * La lógica de obtención se delega al service correspondiente
+ * teniendo en cuenta el usuario autenticado.
+ *
+ * @param int $id Identificador de la reserva.
+ * @return \Illuminate\View\View
+ */
     // permiso = ver_reservas_internas || ver_reservas_prestamos
     public function verReserva($id)
     {
@@ -26,6 +54,15 @@ abstract class BaseReservaController extends Controller
         return view('ui.reservas.reserva', $reserva);
     }
 
+    /**
+ * Cancela una reserva existente.
+ *
+ * Valida autorización mediante policy.
+ * Delegación de cancelación al service.
+ *
+ * @param int $id ID de la reserva.
+ * @return \Illuminate\Http\JsonResponse
+ */
     // permiso = cancelar_reserva_interna || 'cancelar_prestamo'
     public function cancelarReserva($id)
     {
@@ -38,6 +75,13 @@ abstract class BaseReservaController extends Controller
         ]);
     }
 
+    /**
+ * Muestra el formulario de creación de reserva.
+ *
+ * Requiere autorización previa.
+ *
+ * @return \Illuminate\View\View
+ */
     //permiso = 'solicitar_prestamo' || 'solicitar_reserva_interna'
     public function mostrarFormulario()
     {
@@ -45,7 +89,12 @@ abstract class BaseReservaController extends Controller
         return view('ui.reservas.formularios.crear', $this->service->datosParaFormCrear());
     }
 
-
+/**
+ * Muestra el formulario de edición de reserva.
+ *
+ * @param int $id ID de la reserva.
+ * @return \Illuminate\View\View
+ */
     //permiso = 'actualizar_prestamo' || 'actualizar_reserva_interna'
     public function mostrarFormularioUpdate($id)
     {
@@ -172,6 +221,15 @@ abstract class BaseReservaController extends Controller
         return $query->paginate(10);
     }
 
+    /**
+ * Crea una nueva reserva (interna o préstamo).
+ *
+ * Delegación total al service.
+ * Maneja redirección según tipo_reserva.
+ *
+ * @param \App\Http\Requests\ReservaFormRequest $request
+ * @return \Illuminate\Http\RedirectResponse
+ */
     //permiso = 'solicitar_reserva_interna' || 'solicitar_prestamo',
     public function crearReserva(ReservaFormRequest $request){
 
@@ -223,7 +281,12 @@ abstract class BaseReservaController extends Controller
         };
     }
 
-
+/**
+ * Devuelve errores de negocio al formulario anterior.
+ *
+ * @param array $resultado
+ * @return \Illuminate\Http\RedirectResponse
+ */
     public function mensajes($resultado){
         return back()
         ->withErrors($this->mensajesErrores($resultado))
@@ -274,10 +337,9 @@ abstract class BaseReservaController extends Controller
                 'id_vehiculo' => 'El vehiculo no se encuentra disponible para ser reservado.'
             ];
         }
-        
+
         return [
             'id_vehiculo' => 'El vehiculo no se encuentra disponible en el rango de fechas seleccionado.'
         ];
     }
 }
- 

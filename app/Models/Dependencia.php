@@ -4,7 +4,22 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Notifications\Notifiable;
 
-
+/**
+ * @class Dependencia
+ *
+ * Representa una Dependencia dentro del sistema.
+ *
+ * @package App\Models
+ * @property int $id Identificador único
+ * @property string $categoria Nombre de la dependencia
+ * @property booolean $activa valor booleano para saber si la dependencia esta vigente en el sistema y en la vida diaria
+ * @property int $id_dependencia_padre identificador de referencia del origen del a oficina.
+ * @property int $id_direccion  referencia de ubicacion fisica de la dependencia.
+ * @property \Carbon\Carbon $created_at Fecha de creación
+ * @property \Carbon\Carbon $updated_at Fecha de última actualización
+ *
+ * @mixin \Illuminate\Database\Eloquent\Builder
+ */
 class Dependencia extends Model
 {
     use HasFactory, Notifiable;
@@ -17,22 +32,40 @@ class Dependencia extends Model
         'id_direccion',
     ];
 
+     /**
+     * Relación: una dependencia puede tener una dependencia de la que desciende.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     // Dependencia padre
     public function dependenciaPadre() {
         return $this->belongsTo(Dependencia::class, 'id_dependencia_padre');
     }
-
+ /**
+     * Relación: una dependencia puede tener muchas subdependencias hijas.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     // Dependencias hijas
     public function dependenciasHijas() {
         return $this->hasMany(Dependencia::class, 'id_dependencia_padre')->with('dependenciasHijas');
     }
 
 
-
+    /**
+     * Relación: una Dependencia puede tener una direccion.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function direccion() {
         return $this->belongsTo(Direcciones::class, 'id_direccion');
     }
 
+    /**
+     * Relación:una Dependencia puede tener mucos vehiculos
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function vehiculos() {
         return $this->hasMany(Vehiculo::class, 'id_dependencia_duena');
     }

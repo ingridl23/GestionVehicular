@@ -5,9 +5,27 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Model;
-
+/**
+ * @class Alerta
+ *
+ * Representa una categoría dentro del sistema.
+ *
+ * @package App\Models
+ * @property int $id Identificador único
+ * @property string $tipo Nombre de la categoria
+ * @property string $entidad_tipo Descripción de la categoría
+ * @property string $entidad_id
+ * @property string $nivel  describe que nivel de alerta pertenece
+ * @property boolean $activa describe el estado
+ * @property \Carbon\Carbon $fecha_generada Fecha de creación
+ * @property \Carbon\Carbon $fecha_resuelta Fecha de última actualización
+ *
+ * @mixin \Illuminate\Database\Eloquent\Builder
+ */
 class Alerta extends Model
 {
+      /** @var string $table Nombre de la tabla asociada */
+    protected $table = "alertas";
     protected $fillable = [
         'tipo',
         'entidad_tipo',
