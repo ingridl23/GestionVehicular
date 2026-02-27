@@ -1,5 +1,7 @@
 var NAVTREEINDEX5 =
 {
+"namespace_app_1_1_enums.html":[1,0,0,3],
+"namespace_app_1_1_enums.html#ab69c7c75648535f954e75cbdd7c43554":[1,0,0,3,1],
 "namespace_app_1_1_enums.html#ab69c7c75648535f954e75cbdd7c43554adfccb090ff84a4e39d0aee804c64ffe5":[1,0,0,3,1,0],
 "namespace_app_1_1_http_1_1_controllers.html":[1,0,0,4,0],
 "namespace_app_1_1_http_1_1_controllers_1_1_auth.html":[1,0,0,4,0,0],

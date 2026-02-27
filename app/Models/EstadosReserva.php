@@ -23,6 +23,11 @@ class EstadosReserva extends Model
     public const RECHAZADA = 5;
     public const APROBADA = 6;
 
+     /**
+     * Relación: una estado lo pueden tener muchas reservas.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function reservas() {
         return $this->hasMany(Reserva::class);
     }

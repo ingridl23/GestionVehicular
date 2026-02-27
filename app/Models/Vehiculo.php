@@ -4,7 +4,31 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Date;
-
+/**
+ * @class Vehiculo
+ *
+ *
+ * Representa una vehiculo dentro del sistema.
+ *
+ * @package App\Models
+ * @property int $id Identificador único
+ * @property string $dominio
+ * @property string $marca
+ * @property int $anio
+ * @property  int $id_direccion_actual
+ * @property int $id_estado_vehiculo
+ * @property int $id_dependencia_duena
+ * @property int $id_estado_nafta
+ * @property boolean $control_satelital
+ * @property boolean $habilitado_prestamo
+ * @property string $condiciones_prestamos
+ * @property  int $kilometros
+ * @property date $vtv
+ * @property \Carbon\Carbon $created_at Fecha de creación
+ * @property \Carbon\Carbon $updated_at Fecha de última actualización
+ *
+ * @mixin \Illuminate\Database\Eloquent\Builder
+ */
 class Vehiculo extends Model
 {
     use HasFactory, Notifiable;

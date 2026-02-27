@@ -3,7 +3,29 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
-
+/**
+ * @class Viaje
+ *
+ *
+ * Representa un viaje dentro del sistema.
+ *
+ * @package App\Models
+ * @property int $id Identificador único
+ * @property int $id_vehiculo
+ * @property int $id_reserva
+ * @property date $fecha_inicio
+ * @property date $fecha_fin
+ * @property int $kilometros_inicio
+ * @property int $kilometros_fin
+ * @property int $id_estado_nafta_inicio
+ * @property int $id_estado_nafta_fin
+ * @property string $observaciones
+ * @property int $id_ultima_ubicacion
+ * @property \Carbon\Carbon $created_at Fecha de creación
+ * @property \Carbon\Carbon $updated_at Fecha de última actualización
+ *
+ * @mixin \Illuminate\Database\Eloquent\Builder
+ */
 class Viaje extends Model
 {
    use HasFactory, Notifiable;

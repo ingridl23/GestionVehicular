@@ -1,11 +1,32 @@
 <?php
-
 namespace App\Models;
-
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\DB;
+
+
+/**
+ * @class Reserva
+ *
+ * Representa una categoría dentro del sistema.
+ *
+ * @package App\Models
+ * @property int $id Identificador único
+ * @property date $fecha_reserva
+ * @property date $fecha_inicio_reserva
+ * @property date $fecha_fin_reserva
+ * @property int $id_vehiculo
+ * @property int $id_estado_reserva
+ * @property  int $id_dependencia_duena
+ * @property int $id_dependencia_solicitante
+ * @property int $id_usuario
+ * @property string $estado  estado del reporte generado
+ * @property \Carbon\Carbon $created_at Fecha de creación
+ * @property \Carbon\Carbon $updated_at Fecha de última actualización
+ *
+ * @mixin \Illuminate\Database\Eloquent\Builder
+ */
 
 class Reserva extends Model
 {
@@ -118,7 +139,7 @@ class Reserva extends Model
      *
      *  - La dependencia (o alguna de sus hijas) es solicitante
      *    y la dependencia dueña es externa al árbol.
-     * 
+     *
      *  id_dependencia -> externa
      *  externa -> id_dependencia
      *  externa -> hija

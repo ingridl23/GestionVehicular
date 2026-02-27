@@ -27,6 +27,8 @@ var NAVTREEINDEX2 =
 "class_app_1_1_models_1_1_alerta.html#a56d8f4755cbe5da5ac7fd7ff594cc72a":[2,0,0,6,0,1],
 "class_app_1_1_models_1_1_alerta.html#a61db7f2330adce29a24f69a24497f09b":[1,0,0,6,0,0],
 "class_app_1_1_models_1_1_alerta.html#a61db7f2330adce29a24f69a24497f09b":[2,0,0,6,0,0],
+"class_app_1_1_models_1_1_alerta.html#a62d13ea2ba636b5bfcd90f7b6605cd0a":[1,0,0,6,0,11],
+"class_app_1_1_models_1_1_alerta.html#a62d13ea2ba636b5bfcd90f7b6605cd0a":[2,0,0,6,0,11],
 "class_app_1_1_models_1_1_alerta.html#a6c00eaccff1c80dfbbc5c52cbd9cbf4a":[1,0,0,6,0,9],
 "class_app_1_1_models_1_1_alerta.html#a6c00eaccff1c80dfbbc5c52cbd9cbf4a":[2,0,0,6,0,9],
 "class_app_1_1_models_1_1_alerta.html#a6e5ff0f9b1cc234e9fa61d5fef048955":[1,0,0,6,0,6],
@@ -247,7 +249,5 @@ var NAVTREEINDEX2 =
 "class_app_1_1_models_1_1_viaje.html#a6146be90d861ef05d1ce016412ca887f":[2,0,0,6,14,0],
 "class_app_1_1_models_1_1_viaje.html#a622dfdb3a93d5e829aae4f1d6691cf21":[1,0,0,6,14,7],
 "class_app_1_1_models_1_1_viaje.html#a622dfdb3a93d5e829aae4f1d6691cf21":[2,0,0,6,14,7],
-"class_app_1_1_models_1_1_viaje.html#a6ce0547cd4e8677ecfc1b8fd58fc9bdf":[1,0,0,6,14,6],
-"class_app_1_1_models_1_1_viaje.html#a6ce0547cd4e8677ecfc1b8fd58fc9bdf":[2,0,0,6,14,6],
-"class_app_1_1_models_1_1_viaje.html#a81bf5a8ad6e742a2017db00ce50d91b6":[1,0,0,6,14,5]
+"class_app_1_1_models_1_1_viaje.html#a6ce0547cd4e8677ecfc1b8fd58fc9bdf":[1,0,0,6,14,6]
 };

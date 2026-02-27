@@ -10,5 +10,6 @@ var class_app_1_1_models_1_1_alerta =
     [ "usuario", "class_app_1_1_models_1_1_alerta.html#a805b2c6dfe3e4155fac8b550a6589771", null ],
     [ "vehiculo", "class_app_1_1_models_1_1_alerta.html#acc8ca69a97a387d29ce0a052379e95b9", null ],
     [ "$casts", "class_app_1_1_models_1_1_alerta.html#a6c00eaccff1c80dfbbc5c52cbd9cbf4a", null ],
-    [ "$fillable", "class_app_1_1_models_1_1_alerta.html#ac36c405e4019acaba68cc8e983846bc1", null ]
+    [ "$fillable", "class_app_1_1_models_1_1_alerta.html#ac36c405e4019acaba68cc8e983846bc1", null ],
+    [ "$table", "class_app_1_1_models_1_1_alerta.html#a62d13ea2ba636b5bfcd90f7b6605cd0a", null ]
 ];

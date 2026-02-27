@@ -15,7 +15,11 @@ class EstadosVehiculo extends Model
         'estado',
 
     ];
-
+ /**
+     * Relación: una estado lo pueden tener muchos vehiculos.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function vehiculos() {
         return $this->hasMany(Vehiculo::class);
     }
