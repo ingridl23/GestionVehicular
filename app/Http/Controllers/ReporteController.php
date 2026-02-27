@@ -10,8 +10,47 @@ use App\Policies\ReportePolicy;
 use Illuminate\Http\Request;
 use App\Enums\EstadoReporte;
 use App\Notifications\UsuarioModificadoNotification;
+
+/**
+ * @class ReporteController
+ * @brief Controlador encargado de la gestión integral de reportes internos.
+ *
+ * Permite:
+ * - Listado de reportes según permisos del usuario
+ * - Creación de nuevos reportes
+ * - Visualización individual
+ * - Cambio de estado
+ * - Seguimiento mediante comentarios
+ * - Eliminación controlada
+ * - Vistas específicas para operativo (mobile)
+ *
+ * Implementa control de acceso basado en permisos
+ * y utiliza ReporteService para la lógica de negocio.
+ *
+ * Integra sistema de notificaciones al modificar estado
+ * o agregar comentarios.
+ *
+ * @package App\Http\Controllers
+ * @author Ingrid Ledesma
+ * @version 1.0
+ * @since 2026
+ */
+
 class ReporteController extends Controller
 {
+
+/**
+ * Muestra el listado de reportes según el nivel de acceso del usuario.
+ *
+ * - Permiso general: visualiza todos los reportes.
+ * - Permiso por dependencia: visualiza reportes de su entidad.
+ * - Usuario estándar: visualiza únicamente sus propios reportes.
+ *
+ * Incluye relación con usuario y comentarios.
+ *
+ * @return \Illuminate\View\View
+ */
+
 public function index()
 {
     $user = auth()->user();
@@ -52,12 +91,40 @@ public function index()
 
 }
 
+/**
+ * Muestra el formulario de creación de reportes.
+ *
+ * Requiere autorización mediante la policy
+ * 'iniciar_reporte_interno'.
+ *
+ * @return \Illuminate\View\View
+ * @throws \Illuminate\Auth\Access\AuthorizationException
+ */
+
     public function create()
     {
 
          $this->authorize('iniciar_reporte_interno', Reportes::class);
          return view('operativo.reportes.createReporte');
     }
+
+
+    /**
+ * Crea un nuevo reporte interno.
+ *
+ * Valida título y descripción.
+ * Asigna automáticamente:
+ * - entidad_tipo
+ * - entidad_id
+ * - id_usuario
+ * - estado inicial (pendiente)
+ *
+ * Delegación de persistencia al ReporteService.
+ *
+ * @param \Illuminate\Http\Request $request
+ * @param \App\Services\ReporteService $service
+ * @return \Illuminate\Http\RedirectResponse
+ */
 
    public function store(Request $request, ReporteService $service)
 {
@@ -84,7 +151,14 @@ public function index()
         ->with('success', 'Reporte creado correctamente');
 }
 
-
+/**
+ * Muestra el detalle de un reporte específico.
+ *
+ * Incluye comentarios asociados y datos del usuario.
+ *
+ * @param \App\Models\Reportes $reporte
+ * @return \Illuminate\View\View
+ */
 
 
 public function show(Reportes $reporte)
@@ -114,8 +188,19 @@ $reportesData = [[
 }
 
 
+
+
+
 /**
- * Cambiar estado del reporte
+ * Cambia el estado de un reporte.
+ *
+ * Valida que el estado pertenezca al Enum EstadoReporte.
+ * Si el reporte se marca como ATENDIDO,
+ * envía notificación al usuario creador.
+ *
+ * @param \Illuminate\Http\Request $request
+ * @param \App\Models\Reportes $reporte
+ * @return \Illuminate\Http\JsonResponse
  */
 public function cambiarEstado(Request $request, Reportes $reporte)
 {
@@ -151,7 +236,20 @@ public function cambiarEstado(Request $request, Reportes $reporte)
 
 
 /***************************************************************************************************************** */
-    /**Seguimiento de Comentarios en Reportes */
+  /**
+ * Agrega un comentario a un reporte.
+ *
+ * Valida que el comentario no esté vacío.
+ * Crea el registro asociado al usuario autenticado.
+ * Notifica al creador del reporte si quien comenta es otro usuario.
+ *
+ * @param \Illuminate\Http\Request $request
+ * @param \App\Models\Reportes $reporte
+ * @return \Illuminate\Http\JsonResponse
+ */
+
+
+/**Seguimiento de Comentarios en Reportes */
 // Quedo en conocimiento que esta funcionalidad queda sin policy hasta que se resuelva que no reconozce el permiso
     public function agregarComentario(Request $request, Reportes $reporte)
     {
@@ -189,7 +287,13 @@ public function cambiarEstado(Request $request, Reportes $reporte)
 
     }
 
-
+/**
+ * Muestra los reportes creados por el usuario autenticado.
+ *
+ * Incluye comentarios y datos del usuario.
+ *
+ * @return \Illuminate\View\View
+ */
 public function misReportes()
 {
     $reportes = Reportes::with('usuario', 'comentarios.usuario')
@@ -217,6 +321,14 @@ public function misReportes()
     return view('components.reportes', compact('reportes', 'reportesData'));
 }
 
+/**
+ * Muestra los reportes del usuario autenticado
+ * en vista operativa (mobile).
+ *
+ * Incluye las últimas alertas registradas.
+ *
+ * @return \Illuminate\View\View
+ */
 // OPERATIVO (mobile)
 public function misReportesOperativo()
 {
@@ -228,7 +340,16 @@ public function misReportesOperativo()
 
     return view('operativo.reportes.index', compact('reportes', 'alertas'));
 }
-
+/**
+ * Elimina un reporte.
+ *
+ * Solo permite eliminar reportes en estado cerrado.
+ * Devuelve error 403 si el estado no es válido.
+ *
+ * @param int $id Identificador del reporte.
+ * @return \Illuminate\Http\JsonResponse
+ * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+ */
 public function deleteReporte($id){
 $reporte = Reportes::findOrFail($id);
 

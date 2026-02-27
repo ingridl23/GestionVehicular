@@ -6,7 +6,8 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\View\View;
 use App\Enums\TipoAlerta;
 /**
- * Controlador encargado de la gestión de alertas del sistema.
+ * @class AlertaController
+ * @brief Controlador encargado de la gestión de alertas del sistema.
  *
  * Este controlador administra la visualización, consulta y resolución
  * de alertas generadas por diferentes eventos del sistema de gestión vehicular.

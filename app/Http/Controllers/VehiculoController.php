@@ -12,8 +12,34 @@ use Exception;
 use App\Http\Controllers\UserController;
 use App\Policies\VehiculoPolicy;
 use Illuminate\Support\Facades\Log;
+
+/**
+ * @class VehiculoController
+ * @brief Controlador encargado de la gestión de vehículos institucionales.
+ *
+ * Permite:
+ * - Listado
+ * - Creación
+ * - Edición
+ * - Eliminación (baja)
+ * - Reasignación de dependencia
+ * - Consulta detallada en formato JSON
+ *
+ * La lógica de negocio se delega a VehiculoService.
+ *
+ * @package App\Http\Controllers
+ * @since 2026
+ */
+
+
+
+
+
 class VehiculoController extends Controller
 {
+
+
+
 
 public function sectionVehiculo(){
     $dependencias =Dependencia::all();
@@ -33,7 +59,18 @@ public function sectionVehiculo(){
 }
 
 
-
+/**
+ * Devuelve el detalle de un vehículo en formato JSON.
+ *
+ * Incluye relaciones:
+ * - Estado del vehículo
+ * - Estado de nafta
+ * - Dependencia dueña
+ * - Dirección actual
+ *
+ * @param \App\Models\Vehiculo $vehiculo
+ * @return \Illuminate\Http\JsonResponse
+ */
     // CU 2 – Detalle
    public function show(Vehiculo $vehiculo): JsonResponse
 {
@@ -77,6 +114,9 @@ $this->authorize('view', $vehiculo);
     ]);
 }
 
+
+
+
 public function detalle(Vehiculo $vehiculo)
 {
      $this->authorize('view', $vehiculo);
@@ -91,7 +131,18 @@ public function detalle(Vehiculo $vehiculo)
 }
 
 
-
+/**
+ * Devuelve el detalle de un vehículo en formato JSON.
+ *
+ * Incluye relaciones:
+ * - Estado del vehículo
+ * - Estado de nafta
+ * - Dependencia dueña
+ * - Dirección actual
+ *
+ * @param \App\Models\Vehiculo $vehiculo
+ * @return \Illuminate\Http\JsonResponse
+ */
 
     // CU 5 – Crear
     public function store(Request $request, VehiculoService $service): JsonResponse
@@ -161,7 +212,17 @@ public function detalle(Vehiculo $vehiculo)
         }
     }
 
-
+/**
+ * Actualiza un vehículo existente.
+ *
+ * Permite actualización parcial de campos.
+ * Recarga relaciones luego de actualizar.
+ *
+ * @param \Illuminate\Http\Request $request
+ * @param \App\Models\Vehiculo $vehiculo
+ * @param \App\Services\VehiculoService $service
+ * @return \Illuminate\Http\JsonResponse
+ */
     // CU 4 – Modificar
        public function update(Request $request, Vehiculo $vehiculo, VehiculoService $service): JsonResponse
     {
@@ -241,7 +302,14 @@ public function detalle(Vehiculo $vehiculo)
     );
 }
 
-
+/**
+ * Cambia la dependencia asignada a un vehículo.
+ *
+ * @param \Illuminate\Http\Request $request
+ * @param \App\Models\Vehiculo $vehiculo
+ * @param \App\Services\VehiculoService $service
+ * @return \Illuminate\Http\JsonResponse
+ */
     // CU 17 – Reasignar
     public function updateAsignacion(Request $request, Vehiculo $vehiculo, VehiculoService $service): JsonResponse
     {
@@ -260,7 +328,13 @@ public function detalle(Vehiculo $vehiculo)
             'vehiculo' => $vehiculo
         ]);
     }
-
+/**
+ * Da de baja un vehículo.
+ *
+ * @param \App\Models\Vehiculo $vehiculo
+ * @param \App\Services\VehiculoService $service
+ * @return \Illuminate\Http\JsonResponse
+ */
     // CU 3 – Eliminar
    public function destroy(Vehiculo $vehiculo, VehiculoService $service): JsonResponse
 {

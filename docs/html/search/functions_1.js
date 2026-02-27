@@ -1,0 +1,10 @@
+var searchData=
+[
+  ['actualizar_0',['actualizar',['../class_app_1_1_services_1_1_vehiculo_service.html#a1b202b89ec88e3f90c25f5849b38f692',1,'App::Services::VehiculoService']]],
+  ['agregarcomentario_1',['agregarComentario',['../class_app_1_1_http_1_1_controllers_1_1_reporte_controller.html#a874ef54dcfef19b2dfd896b907d8b114',1,'App::Http::Controllers::ReporteController']]],
+  ['asignarreporte_2',['asignarReporte',['../class_app_1_1_services_1_1_reporte_service.html#af6661a5c363ba81bf90fd603148faa43',1,'App::Services::ReporteService']]],
+  ['assignrole_3',['assignRole',['../class_app_1_1_policies_1_1_user_policy.html#adcc3f271b198ae2bd7eae3798efafc66',1,'App::Policies::UserPolicy']]],
+  ['authorize_4',['authorize',['../class_app_1_1_http_1_1_requests_1_1_dependencia_request.html#aaa3fb63955751b8860f269443daedf07',1,'App\Http\Requests\DependenciaRequest\authorize()'],['../class_app_1_1_http_1_1_requests_1_1_filtro_dependencias_request.html#a165265106f7057199f9f87f8e55cd1fb',1,'App\Http\Requests\FiltroDependenciasRequest\authorize()'],['../class_app_1_1_http_1_1_requests_1_1_filtro_reservas_request.html#a17a814cb61632a37846c28d2a8da872f',1,'App\Http\Requests\FiltroReservasRequest\authorize()'],['../class_app_1_1_http_1_1_requests_1_1_reserva_form_request.html#a425cf83609a01ca3f61705815bf078c8',1,'App\Http\Requests\ReservaFormRequest\authorize()']]],
+  ['authorizeloans_5',['authorizeLoans',['../class_app_1_1_policies_1_1_reserva_policy.html#ad908cd0b494f8af81a65ab15073a90dd',1,'App::Policies::ReservaPolicy']]],
+  ['autorizarprestamo_6',['autorizarPrestamo',['../class_app_1_1_http_1_1_controllers_1_1_reservas_1_1_prestamo_controller.html#a061c0371b24c8e66888f073af89ceaed',1,'App\Http\Controllers\Reservas\PrestamoController\autorizarPrestamo()'],['../class_app_1_1_services_1_1reservas_1_1_base_reservas_services.html#acafda25ed9ede9521c9e99a21fa3cca3',1,'App\Services\reservas\BaseReservasServices\autorizarPrestamo()']]]
+];

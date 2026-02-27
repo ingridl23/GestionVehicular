@@ -7,6 +7,21 @@ use App\Services\Viajes\ViajeService;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
+
+/**
+ * @class ViajeController
+ * @brief Controlador encargado de la gestión de viajes asociados a reservas.
+ *
+ * Permite:
+ * - Iniciar viaje
+ * - Finalizar viaje
+ *
+ * Delegación de lógica al ViajeService.
+ *
+ * @package App\Http\Controllers
+ * @since 2026
+ */
+
 class ViajeController extends Controller
 {
     protected ViajeService $service;
@@ -15,7 +30,12 @@ class ViajeController extends Controller
     {
         $this->service = $service;
     }
-
+/**
+ * Inicia un viaje a partir de una reserva.
+ *
+ * @param int $reservaId Identificador de la reserva.
+ * @return \Illuminate\Http\RedirectResponse
+ */
     public function comenzarViaje($reservaId)
     {
         $viaje = $this->service->comenzarViaje($reservaId);
@@ -24,6 +44,18 @@ class ViajeController extends Controller
             ->with('success', 'Viaje iniciado correctamente.');
     }
 
+    /**
+ * Finaliza un viaje activo.
+ *
+ * Valida:
+ * - Kilómetros finales
+ * - Estado de nafta final
+ * - Observaciones opcionales
+ *
+ * @param \Illuminate\Http\Request $request
+ * @param int $viajeId
+ * @return \Illuminate\Http\RedirectResponse
+ */
     public function finalizarViaje(Request $request, $viajeId)
     {
         $request->validate([

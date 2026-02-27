@@ -1,0 +1,24 @@
+var class_app_1_1_services_1_1reservas_1_1_base_reservas_services =
+[
+    [ "autorizarPrestamo", "class_app_1_1_services_1_1reservas_1_1_base_reservas_services.html#acafda25ed9ede9521c9e99a21fa3cca3", null ],
+    [ "cancelarReserva", "class_app_1_1_services_1_1reservas_1_1_base_reservas_services.html#a4566b0bc780dd06326c225e80fdb901a", null ],
+    [ "crearReserva", "class_app_1_1_services_1_1reservas_1_1_base_reservas_services.html#ac27c4add606383895c704251394d6d7e", null ],
+    [ "editarConductor", "class_app_1_1_services_1_1reservas_1_1_base_reservas_services.html#ae762333ec79c70533647c08c06b418da", null ],
+    [ "editarReserva", "class_app_1_1_services_1_1reservas_1_1_base_reservas_services.html#a88fdac7bab6f0943ac304511281b1346", null ],
+    [ "id_dependencia", "class_app_1_1_services_1_1reservas_1_1_base_reservas_services.html#a33e2cf9a31f394ec598a4d8b5723dc12", null ],
+    [ "obtenerDatosBase", "class_app_1_1_services_1_1reservas_1_1_base_reservas_services.html#ae9d6472b5fd686bc9af4ceda07a4625d", null ],
+    [ "obtenerDatosVerReservas", "class_app_1_1_services_1_1reservas_1_1_base_reservas_services.html#ab44de140e21460addc0dc2c760dccb08", null ],
+    [ "obtenerDependenciasArbol", "class_app_1_1_services_1_1reservas_1_1_base_reservas_services.html#a27f6a7fae260b7889e4ab94cebaf48f3", null ],
+    [ "obtenerDependenciasIds", "class_app_1_1_services_1_1reservas_1_1_base_reservas_services.html#a90dcb810e42657d5e8c15a244a03378d", null ],
+    [ "obtenerDependenciasPadres", "class_app_1_1_services_1_1reservas_1_1_base_reservas_services.html#ad65104d677748d9134df1e3d28699cee", null ],
+    [ "obtenerEstadoReserva", "class_app_1_1_services_1_1reservas_1_1_base_reservas_services.html#aff1b46a69fb315703022bc07ccfd2e4b", null ],
+    [ "rechazarPrestamo", "class_app_1_1_services_1_1reservas_1_1_base_reservas_services.html#a4c82e81c646c1544ef25dbbb3d4809f8", null ],
+    [ "rol", "class_app_1_1_services_1_1reservas_1_1_base_reservas_services.html#a4f971c67b088ff978e72c9f3c9427d92", null ],
+    [ "user", "class_app_1_1_services_1_1reservas_1_1_base_reservas_services.html#aced0ab44068ddfa9d910fd537d8688c7", null ],
+    [ "validaciones", "class_app_1_1_services_1_1reservas_1_1_base_reservas_services.html#a1d64ed50fe5fccdaf433c9c251013216", null ],
+    [ "valoresParametrosValidaciones", "class_app_1_1_services_1_1reservas_1_1_base_reservas_services.html#a3f8b1c2b4005bb87f65dc3fc1a7ecc91", null ],
+    [ "verPrestamosExternos", "class_app_1_1_services_1_1reservas_1_1_base_reservas_services.html#a7416c4ebd583f4430dc38a99aa674926", null ],
+    [ "verPrestamosInternos", "class_app_1_1_services_1_1reservas_1_1_base_reservas_services.html#adbe90160d2eb122bad0f5bc2c418811e", null ],
+    [ "verReserva", "class_app_1_1_services_1_1reservas_1_1_base_reservas_services.html#a5ea119714a96f58c0fcbd93529294ea2", null ],
+    [ "verReservasPendientes", "class_app_1_1_services_1_1reservas_1_1_base_reservas_services.html#aff737699ec850c89a4cbad589e0705df", null ]
+];

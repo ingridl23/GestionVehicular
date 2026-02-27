@@ -15,10 +15,49 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Gate;
 use Spatie\Permission\Models\Role;
 use App\Notifications\UsuarioModificadoNotification;
+
+
+/**
+ * @class UserController
+ * @brief Controlador encargado de la gestión integral de usuarios del sistema.
+ *
+ * Funcionalidades principales:
+ * - Dashboard administrativo y operativo
+ * - Gestión completa de usuarios (CRUD)
+ * - Gestión de roles y dependencias
+ * - Gestión de perfil propio
+ * - Habilitar / deshabilitar usuarios
+ *
+ * Implementa control de acceso mediante Gates y Roles (Spatie).
+ * Integra notificaciones ante cambios de rol o dependencia.
+ *
+ * @package App\Http\Controllers
+ * @author Ingrid Ledesma
+ * @version 1.0
+ * @since 2026
+ */
+
+
+
+
 class UserController extends Controller{
 
 
-
+/**
+ * Muestra el dashboard principal según el rol del usuario.
+ *
+ * - Administrador General: vista completa con métricas globales.
+ * - Administrador de Dependencia / Jefe de Área: métricas filtradas.
+ * - Operativo: redirige al dashboard operativo.
+ *
+ * Incluye estadísticas de:
+ * - Vehículos
+ * - Reservas
+ * - Reportes
+ * - Usuarios recientes
+ *
+ * @return \Illuminate\Http\Response|\Illuminate\View\View
+ */
 
 /** ********************     REDIRECCIONES   *********************** */
    public function dashboard()
@@ -107,6 +146,18 @@ $ultimosUsuarios = User::with('dependencia')
         abort(403);
     }
 
+    /**
+ * Muestra el dashboard operativo (mobile).
+ *
+ * Incluye:
+ * - Estadísticas básicas
+ * - Estado de vehículos
+ * - Alertas recientes
+ * - Estados de nafta
+ *
+ * @return \Illuminate\View\View
+ */
+
     public function dashboard2()
     {
         $stats = [
@@ -145,9 +196,20 @@ $ultimosUsuarios = User::with('dependencia')
 
     }
 
+
    /**
-     * Listar usuarios con filtros
-     */
+ * Lista usuarios con filtros dinámicos.
+ *
+ * Permite filtrar por:
+ * - Dependencia
+ * - Texto de búsqueda
+ * - Rol
+ *
+ * Aplica restricciones automáticas según rol autenticado.
+ *
+ * @param \Illuminate\Http\Request $request
+ * @return \Illuminate\View\View
+ */
     public function index(Request $request)
     {
         $user = Auth::user();
@@ -204,9 +266,18 @@ $ultimosUsuarios = User::with('dependencia')
         return view('admin.usuarios.create', compact('dependencias', 'roles'));
     }
 
-    /**
-     * Crear usuario
-     */
+ /**
+ * Crea un nuevo usuario.
+ *
+ * - Valida datos personales
+ * - Asigna dependencia
+ * - Asigna rol
+ * - Crea carnet asociado
+ * - Envía notificación al usuario
+ *
+ * @param \Illuminate\Http\Request $request
+ * @return \Illuminate\Http\RedirectResponse
+ */
     public function store(Request $request)
     {
         Gate::authorize('createUser', User::class);
@@ -312,9 +383,21 @@ $user->notify(
         return view('admin.usuarios.edit', compact('usuario', 'dependencias', 'roles'));
     }
 
-    /**
-     * Actualizar usuario
-     */
+  /**
+ * Actualiza un usuario existente.
+ *
+ * Permite modificar:
+ * - Datos personales
+ * - Rol
+ * - Dependencia
+ * - Carnet
+ *
+ * Notifica al usuario si cambia rol o dependencia.
+ *
+ * @param \Illuminate\Http\Request $request
+ * @param \App\Models\User $usuario
+ * @return \Illuminate\Http\RedirectResponse
+ */
     public function update(Request $request, User $usuario)
     {
         Gate::authorize('update', $usuario);
@@ -397,9 +480,14 @@ $user->notify(
             ->with('success', 'Usuario actualizado correctamente');
     }
 
-    /**
-     * Eliminar usuario
-     */
+  /**
+ * Elimina un usuario del sistema.
+ *
+ * No permite eliminar el propio usuario autenticado.
+ *
+ * @param \App\Models\User $usuario
+ * @return \Illuminate\Http\RedirectResponse
+ */
     public function destroy(User $usuario)
     {
         Gate::authorize('deleteUser', $usuario);
@@ -516,9 +604,12 @@ $user->notify(
         return view('admin.auditoria.personal', compact('usuarios', 'dependencias', 'roles'));
     }
 
-    /**
-     * Cambiar estado habilitado/deshabilitado
-     */
+  /**
+ * Alterna el estado habilitado/deshabilitado de un usuario.
+ *
+ * @param \App\Models\User $usuario
+ * @return \Illuminate\Http\RedirectResponse
+ */
     public function toggleEnabled(User $usuario)
     {
         Gate::authorize('updateUsers', $usuario);
