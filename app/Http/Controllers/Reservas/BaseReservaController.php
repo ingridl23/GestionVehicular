@@ -31,12 +31,90 @@ use Illuminate\Support\Facades\Auth;
 abstract class BaseReservaController extends Controller
 {
 
+
     protected ReservaServiceInterface $service;
 
     public function __construct(ReservaServiceInterface $service)
     {
         $this->service = $service;
     }
+
+
+
+/**
+ * Metodo privado para delegar accion de botones en blade segun la sesion del usuario logueado
+ */
+protected function configurarBotones(string $contexto, string $ubicacion): array
+{
+    if ($contexto === 'usuario') {
+
+        return [
+            'configAgregar' => [
+                'can' => 'solicitar_reserva_interna',
+                'route' => route('operativo.reservas-form'),
+                'text' => 'Solicitar reserva',
+            ],
+            'configEditar' => [
+                'can' => 'actualizar_reserva_interna',
+                'route' => route('operativo.reserva-form-update', ':id'),
+            ],
+        ];
+    }
+//para reservas
+    return [
+        'configAgregar' => $ubicacion === 'interna'
+            ? [
+                'can' => 'solicitar_reserva_interna',
+                'route' => route('admin.reservas.form.agregar'),
+                'text' => 'Agregar reserva',
+            ]
+            : [
+                'can' => 'solicitar_prestamo',
+                'route' => route('admin.prestamo.form.agregar'),
+                'text' => 'Agregar préstamo',
+            ],
+
+        'configEditar' => $ubicacion === 'interna'
+            ? [
+                'can' => 'actualizar_reserva_interna',
+                'route' => route('admin.reservas.form.editar', ':id'),
+            ]
+            : [
+                'can' => 'actualizar_prestamo',
+                'route' => route('admin.prestamo.form.editar', ':id'),
+            ],
+    ];
+//para
+      return [
+        'configAgregar' => [
+            'can' => $ubicacion === 'interna'
+                ? 'solicitar_reserva_interna'
+                : 'solicitar_prestamo',
+
+            'route' => $ubicacion === 'interna'
+                ? route('admin.reservas.form.agregar')
+                : route('admin.prestamo.form.agregar'),
+
+            'text' => $ubicacion === 'interna'
+                ? 'Agregar reserva'
+                : 'Agregar préstamo',
+        ],
+
+        'configEditar' => [
+            'can' => $ubicacion === 'interna'
+                ? 'actualizar_reserva_interna'
+                : 'actualizar_prestamo',
+
+            'route' => $ubicacion === 'interna'
+                ? route('admin.reservas.form.editar', ':id')
+                : route('admin.prestamo.form.editar', ':id'),
+        ],
+    ];
+}
+
+
+
+
 /**
  * Muestra el detalle de una reserva específica.
  *
@@ -51,10 +129,16 @@ abstract class BaseReservaController extends Controller
     {
         //$this->authorize('vistaIndividual', Reserva::findOrFail($id));
         $reserva = $this->service->verReserva($id, Auth::user());
+
+        if(auth()->user()->hasRole('Usuario Operativo')) {
+    $reserva = Reserva::where('id_usuario', auth()->id())->paginate(10);
+} else {
+    $reserva = Reserva::paginate(10);
+}
         return view('ui.reservas.reserva', $reserva);
     }
 
-    /**
+/**
  * Cancela una reserva existente.
  *
  * Valida autorización mediante policy.
@@ -95,6 +179,8 @@ abstract class BaseReservaController extends Controller
  * @param int $id ID de la reserva.
  * @return \Illuminate\View\View
  */
+
+
     //permiso = 'actualizar_prestamo' || 'actualizar_reserva_interna'
     public function mostrarFormularioUpdate($id)
     {

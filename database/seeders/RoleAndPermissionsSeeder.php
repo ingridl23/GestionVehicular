@@ -205,7 +205,10 @@ $conductor->syncPermissions([
     'asignar_conductor_en_reserva_activa',
     'ver_reportes_operativos',
     'finalizar_reserva_interna',
-    'ver_historial_reservas'
+    'ver_historial_reservas',
+    'solicitar_reserva_interna',
+    'cancelar_reserva_interna',
+    'solicitar_prestamo'
 ]);
 
 

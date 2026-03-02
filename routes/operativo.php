@@ -4,6 +4,7 @@ use App\Http\Controllers\VehiculoController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ReporteController;
 use App\Http\Controllers\Reservas\ReservaController;
+use App\Http\Controllers\Reservas\BaseReservaController;
 
  Route::middleware(['auth', 'role:Operativo'])
     ->prefix('operativo')
@@ -52,8 +53,22 @@ Route::post(
        /* Route::patch('/reportes/{reporte}/estado', [ReporteController::class, 'cambiarEstado'])
     ->name('reportes.estado');*/
 
-       // VIAJES
 
+    //*********************************************************************************************************************** */
+    /*********************************Reservas de Vehiculos Operativos ****************************************************** */
+    //get verReservas
+      Route::get('/mis-reservas', [ReservaController::class, 'misReservas'])->name('mis-reservas');
+      //ver formulario de crear reservas
+       Route::get('/reservas/form', [ReservaController::class, 'mostrarFormulario'])->name('reservas-form');
+        Route::post('/reserva/create', [ReservaController::class, 'crearReserva'])->name('reservar');
+
+        //ver formulario de edicion de una reserva seleccionada
+         Route::get('/reserva/update/', [ReservaController::class, 'mostrarFormularioUpdate'])->name('reserva-form-update');
+         //actualizar reserva
+          Route::post('/reserva/update', [BaseReservaController::class, 'editarReserva'])->name('actualizar-reserva');
+       // get filtrarReservasInternas
+      Route::get('/reservas/filtro', [ReservaController::class, 'filtrarReservasInternas'])->name('filtrar-reservas-int');
+    /**********************************Viajes Para Operativos ****************************************************************** */
 
 });
 

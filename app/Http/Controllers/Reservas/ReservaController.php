@@ -43,17 +43,55 @@ class ReservaController extends BaseReservaController{
     public function verReservas(){
         $this->authorize('viewAny', Reserva::class);
         $datos = $this->service->verReservas();
-        $data = array_merge(
-            ['reservas' => $datos['reservas']],
-            ['ids' => null],
-            ['total' => $datos['total']],
-            $this->service->datosFiltros(),
-            ['ubicacion' => 'interna'],
-            ['mostrarAcciones' => true],
-        );
+        $botones = $this->configurarBotones('admin', 'interna');
+        //dd($botones);
+$data = array_merge(
+    [
+        'reservas' => $datos['reservas'],
+        'ids' => null,
+        'total' => $datos['total'],
+        'contexto' => 'admin',
+    ],
+    $this->service->datosFiltros(),
+    [
+        'ubicacion' => 'interna',
+        'mostrarAcciones' => true,
+    ],
+    $botones
+);
 
         return view('ui.reservas.reservas', $data);
     }
+
+    /**
+     * Muestra reservas propias del usuario que se encuentra logueado
+     */
+public function misReservas()
+{
+    $this->authorize('viewAny', Reserva::class);
+
+    $reservas = Reserva::where('id_usuario', auth()->id())
+        ->orderBy('fecha_inicio_reserva')
+        ->paginate(10);
+   $botones = $this->configurarBotones('usuario', 'interna');
+
+$data = array_merge(
+    [
+        'reservas' => $reservas,
+        'ids' => null,
+        'total' => $reservas->total(),
+        'contexto' => 'usuario',
+    ],
+    $this->service->datosFiltros(),
+    [
+        'ubicacion' => 'interna',
+        'mostrarAcciones' => true,
+    ],
+    $botones
+);
+
+    return view('ui.reservas.reservas', $data);
+}
 
 
     /**

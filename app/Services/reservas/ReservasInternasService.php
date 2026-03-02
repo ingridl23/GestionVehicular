@@ -98,18 +98,25 @@ class ReservasInternasService extends BaseReservasServices{
      * @param int $id ID de la reserva a editar
      * @return array
      */
-    public function datosParaFormCrear(){
-        $datos = $this->datosForm();
 
-        return [
-            'vehiculos' => $datos['vehiculos'],
-            'usuarios'  => $datos['usuarios'],
-            'dependencias'  => $datos['arbol'],
-            'formAction' => route('admin.reservas.internas.crear'),
-            'reserva'   => null,
-            'ubicacion'   => null,
-        ];
-    }
+
+  public function datosParaFormCrear()
+{
+    $datos = $this->datosForm();
+
+  $formAction = request()->routeIs('operativo.*')
+    ? route('operativo.reservar')
+    : route('admin.reservas.internas.crear');
+
+    return [
+        'vehiculos'     => $datos['vehiculos'],
+        'usuarios'      => $datos['usuarios'],
+        'dependencias'  => $datos['arbol'],
+        'formAction'    => $formAction,
+        'reserva'       => null,
+        'ubicacion'     => null,
+    ];
+}
 
     /**
      * Obtiene los datos necesarios para mostrar el formulario de edición de una reserva interna.
@@ -127,19 +134,24 @@ class ReservasInternasService extends BaseReservasServices{
      * @param int $id ID de la reserva a editar
      * @return array
      */
-    public function datosParaFormEditar($id){
-        $reserva = Reserva::findOrFail($id);
-        $datos = $this->datosForm();
+  public function datosParaFormEditar($id)
+{
+    $reserva = Reserva::findOrFail($id);
+    $datos = $this->datosForm();
 
-        return [
-            'vehiculos' => $datos['vehiculos'],
-            'usuarios'  => $datos['usuarios'],
-            'dependencias'  => $datos['arbol'],
-            'reserva'   => $reserva,
-            'formAction' => route('admin.reservas.internas.editar', $id),
-            'ubicacion'   => null,
-        ];
-    }
+    $formAction = auth()->user()->hasRole('Operativo')
+        ? route('operativo.actualizar-reserva', $id)
+        : route('admin.reservas.internas.editar', $id);
+
+    return [
+        'vehiculos'     => $datos['vehiculos'],
+        'usuarios'      => $datos['usuarios'],
+        'dependencias'  => $datos['arbol'],
+        'reserva'       => $reserva,
+        'ubicacion'     => null,
+        'formAction'    => $formAction,
+    ];
+}
 
 
 

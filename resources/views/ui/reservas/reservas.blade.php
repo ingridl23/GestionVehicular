@@ -4,31 +4,6 @@
 <script type="module" src="{{ Vite::asset('resources/js/filtros/filtrosReservas.js') }}"></script>
 <script type="module" src="{{ Vite::asset('resources/js/reservas/accionesReserva.js') }}"></script>
 @endpush
-
-@php
-$configAgregar = $ubicacion == 'interna'
-? [
-'can' => 'solicitar_reserva_interna',
-'route' => route('admin.reservas.form.agregar'),
-'text' => 'Agregar reserva',
-]
-: [
-'can' => 'solicitar_prestamo',
-'route' => route('admin.prestamo.form.agregar'),
-'text' => 'Agregar préstamo',
-];
-
-$configEditar = $ubicacion == 'interna'
-? [
-'can' => 'actualizar_reserva_interna',
-'route' => route('admin.reservas.form.editar', ':id'),
-]
-: [
-'can' => 'actualizar_prestamo',
-'route' => route('admin.prestamo.form.editar', ':id'),
-];
-@endphp
-
 @section('page-title', 'Administración de Reservas')
 @section('page-description', 'Gestión de reservas del sistema')
 
@@ -44,14 +19,17 @@ $configEditar = $ubicacion == 'interna'
 
         <div>
           <h1 class="text-2xl font-bold text-gray-900 dark:text-white"> Reservas del Sistema</h1>
-          <p class="text-gray-600 dark:text-gray-400 mt-1"> Total de reservas: 
+       @hasanyrole(['Administrador|Administrador de Dependencia|Jefe de Area'])
+       <p class="text-gray-600">
+             Total de reservas:
             <span class="font-semibold">{{$total}}</span>
-          </p>
+       </p>
+@endhasanyrole
         </div>
 
       @can($configAgregar['can'])
       <a href="{{ $configAgregar['route'] }}"
-        class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg 
+        class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg
                 flex items-center justify-center gap-2 transition-colors
                 w-full md:w-auto md:self-auto self-stretch">
         {{ $configAgregar['text'] }}
@@ -60,13 +38,14 @@ $configEditar = $ubicacion == 'interna'
     </div>
 
 
+    @hasanyrole(['Administrador','Administrador de Dependencia','Jefe de Area'])
     <div class="flex items-end justify-between mb-4">
       <button id="mostrarFiltros" type="button"
         class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg flex items-center gap-2 transition-colors">
         Filtros
       </button>
     </div>
-
+@endhasanyrole
     @hasanyrole(["Administrador de Dependencia|Jefe de Area"])
     @if($ubicacion ==='externa')
     <div class="flex items-end mb-4 text-xs">

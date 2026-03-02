@@ -5,7 +5,7 @@
 
 {{-- BOTONES RÁPIDOS --}}
 <section class="flex flex-col gap-10 mb-10 ">
-    <a class="btn-rapido text-center" action="{{ route('admin.reservas.form.agregar') }}" >Iniciar reserva</a>
+    <a class="btn-rapido text-center" href="{{ route('operativo.mis-reservas') }}" >Iniciar reserva</a>
 
     <a class="btn-rapido  text-center"
         onclick="window.location='{{ route('operativo.reportes.create') }}'">

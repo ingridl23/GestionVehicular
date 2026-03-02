@@ -35,14 +35,22 @@ class PrestamoController extends BaseReservaController{
     public function verReservas(){
         $this->authorize('viewAnyLoan', Reserva::class);
         $datos = $this->service->verReservas();
-        $data = array_merge(
-            ['reservas' => $datos['reservas']],
-            ['ids' => $datos['ids']],
-            ['total' => $datos['total']],
-            $this->service->datosFiltros(),
-            ['ubicacion' => 'externa'],
-            ['mostrarAcciones' => true],
-        );
+         $botones = $this->configurarBotones('admin', 'externa');
+
+           $data = array_merge(
+        [
+            'reservas' => $datos['reservas'],
+            'ids' => $datos['ids'],
+            'total' => $datos['total'],
+            'contexto' => 'admin',
+        ],
+        $this->service->datosFiltros(),
+        [
+            'ubicacion' => 'externa',
+            'mostrarAcciones' => true,
+        ],
+        $botones
+    );
         return view('ui.reservas.reservas', $data);
     }
 
