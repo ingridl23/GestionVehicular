@@ -46,8 +46,8 @@
             <p>
                 <span class="font-medium text-gray-800 dark:text-gray-100"> VTV vigente:</span>
                 <span class="ml-1 px-2 py-1 rounded-full font-semibold
-                    {{ $vtv ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700' }}">
-                    {{ $vtv ? 'Sí' : 'No' }}
+                    {{ $reserva->vehiculo->vtv ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700' }}">
+                    {{ $reserva->vehiculo->vtv ? 'Sí' : 'No' }}
                 </span>
             </p>
 
@@ -150,22 +150,30 @@
             <p>
                 <span class="font-medium text-gray-800 dark:text-gray-100">Tiene el carnet de conducir vigente:</span>
                 <span class="ml-1 px-2 py-1 rounded-full text-sm font-semibold
-                    {{ $carnet_vigente ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700' }}">
-                    {{ $carnet_vigente ? 'Sí' : 'No' }}
+                    {{ $reserva->usuario->vigente ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700' }}">
+                    {{ $reserva->usuario->vigente ? 'Si' : 'No' }}
                 </span></p>
 
         </div>
     </div>
+@role('Conductor')
+    <div>
+        <a href="{{ route('operativo.dashboard2') }}"
+           class="flex-1 px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700">
+            ←
+        </a>
+    </div>
+@endrole
 
+@role('Administrador General')
+    <div>
+        <a href="{{ url()->previous() }}"
+           class="flex-1 px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700">
+            ←
+        </a>
+    </div>
+@endrole
 
-     <div class="">
-            <a
-                href="{{ route('operativo.dashboard2')}}"
-                class="flex-1 px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700">
-               <-
-            </a>
-
-        </div>
 
 </section>
 @endsection

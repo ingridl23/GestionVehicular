@@ -120,7 +120,7 @@
                   @endcan
                 @endrole
               @endif
-
+@role('Operativo')
 @if($reserva->estado_reserva->estado === 'APROBADA')
 <form method="POST"
       action="{{ route('operativo.viajes.comenzar', $reserva->id) }}"
@@ -133,7 +133,7 @@
     </button>
 </form>
 @endif
-
+@endrole
 
             @canany(['cancelar_reserva_interna', 'cancelar_prestamo'])
             @if(!in_array($reserva->estado_reserva->estado, ['CANCELADA','RECHAZADA','FINALIZADA']))
