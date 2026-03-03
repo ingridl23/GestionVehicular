@@ -130,7 +130,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/listado-reservas', [ReservaController::class, 'verReservas'])->middleware('permission:ver_reservas_internas')->name('reservas.internas');
     Route::get('/listado-prestamos', [PrestamoController::class, 'verReservas'])->middleware('permission:ver_reservas_prestamos')->name('reservas.prestamos');
 
-    Route::get('/listado-reservas/{id}', [ReservaController::class, 'verReserva'])->name('reservas.reserva'); //Vista individual
+    Route::get('/listado-reservas/{id}', [ReservaController::class, 'show'])->name('reservas.reserva'); //Vista individual
 
     //FILTROS
     Route::post('/filtrar-reservas-internas', [ReservaController::class, 'filtrarReservasInternas'])->middleware('web');

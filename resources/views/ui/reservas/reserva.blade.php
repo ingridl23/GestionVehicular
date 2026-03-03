@@ -16,17 +16,17 @@
         <div class="space-y-2 text-gray-700 dark:text-gray-300 mt-1 mb-4">
             <p>
                 <span class="font-medium text-gray-800 dark:text-gray-100"> Fecha de registro: </span>
-                {{ $reserva->getRawOriginal('fecha_reserva') }}
+                {{ $reserva->fecha_reserva }}
             </p>
 
             <p>
                 <span class="font-medium text-gray-800 dark:text-gray-100"> Inicio de uso: </span>
-                {{ $reserva->getRawOriginal('fecha_inicio_reserva') }}
+                {{ $reserva->fecha_inicio_reserva }}
             </p>
 
             <p>
                 <span class="font-medium text-gray-800 dark:text-gray-100"> Fin de uso: </span>
-                {{ $reserva->getRawOriginal('fecha_fin_reserva') }}
+                {{ $reserva->fecha_fin_reserva}}
             </p>
     </div>
 </div>
@@ -65,7 +65,7 @@
         </div>
     </div>
 
-    <!-- Estado de la reserva --> 
+    <!-- Estado de la reserva -->
     <div class="bg-white dark:bg-gray-800 rounded-xl shadow p-6 mt-1 mb-4 transition-colors duration-300 hover:bg-gray-50 dark:hover:bg-gray-700">
         <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-4 border-b border-gray-200 dark:border-gray-600 pb-2">
             Estado de la reserva
@@ -156,6 +156,16 @@
 
         </div>
     </div>
+
+
+     <div class="">
+            <a
+                href="{{ route('operativo.dashboard2')}}"
+                class="flex-1 px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700">
+               <-
+            </a>
+
+        </div>
 
 </section>
 @endsection

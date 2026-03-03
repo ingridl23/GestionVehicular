@@ -80,7 +80,20 @@
                 @endcan
                 @endrole
                 @endif
-
+@role('Operativo')
+@if($reserva->estado_reserva->estado === 'APROBADA')
+<form method="POST"
+      action="{{ route('operativo.viajes.comenzar', $reserva->id) }}"
+      class="inline">
+    @csrf
+    <button type="submit"
+        class="text-green-600  rounded-md border border-green-600 px-3 py-2  hover:bg-green-600 hover:text-green-900 dark:text-green-400 dark:hover:text-green-300"
+        title="Iniciar viaje">
+        <i class="fas fa-route"></i>
+    </button>
+</form>
+@endif
+@endrole
                 @canany(['cancelar_reserva_interna', 'cancelar_prestamo'])
                 @if(!in_array($reserva->estado_reserva->estado, ['CANCELADA','RECHAZADA','FINALIZADA']))
                 <button command="show-modal" commandfor="dialog-cancelar" data-id="{{$reserva->id}}"

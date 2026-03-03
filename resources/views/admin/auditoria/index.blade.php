@@ -240,7 +240,7 @@
                             {{ $conductor->vehiculo->marca }} {{ $conductor->vehiculo->modelo }}
                         </p>
                            <p class="text-xs text-gray-500 dark:text-gray-400">
-                             {{ $conductor->reserva->fecha_inicio_reserva->format('d/m/Y H:i') }}
+                           {{ $conductor->fecha_inicio_reserva?->format('d/m/Y H:i') ?? 'Sin fecha' }}
                         </p>
                     </div>
 

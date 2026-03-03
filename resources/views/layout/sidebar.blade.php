@@ -199,6 +199,22 @@
                 />
             @endif
         @endcanany
+  <!-- VIajes -->
+        @canany(['solicitar_reserva_interna','cancelar_reserva_interna','asignar_conductor_suplente',
+                 'ver_reservas_internas',
+                 'autorizar_reservas_internas',
+                 'actualizar_reserva_interna',
+                 'visualizar_reserva_asignada'])
+            @if(auth()->user()->hasRole('Operativo'))
+          <x-nav-item
+           icon="fa-route"
+           label="Mis viajes"
+           route="operativo.viajes.index"
+          :active="request()->routeIs('operativo.viajes.*')"
+    />
+
+     @endif
+      @endcanany
 
         <!-- Divider -->
         <div class="border-t border-gray-200 dark:border-gray-700 my-2"></div>

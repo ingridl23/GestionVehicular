@@ -82,6 +82,10 @@
             {{ $reserva->vehiculo->dominio }} - {{ $reserva->vehiculo->marca }} - {{ $reserva->vehiculo->anio }}
           </td>
 
+
+
+
+
           @if($mostrarAcciones)
           <td class="px-6 py-8 whitespace-nowrap text-gray-900 dark:text-white">
             <div class="flex justify-start gap-4">
@@ -103,7 +107,7 @@
                 </a>
                 @endif
               @endcan
-            
+
 
               @if(!in_array($reserva->estado_reserva->estado, ['CANCELADA','RECHAZADA','FINALIZADA']))
                 @role('Operativo')
@@ -117,6 +121,19 @@
                 @endrole
               @endif
 
+@if($reserva->estado_reserva->estado === 'APROBADA')
+<form method="POST"
+      action="{{ route('operativo.viajes.comenzar', $reserva->id) }}"
+      class="inline">
+    @csrf
+    <button type="submit"
+        class="text-green-600 hover:text-green-900 dark:text-green-400 dark:hover:text-green-300"
+        title="Iniciar viaje">
+        <i class="fas fa-route"></i>
+    </button>
+</form>
+@endif
+
 
             @canany(['cancelar_reserva_interna', 'cancelar_prestamo'])
             @if(!in_array($reserva->estado_reserva->estado, ['CANCELADA','RECHAZADA','FINALIZADA']))
@@ -128,6 +145,8 @@
             @endif
             @endcanany
             @endif
+
+
             </div>
           </td>
           @else

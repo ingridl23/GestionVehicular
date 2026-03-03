@@ -1,5 +1,5 @@
 <?php
-namespace App\Services\Viajes;
+namespace App\Services;
 use App\Models\Viaje;
 use App\Models\Reserva;
 use App\Models\EstadosReserva;

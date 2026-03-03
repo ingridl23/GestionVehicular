@@ -97,6 +97,8 @@
                       </svg>
                     </div>
 
+
+
                     <div>
                       <h3 class="text-lg font-semibold text-white">
                         Cancelar reserva

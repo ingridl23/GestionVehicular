@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Services\reservas;
-
 use App\Contracts\ReservaServiceInterface;
 use App\Models\Carnet;
 use App\Models\Dependencia;
@@ -189,7 +188,7 @@ abstract class BaseReservasServices implements ReservaServiceInterface{
 
     protected function obtenerDatosVerReservas(){
 
-        $query = Reserva::with('estado_reserva', 'vehiculos', 'usuario', 'dependencia_solicitante')
+        $query = Reserva::with('estado_reserva', 'vehiculo', 'usuario', 'dependencia_solicitante')
          ->orderByRaw("
             CASE (
             SELECT estado

@@ -72,19 +72,26 @@ class ReservaPolicy
     /**
      * Ver una reserva
      */
-    public function vistaIndividual(User $user, Reserva $reserva): bool
+    public function view(User $user, Reserva $reserva): bool
     {
-        // Operativo: solo su reserva
-        if ($user->hasRole('Operativo')) {
-            return $reserva->id_usuario === $user->id;
-        }
+       // Administrador de dependencia o jefe de área
+    if ($user->hasRole('Administrador de Dependencia') ||
+        $user->hasRole('Jefe de Area')) {
+
+        return $user->dependencia_id === $reserva->dependencia_solicitante_id;
+    }
+
+   // Operativo solo puede ver sus propias reservas
+    if ($user->hasRole('Operativo')) {
+        return $user->id === $reserva->id_usuario;
+    }
 
         // Dueño Dependencia: reservas que involucren a su dependencia (puede ser solicitante o no)
         if ($user->hasRole(['Dueño Dependencia','Jefe De Area'])) {
 
             $dependenciaUsuario = $user->dependencia;
 
-            
+
             if ($reserva->id_dependencia_solicitante === $dependenciaUsuario->id ||
                 $reserva->id_dependencia_duena === $dependenciaUsuario->id) {
                     return true;
@@ -130,7 +137,7 @@ class ReservaPolicy
      */
     public function cambiarConductor(User $user, Reserva $reserva): bool
     {
-        
+
         return (
             $user->hasPermissionTo('asignar_conductor_suplente')
             && $reserva->id_usuario === $user->id

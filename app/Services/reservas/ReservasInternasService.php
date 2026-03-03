@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Services\Reservas;
-
 use App\Models\Dependencia;
 use App\Models\EstadosReserva;
 use App\Models\Reserva;
@@ -29,12 +28,13 @@ class ReservasInternasService extends BaseReservasServices{
             $query->soloInternas($id_dependencia);
         }
 
+
         $total = $query->count();
 
-        $reservas = $query->paginate(10);
+        $reserva = $query->paginate(10);
 
         return [
-            'reservas' => $reservas,
+            'reserva' => $reserva,
             'total' => $total
         ];
     }

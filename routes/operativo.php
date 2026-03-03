@@ -5,6 +5,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ReporteController;
 use App\Http\Controllers\Reservas\ReservaController;
 use App\Http\Controllers\Reservas\BaseReservaController;
+use App\Http\Controllers\ViajeController;
 
  Route::middleware(['auth', 'role:Operativo'])
     ->prefix('operativo')
@@ -58,6 +59,8 @@ Route::post(
     /*********************************Reservas de Vehiculos Operativos ****************************************************** */
     //get verReservas
       Route::get('/mis-reservas', [ReservaController::class, 'misReservas'])->name('mis-reservas');
+      Route::get('/listado-reservas/{id}', [ReservaController::class, 'show'])
+    ->name('reservas.reserva');
       //ver formulario de crear reservas
        Route::get('/reservas/form', [ReservaController::class, 'mostrarFormulario'])->name('reservas-form');
         Route::post('/reserva/create', [ReservaController::class, 'crearReserva'])->name('reservar');
@@ -69,7 +72,21 @@ Route::post(
        // get filtrarReservasInternas
       Route::get('/reservas/filtro', [ReservaController::class, 'filtrarReservasInternas'])->name('filtrar-reservas-int');
     /**********************************Viajes Para Operativos ****************************************************************** */
+     /******************************************************************************************************************* */
+     /********************************** VIAJES OPERATIVOS **********************************/
 
-});
+Route::get('/viajes', [ViajeController::class, 'index'])
+    ->name('viajes.index');
+
+Route::get('/viajes/{viaje}', [ViajeController::class, 'show'])
+    ->name('viajes.show');
+
+Route::post('/viajes/{reserva}/comenzar', [ViajeController::class, 'comenzarViaje'])
+    ->name('viajes.comenzar');
+
+Route::post('/viajes/{viaje}/finalizar', [ViajeController::class, 'finalizarViaje'])
+    ->name('viajes.finalizar');
+
+     });
 
 

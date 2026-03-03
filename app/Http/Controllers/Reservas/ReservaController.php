@@ -47,7 +47,7 @@ class ReservaController extends BaseReservaController{
         //dd($botones);
 $data = array_merge(
     [
-        'reservas' => $datos['reservas'],
+        'reservas' => $datos['reserva'],
         'ids' => null,
         'total' => $datos['total'],
         'contexto' => 'admin',
@@ -62,6 +62,32 @@ $data = array_merge(
 
         return view('ui.reservas.reservas', $data);
     }
+
+public function show($id)
+{
+    $reserva = Reserva::with([
+        'vehiculo.estadoNafta',
+        'estado_reserva',
+        'dependencia_duena.direccion',
+        'dependencia_solicitante.direccion',
+        'usuario'
+    ])->findOrFail($id);
+
+    $this->authorize('view', $reserva);
+
+    $vtv = $reserva->vehiculo->vigente;
+    $carnet_vigente = $reserva->usuario->carnet_vigente; // idem
+
+    return view('ui.reservas.reserva', compact(
+        'reserva',
+        'vtv',
+        'carnet_vigente'
+    ));
+}
+
+
+
+
 
     /**
      * Muestra reservas propias del usuario que se encuentra logueado
