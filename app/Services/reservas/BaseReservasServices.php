@@ -532,11 +532,11 @@ abstract class BaseReservasServices implements ReservaServiceInterface{
 public function autorizarReserva($id) {
     $reserva = Reserva::findOrFail($id);
 
-    $id_estado_reserva = EstadosReserva::where("estado", "APROBADA")->value('id');
+    $id_estado_reserva = EstadosReserva::where("estado","APROBADA")->value('id');
     $resultado = $reserva->update(['id_estado_reserva' => $id_estado_reserva]);
 
     // Cambiar vehículo a EN USO
-    $id_estado_en_uso = \App\Models\EstadosVehiculo::where("estado", "EN USO")->value('id');
+    $id_estado_en_uso =EstadosVehiculo::where("estado","EN_USO")->value('id');
     $reserva->vehiculo->update(['id_estado_vehiculo' => $id_estado_en_uso]);
 
     return $resultado;
@@ -547,12 +547,12 @@ public function autorizarReserva($id) {
 
     $estadoAnterior = $reserva->estado_reserva->estado ?? null;
 
-    $id_estado_reserva = EstadosReserva::where("estado", "RECHAZADA")->value('id');
+    $id_estado_reserva = EstadosReserva::where("estado","RECHAZADA")->value('id');
     $resultado = $reserva->update(['id_estado_reserva' => $id_estado_reserva]);
 
     // Si estaba aprobada, liberar el vehículo
     if ($estadoAnterior === 'APROBADA') {
-        $id_estado_disponible = \App\Models\EstadosVehiculo::where("estado", "DISPONIBLE")->value('id');
+        $id_estado_disponible =EstadosVehiculo::where("estado","DISPONIBLE")->value('id');
         $reserva->vehiculo->update(['id_estado_vehiculo' => $id_estado_disponible]);
     }
 

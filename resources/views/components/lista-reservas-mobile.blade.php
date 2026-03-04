@@ -1,14 +1,13 @@
-
-
 <div id="reservas-wrapper" data-view="lista">
     @props([
     'reservas',
     'configEditar' => null,
     'ids' => null,
+    'ubicacion' => null,
     'mostrarAcciones'
     ])
 
-    <ul id="contenedor-reservas-listas" class="space-y-4 ">
+    <ul id="contenedor-reservas-listas" class="space-y-4">
         @foreach ($reservas as $reserva)
         <li class="rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-100 dark:bg-gray-900 p-4">
 
@@ -17,7 +16,6 @@
                     <span class="font-semibold">Inicio de uso:</span>
                     {{ $reserva->fecha_inicio_reserva->format('d/m/Y H:i') }}
                 </div>
-
                 <div>
                     <span class="font-semibold">Fin de uso:</span>
                     {{ $reserva->fecha_fin_reserva->format('d/m/Y H:i') }}
@@ -26,7 +24,16 @@
 
             <div class="mt-2 text-sm dark:text-white">
                 <span class="font-semibold">Estado:</span>
-                {{ $reserva->estado_reserva->estado }}
+                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
+                    {{ $reserva->estado_reserva->estado == 'APROBADA'  ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' : '' }}
+                    {{ $reserva->estado_reserva->estado == 'EN_CURSO'  ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200' : '' }}
+                    {{ $reserva->estado_reserva->estado == 'SOLICITADA'? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200' : '' }}
+                    {{ $reserva->estado_reserva->estado == 'CANCELADA' ? 'bg-rose-100 text-rose-800 dark:bg-rose-900 dark:text-rose-200' : '' }}
+                    {{ $reserva->estado_reserva->estado == 'FINALIZADA'? 'bg-gray-300 text-gray-900 dark:bg-gray-100 dark:text-gray-900' : '' }}
+                    {{ $reserva->estado_reserva->estado == 'RECHAZADA' ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200' : '' }}
+                ">
+                    {{ $reserva->estado_reserva->estado }}
+                </span>
             </div>
 
             <div class="mt-1 text-sm dark:text-white">
@@ -53,7 +60,6 @@
                     class="inline-flex items-center gap-1 rounded-md border border-blue-600 px-3 py-2 text-blue-600 hover:bg-blue-600 hover:text-white dark:border-blue-400 dark:text-blue-400 dark:hover:bg-blue-500"
                     title="Ver detalles">
                     <i class="fa-solid fa-eye"></i>
-
                 </a>
                 @endcanany
 
@@ -64,7 +70,6 @@
                     class="btn-editar inline-flex items-center gap-1 rounded-md border border-yellow-600 px-3 py-2 text-yellow-600 hover:bg-yellow-600 hover:text-white dark:border-yellow-400 dark:text-yellow-400 dark:hover:bg-yellow-500"
                     title="Editar">
                     <i class="fa-solid fa-pen-to-square"></i>
-
                 </a>
                 @endif
                 @endcan
@@ -80,20 +85,20 @@
                 @endcan
                 @endrole
                 @endif
-@role('Operativo')
-@if($reserva->estado_reserva->estado === 'APROBADA')
-<form method="POST"
-      action="{{ route('operativo.viajes.comenzar', $reserva->id) }}"
-      class="inline">
-    @csrf
-    <button type="submit"
-        class="text-green-600  rounded-md border border-green-600 px-3 py-2  hover:bg-green-600 hover:text-green-900 dark:text-green-400 dark:hover:text-green-300"
-        title="Iniciar viaje">
-        <i class="fas fa-route"></i>
-    </button>
-</form>
-@endif
-@endrole
+
+                @role('Operativo')
+                @if($reserva->estado_reserva->estado === 'APROBADA')
+                <form method="POST" action="{{ route('operativo.viajes.comenzar', $reserva->id) }}" class="inline">
+                    @csrf
+                    <button type="submit"
+                        class="inline-flex items-center gap-1 rounded-md border border-green-600 px-3 py-2 text-green-600 hover:bg-green-600 hover:text-white dark:border-green-400 dark:text-green-400 dark:hover:bg-green-500"
+                        title="Iniciar viaje">
+                        <i class="fas fa-route"></i>
+                    </button>
+                </form>
+                @endif
+                @endrole
+
                 @canany(['cancelar_reserva_interna', 'cancelar_prestamo'])
                 @if(!in_array($reserva->estado_reserva->estado, ['CANCELADA','RECHAZADA','FINALIZADA']))
                 <button command="show-modal" commandfor="dialog-cancelar" data-id="{{$reserva->id}}"
@@ -104,12 +109,24 @@
                 @endif
                 @endcanany
 
+                {{-- Aprobar reserva interna --}}
+                @canany(['autorizar_reservas_internas'])
+                @if(!in_array($reserva->estado_reserva->estado, ['APROBADA','CANCELADA','RECHAZADA','FINALIZADA','EN_CURSO']))
+                <button data-id="{{$reserva->id}}"
+                    class="btn-aprobar-reserva inline-flex items-center gap-1 rounded-md border border-green-600 px-3 py-2 text-green-600 hover:bg-green-600 hover:text-white dark:border-green-400 dark:text-green-400 dark:hover:bg-green-500"
+                    title="Aprobar reserva"
+                   >
+                    <i class="fa-solid fa-circle-check"></i>
+                </button>
+                @endif
+                @endcanany
+
             </div>
             @endcanany
 
-
             @else
             <div class="mt-4 flex flex-wrap gap-2">
+
                 @can('ver_solicitudes_prestamos')
                 <a href="{{ route('reservas.reserva', $reserva->id) }}"
                     class="m-1 inline-block rounded-md border border-blue-600 px-2 py-2 text-blue-600 hover:bg-blue-600 hover:text-white dark:border-blue-400 dark:text-blue-400 dark:hover:bg-blue-500 dark:hover:text-white"
@@ -145,8 +162,8 @@
                     <i class="fa fa-times"></i>
                 </button>
                 @endcan
-            </div>
 
+            </div>
             @endif
 
         </li>

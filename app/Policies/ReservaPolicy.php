@@ -48,7 +48,13 @@ class ReservaPolicy
         return $user->hasPermissionTo('ver_solicitudes_prestamos');
     }
 
-
+/**
+ * Permiso para aprobar reservas internas
+ */
+public function authorizeInternalReservation(User $user): bool
+{
+    return $user->hasPermissionTo('autorizar_reservas_internas');
+}
     /**
      * Permiso para aceptar préstamos
      */
