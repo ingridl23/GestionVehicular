@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Services\reservas;
+use App\Notifications\UsuarioModificadoNotification;
 use App\Contracts\ReservaServiceInterface;
 use App\Models\Carnet;
 use App\Models\Dependencia;
@@ -248,6 +249,11 @@ abstract class BaseReservasServices implements ReservaServiceInterface{
         $id_estado_disponible = EstadosVehiculo::where("estado", "DISPONIBLE")->value('id');
         $reserva->vehiculo->update(['id_estado_vehiculo' => $id_estado_disponible]);
     }
+    // Notificar al conductor que fue cancelada
+$reserva->usuario->notify(new UsuarioModificadoNotification(
+    'Tu reserva del ' . $reserva->fecha_inicio_reserva->format('d/m/Y H:i') . ' fue cancelada.',
+    'warning'
+));
 }
 
 
@@ -278,6 +284,22 @@ abstract class BaseReservasServices implements ReservaServiceInterface{
             'id_dependencia_duena' => $id_dependencia_duena,
             'id_dependencia_solicitante' => $id_dependencia_solicitante,
         ]);
+
+
+
+        //  Notificar a admins de la dependencia dueña del vehículo
+    $admins = User::whereHas('roles', function ($q) {
+        $q->whereIn('name', ['Administrador General', 'Administrador de Dependencia']);
+    })->whereHas('dependencia', function ($q) use ($id_dependencia_duena) {
+        $q->where('id', $id_dependencia_duena);
+    })->get();
+
+    foreach ($admins as $admin) {
+        $admin->notify(new UsuarioModificadoNotification(
+            'Nueva reserva solicitada para el ' . $fecha_inicio->format('d/m/Y H:i'),
+            'info'
+        ));
+    }
     }
 
 
@@ -523,7 +545,13 @@ abstract class BaseReservasServices implements ReservaServiceInterface{
     $id_estado_en_uso = EstadosVehiculo::where("estado", "EN_USO")->value('id');
     $reserva->vehiculo->update(['id_estado_vehiculo' => $id_estado_en_uso]);
 
-    return $resultado;
+    // Al final de autorizarReserva(), antes del return:
+$reserva->usuario->notify(new UsuarioModificadoNotification(
+    'Tu reserva del ' . $reserva->fecha_inicio_reserva->format('d/m/Y H:i') . ' fue aprobada.',
+    'success'
+));
+
+return $resultado;
 }
 
 
@@ -539,7 +567,13 @@ public function autorizarReserva($id) {
     $id_estado_en_uso =EstadosVehiculo::where("estado","EN_USO")->value('id');
     $reserva->vehiculo->update(['id_estado_vehiculo' => $id_estado_en_uso]);
 
-    return $resultado;
+  // Al final de autorizarPrestamo(), antes del return:
+$reserva->usuario->notify(new UsuarioModificadoNotification(
+    'Tu préstamo del ' . $reserva->fecha_inicio_reserva->format('d/m/Y H:i') . ' fue aprobado.',
+    'success'
+));
+
+return $resultado;
 }
 
   public function rechazarPrestamo($id) {
@@ -555,6 +589,10 @@ public function autorizarReserva($id) {
         $id_estado_disponible =EstadosVehiculo::where("estado","DISPONIBLE")->value('id');
         $reserva->vehiculo->update(['id_estado_vehiculo' => $id_estado_disponible]);
     }
+    $reserva->usuario->notify(new UsuarioModificadoNotification(
+    'Tu préstamo del ' . $reserva->fecha_inicio_reserva->format('d/m/Y H:i') . ' fue rechazado.',
+    'warning'
+));
 
     return $resultado;
 }
