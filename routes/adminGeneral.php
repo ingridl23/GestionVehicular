@@ -88,7 +88,12 @@ Route::middleware(['auth', 'role:Administrador General|Administrador de Dependen
             // CANCELAR RESERVA
             Route::patch('/cancelar-reserva/{id}', [ReservaController::class, 'cancelarReserva'])->name('reservas.cancelar')
              ->middleware('permission:cancelar_reserva_interna|cancelar_prestamo');
-    });
+
+
+ Route::patch('/aprobar-reserva/{id}', [ReservaController::class, 'autorizarReserva'])
+    ->name('reservas.aprobar')
+    ->middleware('permission:autorizar_reservas_internas');
+             });
 
 
 

@@ -157,7 +157,7 @@ class ReservasExternasService extends BaseReservasServices{
 
 
     public function obtenerEstadoReserva(){
-        $id_estado_reserva = EstadosReserva::where("estado", "PENDIENTE")->value('id');
+        $id_estado_reserva = EstadosReserva::where("estado", "SOLICITADA")->value('id');
         return $id_estado_reserva;
     }
 

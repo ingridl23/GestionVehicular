@@ -5,6 +5,7 @@ use App\Contracts\ReservaServiceInterface;
 use App\Models\Carnet;
 use App\Models\Dependencia;
 use App\Models\EstadosReserva;
+use App\Models\EstadosVehiculo;
 use App\Models\Reserva;
 use App\Models\User;
 use App\Models\Vehiculo;
@@ -196,8 +197,8 @@ abstract class BaseReservasServices implements ReservaServiceInterface{
             WHERE estados_reservas.id = reservas.id_estado_reserva
         )
                 WHEN 'APROBADA' THEN 1
-                WHEN 'PENDIENTE'  THEN 2
-                WHEN 'EN CURSO' THEN 3
+                WHEN 'SOLICITADA'  THEN 2
+                WHEN 'EN_CURSO' THEN 3
                 WHEN 'FINALIZADA' THEN 4
                 WHEN 'CANCELADA' THEN 5
                 WHEN 'RECHAZADA' THEN 6
@@ -230,16 +231,24 @@ abstract class BaseReservasServices implements ReservaServiceInterface{
     }
 
 
-    public function cancelarReserva($id){
-       $reserva = Reserva::findOrFail($id);
-        if(!$reserva){
-            return null;
-        }
-
-        // Se busca el id del estado : CANCELADA
-        $estado_cancelado = EstadosReserva::where("estado", "CANCELADA")->value('id');
-        $reserva->update(['id_estado_reserva' => $estado_cancelado]);
+    public function cancelarReserva($id) {
+    $reserva = Reserva::findOrFail($id);
+    if (!$reserva) {
+        return null;
     }
+
+    $estadoAnterior = $reserva->estado_reserva->estado ?? null;
+
+    // Cancelar la reserva
+    $estado_cancelado = EstadosReserva::where("estado", "CANCELADA")->value('id');
+    $reserva->update(['id_estado_reserva' => $estado_cancelado]);
+
+    // Si estaba aprobada, liberar el vehículo
+    if ($estadoAnterior === 'APROBADA') {
+        $id_estado_disponible = EstadosVehiculo::where("estado", "DISPONIBLE")->value('id');
+        $reserva->vehiculo->update(['id_estado_vehiculo' => $id_estado_disponible]);
+    }
+}
 
 
 
@@ -257,6 +266,7 @@ abstract class BaseReservasServices implements ReservaServiceInterface{
 
         $id_dependencia_duena = Vehiculo::where('id', $id_vehiculo)->value('id_dependencia_duena');
         $id_estado_reserva = $this->obtenerEstadoReserva();
+
 
         Reserva::create([
             'fecha_reserva'        => now(),
@@ -301,7 +311,6 @@ abstract class BaseReservasServices implements ReservaServiceInterface{
             'id_dependencia_solicitante' => $id_dependencia_solicitante,
         ]);
     }
-
 
 
 
@@ -360,7 +369,7 @@ abstract class BaseReservasServices implements ReservaServiceInterface{
         // ===============================
         $vehiculoQuery = Reserva::join('estados_reservas', 'estados_reservas.id', '=', 'reservas.id_estado_reserva')
             ->where('id_vehiculo', $id_vehiculo)
-            ->whereIn('estados_reservas.estado', ['APROBADA', 'EN CURSO', 'PENDIENTE'])
+            ->whereIn('estados_reservas.estado', ['APROBADA', 'EN_CURSO', 'SOLICITADA'])
             ->where(function ($q) use ($fecha_inicio, $fecha_fin) {
                 $q->where('fecha_inicio_reserva', '<', $fecha_fin)
                 ->where('fecha_fin_reserva', '>', $fecha_inicio);
@@ -398,7 +407,7 @@ abstract class BaseReservasServices implements ReservaServiceInterface{
         // ===============================
         $usuarioQuery = Reserva::join('estados_reservas', 'estados_reservas.id', '=', 'reservas.id_estado_reserva')
             ->where('id_usuario', $id_usuario)
-            ->whereIn('estados_reservas.estado', ['APROBADA', 'EN CURSO', 'PENDIENTE'])
+            ->whereIn('estados_reservas.estado', ['APROBADA', 'EN_CURSO', 'PENDIENTE','RECHAZADA'])
             ->where(function ($q) use ($fecha_inicio, $fecha_fin) {
                 $q->where('fecha_inicio_reserva', '<', $fecha_fin)
                 ->where('fecha_fin_reserva', '>', $fecha_inicio);
@@ -478,45 +487,77 @@ abstract class BaseReservasServices implements ReservaServiceInterface{
      * @param int $id ID de la reserva a autorizar.
      * @return bool|array True si se actualiza correctamente o array con error.
      */
-    public function autorizarPrestamo($id){
-        $reserva = Reserva::findOrFail($id);
+  public function autorizarPrestamo($id) {
+    $reserva = Reserva::findOrFail($id);
 
-        $usuario = $reserva->usuario()->with('carnet')->first();
+    $usuario = $reserva->usuario()->with('carnet')->first();
 
-        if (!$usuario->carnet) {
-              return ['usuario_sin_carnet', true];
-            }
-
-        $fechaVencimiento = $usuario->carnet->fecha_vencimiento;
-
-       if ($fechaVencimiento->lt($reserva->fecha_fin)) {
-              return ['carnet_no_cubre_periodo', true];
-         }
-
-        $fecha_inicio = $reserva->fecha_inicio_reserva;
-        $fecha_fin =$reserva->fecha_fin_reserva;
-        $id_vehiculo = $reserva->id_vehiculo;
-        $id_usuario = $reserva->id_usuario;
-        $id_dependencia_solicitante = $reserva->id_dependencia_solicitante;
-
-        $validaciones = $this->valoresParametrosValidaciones($id_vehiculo, $fecha_inicio, $fecha_fin, $id_usuario, $id_dependencia_solicitante, $reserva->id);
-
-        if($validaciones != null){
-            return $validaciones;
-        }
-
-        $id_estado_reserva = EstadosReserva::where("estado", "APROBADA")->value('id');
-        return $reserva->update(['id_estado_reserva' => $id_estado_reserva]);
+    if (!$usuario->carnet) {
+        return ['usuario_sin_carnet', true];
     }
 
+    $fechaVencimiento = $usuario->carnet->fecha_vencimiento;
 
-
-    public function rechazarPrestamo($id){
-        $reserva = Reserva::findOrFail($id);
-        $id_estado_reserva = EstadosReserva::where("estado", "RECHAZADA")->value('id');
-        return $reserva->update(['id_estado_reserva' => $id_estado_reserva]);
+    if ($fechaVencimiento->lt($reserva->fecha_fin_reserva)) {
+        return ['carnet_no_cubre_periodo', true];
     }
 
+    $validaciones = $this->valoresParametrosValidaciones(
+        $reserva->id_vehiculo,
+        $reserva->fecha_inicio_reserva,
+        $reserva->fecha_fin_reserva,
+        $reserva->id_usuario,
+        $reserva->id_dependencia_solicitante,
+        $reserva->id
+    );
+
+    if ($validaciones != null) {
+        return $validaciones;
+    }
+
+    //  Aprobar la reserva
+    $id_estado_reserva = EstadosReserva::where("estado", "APROBADA")->value('id');
+    $resultado = $reserva->update(['id_estado_reserva' => $id_estado_reserva]);
+
+    // Cambiar el vehículo a EN USO (tabla separada, campo correcto)
+    $id_estado_en_uso = EstadosVehiculo::where("estado", "EN_USO")->value('id');
+    $reserva->vehiculo->update(['id_estado_vehiculo' => $id_estado_en_uso]);
+
+    return $resultado;
+}
+
+
+
+
+public function autorizarReserva($id) {
+    $reserva = Reserva::findOrFail($id);
+
+    $id_estado_reserva = EstadosReserva::where("estado", "APROBADA")->value('id');
+    $resultado = $reserva->update(['id_estado_reserva' => $id_estado_reserva]);
+
+    // Cambiar vehículo a EN USO
+    $id_estado_en_uso = \App\Models\EstadosVehiculo::where("estado", "EN USO")->value('id');
+    $reserva->vehiculo->update(['id_estado_vehiculo' => $id_estado_en_uso]);
+
+    return $resultado;
+}
+
+  public function rechazarPrestamo($id) {
+    $reserva = Reserva::findOrFail($id);
+
+    $estadoAnterior = $reserva->estado_reserva->estado ?? null;
+
+    $id_estado_reserva = EstadosReserva::where("estado", "RECHAZADA")->value('id');
+    $resultado = $reserva->update(['id_estado_reserva' => $id_estado_reserva]);
+
+    // Si estaba aprobada, liberar el vehículo
+    if ($estadoAnterior === 'APROBADA') {
+        $id_estado_disponible = \App\Models\EstadosVehiculo::where("estado", "DISPONIBLE")->value('id');
+        $reserva->vehiculo->update(['id_estado_vehiculo' => $id_estado_disponible]);
+    }
+
+    return $resultado;
+}
 
     //Estado que tomará la reserva cuando se cree o se edite
     // Si es interna -> APROBADA (automaticamente)

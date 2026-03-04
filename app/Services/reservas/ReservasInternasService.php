@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Reservas;
+namespace App\Services\reservas;
 use App\Models\Dependencia;
 use App\Models\EstadosReserva;
 use App\Models\Reserva;
@@ -156,8 +156,10 @@ class ReservasInternasService extends BaseReservasServices{
 
 
     public function obtenerEstadoReserva(){
-        $id_estado_reserva = EstadosReserva::where("estado", "APROBADA")->value('id');
+        $id_estado_reserva = EstadosReserva::where("estado", "SOLICITADA")->value('id');
         return $id_estado_reserva;
+
+
     }
 
 

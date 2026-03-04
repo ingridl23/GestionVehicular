@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Reservas;
 use App\Http\Requests\FiltroReservasRequest;
 use App\Models\Dependencia;
 use App\Models\Reserva;
-use App\Services\Reservas\ReservasExternasService;
+use App\Services\reservas\ReservasExternasService;
 
 /**
  * @class PrestamoController
@@ -215,14 +215,14 @@ class PrestamoController extends BaseReservaController{
             $query->soloExternas()->whereIn('id_estado_reserva', function ($sub) {
             $sub->select('id')
                 ->from('estados_reservas')
-                ->whereIn('estado', ['PENDIENTE']);
+                ->whereIn('estado', ['SOLICITADA']);
             });
         }
         if($rol == 'Administrador de Dependencia'){
             $query->obtenerDependenciasExternasPendientes($id_dependencia)->whereIn('id_estado_reserva', function ($sub) {
             $sub->select('id')
                 ->from('estados_reservas')
-                ->whereIn('estado', ['PENDIENTE']);
+                ->whereIn('estado', ['SOLICITADA']);
             });
         }
         return $this->filtrarReservas($request, $query);

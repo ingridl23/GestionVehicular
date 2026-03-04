@@ -227,5 +227,30 @@ $data = array_merge(
     }
 
 
+// permission: autorizar_reservas_internas
+public function autorizarReserva($id) {
+    $this->authorize('authorizeInternalReservation', Reserva::findOrFail($id));
+    $resultado = $this->service->autorizarReserva($id);
 
+    if (is_array($resultado)) {
+        $mensaje = $this->mensajesErrores($resultado);
+        return response()->json([
+            'success' => false,
+            'errors'  => true,
+            'message' => array_values($mensaje)[0]
+        ]);
+    }
+
+    if ($resultado) {
+        return response()->json([
+            'success' => true,
+            'message' => 'La reserva fue aprobada correctamente.'
+        ]);
+    }
+
+    return response()->json([
+        'success' => false,
+        'message' => 'No se pudo aprobar la reserva.'
+    ]);
+}
 }

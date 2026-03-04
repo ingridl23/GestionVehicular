@@ -276,7 +276,7 @@ class Reserva extends Model
 
     public function scopePendientes($query){
         return $query->whereHas('estado_reserva', function ($q) {
-            $q->where('estado', 'PENDIENTE');
+            $q->where('estado', 'SOLICITADA');
         });
     }
 }

@@ -22,6 +22,10 @@ interface ReservaServiceInterface
     public function rol();
 
     public function verReservasPendientes();
-    
+
+    // nuevas
+    public function autorizarReserva(int $id);
+    public function autorizarPrestamo(int $id);
+    public function rechazarPrestamo(int $id);
 
 }
