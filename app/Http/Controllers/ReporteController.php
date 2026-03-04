@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\Reportes;
+use App\Models\User;
 use App\Models\ReporteComentarios;
 use App\Models\Alerta;
 use App\Services\ReporteService;
@@ -146,6 +147,18 @@ public function index()
 
     $reporte = $service->crear($data);
 
+   //  Notificar a administradores
+    $admins = User::whereHas('roles', function ($q) {
+        $q->whereIn('name', ['Administrador General', 'Administrador de Dependencia']);
+    })->get();
+
+    foreach ($admins as $admin) {
+        $admin->notify(new UsuarioModificadoNotification(
+            'Nuevo reporte creado por ' . auth()->user()->name . ': ' . $reporte->titulo,
+            'info'
+        ));
+    }
+
     return redirect()
         ->route('operativo.reportes.index')
         ->with('success', 'Reporte creado correctamente');
@@ -265,7 +278,7 @@ public function cambiarEstado(Request $request, Reportes $reporte)
         'comentario' => $request->comentario
     ]);
 
-// 🔔 Notificar solo si quien comenta NO es el creador
+//  Notificar solo si quien comenta NO es el creador
     if ($reporte->id_usuario !== auth()->id()) {
         $reporte->usuario->notify(
             new UsuarioModificadoNotification(

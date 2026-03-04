@@ -20,7 +20,7 @@ class UserSeeder extends Seeder
         $roleJefeOficina = Role::firstOrCreate(['name' => 'Jefe de Area']);
         $roleOperativo = Role::firstOrCreate(['name' => 'Operativo']);
         $roleAdminGeneral = Role::firstOrCreate(['name' => 'Administrador General']);
-        $roleComputos = Role::firstOrCreate(['name'=> 'Computos']);
+
         //Se crean los usuarios
         $adminDependenciaUser = User::query()->create([
             'name' => 'admin',
@@ -75,7 +75,7 @@ class UserSeeder extends Seeder
         $jefeDeOficina->assignRole($roleJefeOficina);
         $conductor->assignRole($roleOperativo);
         $administradorGeneral->assignRole($roleAdminGeneral);
-        $adminComputos->assignRole($roleComputos);
+        $adminComputos->assignRole($roleAdminGeneral);
 
 
 
