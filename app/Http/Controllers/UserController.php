@@ -147,61 +147,68 @@ $ultimosUsuarios = User::with('dependencia')
         abort(403);
     }
 
-    /**
- * Muestra el dashboard operativo (mobile).
- *
- * Incluye:
- * - Estadísticas básicas
- * - Estado de vehículos
- * - Alertas recientes
- * - Estados de nafta
- *
- * @return \Illuminate\View\View
- */
 
+/**
+     * Muestra el dashboard operativo (mobile).
+     *
+     * Incluye:
+     * - Estadísticas básicas
+     * - Estado de vehículos
+     * - Alertas recientes
+     * - Estados de nafta
+     * - Reserva activa del conductor (APROBADA sin viaje en curso)
+     *
+     * @return \Illuminate\View\View
+     */
     public function dashboard2()
     {
-        $stats = [
-        'total'        => 0,
-        'licencias'    => 0,
-        'vencimientos' => 0,
-        'multas'       => 0,
-        'mantenimiento'=>0,
-    ];
-
-    $vehiculosStats = [
-    $total = Vehiculo::count(),
-    $disponibles = Vehiculo::whereHas('estadoVehiculo', fn($q) =>
-        $q->where('estado', 'DISPONIBLE')
-    )->count(),
-    $reservados = Vehiculo::whereHas('estadoVehiculo', fn($q) =>
-        $q->where('estado', 'EN_USO')
-    )->count(),
-     ];
-
-
-      $alertas = Alerta::latest()->take(10)->get();
-      $estadosNafta = EstadosNafta::get();
-      $reservaActiva = Reserva::where('id_usuario', auth()->id())
-    ->where('id_estado_reserva',EstadosReserva::APROBADA)
-    ->first();
-
-    // luego, cuando tengas datos reales:
-    // $stats['licencias'] = Licencia::vencidas()->count
         $user = Auth::user();
-            //$alertas = Alerta::latest()->paginate(10);
-       return view('operativo.dashboard', compact(
-    'user',
-    'stats',
-    'alertas',
-    'disponibles',
-    'reservados',
-    'estadosNafta',
-    'reservaActiva'
-));
 
+        $stats = [
+            'total'         => 0,
+            'licencias'     => 0,
+            'vencimientos'  => 0,
+            'multas'        => 0,
+            'mantenimiento' => 0,
+        ];
+
+        $total      = Vehiculo::count();
+        $disponibles = Vehiculo::whereHas('estadoVehiculo', fn($q) =>
+            $q->where('estado', 'DISPONIBLE')
+        )->count();
+        $reservados = Vehiculo::whereHas('estadoVehiculo', fn($q) =>
+            $q->where('estado', 'EN_USO')
+        )->count();
+
+        $alertas      = Alerta::latest()->take(10)->get();
+        $estadosNafta = EstadosNafta::all();
+
+        // ── Reserva aprobada del conductor logueado
+        // Sin viaje activo ya iniciado (whereNotExists evita doble inicio)
+        $reservaActiva = Reserva::with('vehiculo')
+            ->where('id_usuario', $user->id)
+            ->where('id_estado_reserva', EstadosReserva::APROBADA)
+            ->whereNotExists(function ($q) {
+                $q->select('id')
+                  ->from('viaje')
+                  ->whereColumn('viaje.id_reserva', 'reservas.id')
+                  ->whereNull('viaje.fecha_fin');
+            })
+            ->first();
+
+        // ── DEBUG temporal: descomenta esta línea si el botón sigue sin aparecer
+        // dd($user->id, $reservaActiva, EstadosReserva::APROBADA);
+
+        return view('operativo.dashboard', compact(
+            'user',
+            'stats',
+            'alertas',
+            'disponibles',
+            'reservados',
+            'estadosNafta',
+            'reservaActiva',
+        ));
     }
-
 
    /**
  * Lista usuarios con filtros dinámicos.

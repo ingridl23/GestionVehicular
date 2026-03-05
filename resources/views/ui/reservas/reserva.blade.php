@@ -156,23 +156,14 @@
 
         </div>
     </div>
-@role('Conductor')
-    <div>
-        <a href="{{ route('operativo.dashboard2') }}"
-           class="flex-1 px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700">
-            ←
-        </a>
-    </div>
-@endrole
 
-@role('Administrador General')
     <div>
         <a href="{{ url()->previous() }}"
            class="flex-1 px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700">
             ←
         </a>
     </div>
-@endrole
+
 
 
 </section>
