@@ -212,6 +212,13 @@
            route="operativo.viajes.index"
           :active="request()->routeIs('operativo.viajes.*')"
     />
+    @elseif (!auth()->user()->hasRole('Operativo'))
+     <x-nav-item
+           icon="fa-route"
+           label="Viajes"
+           route="viajes.index"
+          :active="request()->routeIs('viajes.*')"
+    />
 
      @endif
       @endcanany

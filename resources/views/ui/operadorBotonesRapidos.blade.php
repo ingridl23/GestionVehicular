@@ -1,35 +1,75 @@
+{{-- resources/views/operativo/botonesrapidos.blade.php
+     Variables esperadas del controller del dashboard:
+       $alertas       → Collection<Alerta>
+       $reservaActiva → Reserva|null   (reserva APROBADA del usuario, sin viaje activo)
+       $estadosNafta  → Collection     (para el modal de finalizar)
+--}}
+
 {{-- ALERTAS --}}
 @foreach ($alertas as $alerta)
     <x-alerta-card :alerta="$alerta" />
 @endforeach
 
 {{-- BOTONES RÁPIDOS --}}
-<section class="flex flex-col gap-10 mb-10 ">
-    <a class="btn-rapido text-center" href="{{ route('operativo.mis-reservas') }}" >Iniciar reserva</a>
-
-    <a class="btn-rapido  text-center"
-        onclick="window.location='{{ route('operativo.reportes.create') }}'">
+<section class="flex flex-col gap-4 mb-8">
+    <a class="btn-rapido text-center" href="{{ route('operativo.mis-reservas') }}">
+        Iniciar reserva
+    </a>
+    <a class="btn-rapido text-center" href="{{ route('operativo.reportes.create') }}">
         Comenzar reporte
-</a>
-
-<a  action="{{ isset($reservaActiva) ? route('operativo.editar-conductor', $reservaActiva->id): '#' }}" class="btn-rapido  text-center">Asignar conductor</a>
+    </a>
+    <a class="btn-rapido text-center"
+       href="{{ isset($reservaActiva) ? route('operativo.editar-conductor', $reservaActiva->id) : '#' }}"
+       @if(!isset($reservaActiva)) aria-disabled="true" @endif>
+        Asignar conductor
+    </a>
 </section>
 
+{{-- ══════════════════════════════════════
+     BOTONES DE VIAJE
+     Lógica:
+       - $reservaActiva existe y sin viaje activo → mostrar "Iniciar"
+       - viajeActivo existe (sin fecha_fin)       → mostrar "Finalizar"
+       - ninguno                                  → ambos deshabilitados
+═══════════════════════════════════════ --}}
+
+@php
+    $viajeActivo   = auth()->user()->viajeActivo ?? null;
+    $puedeIniciar  = isset($reservaActiva) && !$viajeActivo;
+    $puedeFinalizar = (bool) $viajeActivo;
+@endphp
+{{-- Info contextual debajo de los botones --}}
+@if($puedeIniciar)
+<p class="text-xs text-center text-gray-500 dark:text-gray-400 mb-6">
+    Reserva #{{ $reservaActiva->id }} —
+    {{ $reservaActiva->vehiculo?->dominio ?? '' }}
+    aprobada y lista
+</p>
+@elseif($puedeFinalizar)
+<p class="text-xs text-center text-gray-500 dark:text-gray-400 mb-6">
+    Viaje #{{ $viajeActivo->id }} en curso desde
+    {{ $viajeActivo->fecha_inicio?->format('H:i') }}
+</p>
+@else
+<p class="text-xs text-center text-gray-400 dark:text-gray-500 mb-6">
+    No tenés viajes asignados para hoy
+</p>
+@endif
+<section class="flex gap-3 mb-2">
 
 
-{{-- BOTONES DE VIAJE --}}
-<section class="flex gap-6">
+
 
     {{-- INICIAR VIAJE --}}
     <form method="POST"
-          action="{{ isset($reservaActiva) ? route('viajes.iniciar', $reservaActiva->id) : '#' }}"
+          action="{{ $puedeIniciar ? route('operativo.viajes.comenzar', $reservaActiva->id) : '#' }}"
           class="flex-1">
         @csrf
         <button
-            type="submit"
-            class="btn-iniciar w-full {{ isset($reservaActiva) ? '' : 'opacity-50 cursor-not-allowed' }}"
-            {{ isset($reservaActiva) ? '' : 'disabled' }}>
-            Iniciar viaje
+            type="{{ $puedeIniciar ? 'submit' : 'button' }}"
+            class="btn-iniciar w-full {{ !$puedeIniciar ? 'opacity-40 cursor-not-allowed' : '' }}"
+            @if(!$puedeIniciar) disabled @endif>
+            <i class="fas fa-play mr-2"></i> Iniciar viaje
         </button>
     </form>
 
@@ -37,34 +77,154 @@
     <button
         type="button"
         id="btnFinalizar"
-        class="btn-finalizar flex-1 {{ auth()->user()->viajeActivo ? '' : 'opacity-50 cursor-not-allowed' }}"
-        {{ auth()->user()->viajeActivo ? '' : 'disabled' }}>
-        Finalizar viaje
+        class="btn-finalizar flex-1 {{ !$puedeFinalizar ? 'opacity-40 cursor-not-allowed' : '' }}"
+        @if(!$puedeFinalizar) disabled @endif>
+        <i class="fas fa-flag-checkered mr-2"></i> Finalizar viaje
     </button>
 
 </section>
 
-<div id="modalFinalizar" class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center">
-    <div class="bg-white p-6 rounded-lg w-96">
-        <h2 class="text-lg font-bold mb-4">Finalizar viaje</h2>
 
-        <input type="number" id="kmFinal" placeholder="Kilómetros finales" class="input w-full mb-3">
 
-        <select id="estadoNafta" class="input w-full mb-3">
-            @foreach($estadosNafta as $estado)
-                <option value="{{ $estado->id }}">{{ $estado->estado }}</option>
-            @endforeach
-        </select>
+{{-- MODAL FINALIZAR —
+     Solo se renderiza cuando hay un viaje activo,
+     así $estadosNafta se usa solo cuando hace falta --}}
+@if($puedeFinalizar)
+<div id="modalFinalizar"
+     class="hidden fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-end justify-center">
+    <div class="bg-white dark:bg-gray-800 rounded-t-2xl w-full max-w-md p-6 shadow-xl
+                border border-gray-200 dark:border-gray-700">
 
-        <textarea id="observaciones" class="input w-full mb-3" placeholder="Observaciones"></textarea>
+        {{-- Handle --}}
+        <div class="w-10 h-1 bg-gray-300 dark:bg-gray-600 rounded-full mx-auto mb-5"></div>
 
-        <button id="confirmarFinalizar" class="btn-finalizar w-full">
-            Confirmar
+        <h2 class="text-lg font-bold text-gray-900 dark:text-white mb-1">
+            Finalizar viaje
+        </h2>
+        <p class="text-sm text-gray-500 dark:text-gray-400 mb-5">
+            Viaje #{{ $viajeActivo->id }} · KM inicio: {{ number_format($viajeActivo->kilometros_inicio, 0, ',', '.') }}
+        </p>
+
+        <form method="POST"
+              action="{{ route('operativo.viajes.finalizar', $viajeActivo->id) }}"
+              id="formFinalizarViaje">
+            @csrf
+
+            {{-- KM finales --}}
+            <div class="mb-4">
+                <label class="block text-xs font-semibold uppercase tracking-wider
+                              text-gray-500 dark:text-gray-400 mb-1.5">
+                    Kilómetros finales *
+                </label>
+                <input
+                    type="number"
+                    name="kilometros_fin"
+                    id="kmFinal"
+                    required
+                    min="{{ $viajeActivo->kilometros_inicio }}"
+                    placeholder="{{ $viajeActivo->kilometros_inicio + 10 }}"
+                    class="w-full px-3 py-2 text-sm rounded-lg border
+                           border-gray-300 dark:border-gray-600
+                           bg-white dark:bg-gray-700
+                           text-gray-900 dark:text-white
+                           focus:outline-none focus:ring-2 focus:ring-blue-500
+                           transition">
+            </div>
+
+            {{-- Estado nafta —  botones táctiles grandes --}}
+            <div class="mb-4">
+                <label class="block text-xs font-semibold uppercase tracking-wider
+                              text-gray-500 dark:text-gray-400 mb-1.5">
+                    Estado de nafta al entregar *
+                </label>
+                <div class="grid gap-2"
+                     style="grid-template-columns: repeat({{ $estadosNafta->count() }}, 1fr)">
+                    @foreach($estadosNafta as $estado)
+                    <button
+                        type="button"
+                        class="nafta-btn py-2.5 text-xs font-semibold rounded-lg border
+                               border-gray-300 dark:border-gray-600
+                               text-gray-600 dark:text-gray-300
+                               hover:border-blue-500 hover:text-blue-600
+                               dark:hover:border-blue-400 dark:hover:text-blue-400
+                               transition {{ $loop->last ? 'border-blue-500 text-blue-600 dark:border-blue-400 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20' : '' }}"
+                        data-value="{{ $estado->id }}"
+                        onclick="selNafta(this)">
+                        {{ $estado->descripcion ?? $estado->estado }}
+                    </button>
+                    @endforeach
+                </div>
+                <input type="hidden" name="id_estado_nafta_fin"
+                       id="estadoNafta"
+                       value="{{ $estadosNafta->last()?->id }}">
+            </div>
+
+            {{-- Observaciones --}}
+            <div class="mb-5">
+                <label class="block text-xs font-semibold uppercase tracking-wider
+                              text-gray-500 dark:text-gray-400 mb-1.5">
+                    Observaciones <span class="font-normal normal-case">(opcional)</span>
+                </label>
+                <textarea
+                    name="observaciones"
+                    id="observaciones"
+                    rows="2"
+                    placeholder="Ej: sin novedades, entregué llaves en recepción…"
+                    class="w-full px-3 py-2 text-sm rounded-lg border resize-none
+                           border-gray-300 dark:border-gray-600
+                           bg-white dark:bg-gray-700
+                           text-gray-900 dark:text-white
+                           placeholder-gray-400 dark:placeholder-gray-500
+                           focus:outline-none focus:ring-2 focus:ring-blue-500
+                           transition"></textarea>
+            </div>
+
+            <button type="submit"
+                    class="w-full py-3 rounded-xl font-bold text-sm text-white
+                           bg-orange-500 hover:bg-orange-600 active:bg-orange-700
+                           transition flex items-center justify-center gap-2">
+                <i class="fas fa-flag-checkered"></i> Confirmar finalización
+            </button>
+        </form>
+
+        <button type="button"
+                onclick="document.getElementById('modalFinalizar').classList.add('hidden')"
+                class="w-full mt-3 py-2 text-sm text-gray-500 dark:text-gray-400
+                       hover:text-gray-700 dark:hover:text-gray-200 transition">
+            Cancelar
         </button>
     </div>
 </div>
-<script>
-    window.viajeId = {{ auth()->user()->viajeActivo->id ?? 'null' }};
-</script>
+@endif
 
-@vite('resources/js/viajeModal.js')
+{{-- Script: abrir/cerrar modal + selección nafta --}}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const btnFinalizar = document.getElementById('btnFinalizar');
+    const modal        = document.getElementById('modalFinalizar');
+
+    if (btnFinalizar && modal) {
+        btnFinalizar.addEventListener('click', () => {
+            modal.classList.remove('hidden');
+        });
+        // Cerrar al click fuera del box
+        modal.addEventListener('click', function (e) {
+            if (e.target === this) this.classList.add('hidden');
+        });
+    }
+});
+
+function selNafta(btn) {
+    document.querySelectorAll('.nafta-btn').forEach(b => {
+        b.classList.remove(
+            'border-blue-500','text-blue-600',
+            'dark:border-blue-400','dark:text-blue-400','bg-blue-50','dark:bg-blue-900/20'
+        );
+    });
+    btn.classList.add(
+        'border-blue-500','text-blue-600',
+        'dark:border-blue-400','dark:text-blue-400','bg-blue-50','dark:bg-blue-900/20'
+    );
+    document.getElementById('estadoNafta').value = btn.dataset.value;
+}
+</script>

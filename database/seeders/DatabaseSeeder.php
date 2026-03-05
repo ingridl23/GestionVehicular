@@ -32,6 +32,8 @@ class DatabaseSeeder extends Seeder
 
             // Entidad principal
             VehiculoSeeder::class,
+            // estados de viajes
+             EstadosViajeSeeder::class,
         ]);
     }
 }

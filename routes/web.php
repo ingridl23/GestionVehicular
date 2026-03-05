@@ -78,6 +78,21 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/viajes/finalizar/{viaje}', [ViajeController::class, 'finalizar'])
     ->name('viajes.finalizar');
+     /********************************** VIAJES OPERATIVOS **********************************/
+
+Route::get('/viajes', [ViajeController::class, 'index'])
+    ->name('viajes.index');
+
+Route::get('/viajes/{viaje}', [ViajeController::class, 'show'])
+    ->name('viajes.show');
+
+Route::post('/viajes/{reserva}/comenzar', [ViajeController::class, 'comenzarViaje'])
+    ->name('viajes.comenzar');
+
+Route::post('/viajes/{viaje}/finalizar', [ViajeController::class, 'finalizarViaje'])
+    ->name('viajes.finalizar');
+
+
    /********************************** Rutas de dependencia ************************************************/
 
     Route::prefix('dependencia')->name('dependencia.')->group(function () {

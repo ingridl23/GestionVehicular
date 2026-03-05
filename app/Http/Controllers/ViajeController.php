@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 use App\Models\Viaje;
 use App\Models\Reserva;
 use App\Models\EstadosReserva;
+use App\Models\EstadosNafta;
 use App\Services;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
@@ -24,31 +25,75 @@ use App\Services\ViajeService;
 
 class ViajeController extends Controller
 {
-    protected ViajeService $service;
+   protected ViajeService $service;
 
     public function __construct(ViajeService $service)
     {
         $this->service = $service;
     }
 
-
+    /**
+     * Listado de viajes.
+     * - Admin/Jefe: ve todos los viajes de su dependencia
+     * - Operativo:  ve solo sus propios viajes
+     * Además resuelve $reservaActiva y $viajeActivo para los botones del dashboard.
+     */
     public function index()
-{
-    $viajes = Viaje::with('vehiculo', 'reserva')
-        ->whereHas('reserva', function ($q) {
-            $q->where('id_usuario', auth()->id());
-        })
-        ->latest()
-        ->paginate(10);
+    {
+        $user = auth()->user();
 
-    return view('ui.viajes.index', compact('viajes'));
-}
+        // ── Viajes a mostrar según rol ──
+        $query = Viaje::with(['vehiculo', 'reserva.usuario', 'reserva.estado_reserva'])
+            ->latest();
 
+        if ($user->hasRole('Operativo')) {
+            // Solo sus viajes
+            $query->whereHas('reserva', fn($q) => $q->where('id_usuario', $user->id));
+        } elseif ($user->hasAnyRole(['Administrador de Dependencia', 'Jefe de Area'])) {
+            // Viajes de su dependencia
+            $query->whereHas('reserva', function ($q) use ($user) {
+                $q->where('id_dependencia', $user->dependencia?->id);
+            });
+        }
+        // Administrador General: ve todos (sin filtro adicional)
 
-public function show(Viaje $viaje)
-{
-    return view('ui.viajes.show', compact('viaje'));
-}
+        $viajes = $query->paginate(10);
+
+        // ── Reserva aprobada pendiente de iniciar (solo relevante para Operativo) ──
+     $reservaActiva = Reserva::with('vehiculo')
+    ->where('id_usuario', $user->id)
+    ->where('id_estado_reserva', EstadosReserva::APROBADA)
+    ->whereNotExists(function ($q) {
+        $q->select('id')
+          ->from('viaje')
+          ->whereColumn('viaje.id_reserva', 'reservas.id')
+          ->whereNull('viaje.fecha_fin');
+    })
+    ->first();
+        // ── Estados de nafta para el modal de finalizar ──
+        $estadosNafta = EstadosNafta::all();
+
+        // ── Variables para filtros (admins) ──
+        $vehiculos_filtros = \App\Models\Vehiculo::select('id', 'dominio')->orderBy('dominio')->get();
+        $estados_filtros   = \App\Models\EstadosViaje::all();
+
+        return view('ui.viajes.index', compact(
+            'viajes',
+            'reservaActiva',
+            'estadosNafta',
+            'vehiculos_filtros',
+            'estados_filtros',
+        ));
+    }
+
+ /**
+     * Detalle de un viaje.
+     */
+    public function show(Viaje $viaje)
+    {
+        $viaje->load(['vehiculo', 'reserva.usuario', 'estadoNaftaInicio', 'estadoNaftaFin', 'gasto']);
+        return view('ui.viajes.show', compact('viaje'));
+    }
 
 
 /**
@@ -62,7 +107,7 @@ public function show(Viaje $viaje)
         $viaje = $this->service->comenzarViaje($reservaId);
 
         return redirect()->route('operativo.viajes.show', $viaje->id)
-            ->with('success', 'Viaje iniciado correctamente.');
+          ->with('success', 'Viaje #' . $viaje->id . ' iniciado correctamente.');
     }
 
     /**
@@ -77,17 +122,21 @@ public function show(Viaje $viaje)
  * @param int $viajeId
  * @return \Illuminate\Http\RedirectResponse
  */
+
+    /**
+     * Finaliza un viaje activo.
+     */
     public function finalizarViaje(Request $request, $viajeId)
     {
         $request->validate([
-            'kilometros_fin' => 'required|integer',
+            'kilometros_fin'      => 'required|integer|min:0',
             'id_estado_nafta_fin' => 'required|exists:estados_naftas,id',
-            'observaciones' => 'nullable|string|max:500'
+            'observaciones'       => 'nullable|string|max:500',
         ]);
 
-        $this->service->finalizarViaje($viajeId, $request->all());
+        $this->service->finalizarViaje((int) $viajeId, $request->all());
 
-        return redirect()->route('reservas.internas')
+        return redirect()->route('operativo.viajes.index')
             ->with('success', 'Viaje finalizado correctamente.');
     }
 }

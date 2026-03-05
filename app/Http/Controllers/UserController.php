@@ -6,6 +6,7 @@ use App\Models\Dependencia;
 use App\Models\Alerta;
 use App\Models\EstadosNafta;
 use App\Models\Reserva;
+use App\Models\EstadosReserva;
 use App\Models\Reportes;
 use App\Models\Vehiculo;
 use App\Models\Viaje;
@@ -181,6 +182,10 @@ $ultimosUsuarios = User::with('dependencia')
 
       $alertas = Alerta::latest()->take(10)->get();
       $estadosNafta = EstadosNafta::get();
+      $reservaActiva = Reserva::where('id_usuario', auth()->id())
+    ->where('id_estado_reserva',EstadosReserva::APROBADA)
+    ->first();
+
     // luego, cuando tengas datos reales:
     // $stats['licencias'] = Licencia::vencidas()->count
         $user = Auth::user();
@@ -191,7 +196,8 @@ $ultimosUsuarios = User::with('dependencia')
     'alertas',
     'disponibles',
     'reservados',
-    'estadosNafta'
+    'estadosNafta',
+    'reservaActiva'
 ));
 
     }
