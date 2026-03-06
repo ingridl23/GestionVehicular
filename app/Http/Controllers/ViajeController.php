@@ -150,9 +150,24 @@ class ViajeController extends Controller
     /**
      * Finaliza un viaje activo.
      */
+    /*
+    public function finalizarViaje(Request $request, $viajeId)
+{
+    try {
 
+        $this->service->finalizarViaje((int) $viajeId, $request->all());
+
+        return redirect()->route('operativo.viajes.index')
+            ->with('success', 'Viaje finalizado correctamente.');
+
+    } catch (\Throwable $e) {
+        dd($e->getMessage());
+    }
+}
+*/
     public function finalizarViaje(Request $request, $viajeId)
     {
+
         $request->validate([
             'kilometros_fin'      => 'required|integer|min:0',
             'id_estado_nafta_fin' => 'required|exists:estados_naftas,id',

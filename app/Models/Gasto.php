@@ -31,7 +31,7 @@ class Gasto extends Model
     protected $table = 'gasto';
     protected $fillable = [
         'kilometros',
-        'id_estados_nafta',
+        'id_estado_nafta',
         'id_viaje',
         'monto'
     ];
@@ -46,7 +46,7 @@ class Gasto extends Model
 
     public function estadoNafta()
     {
-        return $this->belongsTo(Estados_nafta::class, 'id_estados_nafta');
+        return $this->belongsTo(Estados_nafta::class, 'id_estado_nafta');
     }
 
 }
