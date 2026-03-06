@@ -1,8 +1,11 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
 @import "@fortawesome/fontawesome-free/css/all.min.css";
+@import "./viaje-operativo.css";
+@import "./viaje-admin.css";
+@import "./viaje-operativo-partial.css";
 html {
+    @tailwind base;
+    @tailwind components;
+    @tailwind utilities;
     font-family: 'Inter', sans-serif;
 }
 
@@ -53,15 +56,22 @@ html {
    ========================= */
 
 body {
-    @apply antialiased bg-gray-50;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: #f9fafb;
+    /* bg-gray-50 */
+}
+
+body {
+    background-color: #f9fafb;
 }
 
 a {
-    @apply transition-colors duration-200;
+    transition: color 0.2s;
 }
 
 button {
-    @apply transition-all duration-200;
+    transition: all 0.2s;
 }
 
 .bg-flota {
