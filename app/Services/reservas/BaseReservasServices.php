@@ -300,6 +300,12 @@ $reserva->usuario->notify(new UsuarioModificadoNotification(
             'info'
         ));
     }
+    // Notificar al conductor asignado
+$conductor = User::find($id_usuario);
+$conductor?->notify(new UsuarioModificadoNotification(
+    'Te asignaron una reserva para el ' . $fecha_inicio->format('d/m/Y H:i'),
+    'info'
+));
     }
 
 

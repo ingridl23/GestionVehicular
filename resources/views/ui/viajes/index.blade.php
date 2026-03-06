@@ -60,7 +60,7 @@
 
       {{-- Desktop --}}
       <div class="hidden md:block">
-        @include('components.tabla-viajes-admin', [
+        @include('components.tabla-viajes-desktop', [
             'viajes'          => $viajes,
             'configEditar'    => $configEditar    ?? null,
             'ids'             => $ids             ?? null,

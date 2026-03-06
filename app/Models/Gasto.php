@@ -27,6 +27,8 @@ class Gasto extends Model
 {
     use HasFactory, Notifiable;
 
+
+    protected $table = 'gasto';
     protected $fillable = [
         'kilometros',
         'id_estados_nafta',

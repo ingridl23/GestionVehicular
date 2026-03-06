@@ -187,7 +187,7 @@ $ultimosUsuarios = User::with('dependencia')
         // Sin viaje activo ya iniciado (whereNotExists evita doble inicio)
         $reservaActiva = Reserva::with('vehiculo')
             ->where('id_usuario', $user->id)
-            ->where('id_estado_reserva', EstadosReserva::APROBADA)
+            ->whereHas('estado_reserva', fn($q) => $q->where('estado', 'APROBADA'))
             ->whereNotExists(function ($q) {
                 $q->select('id')
                   ->from('viaje')

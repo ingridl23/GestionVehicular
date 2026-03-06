@@ -472,19 +472,19 @@
       {{-- Estado de nafta — botones táctiles --}}
       <label class="vms-form-label">Estado de nafta al entregar *</label>
       <div class="nafta-grid">
-        @foreach($estadosNafta as $estado)
-          <button
-            type="button"
-            class="nafta-btn {{ $loop->last ? 'active' : '' }}"
-            data-value="{{ $estado->id }}"
-            onclick="vmsSelNafta(this)">
-            {{ $estado->descripcion ?? $estado->estado }}
-          </button>
-        @endforeach
-      </div>
-      <input type="hidden" name="id_estado_nafta_fin" id="vmsNaftaHidden"
-             value="{{ $estadosNafta->last()?->id }}">
+@foreach($estadosNafta as $estado)
+  <button
+    type="button"
+    class="nafta-btn {{ $loop->last ? 'active' : '' }}"
+    data-value="{{ $estado->id }}"
+    onclick="vmsSelNafta(this)">
+    {{ $estado->estado }}
+  </button>
+@endforeach
+</div>
 
+<input type="hidden" name="id_estado_nafta_fin" id="vmsNaftaHidden"
+       value="{{ $estadosNafta->last()?->id }}">
       {{-- Observaciones --}}
       <label class="vms-form-label">Observaciones <span style="font-weight:400; text-transform:none; letter-spacing:0;">— opcional</span></label>
       <textarea

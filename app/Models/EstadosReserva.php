@@ -16,12 +16,13 @@ class EstadosReserva extends Model
     ];
 
     //para acordarse
-    public const EN_CURSO = 1;
-    public const FINALIZADA = 2;
-    public const PENDIENTE = 3;
-    public const CANCELADA = 4;
-    public const RECHAZADA = 5;
-    public const APROBADA = 6;
+   public const SOLICITADA = 1;
+   public const APROBADA   = 2;  // ← era 6, es 2
+   public const EN_CURSO   = 3;  // ← era 1, es 3
+   public const FINALIZADA = 4;  // ← era 2, es 4
+   public const CANCELADA  = 5;  // ← era 4, es 5
+   public const RECHAZADA  = 6;  // ← era 5, es 6
+
 
      /**
      * Relación: una estado lo pueden tener muchas reservas.

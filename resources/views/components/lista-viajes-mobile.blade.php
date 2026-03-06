@@ -161,7 +161,7 @@
 <div class="vm-list">
   @forelse ($viajes as $viaje)
   @php
-    $estadoRaw  = strtoupper($viaje->estado_viaje?->estado ?? '');
+   $estadoRaw = strtoupper($viaje->estado_viaje ?? '');
     $badgeClass = match($estadoRaw) {
         'EN_CURSO'   => 'en-curso',
         'FINALIZADO' => 'finalizado',

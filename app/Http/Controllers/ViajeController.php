@@ -40,9 +40,11 @@ class ViajeController extends Controller
      */
     public function index()
     {
+
         $user = auth()->user();
 
         // ── Viajes a mostrar según rol ──
+
         $query = Viaje::with(['vehiculo', 'reserva.usuario', 'reserva.estado_reserva'])
             ->latest();
 
@@ -57,12 +59,12 @@ class ViajeController extends Controller
         }
         // Administrador General: ve todos (sin filtro adicional)
 
-        $viajes = $query->paginate(10);
+     $viajes = $query->paginate(10);
 
         // ── Reserva aprobada pendiente de iniciar (solo relevante para Operativo) ──
      $reservaActiva = Reserva::with('vehiculo')
     ->where('id_usuario', $user->id)
-    ->where('id_estado_reserva', EstadosReserva::APROBADA)
+    ->whereHas('estado_reserva', fn($q) => $q->where('estado', 'APROBADA'))
     ->whereNotExists(function ($q) {
         $q->select('id')
           ->from('viaje')
@@ -77,6 +79,8 @@ class ViajeController extends Controller
         $vehiculos_filtros = \App\Models\Vehiculo::select('id', 'dominio')->orderBy('dominio')->get();
         $estados_filtros   = \App\Models\EstadosViaje::all();
 
+
+
         return view('ui.viajes.index', compact(
             'viajes',
             'reservaActiva',
@@ -86,14 +90,23 @@ class ViajeController extends Controller
         ));
     }
 
- /**
+    /**
      * Detalle de un viaje.
      */
-    public function show(Viaje $viaje)
-    {
-        $viaje->load(['vehiculo', 'reserva.usuario', 'estadoNaftaInicio', 'estadoNaftaFin', 'gasto']);
-        return view('ui.viajes.show', compact('viaje'));
-    }
+   public function show(Viaje $viaje)
+{
+    $viaje->load([
+        'vehiculo',
+        'reserva.usuario',
+        'estadoNaftaInicio',
+        'estadoNaftaFin',
+        'gasto'
+    ]);
+
+    $estadosNafta = EstadosNafta::all();
+
+    return view('ui.viajes.show', compact('viaje', 'estadosNafta'));
+}
 
 
 /**
@@ -102,15 +115,26 @@ class ViajeController extends Controller
  * @param int $reservaId Identificador de la reserva.
  * @return \Illuminate\Http\RedirectResponse
  */
-    public function comenzarViaje($reservaId)
-    {
+
+
+   public function comenzarViaje($reservaId)
+{
+
+
+    try {
         $viaje = $this->service->comenzarViaje($reservaId);
-
-        return redirect()->route('operativo.viajes.show', $viaje->id)
-          ->with('success', 'Viaje #' . $viaje->id . ' iniciado correctamente.');
+        return redirect()->route('operativo.viajes.index')
+            ->with('success', 'Viaje #' . $viaje->id . ' iniciado.');
+    }  catch (\Illuminate\Validation\ValidationException $e) {
+        dd(['ValidationException' => $e->errors()]);
+    } catch (\Exception $e) {
+        return redirect()->back()
+            ->withErrors(['error' => $e->getMessage()]);
     }
+}
 
-    /**
+
+/**
  * Finaliza un viaje activo.
  *
  * Valida:
@@ -126,6 +150,7 @@ class ViajeController extends Controller
     /**
      * Finaliza un viaje activo.
      */
+
     public function finalizarViaje(Request $request, $viajeId)
     {
         $request->validate([

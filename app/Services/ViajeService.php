@@ -8,77 +8,79 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use App\Models\Gasto;
 use App\Models\PrecioCombustible;
+
+
 class ViajeService
 {
 
-    public function comenzarViaje(int $reservaId): Viaje
-    {
-        return DB::transaction(function () use ($reservaId) {
+   public function comenzarViaje(int $reservaId): Viaje
+{
+    return DB::transaction(function () use ($reservaId) {
 
-            $user = Auth::user();
+        $user = Auth::user();
 
-            $reserva = Reserva::with('vehiculo')->findOrFail($reservaId);
+        $reserva = Reserva::with('vehiculo')->findOrFail($reservaId);
 
-            //  Validar conductor
-            if ($reserva->id_usuario !== $user->id) {
-                throw ValidationException::withMessages([
-                    'usuario' => 'No puede iniciar un viaje que no le pertenece.'
-                ]);
-            }
-
-            //  Validar estado reserva
-            if ($reserva->id_estado_reserva !== EstadosReserva::APROBADA) {
-                throw ValidationException::withMessages([
-                    'reserva' => 'La reserva no está aprobada.'
-                ]);
-            }
-
-            //  Verificar que no exista viaje activo
-            $viajeActivo = Viaje::where('id_reserva', $reserva->id)
-                ->whereNull('fecha_fin')
-                ->first();
-
-            if ($viajeActivo) {
-                throw ValidationException::withMessages([
-                    'viaje' => 'El viaje ya fue iniciado.'
-                ]);
-            }
-
-            $vehiculo = $reserva->vehiculo;
-
-            // Validar vehículo habilitado
-            if (!$vehiculo->habilitado_prestamo) {
-                throw ValidationException::withMessages([
-                    'vehiculo' => 'El vehículo no está habilitado para préstamo.'
-                ]);
-            }
-
-            // Validar estado vehículo (ej: 1 = disponible)
-            if ($vehiculo->id_estado_vehiculo !== 1) {
-                throw ValidationException::withMessages([
-                    'vehiculo' => 'El vehículo no está disponible.'
-                ]);
-            }
-
-            //  Crear viaje
-            $viaje = Viaje::create([
-                'id_reserva' => $reserva->id,
-                'id_vehiculo' => $vehiculo->id,
-                'fecha_inicio' => now(),
-                'kilometros_inicio' => $vehiculo->kilometros,
-                'id_estado_nafta_inicio' => $vehiculo->id_estado_nafta,
-                'id_ultima_ubicacion' => $vehiculo->id_direccion_actual
+        // Validar conductor
+        if ($reserva->id_usuario !== $user->id) {
+            throw ValidationException::withMessages([
+                'usuario' => 'No puede iniciar un viaje que no le pertenece.'
             ]);
+        }
 
-            //  Cambiar estado reserva
-            $reserva->update([
-                'id_estado_reserva' => EstadosReserva::EN_CURSO
+        // Validar estado reserva
+        if ($reserva->id_estado_reserva !== EstadosReserva::APROBADA) {
+            throw ValidationException::withMessages([
+                'reserva' => 'La reserva no está aprobada.'
             ]);
+        }
 
-            return $viaje;
-        });
-    }
+        // Verificar que no exista viaje activo
+        $viajeActivo = Viaje::where('id_reserva', $reserva->id)
+            ->whereNull('fecha_fin')
+            ->first();
 
+        if ($viajeActivo) {
+            throw ValidationException::withMessages([
+                'viaje' => 'El viaje ya fue iniciado.'
+            ]);
+        }
+
+        $vehiculo = $reserva->vehiculo;
+
+        // Validar vehículo habilitado
+        if (!$vehiculo->habilitado_prestamo) {
+            throw ValidationException::withMessages([
+                'vehiculo' => 'El vehículo no está habilitado para préstamo.'
+            ]);
+        }
+
+        // Validar estado vehículo
+        $estadoVehiculo = $vehiculo->estadoVehiculo?->estado;
+        if (in_array($estadoVehiculo, ['EN_MANTENIMIENTO', 'BAJA'])) {
+            throw ValidationException::withMessages([
+                'vehiculo' => 'El vehículo no está disponible para iniciar el viaje.'
+            ]);
+        }
+
+        // Crear viaje
+        $viaje = Viaje::create([
+            'id_reserva'             => $reserva->id,
+            'id_vehiculo'            => $vehiculo->id,
+            'fecha_inicio'           => now(),
+            'kilometros_inicio'      => $vehiculo->kilometros,
+            'id_estado_nafta_inicio' => $vehiculo->id_estado_nafta,
+            'id_ultima_ubicacion'    => $vehiculo->id_direccion_actual
+        ]);
+
+        // Cambiar estado reserva
+        $reserva->update([
+            'id_estado_reserva' => EstadosReserva::EN_CURSO
+        ]);
+
+        return $viaje;
+    });
+}
     public function finalizarViaje(int $viajeId, array $data): void
     {
         DB::transaction(function () use ($viajeId, $data) {
@@ -132,7 +134,7 @@ class ViajeService
             Gasto::create([
                 'id_viaje' => $viaje->id,
                 'kilometros' => $kmRecorridos,
-                'id_estados_nafta' => $data['id_estado_nafta_fin'],
+                'id_estado_nafta' => $data['id_estado_nafta_fin'],
                 'monto' => $monto
             ]);
 

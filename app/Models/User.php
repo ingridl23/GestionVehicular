@@ -89,4 +89,14 @@ public function carnetPorVencer(int $dias = 30): bool
     return now()->diffInDays($this->carnet->fecha_vencimiento, false) <= $dias
         && now()->lessThanOrEqualTo($this->carnet->fecha_vencimiento);
 }
+
+
+public function getViajeActivoAttribute()
+{
+    return \App\Models\Viaje::whereHas('reserva', function ($q) {
+            $q->where('id_usuario', $this->id);
+        })
+        ->whereNull('fecha_fin')
+        ->first();
+}
 }

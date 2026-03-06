@@ -74,4 +74,14 @@ class Viaje extends Model
     public function ubicacion(){
         return $this->belongsTo(Direcciones::class, 'id_ultima_ubicacion');
     }
+
+
+public function getEstadoViajeAttribute(): string
+{
+    if ($this->fecha_fin) {
+        return 'FINALIZADO';
+    }
+    // Leer el estado de la reserva asociada
+    return $this->reserva?->estado_reserva?->estado ?? 'EN_CURSO';
+}
 }

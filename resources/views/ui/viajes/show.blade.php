@@ -55,16 +55,18 @@
                 </div>
 
                 <div>
-                    <label class="block text-sm">Estado nafta final</label>
-                    <select name="id_estado_nafta_fin"
-                            class="w-full border rounded-lg p-2"
-                            required>
-                        @foreach(App\Models\EstadosNafta::all() as $estado)
-                            <option value="{{ $estado->id }}">
-                                {{ $estado->descripcion }}
-                            </option>
-                        @endforeach
-                    </select>
+<label class="block text-sm">Estado nafta final</label>
+ <select name="id_estado_nafta_fin" class="form-control" required>
+    <option value="">Seleccione estado</option>
+
+    @foreach($estadosNafta as $estado)
+        <option value="{{ $estado->id }}">
+            {{ $estado->estado }}
+        </option>
+    @endforeach
+</select>
+
+</select>
                 </div>
 
                 <div>
