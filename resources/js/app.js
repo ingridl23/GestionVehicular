@@ -3,7 +3,7 @@ import './bootstrap';
 import collapse from '@alpinejs/collapse';
 import Alpine from 'alpinejs';
 
-//import './perfilGestionVehicular';
+
 
 import './reportes';
 import './vehiculo';

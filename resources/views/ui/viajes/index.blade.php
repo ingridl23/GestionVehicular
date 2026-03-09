@@ -5,6 +5,11 @@
 @section('page-description', 'Gestión de recorridos')
 
 @section('content')
+
+@php
+$mostrarAcciones = $mostrarAcciones ?? true;
+@endphp
+
 <section class="py-6">
   <div class="container mx-auto px-4">
 
@@ -20,35 +25,6 @@
       </div>
     </div>
 
-    {{-- Filtros — solo admins --}}
-    @hasanyrole('Administrador General|Administrador de Dependencia|Jefe de Area')
-    <div class="mb-4">
-      <button
-        type="button"
-        onclick="vfToggle()"
-        class="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-lg border
-               border-gray-300 dark:border-gray-600
-               bg-white dark:bg-gray-800
-               text-gray-600 dark:text-gray-300
-               hover:bg-gray-50 dark:hover:bg-gray-700
-               transition">
-        <i class="fas fa-sliders text-xs"></i>
-        Filtros
-        <span id="vfBadge"
-              class="hidden text-xs bg-blue-500 text-white rounded-full px-1.5 py-0.5 leading-none">
-        </span>
-        <i class="fas fa-chevron-down text-xs transition-transform duration-200" id="vfChevron"></i>
-      </button>
-    </div>
-
-    <div id="vfPanel" class="hidden">
-      @include('components.filtros-viajes-fields', [
-          'vehiculos_filtros' => $vehiculos_filtros ?? collect(),
-          'estados_filtros'   => $estados_filtros   ?? collect(),
-          'ubicacion'         => null,
-      ])
-    </div>
-    @endhasanyrole
 
     @if($viajes->isEmpty())
       <div class="flex flex-col items-center justify-center py-24 text-gray-400 dark:text-gray-600">
@@ -60,24 +36,19 @@
 
       {{-- Desktop --}}
       <div class="hidden md:block">
-        @include('components.tabla-viajes-desktop', [
-            'viajes'          => $viajes,
-            'configEditar'    => $configEditar    ?? null,
-            'ids'             => $ids             ?? null,
-            'ubicacion'       => null,
-            'mostrarAcciones' => $mostrarAcciones ?? true,
-        ])
+     <x-tabla-viajes-desktop
+    :viajes="$viajes"
+    :ubicacion="null"
+    :mostrarAcciones="$mostrarAcciones"
+/>
       </div>
-
       {{-- Mobile --}}
       <div class="block md:hidden">
-        @include('components.lista-viajes-mobile', [
-            'viajes'          => $viajes,
-            'configEditar'    => $configEditar    ?? null,
-            'ids'             => $ids             ?? null,
-            'ubicacion'       => null,
-            'mostrarAcciones' => $mostrarAcciones ?? true,
-        ])
+      <x-lista-viajes-mobile
+    :viajes="$viajes"
+    :ubicacion="null"
+    :mostrarAcciones="$mostrarAcciones"
+/>
       </div>
 
       <div class="flex justify-center mt-6">

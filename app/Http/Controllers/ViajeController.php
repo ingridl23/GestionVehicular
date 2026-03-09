@@ -96,11 +96,12 @@ class ViajeController extends Controller
    public function show(Viaje $viaje)
 {
     $viaje->load([
-        'vehiculo',
+        'vehiculo.dependenciaDuena',
         'reserva.usuario',
         'estadoNaftaInicio',
         'estadoNaftaFin',
-        'gasto'
+        'gasto',
+
     ]);
 
     $estadosNafta = EstadosNafta::all();

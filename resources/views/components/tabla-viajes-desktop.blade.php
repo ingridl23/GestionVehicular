@@ -1,5 +1,5 @@
 {{-- ============================================================
-     COMPONENTE: tabla-viajes-admin
+     COMPONENTE: tabla-viajes-desktop
      Props:
        $viajes          → Collection<Viaje>
        $configEditar    → ['can' => '...', 'route' => '...'] | null
@@ -14,9 +14,9 @@
          'ubicacion'    => null,
          'mostrarAcciones',
          ])
-         @vite(['resources/css/app.css','resources/js/app.js'])
 
 
+@vite('resources/css/viaje-admin.css')
 <div class="vt-wrap" id="viajes-wrapper" data-view="tabla">
 
   {{-- ── Chips de filtro rápido ── --}}
@@ -44,21 +44,7 @@
   {{-- ── Tabla ── --}}
   <div class="vt-table-wrap">
 
-    {{-- Barra superior: búsqueda + contador --}}
-    <div class="vt-toolbar">
-      <div class="vt-search-wrap">
-        <i class="fas fa-search vt-search-icon"></i>
-        <input
-          type="text"
-          class="vt-search"
-          placeholder="Buscar por vehículo, conductor, ID…"
-          oninput="vtSearch(this.value)"
-          id="vtSearchInput">
-      </div>
-      <span class="vt-count-badge" id="vtCount">
-        {{ $viajes->count() }} viaje{{ $viajes->count() !== 1 ? 's' : '' }}
-      </span>
-    </div>
+
 
     <div class="overflow-x-auto">
       <table class="vt-table" id="vtTable">

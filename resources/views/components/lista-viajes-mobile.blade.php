@@ -6,7 +6,7 @@
        $ubicacion       → string|null
        $mostrarAcciones → bool
 --}}
-
+@vite('resources/css/viaje-operativo.css')
 @props([
     'viajes',
     'configEditar'    => null,
@@ -14,7 +14,7 @@
     'ubicacion'       => null,
     'mostrarAcciones' => true,
 ])
-@vite(['resources/css/app.css','resources/js/app.js'])
+
 
 
 <div class="vm-list">

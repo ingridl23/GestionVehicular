@@ -1,11 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 @import "@fortawesome/fontawesome-free/css/all.min.css";
 @import "./viaje-operativo.css";
 @import "./viaje-admin.css";
 @import "./viaje-operativo-partial.css";
 html {
-    @tailwind base;
-    @tailwind components;
-    @tailwind utilities;
     font-family: 'Inter', sans-serif;
 }
 

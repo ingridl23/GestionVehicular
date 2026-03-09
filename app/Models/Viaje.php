@@ -76,6 +76,7 @@ class Viaje extends Model
     }
 
 
+
 public function getEstadoViajeAttribute(): string
 {
     if ($this->fecha_fin) {
