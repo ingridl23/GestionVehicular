@@ -67,14 +67,24 @@ class ReservasExternasService extends BaseReservasServices{
         $ids = $this->obtenerDependenciasIds($dependencia);
         $base = $this->obtenerDatosBase();
         $rol = $this->rol();
+      //  dd($ids);
 
         $queryVehiculos = $base['queryVehiculos'];
         $queryUsuarios  = $base['queryUsuarios'];
 
         if ($this->rol() !== 'Administrador General') {
-            $queryVehiculos->whereNotIn('vehiculos.id_dependencia_duena', $ids);
-            $queryUsuarios->whereIn('users.id_dependencia', $ids);
-        }
+
+           $queryVehiculos
+    ->where('vehiculos.id_dependencia_duena', '!=', $id_dependencia)
+    ->where('vehiculos.habilitado_prestamo', true);
+
+            $queryUsuarios
+            ->whereIn('users.id_dependencia', $ids);
+            }
+
+
+
+
 
         $vehiculos = $queryVehiculos->get();
 
@@ -200,15 +210,15 @@ class ReservasExternasService extends BaseReservasServices{
 
             //Externas de su dependencia
             if($rol == 'Administrador de Dependencia' || $rol == 'Jefe de Area'){
-            $q->obtenerDependenciasExternas($id_dependencia)->groupBy('id_vehiculo');
+            $q->obtenerDependenciasExternas($id_dependencia);
             }
 
             // ve únicamente las reservas propias de su dependencia que lo involucran
             else if($rol == 'Operativo'){
-                $q->obtenerDependenciasExternas($id_dependencia)->where('id_usuario', $this->user()->id)->groupBy('id_vehiculo');
+                $q->obtenerDependenciasExternas($id_dependencia)->where('id_usuario', $this->user()->id);
             }
             else{
-              $q->soloExternas($id_dependencia)->groupBy('id_vehiculo');
+              $q->soloExternas($id_dependencia);
 
             }
         })
@@ -220,14 +230,14 @@ class ReservasExternasService extends BaseReservasServices{
         ->with(['reservas' => function ($q) use ($rol, $id_dependencia) {
 
             if($rol == 'Administrador de Dependencia' || $rol == 'Jefe de Area'){
-                $q->obtenerDependenciasExternas($id_dependencia)->groupBy('id_vehiculo');
+                $q->obtenerDependenciasExternas($id_dependencia);
             }
 
             else if($rol == 'Operativo'){
-                 $q->obtenerDependenciasExternas($id_dependencia)->where('id_usuario', $this->user()->id)->groupBy('id_vehiculo');
+                 $q->obtenerDependenciasExternas($id_dependencia)->where('id_usuario', $this->user()->id);
             }
             else{
-                $q->soloExternas($id_dependencia)->groupBy('id_vehiculo');
+                $q->soloExternas($id_dependencia);
             }
 
         }]);

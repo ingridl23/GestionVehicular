@@ -288,11 +288,11 @@ $reserva->usuario->notify(new UsuarioModificadoNotification(
 
 
         //  Notificar a admins de la dependencia dueña del vehículo
-    $admins = User::whereHas('roles', function ($q) {
-        $q->whereIn('name', ['Administrador General', 'Administrador de Dependencia']);
-    })->whereHas('dependencia', function ($q) use ($id_dependencia_duena) {
-        $q->where('id', $id_dependencia_duena);
-    })->get();
+  $admins = User::role([
+    'Administrador General',
+    'Administrador de Dependencia'
+])->get();
+
 
     foreach ($admins as $admin) {
         $admin->notify(new UsuarioModificadoNotification(
@@ -553,7 +553,7 @@ $conductor?->notify(new UsuarioModificadoNotification(
 
     // Al final de autorizarReserva(), antes del return:
 $reserva->usuario->notify(new UsuarioModificadoNotification(
-    'Tu reserva del ' . $reserva->fecha_inicio_reserva->format('d/m/Y H:i') . ' fue aprobada.',
+    'Tu prestamo del ' . $reserva->fecha_inicio_reserva->format('d/m/Y H:i') . ' fue aprobada.',
     'success'
 ));
 
@@ -575,7 +575,7 @@ public function autorizarReserva($id) {
 
   // Al final de autorizarPrestamo(), antes del return:
 $reserva->usuario->notify(new UsuarioModificadoNotification(
-    'Tu préstamo del ' . $reserva->fecha_inicio_reserva->format('d/m/Y H:i') . ' fue aprobado.',
+    'Tu reserva del ' . $reserva->fecha_inicio_reserva->format('d/m/Y H:i') . ' fue aprobado.',
     'success'
 ));
 

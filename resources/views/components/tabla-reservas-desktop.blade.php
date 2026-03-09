@@ -141,6 +141,7 @@
           </td>
 
           @else
+          {{-- Aprobar prestamos --}}
           <td class="px-6 py-8 whitespace-nowrap text-gray-900 dark:text-white">
             <div class="flex justify-start gap-4">
 

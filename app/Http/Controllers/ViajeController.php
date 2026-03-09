@@ -54,7 +54,7 @@ class ViajeController extends Controller
         } elseif ($user->hasAnyRole(['Administrador de Dependencia', 'Jefe de Area'])) {
             // Viajes de su dependencia
             $query->whereHas('reserva', function ($q) use ($user) {
-                $q->where('id_dependencia', $user->dependencia?->id);
+                $q->where('id_dependencia_duena', $user->dependencia?->id);
             });
         }
         // Administrador General: ve todos (sin filtro adicional)

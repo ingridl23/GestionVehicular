@@ -92,7 +92,7 @@ $this->authorize('view', $vehiculo);
         'control_satelital' => $vehiculo->control_satelital,
         'habilitado_prestamo' => $vehiculo->habilitado_prestamo,
         'condiciones_prestamo' => $vehiculo->condiciones_prestamo,
-        'VTV' => $vehiculo->VTV,
+        'vtv' => $vehiculo->VTV,
 
         // relaciones listas para JS
         'estado_vehiculo' => [
@@ -155,7 +155,7 @@ public function detalle(Vehiculo $vehiculo)
             ]);
 
             $data = $request->validate([
-                'dominio' => 'required|string|unique:vehiculo,dominio',
+                'dominio' => 'required|string|unique:vehiculos,dominio',
                 'marca' => 'required|string',
                 'modelo' => 'required|string',
                 'anio' => 'required|integer',
@@ -164,7 +164,7 @@ public function detalle(Vehiculo $vehiculo)
                 'id_estado_nafta' => 'required|exists:estados_naftas,id',
                 'id_estado_vehiculo' => 'required|exists:estados_vehiculos,id',
                 'kilometros' => 'required|integer|min:0',
-                'VTV' => 'required|date',
+                'vtv' => 'required|date',
                'habilitado_prestamo' => 'required|boolean',
                'control_satelital' => 'required|boolean',
 

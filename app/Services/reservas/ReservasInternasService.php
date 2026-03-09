@@ -88,6 +88,8 @@ class ReservasInternasService extends BaseReservasServices{
      *
      * Este método:
      * - Delegar en datosForm() la obtención de los vehículos y usuarios disponibles.
+     * - La obtencion de vehiculos para reservas internas y externas varia segun el arbol gerarquico de dependencias
+     * Siendo internas vehiculos propios y de dependencias hijas y externas vehiculos de dependencia sin parentezco directo.
      * - Prepara la información base necesaria para renderizar el formulario,
      *   incluyendo la reserva, la acción del formulario y la ubicación del flujo.
      *

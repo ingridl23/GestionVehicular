@@ -83,6 +83,7 @@
                                         Vehículo asignado
                                     </label>
                                     <div class="mt-2 relative">
+
                                         <select id="vehiculo" name="id_vehiculo" class="w-full appearance-none rounded-md
                                             bg-white dark:bg-white/5 text-gray-900 dark:text-white
                                             border border-gray-300 dark:border-white/10 py-2 pl-3 pr-8

@@ -180,7 +180,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 modelo: document.getElementById('modelo').value,
                 anio: document.getElementById('anio').value,
                 kilometros: document.getElementById('kilometros').value,
-                VTV: document.getElementById('VTV').value,
+                vtv: document.getElementById('vtv').value,
                 id_estado_vehiculo: document.getElementById('id_estado_vehiculo').value,
                 id_estado_nafta: document.getElementById('id_estado_nafta').value,
             };
