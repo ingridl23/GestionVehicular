@@ -254,6 +254,8 @@ $reserva->usuario->notify(new UsuarioModificadoNotification(
     'Tu reserva del ' . $reserva->fecha_inicio_reserva->format('d/m/Y H:i') . ' fue cancelada.',
     'warning'
 ));
+
+return true;
 }
 
 
@@ -288,10 +290,12 @@ $reserva->usuario->notify(new UsuarioModificadoNotification(
 
 
         //  Notificar a admins de la dependencia dueña del vehículo
-  $admins = User::role([
+$admins = User::role([
     'Administrador General',
     'Administrador de Dependencia'
-])->get();
+])
+->where('id_dependencia', $id_dependencia_duena)
+->get();
 
 
     foreach ($admins as $admin) {

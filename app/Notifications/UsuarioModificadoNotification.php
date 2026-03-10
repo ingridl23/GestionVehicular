@@ -7,6 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
+
 class UsuarioModificadoNotification extends Notification
 {
     use Queueable;
@@ -23,7 +24,7 @@ class UsuarioModificadoNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['database']; // guardado en BD
+        return ['database','mail']; // guardado en BD
     }
 
     public function toDatabase($notifiable): array
@@ -35,27 +36,19 @@ class UsuarioModificadoNotification extends Notification
         ];
     }
 
+public function toMail($notifiable)
+{
+    return (new MailMessage)
+        ->subject('Sistema de Gestión Vehicular')
+         ->view('emails.reserva', [
+            'mensaje' => $this->mensaje,
+            'url' => url('/login'),
+            'usuario' => $notifiable->name
+        ]);
+}
 
 
 
-    /*
-    public function via(object $notifiable): array
-    {
-        return ['mail'];
-    }
-*/
-    /**
-     * Get the mail representation of the notification.
-
-    public function toMail(object $notifiable): MailMessage
-    {
-        return (new MailMessage)
-            ->line('The introduction to the notification.')
-            ->action('Notification Action', url('/'))
-            ->line('Thank you for using our application!');
-    }
-
-*/
 
 
 }
