@@ -6,7 +6,7 @@ use App\Models\Gasto;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\FromCollection;
-
+use Carbon\Carbon;
 class GastosExport implements FromCollection, WithHeadings, WithMapping
 {
     protected $gastos;
@@ -16,9 +16,11 @@ class GastosExport implements FromCollection, WithHeadings, WithMapping
         $this->gastos = $gastos;
     }
 
-    public function collection()
+     public function collection()
     {
-        return $this->gastos;
+        return Gasto::with(['viaje','estadoNafta'])
+            ->where('created_at', '>=', now()->subMonths(6))
+            ->get();
     }
 
     public function headings(): array

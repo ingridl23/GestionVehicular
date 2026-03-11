@@ -6,6 +6,7 @@ use App\Models\EstadosViaje;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Carbon\Carbon;
 
 class ViajesExport implements FromCollection, WithHeadings, WithMapping
 {
@@ -18,7 +19,8 @@ class ViajesExport implements FromCollection, WithHeadings, WithMapping
 
     public function collection()
     {
-        return $this->viajes;
+        /**Porque un vehículo puede haberse creado hace 2 años pero tener viajes hoy.*/
+       return Viaje::where('fecha_inicio', '>=', now()->subMonths(4))->get();
     }
 
     public function headings(): array

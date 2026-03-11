@@ -7,6 +7,8 @@ use App\Models\EstadosNafta;
 use App\Services;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
+use App\Exports\ViajesExport;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Services\ViajeService;
 
 /**
@@ -181,5 +183,20 @@ class ViajeController extends Controller
         return redirect()->route('operativo.viajes.index')
             ->with('success', 'Viaje finalizado correctamente.');
     }
+
+
+    /**
+     * metodo para exportar historial de viajes a formato excel fuera del sistema uso adminstrativo
+     */
+
+
+
+public function export()
+{
+    return Excel::download(
+        new ViajesExport,
+        'viajes_ultimos_4_meses.xlsx'
+    );
+}
 }
 

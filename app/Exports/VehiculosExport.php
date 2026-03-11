@@ -16,9 +16,10 @@ class VehiculosExport implements FromCollection, WithHeadings, WithMapping
         $this->vehiculos = $vehiculos;
     }
 
-    public function collection()
+  public function collection()
     {
-        return $this->vehiculos;
+        return Vehiculo::where('created_at', '>=', now()->subMonths(4))
+            ->get();
     }
 
     public function headings(): array

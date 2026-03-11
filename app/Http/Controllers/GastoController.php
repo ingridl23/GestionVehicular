@@ -8,9 +8,9 @@ use App\Services\GastoService;
 use App\Policies\GastoPolicy;
 use Illuminate\Http\JsonResponse;
 use Exception;
-
+use App\Exports\GastosExport;
+use Maatwebsite\Excel\Facades\Excel;
 use function PHPUnit\Framework\isEmpty;
-
 /**
  * @class GastoController
  * @brief Controlador encargado de la gestión de gastos asociados a viajes.
@@ -188,4 +188,11 @@ class GastoController extends Controller{
             'min_gasto' => Gasto::min('monto'),
         ]);
     }
+
+
+
+public function export()
+{
+    return Excel::download(new GastosExport, 'gastos_ultimos_6_meses.xlsx');
+}
 }

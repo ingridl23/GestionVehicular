@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Gate;
 use Spatie\Permission\Models\Role;
 use App\Notifications\UsuarioModificadoNotification;
+use App\Exports\UsuariosExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 
 /**
@@ -637,4 +639,11 @@ $user->notify(
     }
 
 
+public function export()
+{
+    return Excel::download(
+        new UsuariosExport,
+        'usuarios.xlsx'
+    );
+}
 }

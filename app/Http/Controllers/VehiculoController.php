@@ -12,6 +12,8 @@ use Exception;
 use App\Http\Controllers\UserController;
 use App\Policies\VehiculoPolicy;
 use Illuminate\Support\Facades\Log;
+use App\Exports\VehiculosExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 /**
  * @class VehiculoController
@@ -354,4 +356,13 @@ public function detalle(Vehiculo $vehiculo)
     }
 }
 
+
+
+public function export()
+{
+    return Excel::download(
+        new VehiculosExport,
+        'vehiculos_ultimos_4_meses.xlsx'
+    );
+}
 }

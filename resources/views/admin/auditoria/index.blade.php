@@ -111,8 +111,18 @@
     <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6">
         <div class="flex items-center justify-between mb-4">
             <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Vehículos Recientes</h2>
-            <a href="   {{ route('vehiculos.index') }} "  class="text-sm text-blue-600 dark:text-blue-400 hover:underline">
-                Ver todos
+
+                <div class="flex gap-3">
+        <a href="{{ route('vehiculos.export') }}"
+           class="text-sm text-green-600 dark:text-green-400 hover:underline">
+           Descargar historial
+        </a>
+
+        <a href="{{ route('vehiculos.index') }}"
+           class="text-sm text-blue-600 dark:text-blue-400 hover:underline">
+           Ver todos
+        </a>
+    </div>
             </a>
         </div>
 
@@ -161,10 +171,17 @@
             <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
                 Reservas Recientes
             </h2>
-            <a href="   {{ route('reservas.internas') }} "
-               class="text-sm text-blue-600 dark:text-blue-400 hover:underline">
-                Ver todas
-            </a>
+           <div class="flex gap-3">
+        <a href="{{ route('reservas.export') }}"
+           class="text-sm text-green-600 dark:text-green-400 hover:underline">
+           Descargar historial
+        </a>
+
+        <a href="{{ route('reservas.internas') }}"
+           class="text-sm text-blue-600 dark:text-blue-400 hover:underline">
+           Ver todas
+        </a>
+    </div>
         </div>
 
         <div class="space-y-3">
@@ -218,9 +235,16 @@
     <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6">
         <div class="flex items-center justify-between mb-4">
             <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Conductores Asignados recientemente</h2>
+
+          <div class="flex gap-3">
+        <a href="{{ route('conductores.export') }}"
+           class="text-sm text-green-600 dark:text-green-400 hover:underline">
+           Descargar historial
+        </a>
             <a href="   {{ route('reservas.internas') }} "  class="text-sm text-blue-600 dark:text-blue-400 hover:underline">
                 Ver todos
             </a>
+          </div>
         </div>
 
 
@@ -258,9 +282,17 @@
     <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6">
         <div class="flex items-center justify-between mb-4">
             <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Usuarios registrados recientemente</h2>
-            <a href="   {{ route('admin.usuarios.index') }} "  class="text-sm text-blue-600 dark:text-blue-400 hover:underline">
-                Ver todos
-            </a>
+          <div class="flex gap-3">
+        <a href="{{ route('usuarios.export') }}"
+           class="text-sm text-green-600 dark:text-green-400 hover:underline">
+           Descargar historial
+        </a>
+
+        <a href="{{ route('admin.usuarios.index') }}"
+           class="text-sm text-blue-600 dark:text-blue-400 hover:underline">
+           Ver todos
+        </a>
+    </div>
         </div>
 
 

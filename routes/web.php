@@ -155,7 +155,27 @@ Route::post('/viajes/{viaje}/finalizar', [ViajeController::class, 'finalizarViaj
 
     Route::post('/filtrar-prestamos-externos', [PrestamoController::class, 'verPrestamosExternos'])->name('filtrar.prestamos.externos');
 
+
+    /******************* rutas para exportaciones de excel **************************** */
+        Route::get('/export/vehiculos', [VehiculoController::class, 'export'])
+        ->name('vehiculos.export');
+
+    Route::get('/export/reservas', [ReservaController::class, 'exportarReservas'])
+        ->name('reservas.export');
+
+    Route::get('/export/viajes', [ViajeController::class, 'export'])
+        ->name('viajes.export');
+
+    Route::get('/export/conductores', [UserController::class, 'export'])
+        ->name('conductores.export');
+
+            Route::get('/export/usuarios', [UserController::class, 'export'])
+        ->name('usuarios.export');
+
+    Route::get('/export/gastos', [GastoController::class, 'export'])
+        ->name('gastos.export');
 });
+
 
 
 

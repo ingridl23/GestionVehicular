@@ -18,7 +18,8 @@ class ReservasExport implements FromCollection, WithHeadings, WithMapping
 
     public function collection()
     {
-        return $this->reservas;
+        return Reserva::where('created_at', '>=', now()->subMonths(4))
+            ->get();
     }
 
     public function headings(): array
