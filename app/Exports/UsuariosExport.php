@@ -11,15 +11,15 @@ class UsuariosExport implements FromCollection, WithHeadings, WithMapping
 {
     protected $usuarios;
 
-    public function __construct($usuarios)
+  /*  public function __construct($usuarios)
     {
         $this->usuarios = $usuarios;
     }
-
+*/
     public function collection()
-    {
-        return $this->usuarios;
-    }
+{
+    return User::all();
+}
 
     public function headings(): array
     {

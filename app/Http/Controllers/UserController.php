@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Gate;
 use Spatie\Permission\Models\Role;
 use App\Notifications\UsuarioModificadoNotification;
 use App\Exports\UsuariosExport;
+use App\Exports\ConductoresExport;
 use Maatwebsite\Excel\Facades\Excel;
 
 
@@ -643,7 +644,15 @@ public function export()
 {
     return Excel::download(
         new UsuariosExport,
-        'usuarios.xlsx'
+        'usuarios_registrados_ult6meses.xlsx'
+    );
+}
+
+public function exportConductores()
+{
+    return Excel::download(
+        new ConductoresExport,
+        'conductores_asignados_ult6meses.xlsx'
     );
 }
 }

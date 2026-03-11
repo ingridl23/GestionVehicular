@@ -166,7 +166,7 @@ Route::post('/viajes/{viaje}/finalizar', [ViajeController::class, 'finalizarViaj
     Route::get('/export/viajes', [ViajeController::class, 'export'])
         ->name('viajes.export');
 
-    Route::get('/export/conductores', [UserController::class, 'export'])
+    Route::get('/export/conductores', [UserController::class, 'exportConductores'])
         ->name('conductores.export');
 
             Route::get('/export/usuarios', [UserController::class, 'export'])

@@ -11,10 +11,10 @@ class VehiculosExport implements FromCollection, WithHeadings, WithMapping
 {
     protected $vehiculos;
 
-    public function __construct($vehiculos)
+  /*  public function __construct($vehiculos)
     {
         $this->vehiculos = $vehiculos;
-    }
+    }*/
 
   public function collection()
     {
