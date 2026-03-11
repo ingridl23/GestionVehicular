@@ -37,10 +37,6 @@ return new class extends Migration
         ->constrained('estados_naftas')
         ->onDelete('restrict');
 
-    $table->foreignId('id_ultima_ubicacion')
-        ->nullable()
-        ->constrained('direcciones')
-        ->onDelete('restrict');
 
     $table->string('observaciones')->nullable();
 

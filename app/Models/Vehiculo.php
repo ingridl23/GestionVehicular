@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Date;
  * @property int $id_estado_nafta
  * @property boolean $control_satelital
  * @property boolean $habilitado_prestamo
- * @property string $condiciones_prestamos
+ * @property string $condiciones_prestamo
  * @property  int $kilometros
  * @property date $vtv
  * @property \Carbon\Carbon $created_at Fecha de creación

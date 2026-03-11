@@ -237,6 +237,16 @@ class ReservasInternasService extends BaseReservasServices{
         ];
     }
 
+ public function reservasParaExport()
+{
+    return Reserva::with([
+        'usuario',
+        'vehiculo',
+        'estado_reserva',
+        'dependencia_duena',
+        'dependencia_solicitante'
+    ])->get();
+}
 
 
 }

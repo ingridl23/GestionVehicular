@@ -63,12 +63,14 @@ class GastoService
 
             //Persistencia del gasto del viaje
 
-            return Gasto::create([
-                'id_viaje'     => $viaje->id,
-                'monto'        => $importe,
-                'valor_litro'  => $precioLitro,
-                'fecha_calculo' => now(),
-            ]);
+          return Gasto::create([
+    'id_viaje' => $viaje->id,
+    'kilometros' => $viaje->kilometros,
+    'litros_consumidos' => $viaje->combustible_consumido,
+    'precio_litro' => $precioLitro,
+    'monto' => $importe,
+    'fecha_calculo' => now(),
+]);
         });
     }
 }

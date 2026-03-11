@@ -693,4 +693,5 @@ return $resultado;
        return $query->paginate(3);
 
     }
-}
+
+

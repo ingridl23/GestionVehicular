@@ -16,13 +16,13 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         //Se obtienen los roles (en caso de no existir se crean)
-        $roleAdminDependencia = Role::firstOrCreate(['name' => 'Administrador de Dependencia']);
-        $roleJefeOficina = Role::firstOrCreate(['name' => 'Jefe de Area']);
-        $roleOperativo = Role::firstOrCreate(['name' => 'Operativo']);
+       // $roleAdminDependencia = Role::firstOrCreate(['name' => 'Administrador de Dependencia']);
+        //$roleJefeOficina = Role::firstOrCreate(['name' => 'Jefe de Area']);
+       // $roleOperativo = Role::firstOrCreate(['name' => 'Operativo']);
         $roleAdminGeneral = Role::firstOrCreate(['name' => 'Administrador General']);
 
         //Se crean los usuarios
-        $adminDependenciaUser = User::query()->create([
+      /*  $adminDependenciaUser = User::query()->create([
             'name' => 'admin',
             'lastname' => 'dependencia',
             'email' => 'adminDependencia@gmail.com',
@@ -61,6 +61,8 @@ class UserSeeder extends Seeder
             'id_dependencia' => 2,
             'email_verified_at' => now()
         ]);
+        */
+
    $adminComputos = User::query()->create([
             'name' => 'Computos',
             'lastname' => 'TsAs',
@@ -71,10 +73,10 @@ class UserSeeder extends Seeder
             'email_verified_at' => now()
         ]);
 
-        $adminDependenciaUser->assignRole($roleAdminDependencia);
-        $jefeDeOficina->assignRole($roleJefeOficina);
-        $conductor->assignRole($roleOperativo);
-        $administradorGeneral->assignRole($roleAdminGeneral);
+      //  $adminDependenciaUser->assignRole($roleAdminDependencia);
+      //  $jefeDeOficina->assignRole($roleJefeOficina);
+        //$conductor->assignRole($roleOperativo);
+       // $administradorGeneral->assignRole($roleAdminGeneral);
         $adminComputos->assignRole($roleAdminGeneral);
 
 

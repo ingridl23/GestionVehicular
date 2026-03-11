@@ -17,6 +17,9 @@ return new class extends Migration
             $table->foreignId('id_estado_nafta')->references('id')->on('estados_naftas')->onDelete('cascade');
             $table->foreignId('id_viaje')->references('id')->on('viaje')->onDelete('cascade');
             $table->decimal('monto', 10, 2);
+              $table->decimal('precio_litro', 10, 2)->nullable();
+        $table->decimal('litros_consumidos', 10, 2)->nullable();
+        $table->timestamp('fecha_calculo')->nullable();
             $table->timestamps();
         });
     }

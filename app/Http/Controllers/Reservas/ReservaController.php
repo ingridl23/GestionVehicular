@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Reservas;
 
 use App\Http\Requests\FiltroReservasRequest;
-
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\ReservasExport;
 use App\Models\Reserva;
 use App\Services\Reservas\ReservasInternasService;
+
 use Illuminate\Http\Request;
 
 /**
@@ -252,5 +254,15 @@ public function autorizarReserva($id) {
         'success' => false,
         'message' => 'No se pudo aprobar la reserva.'
     ]);
+}
+
+public function exportarReservas()
+{
+    $reservas = $this->service->reservasParaExport();
+
+    return Excel::download(
+        new ReservasExport($reservas),
+        'reservas.xlsx'
+    );
 }
 }

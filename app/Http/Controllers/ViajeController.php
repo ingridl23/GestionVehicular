@@ -45,7 +45,7 @@ class ViajeController extends Controller
 
         // ── Viajes a mostrar según rol ──
 
-        $query = Viaje::with(['vehiculo', 'reserva.usuario', 'reserva.estado_reserva'])
+        $query = Viaje::with(['vehiculo', 'reserva.usuario','ultimaCoordenada', 'reserva.estado_reserva'])
             ->latest();
 
         if ($user->hasRole('Operativo')) {
@@ -101,6 +101,7 @@ class ViajeController extends Controller
         'estadoNaftaInicio',
         'estadoNaftaFin',
         'gasto',
+        'ultimaCoordenada'
 
     ]);
 

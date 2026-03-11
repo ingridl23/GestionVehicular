@@ -33,7 +33,10 @@ class Gasto extends Model
         'kilometros',
         'id_estado_nafta',
         'id_viaje',
-        'monto'
+        'monto',
+        'litros_consumidos',
+        'precio_litro',
+        'fecha_calculo'
     ];
 
     public function user() {
@@ -46,7 +49,7 @@ class Gasto extends Model
 
     public function estadoNafta()
     {
-        return $this->belongsTo(Estados_nafta::class, 'id_estado_nafta');
+        return $this->belongsTo(EstadosNafta::class, 'id_estado_nafta');
     }
 
 }

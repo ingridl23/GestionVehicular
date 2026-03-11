@@ -20,7 +20,6 @@ use Illuminate\Notifications\Notifiable;
  * @property int $id_estado_nafta_inicio
  * @property int $id_estado_nafta_fin
  * @property string $observaciones
- * @property int $id_ultima_ubicacion
  * @property \Carbon\Carbon $created_at Fecha de creación
  * @property \Carbon\Carbon $updated_at Fecha de última actualización
  *
@@ -42,7 +41,6 @@ class Viaje extends Model
         'id_estado_nafta_inicio',
         'id_estado_nafta_fin',
         'observaciones',
-        'id_ultima_ubicacion'
     ];
 
     protected $casts = [
@@ -71,10 +69,15 @@ class Viaje extends Model
         return $this->belongsTo(EstadosNafta::class, 'id_estado_nafta_fin');
     }
 
-    public function ubicacion(){
-        return $this->belongsTo(Direcciones::class, 'id_ultima_ubicacion');
-    }
+   public function coordenadas()
+{
+    return $this->hasMany(CoordenadasVehiculo::class, 'id_viaje');
+}
 
+public function ultimaCoordenada()
+{
+    return $this->hasOne(CoordenadasVehiculo::class, 'id_viaje')->latest('fecha_hora');
+}
 
 
 public function getEstadoViajeAttribute(): string
