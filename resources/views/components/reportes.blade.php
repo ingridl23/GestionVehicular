@@ -45,14 +45,7 @@
                         <option value="{{ $entidadId }}">Dependencia {{ $entidadId }}</option>
                     @endforeach
                 </select>
-{{--
-                <input
-                    type="text"
-                    id="filterUsuario"
-                    placeholder="Usuario..."
-                    class="flex-1 px-3 py-2 text-sm bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-white"
-                >
---}}
+
             </div>
             @endif
         </div>

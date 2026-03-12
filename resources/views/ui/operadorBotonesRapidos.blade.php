@@ -13,15 +13,18 @@
 {{-- BOTONES RÁPIDOS --}}
 <section class="flex flex-col gap-4 mb-8">
     <a class="btn-rapido text-center" href="{{ route('operativo.mis-reservas') }}">
-        Iniciar reserva
+          <i class="fa-solid fa-car mr-2"></i>+
+           <p class="text-xs text-white-500 dark:text-gray-400"> Reservar Vehiculo</p>
     </a>
     <a class="btn-rapido text-center" href="{{ route('operativo.reportes.create') }}">
-        Comenzar reporte
+          <i class="fas fa-file-alt text-gray-300 dark:text-gray-600 text-3xl mb-3"></i>
+          <p class="text-xs text-white-500 dark:text-gray-400">  Iniciar reporte</p>
     </a>
     <a class="btn-rapido text-center"
        href="{{ isset($reservaActiva) ? route('operativo.editar-conductor', $reservaActiva->id) : '#' }}"
        @if(!isset($reservaActiva)) aria-disabled="true" @endif>
-        Asignar conductor
+         <i class="fas fa-user-tag mr-1"></i>
+          <p class="text-xs text-white-500 dark:text-gray-400">Asignar conductor</p>
     </a>
 </section>
 
@@ -67,9 +70,10 @@
         @csrf
         <button
             type="{{ $puedeIniciar ? 'submit' : 'button' }}"
-            class="btn-iniciar w-full {{ !$puedeIniciar ? 'opacity-40 cursor-not-allowed' : '' }}"
+            class="btn-iniciar w-full {{ !$puedeIniciar ? 'opacity-50 cursor-not-allowed' : '' }}"
             @if(!$puedeIniciar) disabled @endif>
-            <i class="fas fa-play mr-2"></i> Iniciar viaje
+            <i class="fas fa-play mr-2"></i>
+             <p class="text-xs text-gray-600 dark:text-gray-400"> Iniciar viaje</p>
         </button>
     </form>
 
@@ -77,9 +81,10 @@
     <button
         type="button"
         id="btnFinalizar"
-        class="btn-finalizar flex-1 {{ !$puedeFinalizar ? 'opacity-40 cursor-not-allowed' : '' }}"
+        class="btn-finalizar flex-1 {{ !$puedeFinalizar ? 'opacity-60 cursor-not-allowed' : '' }}"
         @if(!$puedeFinalizar) disabled @endif>
-        <i class="fas fa-flag-checkered mr-2"></i> Finalizar viaje
+        <i class="fas fa-flag-checkered mr-2"></i>
+     <p class="text-xs text-gray-800 dark:text-gray-400">  Finalizar viaje</p>
     </button>
 
 </section>
