@@ -262,7 +262,7 @@ public function exportarReservas()
 
     return Excel::download(
         new ReservasExport($reservas),
-        'reservas.xlsx'
+        'reservas_ult4meses.xlsx'
     );
 }
 }

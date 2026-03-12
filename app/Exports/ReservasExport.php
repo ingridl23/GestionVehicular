@@ -26,17 +26,17 @@ class ReservasExport implements FromCollection, WithHeadings, WithMapping
     {
         return [
             'id',
-             'tipo_reserva',
-            'fecha_reserva',
-            'id_usuario',
-            'id_vehiculo',
-            'fecha_inicio_reserva',
-            'fecha_fin_reserva',
-            'id_estado_reserva',
-            'id_dependencia_duena',
-            'id_dependencia_solicitante',
-            'created_at',
-            'updated_at'
+            'tipo reserva',
+            'fecha reserva',
+            'usuario',
+            'vehiculo',
+            'fecha de inicio de reserva',
+            'fecha finalizacion de reserva',
+            'estado de la reserva',
+            'dependencia duena',
+            'dependencia solicitante',
+            'creado',
+            'modificado'
         ];
     }
 

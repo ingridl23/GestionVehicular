@@ -145,6 +145,12 @@ class GastoController extends Controller{
  *
  * Incluye la relación con el viaje asociado.
  * Requiere autorización 'viewAny'.
+ * Columna 1 — Formulario manual: litros, precio/litro y km opcionales.
+ *  La lógica replica exactamente CalculoGastoService::calcularMonto() (litros × precio).
+ *  Si $precioLitroActual viene del controller, se precarga automáticamente con un botón "Usar precio actual".
+   Columna 2 — Resultado: muestra el monto estimado con detalle. Si se cargan km, calcula además costo por km y consumo en L/100km.
+   Columna 3 — Estadísticas: consume $resumenGastos que ya devuelve tu GastoController::resumen().
+    Mientras no lo pases, muestra placeholders con el nombre de la variable para que sepas qué agregar.
  *
  * @return \Illuminate\Http\JsonResponse Lista de gastos.
  * @throws \Illuminate\Auth\Access\AuthorizationException
@@ -177,19 +183,82 @@ class GastoController extends Controller{
 
     //resumen
 
-    public function resumen( GastoPolicy $GastoP): JsonResponse
+
+    /**
+     * Devuelve estadísticas generales de los gastos registrados.
+     *
+     * Calcula cantidad, suma total, promedio, máximo y mínimo.
+     * Requiere autorización 'viewResumen'.
+     *
+     * @return JsonResponse Estadísticas agregadas.
+     */
+    public function resumen(): JsonResponse
     {
         $this->authorize('viewResumen', Gasto::class);
+
         return response()->json([
             'cantidad_gastos' => Gasto::count(),
-            'gasto_total' => Gasto::sum('monto'),
-            'gasto_promedio' => Gasto::avg('monto'),
-            'max_gasto' => Gasto::max('monto'),
-            'min_gasto' => Gasto::min('monto'),
+            'gasto_total'     => Gasto::sum('monto'),
+            'gasto_promedio'  => Gasto::avg('monto'),
+            'max_gasto'       => Gasto::max('monto'),
+            'min_gasto'       => Gasto::min('monto'),
         ]);
     }
 
+    /**
+     * Vista de la calculadora de gastos para el dashboard de Auditoría.
+     *
+     * Provee al blade:
+     * - $resumenGastos: estadísticas generales (columna 3 de la calculadora)
+     * - $precioLitroActual: precio de hoy si existe en la tabla precio_combustible
+     *
+     * Uso desde AuditoriaController o directamente si tiene ruta propia:
+     *   Route::get('/gastos/calculadora', [GastoController::class, 'calculadora'])->name('gastos.calculadora');
+     *
+     * O bien, llamar a getDatosCalculadora() desde el AuditoriaController
+     * para incluir estos datos en la vista del dashboard.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function calculadora()
+    {
+        $this->authorize('viewResumen', Gasto::class);
 
+        return view('admin.auditoria.index', $this->getDatosCalculadora());
+    }
+
+    /**
+     * Prepara los datos necesarios para la sección de calculadora en el dashboard.
+     *
+     * Se puede llamar desde AuditoriaController así:
+     *
+     *   use App\Http\Controllers\GastoController;
+     *   ...
+     *   $datosCalculadora = (new GastoController)->getDatosCalculadora();
+     *   return view('auditoria.index', array_merge($datos, $datosCalculadora));
+     *
+     * @return array
+     */
+    public function getDatosCalculadora(): array
+    {
+        return [
+            'resumenGastos' => [
+                'cantidad_gastos' => Gasto::count(),
+                'gasto_total'     => Gasto::sum('monto'),
+                'gasto_promedio'  => Gasto::avg('monto'),
+                'max_gasto'       => Gasto::max('monto'),
+                'min_gasto'       => Gasto::min('monto'),
+            ],
+            'precioLitroActual' => PrecioCombustible::where('fecha', Carbon::today())
+                ->value('precio_litro'),
+        ];
+    }
+
+    /**
+     * Exporta los gastos de los últimos 6 meses en formato Excel.
+     *
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
 
 public function export()
 {

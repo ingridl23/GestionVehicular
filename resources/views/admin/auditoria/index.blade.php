@@ -114,8 +114,11 @@
 
                 <div class="flex gap-3">
         <a href="{{ route('vehiculos.export') }}"
-           class="text-sm text-green-600 dark:text-green-400 hover:underline">
-           Descargar historial
+         title="Descargar formato Excel"
+           class="text-sm text-green-600 dark:text-green-400 hover:underline flex items-center gap-1">
+
+            <i class="fas fa-download"></i>
+
         </a>
 
         <a href="{{ route('vehiculos.index') }}"
@@ -173,8 +176,10 @@
             </h2>
            <div class="flex gap-3">
         <a href="{{ route('reservas.export') }}"
-           class="text-sm text-green-600 dark:text-green-400 hover:underline">
-           Descargar historial
+             title="Descargar formato Excel ultimos 4 meses"
+           class="text-sm text-green-600 dark:text-green-400 hover:underline flex items-center gap-1">
+
+            <i class="fas fa-download"></i>
         </a>
 
         <a href="{{ route('reservas.internas') }}"
@@ -238,8 +243,10 @@
 
           <div class="flex gap-3">
         <a href="{{ route('conductores.export') }}"
-           class="text-sm text-green-600 dark:text-green-400 hover:underline">
-           Descargar historial
+            title="Descargar formato Excel ultimos 4 meses "
+           class="text-sm text-green-600 dark:text-green-400 hover:underline flex items-center gap-1">
+
+            <i class="fas fa-download"></i>
         </a>
             <a href="   {{ route('reservas.internas') }} "  class="text-sm text-blue-600 dark:text-blue-400 hover:underline">
                 Ver todos
@@ -284,8 +291,10 @@
             <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Usuarios registrados recientemente</h2>
           <div class="flex gap-3">
         <a href="{{ route('usuarios.export') }}"
-           class="text-sm text-green-600 dark:text-green-400 hover:underline">
-           Descargar historial
+           title="Descargar formato Excel "
+           class="text-sm text-green-600 dark:text-green-400 hover:underline flex items-center gap-1">
+
+            <i class="fas fa-download"></i>
         </a>
 
         <a href="{{ route('admin.usuarios.index') }}"
@@ -324,6 +333,371 @@
             @endforelse
         </div>
     </div>
+
+
+    {{-- calculadora de gastos del sistema --}}
+    {{--
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+
+
+        <div class="flex items-center justify-between mb-4">
+            <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Calculadora de gastos en reservas efectuadas en el sistema </h2>
+
+          <div class="flex gap-3">
+        <a href="{{ route('gastos.export') }}"
+            title="Descargar formato Excel ultimos 6 meses "
+           class="text-sm text-green-600 dark:text-green-400 hover:underline flex items-center gap-1">
+
+            <i class="fas fa-download"></i>
+        </a>
+          </div>
+
+
+
+    </div>
+    </div>
+
+    --}}
+
+    {{-- ============================================================
+     CALCULADORA DE GASTOS - Sección para dashboard de Auditoría
+     Incluir dentro de @section('content') en auditoria/index.blade.php
+     Reemplaza el div vacío de "calculadora de gastos" existente
+     ============================================================ --}}
+</div>
+<div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 mb-6">
+
+    {{-- Header --}}
+    <div class="flex items-center justify-between mb-6">
+        <div>
+            <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
+                Calculadora de Gastos en Combustible
+            </h2>
+            <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+                Estimá el costo de un viaje antes de registrarlo
+            </p>
+        </div>
+        <div class="flex items-center gap-3">
+            {{-- Precio actual del combustible (se carga desde el backend si está disponible) --}}
+            @if(isset($precioLitroActual) && $precioLitroActual)
+                <span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 text-xs font-medium rounded-full border border-green-200 dark:border-green-800">
+                    <i class="fas fa-gas-pump text-xs"></i>
+                    Nafta Super: ${{ number_format($precioLitroActual, 2, ',', '.') }}/L
+                </span>
+            @else
+                <span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-400 text-xs font-medium rounded-full border border-yellow-200 dark:border-yellow-800">
+                    <i class="fas fa-exclamation-triangle text-xs"></i>
+                    Precio no disponible
+                </span>
+            @endif
+
+            <a href="{{ route('gastos.export') }}"
+               title="Descargar gastos últimos 6 meses"
+               class="text-sm text-green-600 dark:text-green-400 hover:underline flex items-center gap-1">
+                <i class="fas fa-download"></i>
+            </a>
+        </div>
+    </div>
+
+    {{-- Grid: Formulario + Resultado + Resumen --}}
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+        {{-- ---- COLUMNA 1: Formulario de cálculo manual ---- --}}
+        <div class="lg:col-span-1 bg-gray-50 dark:bg-gray-700/40 rounded-xl p-5 border border-gray-100 dark:border-gray-700">
+
+            <h3 class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-4 flex items-center gap-2">
+                <i class="fas fa-calculator text-blue-500"></i>
+                Cálculo manual
+            </h3>
+
+            <div class="space-y-4" id="calculadora-form">
+
+                {{-- Litros consumidos --}}
+                <div>
+                    <label class="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">
+                        Litros consumidos
+                    </label>
+                    <div class="relative">
+                        <input
+                            type="number"
+                            id="calc-litros"
+                            min="0"
+                            step="0.1"
+                            placeholder="Ej: 35.5"
+                            class="w-full pl-3 pr-10 py-2.5 text-sm bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
+                        >
+                        <span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-400">L</span>
+                    </div>
+                </div>
+
+                {{-- Precio por litro --}}
+                <div>
+                    <label class="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">
+                        Precio por litro
+                        @if(isset($precioLitroActual) && $precioLitroActual)
+                            <button
+                                type="button"
+                                onclick="usarPrecioActual()"
+                                class="ml-2 text-blue-500 hover:text-blue-600 underline text-xs font-normal"
+                            >
+                                Usar precio actual
+                            </button>
+                        @endif
+                    </label>
+                    <div class="relative">
+                        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-xs text-gray-400">$</span>
+                        <input
+                            type="number"
+                            id="calc-precio"
+                            min="0"
+                            step="0.01"
+                            placeholder="Ej: 1450.00"
+                            value="{{ isset($precioLitroActual) ? $precioLitroActual : '' }}"
+                            class="w-full pl-7 pr-3 py-2.5 text-sm bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
+                        >
+                    </div>
+                </div>
+
+                {{-- Kilómetros (opcional, informativo) --}}
+                <div>
+                    <label class="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">
+                        Kilómetros recorridos
+                        <span class="text-gray-400 font-normal">(opcional)</span>
+                    </label>
+                    <div class="relative">
+                        <input
+                            type="number"
+                            id="calc-km"
+                            min="0"
+                            step="1"
+                            placeholder="Ej: 180"
+                            class="w-full pl-3 pr-10 py-2.5 text-sm bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
+                        >
+                        <span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-400">km</span>
+                    </div>
+                </div>
+
+                {{-- Botón calcular --}}
+                <button
+                    type="button"
+                    onclick="calcularGasto()"
+                    class="w-full py-2.5 px-4 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white text-sm font-medium rounded-lg transition flex items-center justify-center gap-2"
+                >
+                    <i class="fas fa-calculator"></i>
+                    Calcular
+                </button>
+
+                <button
+                    type="button"
+                    onclick="limpiarCalculadora()"
+                    class="w-full py-2 px-4 bg-transparent hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-500 dark:text-gray-400 text-xs rounded-lg transition border border-gray-200 dark:border-gray-600"
+                >
+                    Limpiar
+                </button>
+
+            </div>
+        </div>
+
+        {{-- ---- COLUMNA 2: Resultado del cálculo ---- --}}
+        <div class="lg:col-span-1 flex flex-col gap-4">
+
+            {{-- Resultado principal --}}
+            <div id="resultado-container"
+                 class="flex-1 bg-blue-50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-800 rounded-xl p-5 flex flex-col items-center justify-center text-center min-h-[180px] transition-all duration-300">
+
+                <div id="resultado-vacio" class="text-gray-400 dark:text-gray-500">
+                    <i class="fas fa-gas-pump text-3xl mb-3 opacity-40"></i>
+                    <p class="text-sm">Ingresá los datos para calcular el gasto estimado</p>
+                </div>
+
+                <div id="resultado-datos" class="hidden w-full">
+                    <p class="text-xs text-blue-600 dark:text-blue-400 font-medium uppercase tracking-wider mb-1">Costo estimado</p>
+                    <p id="resultado-monto" class="text-4xl font-bold text-blue-700 dark:text-blue-300 mb-1">$0</p>
+                    <p id="resultado-detalle" class="text-xs text-gray-500 dark:text-gray-400"></p>
+
+                    {{-- Info extra si se ingresaron km --}}
+                    <div id="resultado-km-info" class="hidden mt-4 pt-4 border-t border-blue-200 dark:border-blue-800 grid grid-cols-2 gap-3 text-left">
+                        <div>
+                            <p class="text-xs text-gray-500 dark:text-gray-400">Costo por km</p>
+                            <p id="resultado-costo-km" class="text-sm font-semibold text-gray-700 dark:text-gray-300">-</p>
+                        </div>
+                        <div>
+                            <p class="text-xs text-gray-500 dark:text-gray-400">Consumo</p>
+                            <p id="resultado-consumo" class="text-sm font-semibold text-gray-700 dark:text-gray-300">-</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="resultado-error" class="hidden text-red-500 dark:text-red-400">
+                    <i class="fas fa-exclamation-circle text-2xl mb-2"></i>
+                    <p id="resultado-error-msg" class="text-sm"></p>
+                </div>
+
+            </div>
+
+            {{-- Nota informativa --}}
+            <div class="bg-yellow-50 dark:bg-yellow-900/10 border border-yellow-200 dark:border-yellow-800 rounded-lg p-3">
+                <p class="text-xs text-yellow-700 dark:text-yellow-400 flex items-start gap-2">
+                    <i class="fas fa-info-circle mt-0.5 flex-shrink-0"></i>
+                    Este cálculo es estimativo. El gasto definitivo se genera automáticamente al finalizar el viaje mediante <strong>GastoService</strong>.
+                </p>
+            </div>
+
+        </div>
+
+        {{-- ---- COLUMNA 3: Estadísticas globales de gastos ---- --}}
+        <div class="lg:col-span-1 bg-gray-50 dark:bg-gray-700/40 rounded-xl p-5 border border-gray-100 dark:border-gray-700">
+
+            <h3 class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-4 flex items-center gap-2">
+                <i class="fas fa-chart-bar text-purple-500"></i>
+                Resumen de gastos
+            </h3>
+
+            @if(isset($resumenGastos))
+                <div class="space-y-3">
+
+                    <div class="flex items-center justify-between py-2 border-b border-gray-200 dark:border-gray-600">
+                        <span class="text-xs text-gray-500 dark:text-gray-400">Total registrado</span>
+                        <span class="text-sm font-bold text-gray-900 dark:text-white">
+                            ${{ number_format($resumenGastos['gasto_total'] ?? 0, 2, ',', '.') }}
+                        </span>
+                    </div>
+
+                    <div class="flex items-center justify-between py-2 border-b border-gray-200 dark:border-gray-600">
+                        <span class="text-xs text-gray-500 dark:text-gray-400">Promedio por viaje</span>
+                        <span class="text-sm font-semibold text-gray-700 dark:text-gray-300">
+                            ${{ number_format($resumenGastos['gasto_promedio'] ?? 0, 2, ',', '.') }}
+                        </span>
+                    </div>
+
+                    <div class="flex items-center justify-between py-2 border-b border-gray-200 dark:border-gray-600">
+                        <span class="text-xs text-gray-500 dark:text-gray-400">Gasto máximo</span>
+                        <span class="text-sm font-semibold text-red-600 dark:text-red-400">
+                            ${{ number_format($resumenGastos['max_gasto'] ?? 0, 2, ',', '.') }}
+                        </span>
+                    </div>
+
+                    <div class="flex items-center justify-between py-2 border-b border-gray-200 dark:border-gray-600">
+                        <span class="text-xs text-gray-500 dark:text-gray-400">Gasto mínimo</span>
+                        <span class="text-sm font-semibold text-green-600 dark:text-green-400">
+                            ${{ number_format($resumenGastos['min_gasto'] ?? 0, 2, ',', '.') }}
+                        </span>
+                    </div>
+
+                    <div class="flex items-center justify-between py-2">
+                        <span class="text-xs text-gray-500 dark:text-gray-400">Viajes con gasto</span>
+                        <span class="text-sm font-semibold text-gray-700 dark:text-gray-300">
+                            {{ $resumenGastos['cantidad_gastos'] ?? 0 }}
+                        </span>
+                    </div>
+
+                </div>
+            @else
+                {{-- Placeholder si no se pasan datos desde el controller --}}
+                <div class="space-y-3">
+                    @foreach(['Total registrado', 'Promedio por viaje', 'Gasto máximo', 'Gasto mínimo', 'Viajes con gasto'] as $label)
+                        <div class="flex items-center justify-between py-2 border-b border-gray-200 dark:border-gray-600 last:border-0">
+                            <span class="text-xs text-gray-500 dark:text-gray-400">{{ $label }}</span>
+                            <span class="text-xs bg-gray-200 dark:bg-gray-600 text-gray-200 dark:text-gray-600 rounded px-8 py-1 animate-pulse">—</span>
+                        </div>
+                    @endforeach
+                    <p class="text-xs text-gray-400 dark:text-gray-500 mt-2">
+                        <code class="bg-gray-100 dark:bg-gray-700 px-1 rounded">$resumenGastos.
+                    </p>
+                </div>
+            @endif
+
+        </div>
+
+    </div>
+</div>
+
+{{-- ============================================================
+     SCRIPT: Lógica de la calculadora (vanilla JS, sin dependencias)
+     ============================================================ --}}
+@push('scripts')
+<script>
+    const PRECIO_ACTUAL = {{ isset($precioLitroActual) && $precioLitroActual ? $precioLitroActual : 'null' }};
+
+    function usarPrecioActual() {
+        if (PRECIO_ACTUAL) {
+            document.getElementById('calc-precio').value = PRECIO_ACTUAL;
+        }
+    }
+
+    function calcularGasto() {
+        const litros  = parseFloat(document.getElementById('calc-litros').value);
+        const precio  = parseFloat(document.getElementById('calc-precio').value);
+        const km      = parseFloat(document.getElementById('calc-km').value);
+
+        const vacio   = document.getElementById('resultado-vacio');
+        const datos   = document.getElementById('resultado-datos');
+        const error   = document.getElementById('resultado-error');
+        const errorMsg = document.getElementById('resultado-error-msg');
+
+        // Reset estado
+        vacio.classList.add('hidden');
+        datos.classList.add('hidden');
+        error.classList.add('hidden');
+
+        // Validaciones
+        if (isNaN(litros) || litros <= 0) {
+            error.classList.remove('hidden');
+            errorMsg.textContent = 'Ingresá una cantidad de litros válida.';
+            return;
+        }
+        if (isNaN(precio) || precio <= 0) {
+            error.classList.remove('hidden');
+            errorMsg.textContent = 'Ingresá un precio por litro válido.';
+            return;
+        }
+
+        // Cálculo (igual que CalculoGastoService::calcularMonto)
+        const monto = Math.round(litros * precio * 100) / 100;
+
+        // Mostrar resultado
+        datos.classList.remove('hidden');
+        document.getElementById('resultado-monto').textContent =
+            '$' + monto.toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        document.getElementById('resultado-detalle').textContent =
+            `${litros} L × $${precio.toLocaleString('es-AR', {minimumFractionDigits: 2})} por litro`;
+
+        // Info extra con kilómetros
+        const kmInfo = document.getElementById('resultado-km-info');
+        if (!isNaN(km) && km > 0) {
+            kmInfo.classList.remove('hidden');
+            const costoPorKm = monto / km;
+            const consumo    = (litros / km) * 100; // L/100km
+            document.getElementById('resultado-costo-km').textContent =
+                '$' + costoPorKm.toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '/km';
+            document.getElementById('resultado-consumo').textContent =
+                consumo.toFixed(1) + ' L/100km';
+        } else {
+            kmInfo.classList.add('hidden');
+        }
+    }
+
+    function limpiarCalculadora() {
+        ['calc-litros', 'calc-precio', 'calc-km'].forEach(id => {
+            document.getElementById(id).value = '';
+        });
+        // Restaurar precio actual si existe
+        if (PRECIO_ACTUAL) {
+            document.getElementById('calc-precio').value = PRECIO_ACTUAL;
+        }
+        document.getElementById('resultado-vacio').classList.remove('hidden');
+        document.getElementById('resultado-datos').classList.add('hidden');
+        document.getElementById('resultado-error').classList.add('hidden');
+    }
+
+    // Calcular automáticamente al presionar Enter en cualquier campo
+    ['calc-litros', 'calc-precio', 'calc-km'].forEach(id => {
+        document.getElementById(id)?.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') calcularGasto();
+        });
+    });
+</script>
+@endpush
 
 @endsection
 

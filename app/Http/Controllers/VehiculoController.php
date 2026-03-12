@@ -362,7 +362,7 @@ public function export()
 {
     return Excel::download(
         new VehiculosExport,
-        'vehiculos_ultimos_4_meses.xlsx'
+        'vehiculos_gestionVehicular.xlsx'
     );
 }
 }

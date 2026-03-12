@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Services;
-
 use App\Models\Viaje;
 use App\Models\PrecioCombustible;
 use App\Models\Gasto;

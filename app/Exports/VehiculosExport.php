@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Exports;
-
 use App\Models\Vehiculo;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithHeadings;
@@ -18,8 +17,7 @@ class VehiculosExport implements FromCollection, WithHeadings, WithMapping
 
   public function collection()
     {
-        return Vehiculo::where('created_at', '>=', now()->subMonths(4))
-            ->get();
+        return Vehiculo::all();
     }
 
     public function headings(): array
@@ -30,18 +28,18 @@ class VehiculosExport implements FromCollection, WithHeadings, WithMapping
             'marca',
             'modelo',
             'anio',
-            'id_direccion_actual',
-            'id_estado_vehiculo',
-            'id_dependencia_duena',
-            'id_estado_nafta',
-            'control_satelital',
-            'habilitado_prestamo',
-            'condiciones_prestamo',
+            'direccion actual',
+            'estado vehiculo',
+            'dependencia duena',
+            'estado del combustible',
+            'control satelital',
+            'habilitado para prestamo',
+            'condiciones de prestamo',
             'kilometros',
             'vtv',
-            'cantidad_viajes',
-            'created_at',
-            'updated_at'
+            'cantidad de viajes',
+            'registrado',
+            'modificado'
         ];
     }
 

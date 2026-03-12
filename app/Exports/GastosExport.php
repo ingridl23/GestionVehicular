@@ -16,6 +16,7 @@ class GastosExport implements FromCollection, WithHeadings, WithMapping
         $this->gastos = $gastos;
     }
 
+    //retorno los gastos de los ultimos 6 meses
      public function collection()
     {
         return Gasto::with(['viaje','estadoNafta'])
@@ -31,10 +32,10 @@ class GastosExport implements FromCollection, WithHeadings, WithMapping
             'vehiculo',
             'conductor',
             'kilometros',
-            'litros_consumidos',
-            'precio_litro',
-            'monto_total',
-            'fecha_calculo'
+            'litros consumidos',
+            'precio litro',
+            'monto total',
+            'fecha calculo'
         ];
     }
 

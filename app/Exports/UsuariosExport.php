@@ -25,17 +25,17 @@ class UsuariosExport implements FromCollection, WithHeadings, WithMapping
     {
         return [
             'id',
-            'name',
-            'lastname',
+            'nombre',
+            'apellido',
             'legajo',
             'email',
-            'id_dependencia',
+            'dependencia',
             'rol',
-            'id_carnet',
-            'puede_conducir',
-            'cantidad_reservas',
-            'created_at',
-            'updated_at'
+            'carnet',
+            'puede conducir',
+            'cantidad de reservas',
+            'registrado',
+            'modificado'
         ];
     }
 

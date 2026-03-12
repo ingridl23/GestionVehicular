@@ -644,7 +644,7 @@ public function export()
 {
     return Excel::download(
         new UsuariosExport,
-        'usuarios_registrados_ult6meses.xlsx'
+        'usuarios_registrados.xlsx'
     );
 }
 
@@ -652,7 +652,7 @@ public function exportConductores()
 {
     return Excel::download(
         new ConductoresExport,
-        'conductores_asignados_ult6meses.xlsx'
+        'conductores_asignados_ult4meses.xlsx'
     );
 }
 }
