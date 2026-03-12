@@ -5,6 +5,7 @@ import Alpine from 'alpinejs';
 
 
 
+import './calculadora';
 import './reportes';
 import './vehiculo';
 
@@ -19,7 +20,6 @@ window.openEditModal = openEditModal;
 window.closeUserModal = closeUserModal;
 // Registrar plugin de collapse
 Alpine.plugin(collapse);
-
 // Inicializar Alpine
 window.Alpine = Alpine;
 Alpine.start();

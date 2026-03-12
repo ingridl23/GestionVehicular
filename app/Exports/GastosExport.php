@@ -10,12 +10,12 @@ use Carbon\Carbon;
 class GastosExport implements FromCollection, WithHeadings, WithMapping
 {
     protected $gastos;
-
+/*
     public function __construct($gastos)
     {
         $this->gastos = $gastos;
     }
-
+*/
     //retorno los gastos de los ultimos 6 meses
      public function collection()
     {
