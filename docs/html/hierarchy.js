@@ -62,6 +62,7 @@ var hierarchy =
     [ "ConsoleKernel", null, [
       [ "App\\Console\\Kernel", "class_app_1_1_console_1_1_kernel.html", null ]
     ] ],
+    [ "Coordenadas", "class_coordenadas.html", null ],
     [ "CreatesNewUsers", null, [
       [ "App\\Actions\\Fortify\\CreateNewUser", "class_app_1_1_actions_1_1_fortify_1_1_create_new_user.html", null ]
     ] ],
@@ -73,6 +74,14 @@ var hierarchy =
       [ "App\\Http\\Requests\\FiltroDependenciasRequest", "class_app_1_1_http_1_1_requests_1_1_filtro_dependencias_request.html", null ],
       [ "App\\Http\\Requests\\FiltroReservasRequest", "class_app_1_1_http_1_1_requests_1_1_filtro_reservas_request.html", null ],
       [ "App\\Http\\Requests\\ReservaFormRequest", "class_app_1_1_http_1_1_requests_1_1_reserva_form_request.html", null ]
+    ] ],
+    [ "FromCollection", null, [
+      [ "App\\Exports\\ConductoresExport", "class_app_1_1_exports_1_1_conductores_export.html", null ],
+      [ "App\\Exports\\GastosExport", "class_app_1_1_exports_1_1_gastos_export.html", null ],
+      [ "App\\Exports\\ReservasExport", "class_app_1_1_exports_1_1_reservas_export.html", null ],
+      [ "App\\Exports\\UsuariosExport", "class_app_1_1_exports_1_1_usuarios_export.html", null ],
+      [ "App\\Exports\\VehiculosExport", "class_app_1_1_exports_1_1_vehiculos_export.html", null ],
+      [ "App\\Exports\\ViajesExport", "class_app_1_1_exports_1_1_viajes_export.html", null ]
     ] ],
     [ "App\\Policies\\GastoPolicy", "class_app_1_1_policies_1_1_gasto_policy.html", null ],
     [ "App\\Services\\GastoService", "class_app_1_1_services_1_1_gasto_service.html", null ],
@@ -86,14 +95,19 @@ var hierarchy =
     [ "LoginResponseContract", null, [
       [ "App\\Http\\Responses\\LoginResponse", "class_app_1_1_http_1_1_responses_1_1_login_response.html", null ]
     ] ],
+    [ "Mailable", null, [
+      [ "App\\Mail\\ReservaCreada", "class_app_1_1_mail_1_1_reserva_creada.html", null ]
+    ] ],
     [ "Model", null, [
       [ "App\\Models\\Alerta", "class_app_1_1_models_1_1_alerta.html", null ],
       [ "App\\Models\\Carnet", "class_app_1_1_models_1_1_carnet.html", null ],
+      [ "App\\Models\\CoordenadasVehiculo", "class_app_1_1_models_1_1_coordenadas_vehiculo.html", null ],
       [ "App\\Models\\Dependencia", "class_app_1_1_models_1_1_dependencia.html", null ],
       [ "App\\Models\\Direcciones", "class_app_1_1_models_1_1_direcciones.html", null ],
       [ "App\\Models\\EstadosNafta", "class_app_1_1_models_1_1_estados_nafta.html", null ],
       [ "App\\Models\\EstadosReserva", "class_app_1_1_models_1_1_estados_reserva.html", null ],
       [ "App\\Models\\EstadosVehiculo", "class_app_1_1_models_1_1_estados_vehiculo.html", null ],
+      [ "App\\Models\\EstadosViaje", "class_app_1_1_models_1_1_estados_viaje.html", null ],
       [ "App\\Models\\Gasto", "class_app_1_1_models_1_1_gasto.html", null ],
       [ "App\\Models\\PrecioCombustible", "class_app_1_1_models_1_1_precio_combustible.html", null ],
       [ "App\\Models\\ReporteComentarios", "class_app_1_1_models_1_1_reporte_comentarios.html", null ],
@@ -103,6 +117,7 @@ var hierarchy =
       [ "App\\Models\\Viaje", "class_app_1_1_models_1_1_viaje.html", null ]
     ] ],
     [ "Notification", null, [
+      [ "App\\Notifications\\ReservaCreada", "class_app_1_1_notifications_1_1_reserva_creada.html", null ],
       [ "App\\Notifications\\UsuarioModificadoNotification", "class_app_1_1_notifications_1_1_usuario_modificado_notification.html", null ]
     ] ],
     [ "App\\Policies\\ReportePolicy", "class_app_1_1_policies_1_1_reporte_policy.html", null ],
@@ -111,7 +126,7 @@ var hierarchy =
     [ "App\\Contracts\\ReservaServiceInterface", "interface_app_1_1_contracts_1_1_reserva_service_interface.html", [
       [ "App\\Services\\reservas\\BaseReservasServices", "class_app_1_1_services_1_1reservas_1_1_base_reservas_services.html", [
         [ "App\\Services\\Reservas\\ReservasExternasService", "class_app_1_1_services_1_1_reservas_1_1_reservas_externas_service.html", null ],
-        [ "App\\Services\\Reservas\\ReservasInternasService", "class_app_1_1_services_1_1_reservas_1_1_reservas_internas_service.html", null ]
+        [ "App\\Services\\reservas\\ReservasInternasService", "class_app_1_1_services_1_1reservas_1_1_reservas_internas_service.html", null ]
       ] ]
     ] ],
     [ "ResetsUserPasswords", null, [
@@ -123,6 +138,10 @@ var hierarchy =
       [ "App\\Providers\\FortifyServiceProvider", "class_app_1_1_providers_1_1_fortify_service_provider.html", null ],
       [ "App\\Providers\\RouteServiceProvider", "class_app_1_1_providers_1_1_route_service_provider.html", null ]
     ] ],
+    [ "ShouldQueue", null, [
+      [ "App\\Notifications\\ReservaCreada", "class_app_1_1_notifications_1_1_reserva_creada.html", null ],
+      [ "App\\Notifications\\UsuarioModificadoNotification", "class_app_1_1_notifications_1_1_usuario_modificado_notification.html", null ]
+    ] ],
     [ "App\\Enums\\TipoAlerta", "class_app_1_1_enums_1_1_tipo_alerta.html", null ],
     [ "UpdatesUserPasswords", null, [
       [ "App\\Actions\\Fortify\\UpdateUserPassword", "class_app_1_1_actions_1_1_fortify_1_1_update_user_password.html", null ]
@@ -133,5 +152,22 @@ var hierarchy =
     [ "App\\Policies\\UserPolicy", "class_app_1_1_policies_1_1_user_policy.html", null ],
     [ "App\\Policies\\VehiculoPolicy", "class_app_1_1_policies_1_1_vehiculo_policy.html", null ],
     [ "App\\Services\\VehiculoService", "class_app_1_1_services_1_1_vehiculo_service.html", null ],
-    [ "App\\Services\\Viajes\\ViajeService", "class_app_1_1_services_1_1_viajes_1_1_viaje_service.html", null ]
+    [ "App\\Policies\\ViajePolicy", "class_app_1_1_policies_1_1_viaje_policy.html", null ],
+    [ "App\\Services\\ViajeService", "class_app_1_1_services_1_1_viaje_service.html", null ],
+    [ "WithHeadings", null, [
+      [ "App\\Exports\\ConductoresExport", "class_app_1_1_exports_1_1_conductores_export.html", null ],
+      [ "App\\Exports\\GastosExport", "class_app_1_1_exports_1_1_gastos_export.html", null ],
+      [ "App\\Exports\\ReservasExport", "class_app_1_1_exports_1_1_reservas_export.html", null ],
+      [ "App\\Exports\\UsuariosExport", "class_app_1_1_exports_1_1_usuarios_export.html", null ],
+      [ "App\\Exports\\VehiculosExport", "class_app_1_1_exports_1_1_vehiculos_export.html", null ],
+      [ "App\\Exports\\ViajesExport", "class_app_1_1_exports_1_1_viajes_export.html", null ]
+    ] ],
+    [ "WithMapping", null, [
+      [ "App\\Exports\\ConductoresExport", "class_app_1_1_exports_1_1_conductores_export.html", null ],
+      [ "App\\Exports\\GastosExport", "class_app_1_1_exports_1_1_gastos_export.html", null ],
+      [ "App\\Exports\\ReservasExport", "class_app_1_1_exports_1_1_reservas_export.html", null ],
+      [ "App\\Exports\\UsuariosExport", "class_app_1_1_exports_1_1_usuarios_export.html", null ],
+      [ "App\\Exports\\VehiculosExport", "class_app_1_1_exports_1_1_vehiculos_export.html", null ],
+      [ "App\\Exports\\ViajesExport", "class_app_1_1_exports_1_1_viajes_export.html", null ]
+    ] ]
 ];

@@ -4,6 +4,7 @@ var class_app_1_1_models_1_1_user =
     [ "carnetPorVencer", "class_app_1_1_models_1_1_user.html#ad6338fea4031cd7a907ebf22929da147", null ],
     [ "casts", "class_app_1_1_models_1_1_user.html#afc845f919d34d162c4500b1942d322d7", null ],
     [ "dependencia", "class_app_1_1_models_1_1_user.html#a6f750f1c0ea1e581569b835e23644221", null ],
+    [ "getViajeActivoAttribute", "class_app_1_1_models_1_1_user.html#ab6ddd5da0c8ed720440f93ec57927e8e", null ],
     [ "licenciaVigente", "class_app_1_1_models_1_1_user.html#a6e4870a0223cf9bd7afc69d9cdd2d04c", null ],
     [ "puedeConducir", "class_app_1_1_models_1_1_user.html#ae9696b4372d3b2e7a6de7fe87217b1cb", null ],
     [ "reservas", "class_app_1_1_models_1_1_user.html#a1dc0dd8650000f50b9bd9aa83ecabf13", null ],

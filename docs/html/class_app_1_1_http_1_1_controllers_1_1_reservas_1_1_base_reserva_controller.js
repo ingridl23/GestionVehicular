@@ -2,6 +2,7 @@ var class_app_1_1_http_1_1_controllers_1_1_reservas_1_1_base_reserva_controller 
 [
     [ "__construct", "class_app_1_1_http_1_1_controllers_1_1_reservas_1_1_base_reserva_controller.html#adbd470c73b3a3ac87f9a4009a5b816b9", null ],
     [ "cancelarReserva", "class_app_1_1_http_1_1_controllers_1_1_reservas_1_1_base_reserva_controller.html#aafbe86d13a5fae02548b271f2e56e19d", null ],
+    [ "configurarBotones", "class_app_1_1_http_1_1_controllers_1_1_reservas_1_1_base_reserva_controller.html#a6b12131b7d4c4dc53c87ce68298ee347", null ],
     [ "crearReserva", "class_app_1_1_http_1_1_controllers_1_1_reservas_1_1_base_reserva_controller.html#a7157f848d994fbb104fd7b220cddd61b", null ],
     [ "editarReserva", "class_app_1_1_http_1_1_controllers_1_1_reservas_1_1_base_reserva_controller.html#a40c7ad0cd81fd7762404f0d406d425d1", null ],
     [ "filtrarReservas", "class_app_1_1_http_1_1_controllers_1_1_reservas_1_1_base_reserva_controller.html#a3de9a077de2bcfbcfa947075eace77c6", null ],

@@ -114,6 +114,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:af365e37554dbd5ce56f153255b347312" id="r_af365e37554dbd5ce56f153255b347312"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af365e37554dbd5ce56f153255b347312">index</a> (Request $request, <a class="el" href="class_app_1_1_services_1_1_vehiculo_service.html">VehiculoService</a> $service)</td></tr>
 <tr class="memitem:a81a74ac2aff026b1d81e733e05b024ec" id="r_a81a74ac2aff026b1d81e733e05b024ec"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a81a74ac2aff026b1d81e733e05b024ec">updateAsignacion</a> (Request $request, <a class="el" href="class_app_1_1_models_1_1_vehiculo.html">Vehiculo</a> $vehiculo, <a class="el" href="class_app_1_1_services_1_1_vehiculo_service.html">VehiculoService</a> $service)</td></tr>
 <tr class="memitem:a42d888986cc6468c3939f17a59c2fec8" id="r_a42d888986cc6468c3939f17a59c2fec8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a42d888986cc6468c3939f17a59c2fec8">destroy</a> (<a class="el" href="class_app_1_1_models_1_1_vehiculo.html">Vehiculo</a> $vehiculo, <a class="el" href="class_app_1_1_services_1_1_vehiculo_service.html">VehiculoService</a> $service)</td></tr>
+<tr class="memitem:a2051893dc32208ba4c04e0ed1aeeecc6" id="r_a2051893dc32208ba4c04e0ed1aeeecc6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2051893dc32208ba4c04e0ed1aeeecc6">export</a> ()</td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Controlador encargado de la gestión de vehículos institucionales. </p>
@@ -145,7 +146,7 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Da de baja un vehículo.</p>
+<p>Dar de baja un vehículo.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramtype">\App\Models\Vehiculo</td><td class="paramname">$vehiculo</td><td></td></tr>
@@ -171,6 +172,25 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Permite renderizar el detalle de un vehiculo seleccionado. Segun rol de usuario podra modificar la informaion y el estado del vehiculo. </p>
+
+</div>
+</div>
+<a id="a2051893dc32208ba4c04e0ed1aeeecc6" name="a2051893dc32208ba4c04e0ed1aeeecc6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2051893dc32208ba4c04e0ed1aeeecc6">&#9670;&#160;</a></span>export()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">App\Http\Controllers\VehiculoController::export </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Permite generar un documento excel con la totalidad de vehiculos y sus datos registrados en el sistema. Posteriormente garantiza a la gestion administrativa de las dependencia un mejor control de segumienwto de uso y gasto de recursos en reservas y posesion de vehiculos y utilizacion real de los empleados. </p>
 
 </div>
 </div>
@@ -192,6 +212,7 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Metodo inicial para la carga visual de vehiculos </p>
 
 </div>
 </div>
@@ -209,6 +230,7 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Renderiza la seccion de vehiculos dentro del sistema Muestra vehiculos con informacion como dependencia, estado del vehiculo, estado del combustible, direccion actual. Permite mostrar y categorizar de manera uniforme y dinamico los vehiculos registrados dentro del sistema. </p>
 
 </div>
 </div>
@@ -261,7 +283,7 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Devuelve el detalle de un vehículo en formato JSON.</p>
+<p>Permite crear y persistir un vehiculo dentor del sistema</p>
 <p>Incluye relaciones:</p><ul>
 <li>Estado del vehículo</li>
 <li>Estado de nafta</li>

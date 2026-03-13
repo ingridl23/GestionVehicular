@@ -25,6 +25,14 @@ var annotated_dup =
       [ "Enums", "namespace_app_1_1_enums.html", [
         [ "TipoAlerta", "class_app_1_1_enums_1_1_tipo_alerta.html", "class_app_1_1_enums_1_1_tipo_alerta" ]
       ] ],
+      [ "Exports", "namespace_app_1_1_exports.html", [
+        [ "ConductoresExport", "class_app_1_1_exports_1_1_conductores_export.html", "class_app_1_1_exports_1_1_conductores_export" ],
+        [ "GastosExport", "class_app_1_1_exports_1_1_gastos_export.html", "class_app_1_1_exports_1_1_gastos_export" ],
+        [ "ReservasExport", "class_app_1_1_exports_1_1_reservas_export.html", "class_app_1_1_exports_1_1_reservas_export" ],
+        [ "UsuariosExport", "class_app_1_1_exports_1_1_usuarios_export.html", "class_app_1_1_exports_1_1_usuarios_export" ],
+        [ "VehiculosExport", "class_app_1_1_exports_1_1_vehiculos_export.html", "class_app_1_1_exports_1_1_vehiculos_export" ],
+        [ "ViajesExport", "class_app_1_1_exports_1_1_viajes_export.html", "class_app_1_1_exports_1_1_viajes_export" ]
+      ] ],
       [ "Http", null, [
         [ "Controllers", "namespace_app_1_1_http_1_1_controllers.html", [
           [ "Auth", "namespace_app_1_1_http_1_1_controllers_1_1_auth.html", [
@@ -85,14 +93,19 @@ var annotated_dup =
           [ "GestyaProvider", "class_app_1_1_integrations_1_1_gps_1_1_gestya_provider.html", "class_app_1_1_integrations_1_1_gps_1_1_gestya_provider" ]
         ] ]
       ] ],
+      [ "Mail", "namespace_app_1_1_mail.html", [
+        [ "ReservaCreada", "class_app_1_1_mail_1_1_reserva_creada.html", "class_app_1_1_mail_1_1_reserva_creada" ]
+      ] ],
       [ "Models", "namespace_app_1_1_models.html", [
         [ "Alerta", "class_app_1_1_models_1_1_alerta.html", "class_app_1_1_models_1_1_alerta" ],
         [ "Carnet", "class_app_1_1_models_1_1_carnet.html", "class_app_1_1_models_1_1_carnet" ],
+        [ "CoordenadasVehiculo", "class_app_1_1_models_1_1_coordenadas_vehiculo.html", "class_app_1_1_models_1_1_coordenadas_vehiculo" ],
         [ "Dependencia", "class_app_1_1_models_1_1_dependencia.html", "class_app_1_1_models_1_1_dependencia" ],
         [ "Direcciones", "class_app_1_1_models_1_1_direcciones.html", "class_app_1_1_models_1_1_direcciones" ],
         [ "EstadosNafta", "class_app_1_1_models_1_1_estados_nafta.html", "class_app_1_1_models_1_1_estados_nafta" ],
         [ "EstadosReserva", "class_app_1_1_models_1_1_estados_reserva.html", "class_app_1_1_models_1_1_estados_reserva" ],
         [ "EstadosVehiculo", "class_app_1_1_models_1_1_estados_vehiculo.html", "class_app_1_1_models_1_1_estados_vehiculo" ],
+        [ "EstadosViaje", "class_app_1_1_models_1_1_estados_viaje.html", "class_app_1_1_models_1_1_estados_viaje" ],
         [ "Gasto", "class_app_1_1_models_1_1_gasto.html", "class_app_1_1_models_1_1_gasto" ],
         [ "PrecioCombustible", "class_app_1_1_models_1_1_precio_combustible.html", "class_app_1_1_models_1_1_precio_combustible" ],
         [ "ReporteComentarios", "class_app_1_1_models_1_1_reporte_comentarios.html", "class_app_1_1_models_1_1_reporte_comentarios" ],
@@ -103,6 +116,7 @@ var annotated_dup =
         [ "Viaje", "class_app_1_1_models_1_1_viaje.html", "class_app_1_1_models_1_1_viaje" ]
       ] ],
       [ "Notifications", "namespace_app_1_1_notifications.html", [
+        [ "ReservaCreada", "class_app_1_1_notifications_1_1_reserva_creada.html", "class_app_1_1_notifications_1_1_reserva_creada" ],
         [ "UsuarioModificadoNotification", "class_app_1_1_notifications_1_1_usuario_modificado_notification.html", "class_app_1_1_notifications_1_1_usuario_modificado_notification" ]
       ] ],
       [ "Policies", "namespace_app_1_1_policies.html", [
@@ -111,7 +125,8 @@ var annotated_dup =
         [ "ReportePolicy", "class_app_1_1_policies_1_1_reporte_policy.html", "class_app_1_1_policies_1_1_reporte_policy" ],
         [ "ReservaPolicy", "class_app_1_1_policies_1_1_reserva_policy.html", "class_app_1_1_policies_1_1_reserva_policy" ],
         [ "UserPolicy", "class_app_1_1_policies_1_1_user_policy.html", "class_app_1_1_policies_1_1_user_policy" ],
-        [ "VehiculoPolicy", "class_app_1_1_policies_1_1_vehiculo_policy.html", "class_app_1_1_policies_1_1_vehiculo_policy" ]
+        [ "VehiculoPolicy", "class_app_1_1_policies_1_1_vehiculo_policy.html", "class_app_1_1_policies_1_1_vehiculo_policy" ],
+        [ "ViajePolicy", "class_app_1_1_policies_1_1_viaje_policy.html", "class_app_1_1_policies_1_1_viaje_policy" ]
       ] ],
       [ "Providers", "namespace_app_1_1_providers.html", [
         [ "AppServiceProvider", "class_app_1_1_providers_1_1_app_service_provider.html", "class_app_1_1_providers_1_1_app_service_provider" ],
@@ -121,14 +136,11 @@ var annotated_dup =
       ] ],
       [ "Services", "namespace_app_1_1_services.html", [
         [ "Reservas", "namespace_app_1_1_services_1_1_reservas.html", [
-          [ "ReservasExternasService", "class_app_1_1_services_1_1_reservas_1_1_reservas_externas_service.html", "class_app_1_1_services_1_1_reservas_1_1_reservas_externas_service" ],
-          [ "ReservasInternasService", "class_app_1_1_services_1_1_reservas_1_1_reservas_internas_service.html", "class_app_1_1_services_1_1_reservas_1_1_reservas_internas_service" ]
+          [ "ReservasExternasService", "class_app_1_1_services_1_1_reservas_1_1_reservas_externas_service.html", "class_app_1_1_services_1_1_reservas_1_1_reservas_externas_service" ]
         ] ],
         [ "reservas", "namespace_app_1_1_services_1_1reservas.html", [
-          [ "BaseReservasServices", "class_app_1_1_services_1_1reservas_1_1_base_reservas_services.html", "class_app_1_1_services_1_1reservas_1_1_base_reservas_services" ]
-        ] ],
-        [ "Viajes", "namespace_app_1_1_services_1_1_viajes.html", [
-          [ "ViajeService", "class_app_1_1_services_1_1_viajes_1_1_viaje_service.html", "class_app_1_1_services_1_1_viajes_1_1_viaje_service" ]
+          [ "BaseReservasServices", "class_app_1_1_services_1_1reservas_1_1_base_reservas_services.html", "class_app_1_1_services_1_1reservas_1_1_base_reservas_services" ],
+          [ "ReservasInternasService", "class_app_1_1_services_1_1reservas_1_1_reservas_internas_service.html", "class_app_1_1_services_1_1reservas_1_1_reservas_internas_service" ]
         ] ],
         [ "AlertaLicenciaService", "class_app_1_1_services_1_1_alerta_licencia_service.html", "class_app_1_1_services_1_1_alerta_licencia_service" ],
         [ "AlertaReservaService", "class_app_1_1_services_1_1_alerta_reserva_service.html", "class_app_1_1_services_1_1_alerta_reserva_service" ],
@@ -141,7 +153,8 @@ var annotated_dup =
         [ "GastoService", "class_app_1_1_services_1_1_gasto_service.html", "class_app_1_1_services_1_1_gasto_service" ],
         [ "GpsTrackingService", "class_app_1_1_services_1_1_gps_tracking_service.html", "class_app_1_1_services_1_1_gps_tracking_service" ],
         [ "ReporteService", "class_app_1_1_services_1_1_reporte_service.html", "class_app_1_1_services_1_1_reporte_service" ],
-        [ "VehiculoService", "class_app_1_1_services_1_1_vehiculo_service.html", "class_app_1_1_services_1_1_vehiculo_service" ]
+        [ "VehiculoService", "class_app_1_1_services_1_1_vehiculo_service.html", "class_app_1_1_services_1_1_vehiculo_service" ],
+        [ "ViajeService", "class_app_1_1_services_1_1_viaje_service.html", "class_app_1_1_services_1_1_viaje_service" ]
       ] ],
       [ "View", null, [
         [ "Components", "namespace_app_1_1_view_1_1_components.html", [
@@ -155,5 +168,6 @@ var annotated_dup =
           [ "tablaReservasDesktop", "class_app_1_1_view_1_1_components_1_1tabla_reservas_desktop.html", "class_app_1_1_view_1_1_components_1_1tabla_reservas_desktop" ]
         ] ]
       ] ]
-    ] ]
+    ] ],
+    [ "Coordenadas", "class_coordenadas.html", null ]
 ];

@@ -1,6 +1,7 @@
 var class_app_1_1_services_1_1reservas_1_1_base_reservas_services =
 [
     [ "autorizarPrestamo", "class_app_1_1_services_1_1reservas_1_1_base_reservas_services.html#acafda25ed9ede9521c9e99a21fa3cca3", null ],
+    [ "autorizarReserva", "class_app_1_1_services_1_1reservas_1_1_base_reservas_services.html#a556251c83aa70c143942ab2e86e04aa7", null ],
     [ "cancelarReserva", "class_app_1_1_services_1_1reservas_1_1_base_reservas_services.html#a4566b0bc780dd06326c225e80fdb901a", null ],
     [ "crearReserva", "class_app_1_1_services_1_1reservas_1_1_base_reservas_services.html#ac27c4add606383895c704251394d6d7e", null ],
     [ "editarConductor", "class_app_1_1_services_1_1reservas_1_1_base_reservas_services.html#ae762333ec79c70533647c08c06b418da", null ],

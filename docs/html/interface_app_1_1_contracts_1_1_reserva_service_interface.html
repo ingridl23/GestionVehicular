@@ -99,7 +99,7 @@ Inheritance diagram for App\Contracts\ReservaServiceInterface:</div>
   <map id="App_5CContracts_5CReservaServiceInterface_map" name="App_5CContracts_5CReservaServiceInterface_map">
 <area href="class_app_1_1_services_1_1reservas_1_1_base_reservas_services.html" alt="App\Services\reservas\BaseReservasServices" shape="rect" coords="153,56,449,80"/>
 <area href="class_app_1_1_services_1_1_reservas_1_1_reservas_externas_service.html" alt="App\Services\Reservas\ReservasExternasService" shape="rect" coords="0,112,296,136"/>
-<area href="class_app_1_1_services_1_1_reservas_1_1_reservas_internas_service.html" alt="App\Services\Reservas\ReservasInternasService" shape="rect" coords="306,112,602,136"/>
+<area href="class_app_1_1_services_1_1reservas_1_1_reservas_internas_service.html" alt="App\Services\reservas\ReservasInternasService" shape="rect" coords="306,112,602,136"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -119,8 +119,45 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a116c56ba3bf7001043b505d875b75f60" id="r_a116c56ba3bf7001043b505d875b75f60"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a116c56ba3bf7001043b505d875b75f60">verPrestamosInternos</a> ()</td></tr>
 <tr class="memitem:a9eed28270fb63a060a362f2cd19efd6e" id="r_a9eed28270fb63a060a362f2cd19efd6e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9eed28270fb63a060a362f2cd19efd6e">rol</a> ()</td></tr>
 <tr class="memitem:acd8f343e86290706e1e22a574e220961" id="r_acd8f343e86290706e1e22a574e220961"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acd8f343e86290706e1e22a574e220961">verReservasPendientes</a> ()</td></tr>
+<tr class="memitem:ada7ea8bcd67ed467ab9b1be8fac87d5e" id="r_ada7ea8bcd67ed467ab9b1be8fac87d5e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ada7ea8bcd67ed467ab9b1be8fac87d5e">autorizarReserva</a> (int $id)</td></tr>
+<tr class="memitem:ad584afabbb1dd0a37b11bb58ca578c1c" id="r_ad584afabbb1dd0a37b11bb58ca578c1c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad584afabbb1dd0a37b11bb58ca578c1c">autorizarPrestamo</a> (int $id)</td></tr>
+<tr class="memitem:ac71543245083560147f933f101560a0f" id="r_ac71543245083560147f933f101560a0f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac71543245083560147f933f101560a0f">rechazarPrestamo</a> (int $id)</td></tr>
 </table>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
+<a id="ad584afabbb1dd0a37b11bb58ca578c1c" name="ad584afabbb1dd0a37b11bb58ca578c1c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad584afabbb1dd0a37b11bb58ca578c1c">&#9670;&#160;</a></span>autorizarPrestamo()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">App\Contracts\ReservaServiceInterface::autorizarPrestamo </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>$id</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ada7ea8bcd67ed467ab9b1be8fac87d5e" name="ada7ea8bcd67ed467ab9b1be8fac87d5e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ada7ea8bcd67ed467ab9b1be8fac87d5e">&#9670;&#160;</a></span>autorizarReserva()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">App\Contracts\ReservaServiceInterface::autorizarReserva </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>$id</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="aa0d94a18b03df1e3dd212e8b276f51b9" name="aa0d94a18b03df1e3dd212e8b276f51b9"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa0d94a18b03df1e3dd212e8b276f51b9">&#9670;&#160;</a></span>cancelarReserva()</h2>
 
@@ -172,7 +209,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Implemented in <a class="el" href="class_app_1_1_services_1_1_reservas_1_1_reservas_externas_service.html#a44e289fef063e4d510ec310fece9d509">App\Services\Reservas\ReservasExternasService</a>, and <a class="el" href="class_app_1_1_services_1_1_reservas_1_1_reservas_internas_service.html#a266d202d6b4a24dc0f4f5726ece3e830">App\Services\Reservas\ReservasInternasService</a>.</p>
+<p>Implemented in <a class="el" href="class_app_1_1_services_1_1_reservas_1_1_reservas_externas_service.html#a44e289fef063e4d510ec310fece9d509">App\Services\Reservas\ReservasExternasService</a>, and <a class="el" href="class_app_1_1_services_1_1reservas_1_1_reservas_internas_service.html#a6516dc4cf3c512e3fc12524d2dd8956a">App\Services\reservas\ReservasInternasService</a>.</p>
 
 </div>
 </div>
@@ -191,7 +228,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Implemented in <a class="el" href="class_app_1_1_services_1_1_reservas_1_1_reservas_externas_service.html#a094211c0cee0cace11031c47c1436e7a">App\Services\Reservas\ReservasExternasService</a>, and <a class="el" href="class_app_1_1_services_1_1_reservas_1_1_reservas_internas_service.html#a5a5a8f555b3ea164b16032f30d54bf26">App\Services\Reservas\ReservasInternasService</a>.</p>
+<p>Implemented in <a class="el" href="class_app_1_1_services_1_1_reservas_1_1_reservas_externas_service.html#a094211c0cee0cace11031c47c1436e7a">App\Services\Reservas\ReservasExternasService</a>, and <a class="el" href="class_app_1_1_services_1_1reservas_1_1_reservas_internas_service.html#aa431e2ab82bc06c709c89ff330e68c6e">App\Services\reservas\ReservasInternasService</a>.</p>
 
 </div>
 </div>
@@ -210,7 +247,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Implemented in <a class="el" href="class_app_1_1_services_1_1_reservas_1_1_reservas_externas_service.html#ad4c1531d0859c8d156047d90fadf8a7b">App\Services\Reservas\ReservasExternasService</a>, and <a class="el" href="class_app_1_1_services_1_1_reservas_1_1_reservas_internas_service.html#a454524ec68a3c1028e78837effd62aa8">App\Services\Reservas\ReservasInternasService</a>.</p>
+<p>Implemented in <a class="el" href="class_app_1_1_services_1_1_reservas_1_1_reservas_externas_service.html#ad4c1531d0859c8d156047d90fadf8a7b">App\Services\Reservas\ReservasExternasService</a>, and <a class="el" href="class_app_1_1_services_1_1reservas_1_1_reservas_internas_service.html#a7c289b6ade8d6a1dbbe4d624cac76d6b">App\Services\reservas\ReservasInternasService</a>.</p>
 
 </div>
 </div>
@@ -257,6 +294,23 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Implemented in <a class="el" href="class_app_1_1_services_1_1reservas_1_1_base_reservas_services.html#a88fdac7bab6f0943ac304511281b1346">App\Services\reservas\BaseReservasServices</a>.</p>
+
+</div>
+</div>
+<a id="ac71543245083560147f933f101560a0f" name="ac71543245083560147f933f101560a0f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac71543245083560147f933f101560a0f">&#9670;&#160;</a></span>rechazarPrestamo()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">App\Contracts\ReservaServiceInterface::rechazarPrestamo </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>$id</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -370,7 +424,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Implemented in <a class="el" href="class_app_1_1_services_1_1_reservas_1_1_reservas_externas_service.html#a81233b59c089691ee28b3665d2d2c031">App\Services\Reservas\ReservasExternasService</a>, and <a class="el" href="class_app_1_1_services_1_1_reservas_1_1_reservas_internas_service.html#a217203c5101b376a3faccac3fe899751">App\Services\Reservas\ReservasInternasService</a>.</p>
+<p>Implemented in <a class="el" href="class_app_1_1_services_1_1_reservas_1_1_reservas_externas_service.html#a81233b59c089691ee28b3665d2d2c031">App\Services\Reservas\ReservasExternasService</a>, and <a class="el" href="class_app_1_1_services_1_1reservas_1_1_reservas_internas_service.html#ad4514e95d254dcfe563f4a30b4190b3f">App\Services\reservas\ReservasInternasService</a>.</p>
 
 </div>
 </div>

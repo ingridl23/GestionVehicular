@@ -5,5 +5,6 @@ var searchData=
   ['estadosnafta_2',['EstadosNafta',['../class_app_1_1_models_1_1_estados_nafta.html',1,'App::Models']]],
   ['estadosreserva_3',['EstadosReserva',['../class_app_1_1_models_1_1_estados_reserva.html',1,'App::Models']]],
   ['estadosvehiculo_4',['EstadosVehiculo',['../class_app_1_1_models_1_1_estados_vehiculo.html',1,'App::Models']]],
-  ['expirarreservaspendientes_5',['ExpirarReservasPendientes',['../class_app_1_1_console_1_1_commands_1_1_expirar_reservas_pendientes.html',1,'App::Console::Commands']]]
+  ['estadosviaje_5',['EstadosViaje',['../class_app_1_1_models_1_1_estados_viaje.html',1,'App::Models']]],
+  ['expirarreservaspendientes_6',['ExpirarReservasPendientes',['../class_app_1_1_console_1_1_commands_1_1_expirar_reservas_pendientes.html',1,'App::Console::Commands']]]
 ];

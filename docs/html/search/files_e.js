@@ -5,5 +5,6 @@ var searchData=
   ['user_2ephp_2',['User.php',['../_user_8php.html',1,'']]],
   ['usercontroller_2ephp_3',['UserController.php',['../_user_controller_8php.html',1,'']]],
   ['userpolicy_2ephp_4',['UserPolicy.php',['../_user_policy_8php.html',1,'']]],
-  ['usuariomodificadonotification_2ephp_5',['UsuarioModificadoNotification.php',['../_usuario_modificado_notification_8php.html',1,'']]]
+  ['usuariomodificadonotification_2ephp_5',['UsuarioModificadoNotification.php',['../_usuario_modificado_notification_8php.html',1,'']]],
+  ['usuariosexport_2ephp_6',['UsuariosExport.php',['../_usuarios_export_8php.html',1,'']]]
 ];

@@ -12,5 +12,8 @@ var searchData=
   ['estadonafta_9',['estadoNafta',['../class_app_1_1_models_1_1_gasto.html#a16410ad7c3de45fb4d1565a6d2706e3f',1,'App\Models\Gasto\estadoNafta()'],['../class_app_1_1_models_1_1_vehiculo.html#ad2691d8905490770216ccc1d2015aa90',1,'App\Models\Vehiculo\estadoNafta()']]],
   ['estadonaftafin_10',['estadoNaftaFin',['../class_app_1_1_models_1_1_viaje.html#a6146be90d861ef05d1ce016412ca887f',1,'App::Models::Viaje']]],
   ['estadonaftainicio_11',['estadoNaftaInicio',['../class_app_1_1_models_1_1_viaje.html#addb606da5fc92457934cb4dbd28cc000',1,'App::Models::Viaje']]],
-  ['estadovehiculo_12',['estadoVehiculo',['../class_app_1_1_models_1_1_vehiculo.html#abb725bbbbba7fdddc3364e102acdf973',1,'App::Models::Vehiculo']]]
+  ['estadovehiculo_12',['estadoVehiculo',['../class_app_1_1_models_1_1_vehiculo.html#abb725bbbbba7fdddc3364e102acdf973',1,'App::Models::Vehiculo']]],
+  ['export_13',['export',['../class_app_1_1_http_1_1_controllers_1_1_gasto_controller.html#aa59ca660a9b6ff5be2874643f264e282',1,'App\Http\Controllers\GastoController\export()'],['../class_app_1_1_http_1_1_controllers_1_1_user_controller.html#af3f5f3c49b6919c6c5e9b61908ecbc4d',1,'App\Http\Controllers\UserController\export()'],['../class_app_1_1_http_1_1_controllers_1_1_vehiculo_controller.html#a2051893dc32208ba4c04e0ed1aeeecc6',1,'App\Http\Controllers\VehiculoController\export()'],['../class_app_1_1_http_1_1_controllers_1_1_viaje_controller.html#a35e718bd649350d0d0e94314f156b6a8',1,'App\Http\Controllers\ViajeController\export()']]],
+  ['exportarreservas_14',['exportarReservas',['../class_app_1_1_http_1_1_controllers_1_1_reservas_1_1_reserva_controller.html#a0b2cc0db441ebc1a603ec39af634db65',1,'App::Http::Controllers::Reservas::ReservaController']]],
+  ['exportconductores_15',['exportConductores',['../class_app_1_1_http_1_1_controllers_1_1_user_controller.html#a939970f19ed1e61e4ff60992ae8ed0a2',1,'App::Http::Controllers::UserController']]]
 ];

@@ -7,6 +7,6 @@ var class_app_1_1_models_1_1_estados_reserva =
     [ "CANCELADA", "class_app_1_1_models_1_1_estados_reserva.html#aff19e2ccf7576a0b0f82a689d4fdc20e", null ],
     [ "EN_CURSO", "class_app_1_1_models_1_1_estados_reserva.html#afd6a2ad20e664046ccc90607e9657abb", null ],
     [ "FINALIZADA", "class_app_1_1_models_1_1_estados_reserva.html#a28aca2e7db8685b089ef725902e4cfe2", null ],
-    [ "PENDIENTE", "class_app_1_1_models_1_1_estados_reserva.html#a9752922264af74ebceb37aea5c7559ba", null ],
-    [ "RECHAZADA", "class_app_1_1_models_1_1_estados_reserva.html#a8f9150bc80a76fbdfe0fe497b0f540a9", null ]
+    [ "RECHAZADA", "class_app_1_1_models_1_1_estados_reserva.html#a8f9150bc80a76fbdfe0fe497b0f540a9", null ],
+    [ "SOLICITADA", "class_app_1_1_models_1_1_estados_reserva.html#a2d2dc7c2a9d9f0c29dd61f40128fefbc", null ]
 ];

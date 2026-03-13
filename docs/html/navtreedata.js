@@ -53,11 +53,11 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "_actualizar_precio_combustible_8php.html",
-"class_app_1_1_http_1_1_controllers_1_1_auth_1_1_register_controller.html#af969cbad0c184d760c5e7ba80099abda",
-"class_app_1_1_integrations_1_1_g_p_s_1_1_contracts_1_1_gps_sync_service.html#a7c75cb6c3d2c4a147e1516553366dce9",
-"class_app_1_1_models_1_1_viaje.html#a6ce0547cd4e8677ecfc1b8fd58fc9bdf",
-"class_app_1_1_services_1_1_reservas_1_1_reservas_internas_service.html#a6c8b8372520f0fe0fdb7135b0594781e",
-"namespace_app_1_1_enums.html"
+"class_app_1_1_http_1_1_controllers_1_1_alerta_controller.html",
+"class_app_1_1_http_1_1_controllers_1_1_user_controller.html#a0c9d03f4577304133d59bf6b396f932d",
+"class_app_1_1_models_1_1_estados_viaje.html#a3d14928c8016430096be5f94f87a985f",
+"class_app_1_1_policies_1_1_user_policy.html#adcc3f271b198ae2bd7eae3798efafc66",
+"class_app_1_1_view_1_1_components_1_1_reserva_form_fields.html#ac5402d2777bd83d04a1377a7f7fa234e"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

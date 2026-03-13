@@ -15,7 +15,7 @@ var searchData=
   ['filtrosreservafields_12',['FiltrosReservaFields',['../class_app_1_1_view_1_1_components_1_1_filtros_reserva_fields.html',1,'App::View::Components']]],
   ['filtrosreservafields_2ephp_13',['FiltrosReservaFields.php',['../_filtros_reserva_fields_8php.html',1,'']]],
   ['finalizada_14',['FINALIZADA',['../class_app_1_1_models_1_1_estados_reserva.html#a28aca2e7db8685b089ef725902e4cfe2',1,'App::Models::EstadosReserva']]],
-  ['finalizarviaje_15',['finalizarViaje',['../class_app_1_1_http_1_1_controllers_1_1_viaje_controller.html#aae8e459ba9d58c26c6d29777bdfaf396',1,'App\Http\Controllers\ViajeController\finalizarViaje()'],['../class_app_1_1_services_1_1_viajes_1_1_viaje_service.html#af681fad22e9e2926b909aef64503b97b',1,'App\Services\Viajes\ViajeService\finalizarViaje()']]],
+  ['finalizarviaje_15',['finalizarViaje',['../class_app_1_1_http_1_1_controllers_1_1_viaje_controller.html#aae8e459ba9d58c26c6d29777bdfaf396',1,'App\Http\Controllers\ViajeController\finalizarViaje()'],['../class_app_1_1_services_1_1_viaje_service.html#a9e0898ea0c8a71b6d8befeb323f26ec4',1,'App\Services\ViajeService\finalizarViaje()']]],
   ['forcedpasswordcontroller_16',['ForcedPasswordController',['../class_app_1_1_http_1_1_controllers_1_1_auth_1_1_forced_password_controller.html',1,'App::Http::Controllers::Auth']]],
   ['forcedpasswordcontroller_2ephp_17',['ForcedPasswordController.php',['../_forced_password_controller_8php.html',1,'']]],
   ['forgotpasswordcontroller_18',['ForgotPasswordController',['../class_app_1_1_http_1_1_controllers_1_1_auth_1_1_forgot_password_controller.html',1,'App::Http::Controllers::Auth']]],

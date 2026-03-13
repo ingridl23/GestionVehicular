@@ -6,5 +6,6 @@ var searchData=
   ['estadosnafta_2ephp_3',['EstadosNafta.php',['../_estados_nafta_8php.html',1,'']]],
   ['estadosreserva_2ephp_4',['EstadosReserva.php',['../_estados_reserva_8php.html',1,'']]],
   ['estadosvehiculo_2ephp_5',['EstadosVehiculo.php',['../_estados_vehiculo_8php.html',1,'']]],
-  ['expirarreservaspendientes_2ephp_6',['ExpirarReservasPendientes.php',['../_expirar_reservas_pendientes_8php.html',1,'']]]
+  ['estadosviaje_2ephp_6',['EstadosViaje.php',['../_estados_viaje_8php.html',1,'']]],
+  ['expirarreservaspendientes_2ephp_7',['ExpirarReservasPendientes.php',['../_expirar_reservas_pendientes_8php.html',1,'']]]
 ];

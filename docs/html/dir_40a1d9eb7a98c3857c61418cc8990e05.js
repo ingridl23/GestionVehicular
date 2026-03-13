@@ -5,5 +5,6 @@ var dir_40a1d9eb7a98c3857c61418cc8990e05 =
     [ "ReportePolicy.php", "_reporte_policy_8php.html", "_reporte_policy_8php" ],
     [ "ReservaPolicy.php", "_reserva_policy_8php.html", "_reserva_policy_8php" ],
     [ "UserPolicy.php", "_user_policy_8php.html", "_user_policy_8php" ],
-    [ "VehiculoPolicy.php", "_vehiculo_policy_8php.html", "_vehiculo_policy_8php" ]
+    [ "VehiculoPolicy.php", "_vehiculo_policy_8php.html", "_vehiculo_policy_8php" ],
+    [ "ViajePolicy.php", "_viaje_policy_8php.html", "_viaje_policy_8php" ]
 ];

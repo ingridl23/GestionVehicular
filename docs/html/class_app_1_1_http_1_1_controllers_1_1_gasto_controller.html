@@ -110,7 +110,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:acb39dad488ae9f0d2e515849a9b09d2c" id="r_acb39dad488ae9f0d2e515849a9b09d2c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acb39dad488ae9f0d2e515849a9b09d2c">calcular</a> (int $viajeId, <a class="el" href="class_app_1_1_services_1_1_gasto_service.html">GastoService</a> $service)</td></tr>
 <tr class="memitem:a253161f6ff44e0145e8193a273aee5fe" id="r_a253161f6ff44e0145e8193a273aee5fe"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a253161f6ff44e0145e8193a273aee5fe">show</a> ($viajeId, <a class="el" href="class_app_1_1_policies_1_1_gasto_policy.html">GastoPolicy</a> $GastoP)</td></tr>
 <tr class="memitem:a7d2c726e74b5e77feaea340c74354b0a" id="r_a7d2c726e74b5e77feaea340c74354b0a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7d2c726e74b5e77feaea340c74354b0a">index</a> ()</td></tr>
-<tr class="memitem:afeef0031a255c16128985d371650cbb7" id="r_afeef0031a255c16128985d371650cbb7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afeef0031a255c16128985d371650cbb7">resumen</a> (<a class="el" href="class_app_1_1_policies_1_1_gasto_policy.html">GastoPolicy</a> $GastoP)</td></tr>
+<tr class="memitem:a2da2716348ce5ed8c5264da855dd7da3" id="r_a2da2716348ce5ed8c5264da855dd7da3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2da2716348ce5ed8c5264da855dd7da3">resumen</a> ()</td></tr>
+<tr class="memitem:a738e6f05c5b1b23d120f04a7064dbdea" id="r_a738e6f05c5b1b23d120f04a7064dbdea"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a738e6f05c5b1b23d120f04a7064dbdea">calculadora</a> ()</td></tr>
+<tr class="memitem:a79250b9db84d4889b21b852c55093e68" id="r_a79250b9db84d4889b21b852c55093e68"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a79250b9db84d4889b21b852c55093e68">getDatosCalculadora</a> ()</td></tr>
+<tr class="memitem:aa59ca660a9b6ff5be2874643f264e282" id="r_aa59ca660a9b6ff5be2874643f264e282"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa59ca660a9b6ff5be2874643f264e282">export</a> ()</td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Controlador encargado de la gestión de gastos asociados a viajes. </p>
@@ -124,6 +127,31 @@ Public Member Functions</h2></td></tr>
 <p>La lógica de negocio se delega a GastoService. La autorización se gestiona mediante Policies de Laravel.</p>
 <p>Fórmula de cálculo del gasto: importe = litros_consumidos * valor_litro </p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
+<a id="a738e6f05c5b1b23d120f04a7064dbdea" name="a738e6f05c5b1b23d120f04a7064dbdea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a738e6f05c5b1b23d120f04a7064dbdea">&#9670;&#160;</a></span>calculadora()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">App\Http\Controllers\GastoController::calculadora </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Vista de la calculadora de gastos para el dashboard de Auditoría.</p>
+<p>Provee al blade:</p><ul>
+<li>$resumenGastos: estadísticas generales (columna 3 de la calculadora)</li>
+<li>$precioLitroActual: precio de hoy si existe en la tabla precio_combustible</li>
+</ul>
+<p>Uso desde AuditoriaController o directamente si tiene ruta propia: Route::get('/gastos/calculadora', [GastoController::class, 'calculadora'])-&gt;name('gastos.calculadora');</p>
+<p>O bien, llamar a getDatosCalculadora() desde el HistorialController para incluir estos datos en la vista del dashboard.</p>
+<dl class="section return"><dt>Returns</dt><dd>\Illuminate\View\View </dd></dl>
+
+</div>
+</div>
 <a id="acb39dad488ae9f0d2e515849a9b09d2c" name="acb39dad488ae9f0d2e515849a9b09d2c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#acb39dad488ae9f0d2e515849a9b09d2c">&#9670;&#160;</a></span>calcular()</h2>
 
@@ -168,6 +196,46 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="aa59ca660a9b6ff5be2874643f264e282" name="aa59ca660a9b6ff5be2874643f264e282"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa59ca660a9b6ff5be2874643f264e282">&#9670;&#160;</a></span>export()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">App\Http\Controllers\GastoController::export </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Exporta los gastos de los últimos 6 meses en formato Excel.</p>
+<dl class="section return"><dt>Returns</dt><dd>\Symfony\Component\HttpFoundation\BinaryFileResponse </dd></dl>
+
+</div>
+</div>
+<a id="a79250b9db84d4889b21b852c55093e68" name="a79250b9db84d4889b21b852c55093e68"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a79250b9db84d4889b21b852c55093e68">&#9670;&#160;</a></span>getDatosCalculadora()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">App\Http\Controllers\GastoController::getDatosCalculadora </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Prepara los datos necesarios para la sección de calculadora en el dashboard.</p>
+<p>Se puede llamar desde HistorialController así:</p>
+<p>use <a class="el" href="namespace_app.html">App</a>\Http\Controllers\GastoController; ... $datosCalculadora = (new GastoController)-&gt;getDatosCalculadora(); return view('auditoria.index', array_merge($datos, $datosCalculadora));</p>
+<dl class="section return"><dt>Returns</dt><dd>array </dd></dl>
+
+</div>
+</div>
 <a id="a7d2c726e74b5e77feaea340c74354b0a" name="a7d2c726e74b5e77feaea340c74354b0a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7d2c726e74b5e77feaea340c74354b0a">&#9670;&#160;</a></span>index()</h2>
 
@@ -183,7 +251,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Devuelve el listado completo de gastos.</p>
-<p>Incluye la relación con el viaje asociado. Requiere autorización 'viewAny'.</p>
+<p>Incluye la relación con el viaje asociado. Requiere autorización 'viewAny'. Columna 1 — Formulario manual: litros, precio/litro y km opcionales. La lógica replica exactamente CalculoGastoService::calcularMonto() (litros × precio). Si $precioLitroActual viene del controller, se precarga automáticamente con un botón "Usar precio actual". Columna 2 — Resultado: muestra el monto estimado con detalle. Si se cargan km, calcula además costo por km y consumo en L/100km. Columna 3 — Estadísticas: consume $resumenGastos que ya devuelve tu GastoController::resumen(). Mientras no lo pases, muestra placeholders con el nombre de la variable para que sepas qué agregar.</p>
 <dl class="section return"><dt>Returns</dt><dd>\Illuminate\Http\JsonResponse Lista de gastos. </dd></dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
@@ -234,8 +302,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="afeef0031a255c16128985d371650cbb7" name="afeef0031a255c16128985d371650cbb7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afeef0031a255c16128985d371650cbb7">&#9670;&#160;</a></span>resumen()</h2>
+<a id="a2da2716348ce5ed8c5264da855dd7da3" name="a2da2716348ce5ed8c5264da855dd7da3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2da2716348ce5ed8c5264da855dd7da3">&#9670;&#160;</a></span>resumen()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -243,7 +311,7 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">App\Http\Controllers\GastoController::resumen </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="class_app_1_1_policies_1_1_gasto_policy.html">GastoPolicy</a></td>          <td class="paramname"><span class="paramname"><em>$GastoP</em></span></td><td>)</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -264,7 +332,9 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<p>Illuminate\Auth\Access\AuthorizationException </p>
+<p>Illuminate\Auth\Access\AuthorizationException Devuelve estadísticas generales de los gastos registrados.</p>
+<p>Calcula cantidad, suma total, promedio, máximo y mínimo. Requiere autorización 'viewResumen'.</p>
+<dl class="section return"><dt>Returns</dt><dd>JsonResponse Estadísticas agregadas. </dd></dl>
 
 </div>
 </div>

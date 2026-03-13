@@ -5,5 +5,6 @@ var namespace_app_1_1_policies =
     [ "ReportePolicy", "class_app_1_1_policies_1_1_reporte_policy.html", "class_app_1_1_policies_1_1_reporte_policy" ],
     [ "ReservaPolicy", "class_app_1_1_policies_1_1_reserva_policy.html", "class_app_1_1_policies_1_1_reserva_policy" ],
     [ "UserPolicy", "class_app_1_1_policies_1_1_user_policy.html", "class_app_1_1_policies_1_1_user_policy" ],
-    [ "VehiculoPolicy", "class_app_1_1_policies_1_1_vehiculo_policy.html", "class_app_1_1_policies_1_1_vehiculo_policy" ]
+    [ "VehiculoPolicy", "class_app_1_1_policies_1_1_vehiculo_policy.html", "class_app_1_1_policies_1_1_vehiculo_policy" ],
+    [ "ViajePolicy", "class_app_1_1_policies_1_1_viaje_policy.html", "class_app_1_1_policies_1_1_viaje_policy" ]
 ];

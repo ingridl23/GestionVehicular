@@ -6,6 +6,7 @@ var namespace_app =
     [ "Console", "namespace_app_1_1_console.html", "namespace_app_1_1_console" ],
     [ "Contracts", "namespace_app_1_1_contracts.html", "namespace_app_1_1_contracts" ],
     [ "Enums", "namespace_app_1_1_enums.html", "namespace_app_1_1_enums" ],
+    [ "Exports", "namespace_app_1_1_exports.html", "namespace_app_1_1_exports" ],
     [ "Http", null, [
       [ "Controllers", "namespace_app_1_1_http_1_1_controllers.html", "namespace_app_1_1_http_1_1_controllers" ],
       [ "Requests", "namespace_app_1_1_http_1_1_requests.html", "namespace_app_1_1_http_1_1_requests" ],
@@ -18,6 +19,7 @@ var namespace_app =
       ] ],
       [ "Gps", "namespace_app_1_1_integrations_1_1_gps.html", "namespace_app_1_1_integrations_1_1_gps" ]
     ] ],
+    [ "Mail", "namespace_app_1_1_mail.html", "namespace_app_1_1_mail" ],
     [ "Models", "namespace_app_1_1_models.html", "namespace_app_1_1_models" ],
     [ "Notifications", "namespace_app_1_1_notifications.html", "namespace_app_1_1_notifications" ],
     [ "Policies", "namespace_app_1_1_policies.html", "namespace_app_1_1_policies" ],

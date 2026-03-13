@@ -2,11 +2,13 @@ var dir_fc6199fba97859a095e1d9a5aa5fae23 =
 [
     [ "Alerta.php", "_alerta_8php.html", "_alerta_8php" ],
     [ "Carnet.php", "_carnet_8php.html", "_carnet_8php" ],
+    [ "CoordenadasVehiculo.php", "_coordenadas_vehiculo_8php.html", "_coordenadas_vehiculo_8php" ],
     [ "Dependencia.php", "_dependencia_8php.html", "_dependencia_8php" ],
     [ "Direcciones.php", "_direcciones_8php.html", "_direcciones_8php" ],
     [ "EstadosNafta.php", "_estados_nafta_8php.html", "_estados_nafta_8php" ],
     [ "EstadosReserva.php", "_estados_reserva_8php.html", "_estados_reserva_8php" ],
     [ "EstadosVehiculo.php", "_estados_vehiculo_8php.html", "_estados_vehiculo_8php" ],
+    [ "EstadosViaje.php", "_estados_viaje_8php.html", "_estados_viaje_8php" ],
     [ "Gasto.php", "_gasto_8php.html", "_gasto_8php" ],
     [ "PrecioCombustible.php", "_precio_combustible_8php.html", "_precio_combustible_8php" ],
     [ "ReporteComentarios.php", "_reporte_comentarios_8php.html", "_reporte_comentarios_8php" ],

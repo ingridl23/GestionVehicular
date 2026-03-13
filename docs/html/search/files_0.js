@@ -9,7 +9,6 @@ var searchData=
   ['alertavtvservice_2ephp_6',['AlertaVTVService.php',['../_alerta_v_t_v_service_8php.html',1,'']]],
   ['apiauthcontroller_2ephp_7',['ApiAuthController.php',['../_api_auth_controller_8php.html',1,'']]],
   ['appserviceprovider_2ephp_8',['AppServiceProvider.php',['../_app_service_provider_8php.html',1,'']]],
-  ['auditoriaexport_2ephp_9',['auditoriaExport.php',['../auditoria_export_8php.html',1,'']]],
-  ['authenticatedsessioncontroller_2ephp_10',['AuthenticatedSessionController.php',['../_authenticated_session_controller_8php.html',1,'']]],
-  ['authserviceprovider_2ephp_11',['AuthServiceProvider.php',['../_auth_service_provider_8php.html',1,'']]]
+  ['authenticatedsessioncontroller_2ephp_9',['AuthenticatedSessionController.php',['../_authenticated_session_controller_8php.html',1,'']]],
+  ['authserviceprovider_2ephp_10',['AuthServiceProvider.php',['../_auth_service_provider_8php.html',1,'']]]
 ];

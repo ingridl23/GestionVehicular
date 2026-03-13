@@ -1,5 +1,7 @@
 var interface_app_1_1_contracts_1_1_reserva_service_interface =
 [
+    [ "autorizarPrestamo", "interface_app_1_1_contracts_1_1_reserva_service_interface.html#ad584afabbb1dd0a37b11bb58ca578c1c", null ],
+    [ "autorizarReserva", "interface_app_1_1_contracts_1_1_reserva_service_interface.html#ada7ea8bcd67ed467ab9b1be8fac87d5e", null ],
     [ "cancelarReserva", "interface_app_1_1_contracts_1_1_reserva_service_interface.html#aa0d94a18b03df1e3dd212e8b276f51b9", null ],
     [ "crearReserva", "interface_app_1_1_contracts_1_1_reserva_service_interface.html#a927d022a67a011a8f0f6104a0426fdcc", null ],
     [ "datosFiltros", "interface_app_1_1_contracts_1_1_reserva_service_interface.html#a8354485372b33d1797a0959c19a65b1b", null ],
@@ -7,6 +9,7 @@ var interface_app_1_1_contracts_1_1_reserva_service_interface =
     [ "datosParaFormEditar", "interface_app_1_1_contracts_1_1_reserva_service_interface.html#a95e44328f6ff3c7928f2eb81bcd6675c", null ],
     [ "editarConductor", "interface_app_1_1_contracts_1_1_reserva_service_interface.html#a4b51b19b0aede771022bf6fb73fb20ec", null ],
     [ "editarReserva", "interface_app_1_1_contracts_1_1_reserva_service_interface.html#aa25564480de9646743f60b8a0efeb845", null ],
+    [ "rechazarPrestamo", "interface_app_1_1_contracts_1_1_reserva_service_interface.html#ac71543245083560147f933f101560a0f", null ],
     [ "rol", "interface_app_1_1_contracts_1_1_reserva_service_interface.html#a9eed28270fb63a060a362f2cd19efd6e", null ],
     [ "user", "interface_app_1_1_contracts_1_1_reserva_service_interface.html#a3df984cda1f9d820097ccb79673f5879", null ],
     [ "verPrestamosExternos", "interface_app_1_1_contracts_1_1_reserva_service_interface.html#a05842e55cd735fe0ddc2be396c5914c6", null ],
