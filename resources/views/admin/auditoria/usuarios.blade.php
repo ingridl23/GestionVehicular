@@ -243,9 +243,9 @@
             <h3 class="text-lg font-medium leading-6 text-gray-900 dark:text-white mb-4" id="modalTitle">
                 Crear Usuario
             </h3>
-            <form id="userForm" method="POST">
-                @csrf
-                <input type="hidden" name="_method" value="POST" id="formMethod">
+        <form id="userForm" method="POST">
+    @csrf
+    <input type="hidden" name="_method" value="POST" id="formMethod">
 
                 <div class="space-y-4">
                     <div>
@@ -317,12 +317,7 @@
                            <option value="false">Vigencia caducada</option>
 
                         </select>
-
-
                         </div>
-
-
-
                 </div>
 
                 <div class="flex justify-end gap-2 mt-6">
@@ -340,9 +335,6 @@
     </div>
 </div>
 
-<script>
-
-</script>
 
 
 

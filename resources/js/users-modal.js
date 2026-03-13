@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 export function openUserCreateModal() {
     document.getElementById('modalTitle').textContent = 'Crear Usuario';
-    document.getElementById('userForm').action = '{{ route("admin.usuarios.store") }}';
+    document.getElementById('userForm').action = `/admin/usuarios`;
     document.getElementById('formMethod').value = 'POST';
     document.getElementById('passwordField').required = true;
     document.getElementById('userForm').reset();

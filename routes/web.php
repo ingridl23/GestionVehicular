@@ -186,3 +186,5 @@ Route::get('/test-combustible', function (CombustibleApiService $service) {
         'resultado' => $service->obtenerPrecioActual()
     ]);
 })->name('test.combustible');
+
+

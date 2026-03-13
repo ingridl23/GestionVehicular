@@ -333,7 +333,7 @@ $ultimosUsuarios = User::with('dependencia')
         $user->assignRole($data['role']);
 $user->notify(
     new UsuarioModificadoNotification(
-        'Tu rol fue creado por un administrador',
+        'Tu usuario y  rol fue creado por un administrador',
         'warning'
     )
 );

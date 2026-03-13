@@ -6,9 +6,9 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\Log;
 
-
-class UsuarioModificadoNotification extends Notification
+class UsuarioModificadoNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -35,18 +35,16 @@ class UsuarioModificadoNotification extends Notification
              'fecha' => now()->format('d/m H:i')
         ];
     }
-
 public function toMail($notifiable)
 {
+     //   Log::info('Entró a toMail de UsuarioModificadoNotification');
     return (new MailMessage)
         ->subject('Sistema de Gestión Vehicular')
-         ->view('emails.reserva', [
-            'mensaje' => $this->mensaje,
-            'url' => url('/login'),
-            'usuario' => $notifiable->name
-        ]);
+        ->greeting('Hola '.$notifiable->name)
+        ->line($this->mensaje)
+        ->action('Ingresar al sistema', url('/login'))
+        ->line('Municipalidad de Tres Arroyos');
 }
-
 
 
 
