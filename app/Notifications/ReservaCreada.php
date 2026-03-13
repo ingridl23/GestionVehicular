@@ -4,8 +4,8 @@ use App\Models\Reserva;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
-
-class ReservaCreada extends Notification
+use Illuminate\Contracts\Queue\ShouldQueue;
+class ReservaCreada extends Notification  implements ShouldQueue
 {
     use Queueable;
 
