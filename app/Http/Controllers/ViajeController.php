@@ -94,6 +94,9 @@ class ViajeController extends Controller
 
     /**
      * Detalle de un viaje.
+     * Permite que al seleccionar un viaje se pueda visalizar la informacion vinculada al mismo.
+     * Detalles: dependencia de origen,usuario asignado,estado del combustible al iniciar el recorrido,estado del combustible al finalizar el recorrido,
+     * gasto obtenido una vez finalizado el viaje y la ubicacion actual del vehiculo una vez finalizada la reserva.
      */
    public function show(Viaje $viaje)
 {
@@ -114,7 +117,7 @@ class ViajeController extends Controller
 
 
 /**
- * Inicia un viaje a partir de una reserva.
+ * Iniciar un viaje a partir de una reserva.
  *
  * @param int $reservaId Identificador de la reserva.
  * @return \Illuminate\Http\RedirectResponse
@@ -151,24 +154,8 @@ class ViajeController extends Controller
  * @return \Illuminate\Http\RedirectResponse
  */
 
-    /**
-     * Finaliza un viaje activo.
-     */
-    /*
-    public function finalizarViaje(Request $request, $viajeId)
-{
-    try {
 
-        $this->service->finalizarViaje((int) $viajeId, $request->all());
 
-        return redirect()->route('operativo.viajes.index')
-            ->with('success', 'Viaje finalizado correctamente.');
-
-    } catch (\Throwable $e) {
-        dd($e->getMessage());
-    }
-}
-*/
     public function finalizarViaje(Request $request, $viajeId)
     {
 
@@ -186,10 +173,13 @@ class ViajeController extends Controller
 
 
     /**
-     * metodo para exportar historial de viajes a formato excel fuera del sistema uso adminstrativo
+     * EXPORTAR DATOS A FORMATO EXCEL:
+     * Metodo para exportar historial de viajes a formato excel fuera del sistema registrados durante los ultimos 4 meses.
+     *  Uso administrativo
+     *
+     * @todo "Queda pendiente imnplementar un filtro por fechas para exportaciones, por el momento solo es generado por el sistema el registro de
+     * los ultimos 4 meses y en gastos ultimos 6 meses"
      */
-
-
 
 public function export()
 {

@@ -215,7 +215,7 @@ class GastoController extends Controller{
      * Uso desde AuditoriaController o directamente si tiene ruta propia:
      *   Route::get('/gastos/calculadora', [GastoController::class, 'calculadora'])->name('gastos.calculadora');
      *
-     * O bien, llamar a getDatosCalculadora() desde el AuditoriaController
+     * O bien, llamar a getDatosCalculadora() desde el HistorialController
      * para incluir estos datos en la vista del dashboard.
      *
      * @return \Illuminate\View\View
@@ -230,7 +230,7 @@ class GastoController extends Controller{
     /**
      * Prepara los datos necesarios para la sección de calculadora en el dashboard.
      *
-     * Se puede llamar desde AuditoriaController así:
+     * Se puede llamar desde HistorialController así:
      *
      *   use App\Http\Controllers\GastoController;
      *   ...

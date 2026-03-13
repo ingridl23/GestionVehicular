@@ -5,6 +5,12 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Contracts\Queue\ShouldQueue;
+
+/**
+ * @brief Clase para notificar reservas vinculadas a usuarios
+ * Descripcion: Clase desarrolada para la notificacion mediante email a usuarios registrados en el sistema.Mediante un mensaje
+ *  de correo eletronico personalizado.
+ */
 class ReservaCreada extends Notification  implements ShouldQueue
 {
     use Queueable;

@@ -82,6 +82,11 @@ class Vehiculo extends Model
         return $this->hasMany(Viaje::class, 'id_vehiculo');
     }
 
+
+    /**
+     * Metodo estatico de control de vtv vigentes en relacion a vehiculos registrados en el sistema. Permite utilizar este dato para
+     * generar alertas automaticas dentor del sistema y tomar accion sobre los mismos dependiendo del estado de cada vehiculo.
+     */
     public static function vtv_vigente($id){
         $vehiculo = Vehiculo::find($id);
 

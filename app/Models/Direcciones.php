@@ -60,6 +60,10 @@ class Direcciones extends Model
         return $this->hasMany(Viaje::class);
     }
 
+
+    /**
+     * Relacion : obtener localidad vinculada a la direccion
+     */
     public static function obtenerLocalidades(){
         return Direcciones::distinct()->get('ciudad');
     }

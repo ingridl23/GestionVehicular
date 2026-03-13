@@ -80,6 +80,10 @@ public function licenciaVigente(): bool
     return now()->lessThanOrEqualTo($this->fecha_vencimiento_licencia);
 }
 
+
+/**
+ * Metodo para consultar carnet proximos a vencer, util para auditoria y funcionalidad de alertas automaticas dentro del sistema
+ */
 public function carnetPorVencer(int $dias = 30): bool
 {
     if (!$this->carnet) {
@@ -90,7 +94,9 @@ public function carnetPorVencer(int $dias = 30): bool
         && now()->lessThanOrEqualTo($this->carnet->fecha_vencimiento);
 }
 
-
+/**
+ * Metodo para obtener si una reserva esta activa dada la fehca actual dentro del sistema
+ */
 public function getViajeActivoAttribute()
 {
     return \App\Models\Viaje::whereHas('reserva', function ($q) {

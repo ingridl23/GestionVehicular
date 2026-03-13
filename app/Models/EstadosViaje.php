@@ -16,6 +16,10 @@ class EstadosViaje extends Model
 
     ];
 
+
+    /**
+     * Relacion: estado con viajes
+     */
 public function viajes() {
     return $this->hasMany(Viaje::class, 'id_estado_viaje');
 }

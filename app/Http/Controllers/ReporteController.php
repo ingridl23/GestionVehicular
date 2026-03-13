@@ -45,7 +45,7 @@ class ReporteController extends Controller
  *
  * - Permiso general: visualiza todos los reportes.
  * - Permiso por dependencia: visualiza reportes de su entidad.
- * - Usuario estándar: visualiza únicamente sus propios reportes.
+ * - Usuario estándar operativo: visualiza únicamente sus propios reportes.
  *
  * Incluye relación con usuario y comentarios.
  *

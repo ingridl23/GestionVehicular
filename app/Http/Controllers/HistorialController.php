@@ -88,7 +88,7 @@ class HistorialController extends Controller{
     // VTV – resumen (para dashboard)
     public function resumenVtv(Request $request)
     {
-        // TODO: implementar
+        // TODO: implementar funciinalidad pendiente , aun no se trabaja con la api de gps
         // devolver: al_dia, por_vencer, vencida
     }
 

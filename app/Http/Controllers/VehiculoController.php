@@ -40,7 +40,11 @@ use Maatwebsite\Excel\Facades\Excel;
 class VehiculoController extends Controller
 {
 
-
+/**
+ * Renderiza la seccion de vehiculos dentro del sistema
+ * Muestra vehiculos con informacion como dependencia, estado del vehiculo, estado del combustible, direccion actual.
+ * Permite mostrar y categorizar de manera uniforme y dinamico los vehiculos registrados dentro del sistema.
+ */
 
 
 public function sectionVehiculo(){
@@ -117,7 +121,10 @@ $this->authorize('view', $vehiculo);
 }
 
 
-
+/**
+ * Permite renderizar el detalle de un vehiculo seleccionado.
+ * Segun rol de usuario podra modificar la informaion y el estado del vehiculo.
+ */
 
 public function detalle(Vehiculo $vehiculo)
 {
@@ -134,7 +141,7 @@ public function detalle(Vehiculo $vehiculo)
 
 
 /**
- * Devuelve el detalle de un vehículo en formato JSON.
+ * Permite crear y persistir un vehiculo dentor del sistema
  *
  * Incluye relaciones:
  * - Estado del vehículo
@@ -295,6 +302,10 @@ public function detalle(Vehiculo $vehiculo)
         }
     }
 
+
+    /**
+     * Metodo inicial para la carga visual de vehiculos
+     */
     public function index(Request $request, VehiculoService $service)
 {
     $this->authorize('viewAny', Vehiculo::class);
@@ -331,7 +342,7 @@ public function detalle(Vehiculo $vehiculo)
         ]);
     }
 /**
- * Da de baja un vehículo.
+ * Dar de baja un vehículo.
  *
  * @param \App\Models\Vehiculo $vehiculo
  * @param \App\Services\VehiculoService $service
@@ -356,7 +367,11 @@ public function detalle(Vehiculo $vehiculo)
     }
 }
 
-
+/**
+ * Permite generar un documento excel con la totalidad de vehiculos y sus datos registrados en el sistema.
+ * Posteriormente garantiza a la gestion administrativa de las dependencia un mejor control de segumienwto de uso y gasto
+ * de recursos en reservas y posesion de vehiculos y utilizacion real de los empleados.
+ */
 
 public function export()
 {
