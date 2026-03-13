@@ -7,6 +7,10 @@ use App\Models\Alerta;
 use App\Enums\EstadoReporte;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
+
+/**
+ * @brief Clase service de logica de reportes internos en el sistema
+ */
 class ReporteService
 {
 public function crear(array $data): Reportes
@@ -20,6 +24,10 @@ return Reportes::create([
 'estado' => EstadoReporte::PENDIENTE,
 ]);
 }
+/**
+ * Metodo d emodificar un estado de un reporte de usuario
+ * (funcionalidad para administradores)
+ */
 
 public function cambiarEstado(Reportes $reporte, string $estado): Reportes
 {
@@ -44,7 +52,9 @@ return $reporte;
         ]);
     }
 
-
+/**
+ * Metodo de implementacion para la asignacion de un reporte
+ */
 
     public function asignarReporte(Reportes $reporte)
     {

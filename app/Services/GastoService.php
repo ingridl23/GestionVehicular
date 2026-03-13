@@ -7,7 +7,9 @@ use App\Services\CalculoGastoService;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Exception;
-
+/**
+ * @brief Clase service de logica de gastos enviajes en el sistema
+ */
 class GastoService
 {
     public function __construct(
@@ -17,7 +19,7 @@ class GastoService
 
 
     /**
-     *  Reglas + DB
+     *  Reglas + DB para generar gastos por viajes
      */
     public function generarGastoPorViaje(int $viajeId): Gasto
     {

@@ -5,7 +5,9 @@ use App\Models\Dependencia;
 use App\Models\Direcciones;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
-
+/**
+ * @brief Clase service para logica de dependencias
+ */
 class DependenciaService{
 
     protected DireccionService $direccionService;
@@ -23,6 +25,8 @@ class DependenciaService{
         $rol = $this->user()->getRoleNames();
         return $rol[0] ;
     }
+
+    /**Ver dependencias cargadas al sistema */
 
     public function verDependencias(){
         $rol = $this->rol();
@@ -47,6 +51,8 @@ class DependenciaService{
         ];
     }
 
+    /**Datos de filtros de busqueda */
+
     public function datosFiltros(){
         return [
             'dependencias_filtros' => Dependencia::obtenerTodosLosPadres(),
@@ -54,10 +60,10 @@ class DependenciaService{
         ];
     }
 
-    //verDependencia Muestra los datos de la dependencia seleccionada, a que dependencia padre pertenece y si tiene dependencias hijas
+    /**verDependencia Muestra los datos de la dependencia seleccionada, a que dependencia padre pertenece y si tiene dependencias hijas*/
     public function verDependencia($id){
         $datos_dependencia = Dependencia::with(['dependenciaPadre', 'direccion'])->findOrFail($id);
-        
+
         $dependencia = Dependencia::with('dependenciasHijas')->find($id);
 
         $idsPermitidos = array_merge(
@@ -73,7 +79,9 @@ class DependenciaService{
         ];
     }
 
-
+/**
+ * Eliminar una dependencia en el sistema
+ */
     public function eliminarDependencia($id){
        $dependencia = Dependencia::findOrFail($id);
 
@@ -87,9 +95,9 @@ class DependenciaService{
         }
 
         return $dependencia->delete();
-       
+
     }
-    
+
 
 
     public function cambiarActivaDependencia($id, $request){
@@ -167,7 +175,7 @@ class DependenciaService{
         else{
             $id_dependencia_padre = null;
         }
-        
+
         $dependencia = Dependencia::create([
             'id_dependencia_padre' => $id_dependencia_padre,
             'nombre' => $nombre,

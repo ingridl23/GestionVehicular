@@ -6,7 +6,9 @@ namespace App\Services;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Client\Response;
-
+/**
+ * @brief Clase service de conexion con api de combustible alphacast
+ */
 class CombustibleApiService
 {
     public function obtenerPrecioActual(): ?float
