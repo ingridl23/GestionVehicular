@@ -19,8 +19,8 @@ use App\Notifications\UsuarioModificadoNotification;
 use App\Exports\UsuariosExport;
 use App\Exports\ConductoresExport;
 use Maatwebsite\Excel\Facades\Excel;
-
-
+use App\Imports\UsuariosImport;
+use Maatwebsite\Excel\Concerns\WithValidation;
 /**
  * @class UserController
  * @brief Controlador encargado de la gestión integral de usuarios del sistema.
@@ -654,5 +654,13 @@ public function exportConductores()
         new ConductoresExport,
         'conductores_asignados_ult4meses.xlsx'
     );
+}
+
+/**IMPORTAR USUARIOS MASIVAMENTE DESDE UN EXCEL O CARPETA DE EXCEL */
+
+
+public function importar(Request $request)
+{
+
 }
 }

@@ -1,7 +1,7 @@
 <!-- resources/views/layout/sidebar.blade.php -->
 <aside
     :class="sidebarOpen ? 'w-64' : 'w-20'"
-    class="bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 transition-all duration-300 flex flex-col">
+    class="h-full bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 transition-all duration-300 flex flex-col">
     <!-- Logo & Toggle -->
     <div class="h-16 flex items-center justify-between px-4 border-b border-gray-200 dark:border-gray-700">
         <div x-show="sidebarOpen" class="flex items-center gap-3">
@@ -51,8 +51,7 @@
         type="button"
         class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg
                text-gray-700 dark:text-gray-300
-               hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-    >
+               hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
         <i class="fa-solid fa-users w-5 text-center"></i>
 
         <span x-show="sidebarOpen" class="flex-1 text-left text-sm font-medium">
@@ -69,8 +68,7 @@
     <div
         x-show="open && sidebarOpen"
         x-transition
-        class="ml-8 mt-1 space-y-1"
-    >
+        class="ml-8 mt-1 space-y-1">
 
         @can('ver_todos_usuarios')
         <a href="{{ route('admin.usuarios.index') }}"

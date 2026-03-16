@@ -1,5 +1,5 @@
 <?php
-
+use App\Services\AlertaService;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -20,6 +20,8 @@ return new class extends Migration
             $table->foreignId('id_dependencia_duena')->references('id')->on('dependencias')->onDelete('restrict');
             $table->foreignId('id_estado_nafta')->references('id')->on('estados_naftas')->onDelete('restrict');
             $table->boolean('control_satelital')->default(true); //por defecto al cargar primera vez
+            //id de viculacion con api gps gestya
+            $table->foreignId('gestya_device_id')->references('device_id')->on('AlertaService')->onDelete('restrict');
             $table->boolean('habilitado_prestamo')->default(true); //por defecto al cargar primera vez
             $table->string('condiciones_prestamo')->nullable();
             $table->integer('kilometros')->default(0);

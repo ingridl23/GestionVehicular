@@ -18,8 +18,7 @@
         <!-- Dark Mode Toggle -->
         <button
             @click="darkMode = !darkMode"
-            class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300"
-        >
+            class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300">
             <i x-show="!darkMode" class="fas fa-moon"></i>
             <i x-show="darkMode" class="fas fa-sun"></i>
         </button>
