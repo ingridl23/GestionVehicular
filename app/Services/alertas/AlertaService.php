@@ -1,13 +1,22 @@
 <?php
-
 namespace App\Services;
-
 use App\Models\Alerta;
 use App\Models\Reportes;
 use Carbon\Carbon;
 
+
+/**
+ * @brief AlertaService dedicado a las alertas dentro del sistema
+ * @description AlertaService permite la creacion del contenido de una alerta.
+ *
+ */
 class AlertaService
 {
+
+
+/**
+ * Crear alerta si no existe en el sistema
+ */
     public function crearSiNoExiste(
         string $tipo,
         string $entidadTipo,
@@ -31,7 +40,9 @@ class AlertaService
     }
 
 
-
+/**
+ * Resolver la alerta si ha sido mostrada al usuario
+ */
     public function resolver(
         string $tipo,
         string $entidadTipo,

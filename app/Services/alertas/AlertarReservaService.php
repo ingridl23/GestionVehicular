@@ -3,7 +3,12 @@ namespace App\Services;
 use App\Models\Reserva;
 use App\Enums\TipoAlerta;
 use App\Models\EstadosReserva;
-
+/**
+ * @brief AlertaReservaService dedicado a las alertas de reservas dentro del sistema
+ * @description AlertaReservaService permite validar el estado de reservas
+ * permitiendo que los usuarios sepan estado de la reservacion , fecha de venciminto y recibir el aviso de manera automatica
+ * o meidante una notificacion.
+ */
 class AlertaReservaService
 {
     private int $diasAviso = 1; // aviso 1 día antes

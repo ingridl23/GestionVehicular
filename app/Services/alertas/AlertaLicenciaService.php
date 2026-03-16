@@ -5,6 +5,12 @@ namespace App\Services;
 use App\Models\Carnet;
 use App\Enums\TipoAlerta;
 
+
+/**
+ * @brief Service dedicado a las alertas de licencias dentro del sistema
+ * @description AlertaLicenciaService permite validar informacion importante de licencias de usuarios como carnet y su fecha de vencimiento
+ * permitiendo corroborar si los usuarios estan aptos para realizar una reserva y conducir un vehiculo.
+ */
 class AlertaLicenciaService
 {
     private int $diasAviso = 30;

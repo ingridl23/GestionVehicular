@@ -8,7 +8,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use App\Models\Gasto;
 use App\Models\PrecioCombustible;
-
+/**
+ * @brief ViajeService presenta la logica de negocio de viajes dentro del sistema
+ * @description Service que permite comenzar un viaje con reserva utorizada previamente, y finalizar un viaje en curso */
 
 class ViajeService
 {

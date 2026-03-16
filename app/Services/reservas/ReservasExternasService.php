@@ -9,7 +9,11 @@ use App\Models\Reserva;
 use App\Models\Vehiculo;
 use App\Services\reservas\BaseReservasServices;
 
-
+/**
+ * @brief Service extendido de @BaseReservasServices , hereda logica de negocio inicial para reservas
+ * @description  Service dedicado a logica de reservas externas o prestamos dentro del sistema, siguiendo reglas y metodos heredados de BAseReservasService y caracteristicas validadas de negocio
+ * como dependencia,estado del vehiculo  y rol del usuario.
+ */
 class ReservasExternasService extends BaseReservasServices{
 
 

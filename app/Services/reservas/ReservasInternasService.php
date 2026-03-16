@@ -6,7 +6,11 @@ use App\Models\EstadosReserva;
 use App\Models\Reserva;
 use App\Models\Vehiculo;
 
-
+/**
+ * @brief Service extendido de @BaseReservasServices , hereda logica de negocio inicial para reservas internas
+ * @description  Service dedicado a logica de reservas internas o de una misma dependencia padre dentro del sistema, siguiendo reglas y metodos heredados de BaseReservasService y caracteristicas validadas de negocio
+ * como dependencia,estado del vehiculo  y rol del usuario.
+ */
 class ReservasInternasService extends BaseReservasServices{
 
 

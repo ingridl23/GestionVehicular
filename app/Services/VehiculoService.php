@@ -7,11 +7,17 @@ use Illuminate\Support\Facades\DB;
 use Exception;
 use Illuminate\Http\Request;
 
+/**
+ * @brief El Siguiente VehiculoService presenta la logica de negocio de vehiculos dentro del sistema
+ * @description El service de vehiculos permite tener la logica de craer, modificar,listar y dar de baja un vehiculo dentro del sistema,
+ * siguiendo policies y reglas de roles existentes.
+ */
 class VehiculoService
 {
 
     /**
      * Crear vehículo (CU 5)
+     *
      */
     public function crear(array $data): Vehiculo
     {
@@ -111,7 +117,9 @@ class VehiculoService
 
     return $estadoVehiculo->id;
 }
-
+/**
+ * Metodo para listar vehiculos aplicando filtros de busqueda por estado - dependencia - vtv- dominio - ordenado de reciente y hacia un tiempo.
+ */
 public function listar(Request $request)
 {
     // Captura de filtros desde el Request
