@@ -49,23 +49,7 @@
                                     <!-- Se llenará dinámicamente -->
                                 </tbody>
                             </table>
-{{--
- <p class="text-gray-600 dark:text-gray-400 mb-4">
-    <strong>Dominio:</strong> {{ $vehiculo->dominio }}<br>
-    <strong>Marca:</strong> {{ $vehiculo->marca }}<br>
-    <strong>Modelo:</strong> {{ $vehiculo->modelo }}<br>
-    <strong>Año:</strong> {{ $vehiculo->anio }}<br>
-    <strong>Kilómetros:</strong> {{ number_format($vehiculo->kilometros, 0, ',', '.') }} km<br>
-    <strong>VTV:</strong> {{ \Carbon\Carbon::parse($vehiculo->VTV)->format('d/m/Y') }}<br>
-    <strong>Control Satelital:</strong> {{ $vehiculo->control_satelital ? 'Sí' : 'No' }}<br>
-    <strong>Habilitación De Prestamo:</strong> {{ $vehiculo->habilitado_prestamo ? 'Sí' : 'No' }}<br>
-    <strong>Condicion Para Prestamo:</strong> {{ $vehiculo->condiciones_prestamo }}<br>
-    <strong>Estado Actual Del Vehiculo:</strong> {{ $vehiculo->estadoVehiculo->estado }}<br>
-    <strong>Estado Del Combustible:</strong> {{ $vehiculo->estadoNafta->estado }}<br>
-    <strong>Dependencia De Origen:</strong> {{ $vehiculo->id_dependencia_duena }}<br>
-    <strong>Direccion Actual:</strong> {{ $vehiculo->id_direccion_actual }}<br>
-   </p>
-  --}}
+
 </div>
 
                         <!-- Botones de acción -->
