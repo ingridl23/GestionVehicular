@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Services\reservas;
 use App\Notifications\UsuarioModificadoNotification;
 use App\Contracts\ReservaServiceInterface;
