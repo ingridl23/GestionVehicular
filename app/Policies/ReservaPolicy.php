@@ -4,7 +4,12 @@ namespace App\Policies;
 use App\Models\Reserva;
 use App\Models\User;
 
-
+/**
+ * @brief ReservaPolicy marca las reglas  para gestionar reservas en el sistema.
+ * @description La ReservaPolicy gestiona el acceso de los diferentes roles en el sistema.
+ * Admin general acceso a todo -- demas roles solo visualizacion y accion a nivel dependencia y area.
+ *
+ */
 class ReservaPolicy
 {
 

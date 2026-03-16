@@ -3,7 +3,11 @@
 namespace App\Policies;
 
 use App\Models\User;
-
+/**
+ * @brief UserPolicy marca las reglas  para gestionar usuarios en el sistema.
+ * @description La UserPolicy gestiona el acceso de los diferentes roles en el sistema.
+ * Admin general acceso a todo -- demas roles solo visualizacion y accion a nivel dependencia y area.
+ */
 class UserPolicy
 {
     /**

@@ -2,7 +2,11 @@
 namespace App\Policies;
 use App\Models\Dependencia;
 use App\Models\User;
-
+/**
+ * @brief Dependencia Policy marca las reglas  para gestionar dependencias y usuarios en el sistema.
+ * @description La dependencia policy gestiona el acceso de los diferentes roles en el sistema.
+ * Admin general acceso a todo -- demas roles solo visualizacion y accion a nivel dependencia y area.
+ */
 class DependenciaPolicy
 {
     /**
@@ -14,12 +18,12 @@ class DependenciaPolicy
             return true;
         }
     }
-    
+
     public function vistaGeneral(User $user): bool{
         return $user->can('ver_dependencias');
     }
 
-    
+
     /**
      * Ver dependencia
      */
@@ -27,7 +31,7 @@ class DependenciaPolicy
     {
         // Administrador de Dependencia → su dependencia
         if ($user->hasRole('Administrador de Dependencia')) {
-            
+
                 $idsPermitidos = array_merge(
                 [$user->dependencia->id],
                 $user->dependencia->obtenerIdsHijas()
@@ -101,14 +105,3 @@ class DependenciaPolicy
     }
 }
 
-
-
-/**
- * EJEMPLO PARA AGREGAR AL DEPENDENCIACONTROLLER :
-
-$this->authorize('view', $dependencia);
-$this->authorize('create', [Dependencia::class, $dependenciaPadre]);
-$this->authorize('update', $dependencia);
-
-
-*/

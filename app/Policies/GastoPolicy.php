@@ -4,7 +4,11 @@ namespace App\Policies;
 use App\Models\Gasto;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
-
+/**
+ * @brief Gasto Policy marca las reglas  para gestionar gastos de cada viaje e historico en el sistema.
+ * @description El Gasto policy gestiona el calculo de gastos  de viajes realizados por cada usuario.
+ * Admin general acceso a todo -- demas roles solo visualizacion y accion a nivel dependencia y area.
+ */
 class GastoPolicy
 {
     /**

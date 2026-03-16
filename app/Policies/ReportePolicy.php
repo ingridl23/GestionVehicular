@@ -11,12 +11,12 @@ class ReportePolicy
      * Administrador General → acceso total
      */
     /**
-      📝 Explicación
+Explicación
 El método before() en Policies funciona así:
 
-Si retorna true → ✅ Autorizado (no evalúa otros métodos)
-Si retorna false → ❌ Denegado (no evalúa otros métodos)
-Si retorna null → ⏭️ Continúa evaluando el método específico (createReport, etc.)
+Si retorna true →  Autorizado (no evalúa otros métodos)
+Si retorna false →  Denegado (no evalúa otros métodos)
+Si retorna null →  Continúa evaluando el método específico (createReport, etc.)
 
 El código no tenía el return null, entonces para usuarios que no son Administrador General,
  el método before() retornaba implícitamente null en versiones antiguas de PHP,
@@ -70,30 +70,7 @@ El código no tenía el return null, entonces para usuarios que no son Administr
         return $user->hasPermissionTo('iniciar_reporte_interno');
     }
 
-    /**
-     * Agregar mensajes / comentarios
-     */
-    /*
-    public function comment(User $user, Reportes $reporte)
-{
 
-    // Admin general puede todo
-    if ($user->hasRole('Administrador General')) {
-        return true;
-    }
-
-
-    if($user->hasAnyPermission([
-        'iniciar_reporte_interno',
-        'ver_reportes_dependencia',
-        'ver_reportes_general',
-        'ver_reporte_iniciado',
-        'ver_reportes_operativos',
-    ])){
-            return true;
-    }
-}
-*/
     /**
      * Actualizar estado del reporte
      */
@@ -104,15 +81,6 @@ El código no tenía el return null, entonces para usuarios que no son Administr
 
     return $user->can('actualizar_reportes');
     }
-
-    /**
-     * Eliminar reporte (por ahora nadie)
-     */
-    public function delete(User $user, Reportes $reporte): bool
-    {
-        return false;
-    }
-
 
 
 
