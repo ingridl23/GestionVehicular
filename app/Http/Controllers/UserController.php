@@ -661,6 +661,19 @@ public function exportConductores()
 
 public function importar(Request $request)
 {
+    $archivo = $request->file('archivo');
 
+    $dependenciaNombre = pathinfo(
+        $archivo->getClientOriginalName(),
+        PATHINFO_FILENAME
+    );
+
+    $dependencia = Dependencia::where('nombre',$dependenciaNombre)->first();
+    if(!$dependencia){
+    return back()->with('error','Dependencia no encontrada');
+        }
+    Excel::import(new UsuariosImport($dependencia), $archivo);
+
+    return back()->with('success','Usuarios importados');
 }
 }
