@@ -53,8 +53,9 @@ class Carnet extends Model
     */
 
     public static function carnetVigente($id){
-         $carnet = Carnet::where('id_usuario', $id)->first();
-
+       $carnet = Carnet::where('id_usuario', $id)
+    ->orderByDesc('fecha_vencimiento')
+    ->first();
         if (!$carnet || !$carnet->id_usuario) {
             return false;
         }

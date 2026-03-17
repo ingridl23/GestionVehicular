@@ -150,8 +150,8 @@
             <p>
                 <span class="font-medium text-gray-800 dark:text-gray-100">Tiene el carnet de conducir vigente:</span>
                 <span class="ml-1 px-2 py-1 rounded-full text-sm font-semibold
-                    {{ $reserva->usuario->vigente ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700' }}">
-                    {{ $reserva->usuario->vigente ? 'Si' : 'No' }}
+                    {{ $reserva->usuario->puedeConducir()  ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700' }}">
+                    {{ $reserva->usuario->puedeConducir() ? 'Sí' : 'No' }}
                 </span></p>
 
         </div>

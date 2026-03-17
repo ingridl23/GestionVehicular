@@ -13,13 +13,12 @@ class GpsTrack
         $this->baseUrl = config('services.gestya.url');
         $this->token = config('services.gestya.token');
     }
-
-    public function getLocation(string $dominio): ?array
-    {
-        $response = Http::withToken($this->token)
-            ->get($this->baseUrl . '/gps/location', [
-                'dominio' => $dominio
-            ]);
+public function getLocation(string $deviceId): ?array
+{
+    $response = Http::withToken($this->token)
+        ->get($this->baseUrl . '/gps/location', [
+            'device_id' => $deviceId
+        ]);
 
         if (!$response->successful()) {
             return null;

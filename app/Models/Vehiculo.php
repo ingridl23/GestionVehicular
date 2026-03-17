@@ -45,6 +45,7 @@ class Vehiculo extends Model
         'id_dependencia_duena',
         'id_estado_nafta',
         'control_satelital',
+        'gestya_device_id',
         'habilitado_prestamo',
         'condiciones_prestamo',
         'kilometros',

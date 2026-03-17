@@ -205,6 +205,7 @@ public function listar(Request $request)
                 'kilometros' => $vehiculo->kilometros,
                 'VTV' => $vehiculo->VTV,
                 'control_satelital' => $vehiculo->control_satelital,
+                'gestya_device_id'=> $vehiculo->gestya_device_id,
                 'habilitado_prestamo' => $vehiculo->habilitado_prestamo,
                 'condiciones_prestamo' => $vehiculo->condiciones_prestamo,
                 'id_estado_vehiculo' => $vehiculo->id_estado_vehiculo,
