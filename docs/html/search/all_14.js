@@ -22,5 +22,7 @@ var searchData=
   ['usuariomodificadonotification_2ephp_19',['UsuarioModificadoNotification.php',['../_usuario_modificado_notification_8php.html',1,'']]],
   ['usuariosexport_20',['UsuariosExport',['../class_app_1_1_exports_1_1_usuarios_export.html',1,'App::Exports']]],
   ['usuariosexport_2ephp_21',['UsuariosExport.php',['../_usuarios_export_8php.html',1,'']]],
-  ['usuariospordependencia_22',['usuariosPorDependencia',['../class_app_1_1_http_1_1_controllers_1_1_user_controller.html#a96b7963b8215f16e6771286f8d971c1a',1,'App::Http::Controllers::UserController']]]
+  ['usuariosimport_22',['UsuariosImport',['../class_usuarios_import.html',1,'']]],
+  ['usuariosimport_2ephp_23',['UsuariosImport.php',['../_usuarios_import_8php.html',1,'']]],
+  ['usuariospordependencia_24',['usuariosPorDependencia',['../class_app_1_1_http_1_1_controllers_1_1_user_controller.html#a96b7963b8215f16e6771286f8d971c1a',1,'App::Http::Controllers::UserController']]]
 ];

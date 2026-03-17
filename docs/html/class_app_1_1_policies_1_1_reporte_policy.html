@@ -98,7 +98,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a6977f6c0eb7f795a33ed0f9573978d00" id="r_a6977f6c0eb7f795a33ed0f9573978d00"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6977f6c0eb7f795a33ed0f9573978d00">view</a> (<a class="el" href="class_app_1_1_models_1_1_user.html">User</a> $user, <a class="el" href="class_app_1_1_models_1_1_reportes.html">Reportes</a> $reporte)</td></tr>
 <tr class="memitem:a9c6ff89ead2e4fa5670dc2a134d2f9aa" id="r_a9c6ff89ead2e4fa5670dc2a134d2f9aa"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9c6ff89ead2e4fa5670dc2a134d2f9aa">create</a> (?<a class="el" href="class_app_1_1_models_1_1_user.html">User</a> $user)</td></tr>
 <tr class="memitem:a1db481c57d097033541f14c1baaf0cce" id="r_a1db481c57d097033541f14c1baaf0cce"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1db481c57d097033541f14c1baaf0cce">update</a> (<a class="el" href="class_app_1_1_models_1_1_user.html">User</a> $user, <a class="el" href="class_app_1_1_models_1_1_reportes.html">Reportes</a> $reporte)</td></tr>
-<tr class="memitem:a036850107a0f117151c7d8b6c0c77c51" id="r_a036850107a0f117151c7d8b6c0c77c51"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a036850107a0f117151c7d8b6c0c77c51">delete</a> (<a class="el" href="class_app_1_1_models_1_1_user.html">User</a> $user, <a class="el" href="class_app_1_1_models_1_1_reportes.html">Reportes</a> $reporte)</td></tr>
 </table>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
 <a id="a11b88a55c7a0be277c1d96962c5255bc" name="a11b88a55c7a0be277c1d96962c5255bc"></a>
@@ -119,9 +118,8 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Administrador General → acceso total </p><pre class="fragment">  📝 Explicación
-</pre><p> El método before() en Policies funciona así:</p>
-<p>Si retorna true → ✅ Autorizado (no evalúa otros métodos) Si retorna false → ❌ Denegado (no evalúa otros métodos) Si retorna null → ⏭️ Continúa evaluando el método específico (createReport, etc.)</p>
+<p>Administrador General → acceso total Explicación El método before() en Policies funciona así:</p>
+<p>Si retorna true → Autorizado (no evalúa otros métodos) Si retorna false → Denegado (no evalúa otros métodos) Si retorna null → Continúa evaluando el método específico (createReport, etc.)</p>
 <p>El código no tenía el return null, entonces para usuarios que no son Administrador General, el método before() retornaba implícitamente null en versiones antiguas de PHP, pero ahora puede estar retornando vacío o evaluándose incorrectamente. </p>
 
 </div>
@@ -144,28 +142,6 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a036850107a0f117151c7d8b6c0c77c51" name="a036850107a0f117151c7d8b6c0c77c51"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a036850107a0f117151c7d8b6c0c77c51">&#9670;&#160;</a></span>delete()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">App\Policies\ReportePolicy::delete </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_app_1_1_models_1_1_user.html">User</a></td>          <td class="paramname"><span class="paramname"><em>$user</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="class_app_1_1_models_1_1_reportes.html">Reportes</a></td>          <td class="paramname"><span class="paramname"><em>$reporte</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Eliminar reporte (por ahora nadie) </p>
-
-</div>
-</div>
 <a id="a1db481c57d097033541f14c1baaf0cce" name="a1db481c57d097033541f14c1baaf0cce"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1db481c57d097033541f14c1baaf0cce">&#9670;&#160;</a></span>update()</h2>
 
@@ -184,7 +160,7 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Agregar mensajes / comentarios Actualizar estado del reporte </p>
+<p>Actualizar estado del reporte </p>
 
 </div>
 </div>

@@ -45,6 +45,7 @@ var hierarchy =
     [ "Command", null, [
       [ "App\\Console\\Commands\\ActualizarPrecioCombustible", "class_app_1_1_console_1_1_commands_1_1_actualizar_precio_combustible.html", null ],
       [ "App\\Console\\Commands\\ExpirarReservasPendientes", "class_app_1_1_console_1_1_commands_1_1_expirar_reservas_pendientes.html", null ],
+      [ "App\\Console\\Commands\\ImportarUsuarios", "class_app_1_1_console_1_1_commands_1_1_importar_usuarios.html", null ],
       [ "App\\Console\\Commands\\VerificarAlertas", "class_app_1_1_console_1_1_commands_1_1_verificar_alertas.html", null ],
       [ "App\\Console\\Commands\\VerificarCarnetsPorVencer", "class_app_1_1_console_1_1_commands_1_1_verificar_carnets_por_vencer.html", null ],
       [ "App\\Console\\Commands\\VerificarLicencias", "class_app_1_1_console_1_1_commands_1_1_verificar_licencias.html", null ]
@@ -119,6 +120,9 @@ var hierarchy =
     [ "Notification", null, [
       [ "App\\Notifications\\ReservaCreada", "class_app_1_1_notifications_1_1_reserva_creada.html", null ],
       [ "App\\Notifications\\UsuarioModificadoNotification", "class_app_1_1_notifications_1_1_usuario_modificado_notification.html", null ]
+    ] ],
+    [ "OnEachRow", null, [
+      [ "UsuariosImport", "class_usuarios_import.html", null ]
     ] ],
     [ "App\\Policies\\ReportePolicy", "class_app_1_1_policies_1_1_reporte_policy.html", null ],
     [ "App\\Services\\ReporteService", "class_app_1_1_services_1_1_reporte_service.html", null ],

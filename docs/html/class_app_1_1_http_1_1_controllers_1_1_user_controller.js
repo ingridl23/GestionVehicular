@@ -7,6 +7,7 @@ var class_app_1_1_http_1_1_controllers_1_1_user_controller =
     [ "edit", "class_app_1_1_http_1_1_controllers_1_1_user_controller.html#a03d4653c1b7bc59c8614a58af7c0693a", null ],
     [ "export", "class_app_1_1_http_1_1_controllers_1_1_user_controller.html#af3f5f3c49b6919c6c5e9b61908ecbc4d", null ],
     [ "exportConductores", "class_app_1_1_http_1_1_controllers_1_1_user_controller.html#a939970f19ed1e61e4ff60992ae8ed0a2", null ],
+    [ "importar", "class_app_1_1_http_1_1_controllers_1_1_user_controller.html#a16a722cef20c74880d44c11f9c72faf4", null ],
     [ "index", "class_app_1_1_http_1_1_controllers_1_1_user_controller.html#ace529377bf5e5650771ffc907238efcf", null ],
     [ "myProfile", "class_app_1_1_http_1_1_controllers_1_1_user_controller.html#a4a5e4c01204568eef3d7c289d7813a99", null ],
     [ "show", "class_app_1_1_http_1_1_controllers_1_1_user_controller.html#a788c17e8199321252c5f0c64fb3edbbe", null ],
