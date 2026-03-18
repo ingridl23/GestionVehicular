@@ -49,7 +49,7 @@
                     @endif
 
                     <div class="flex flex-wrap gap-2 justify-center md:justify-start">
-                        @if($esAdmin)
+                        @if($usuario->$esAdmin)
                             <span class="px-3 py-1 bg-yellow-500 text-white text-sm rounded-full flex items-center gap-1">
                                 <i class="fas fa-crown"></i> Administrador
                             </span>
