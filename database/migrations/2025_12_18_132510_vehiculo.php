@@ -12,6 +12,7 @@ return new class extends Migration
         Schema::create('vehiculos', function(Blueprint $table){
             $table->id();
             $table->string('dominio')->unique();
+            $table->string('unidad')->unique();
             $table->string('marca');
             $table->string('modelo');
             $table->integer('anio');
