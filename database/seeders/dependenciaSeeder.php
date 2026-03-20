@@ -488,6 +488,13 @@ class DependenciaSeeder extends Seeder
                 'id_dependencia_padre' => null,
             ],
 
+             [
+                'nombre' => 'Patrulla Municipal De Prevencion',
+                'activa' => 1,
+                'id_direccion' => 20,
+                'id_dependencia_padre' => 59,
+            ],
+
         ]);
     }
 }

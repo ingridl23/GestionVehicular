@@ -25,11 +25,7 @@ Route::middleware(['auth', 'role:Administrador General|Administrador de Dependen
        ->middleware('permission:ver_auditoria')->name('auditoria.index');
 
 
-/*
-      Route::resource('reportes', ReporteController::class)
-            ->only(['index', 'show', 'update'])
-            ->middleware('permission:ver_reportes_dependencia');
-*/
+
 
        // Reportes globales
       Route::resource('reportes', ReporteController::class)
@@ -73,6 +69,8 @@ Route::middleware(['auth', 'role:Administrador General|Administrador de Dependen
             Route::patch('/{id}/activa', [DependenciaController::class, 'cambiarActivaDependencia'])->middleware('permission:editar_dependencias')->name('toggle');
 
         });
+
+/*** voy por aca guia de rutas  ***/
 
 Route::middleware(['auth', 'role:Administrador General|Administrador de Dependencia|Jefe de Area'])
     ->prefix('admin')->name('admin.')
