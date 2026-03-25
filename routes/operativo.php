@@ -51,8 +51,6 @@ Route::post(
         Route::get('/editar-conductor/{id}', [ReservaController::class, 'formularioEditarConductor'])->name('editar-conductor');
         Route::patch('/editar-conductor/{id}', [ReservaController::class, 'editarConductor'])->name('update.conductor');
 
-       /* Route::patch('/reportes/{reporte}/estado', [ReporteController::class, 'cambiarEstado'])
-    ->name('reportes.estado');*/
 
 
     //*********************************************************************************************************************** */
