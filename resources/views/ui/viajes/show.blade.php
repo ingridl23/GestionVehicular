@@ -108,7 +108,6 @@
                     Finalizar viaje
                 </button>
 
-
             </div>
 
         </form>
@@ -118,6 +117,10 @@
     </div>
 
 </div>
+<a href="{{ route('viajes.mapa', $viaje->id) }}"
+   class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg">
+   Ver seguimiento en mapa
+</a>
 <a href="{{ url()->previous() }}"
          class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">
      <-

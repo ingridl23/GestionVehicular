@@ -1,0 +1,74 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0
+}
+
+#wrap {
+    display: flex;
+    gap: 16px;
+    padding: 16px;
+    min-height: 520px;
+}
+
+#map-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px
+}
+
+#side-col {
+    width: 260px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px
+}
+
+#map-card {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+    flex: 1;
+}
+
+#map-svg {
+    width: 100%;
+    height: 100%
+}
+
+#status-card {
+    padding: 10px;
+    display: flex;
+    gap: 10px;
+}
+
+#status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+#status-dot.idle {
+    background: #ccc
+}
+
+#status-dot.moving {
+    background: green
+}
+
+#status-dot.done {
+    background: blue
+}
+
+#btn-start {
+    background: green;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+}
+
+#btn-cancel {
+    display: none;
+}

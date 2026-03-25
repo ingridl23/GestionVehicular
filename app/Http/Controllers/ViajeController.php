@@ -115,7 +115,12 @@ class ViajeController extends Controller
     return view('ui.viajes.show', compact('viaje', 'estadosNafta'));
 }
 
+public function mapaVirtual(Viaje $viaje)
+{
+    $viaje->load('ultimaCoordenada');
 
+    return view('ui.viajes.mapa-virtual', compact('viaje'));
+}
 /**
  * Iniciar un viaje a partir de una reserva.
  *

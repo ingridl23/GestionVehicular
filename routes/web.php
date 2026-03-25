@@ -8,7 +8,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\HistorialController;
 use App\Http\Controllers\ViajeController;
 use App\Http\Controllers\HomeController;
-
+use App\Models\Viaje;
 use App\Http\Controllers\Reservas\PrestamoController;
 use App\Http\Controllers\Reservas\ReservaController as ReservaController;
 use App\Services\CombustibleApiService;
@@ -73,12 +73,12 @@ Route::middleware(['auth'])->group(function () {
             ->name('reportes.mis');
 
  /********************************VIAJES ******************************************** */
- Route::post('/viajes/iniciar/{reserva}', [ViajeController::class, 'iniciar'])
-    ->name('viajes.iniciar');
+// Route::post('/viajes/iniciar/{reserva}', [ViajeController::class, 'iniciar'])
+   // ->name('viajes.iniciar');
 
-    Route::post('/viajes/finalizar/{viaje}', [ViajeController::class, 'finalizar'])
-    ->name('viajes.finalizar');
-     /********************************** VIAJES OPERATIVOS **********************************/
+   // Route::post('/viajes/finalizar/{viaje}', [ViajeController::class, 'finalizar'])
+  //  ->name('viajes.finalizar');
+     /********************************** VIAJES  **********************************/
 
 Route::get('/viajes', [ViajeController::class, 'index'])
     ->name('viajes.index');
@@ -86,12 +86,23 @@ Route::get('/viajes', [ViajeController::class, 'index'])
 Route::get('/viajes/{viaje}', [ViajeController::class, 'show'])
     ->name('viajes.show');
 
+Route::get('/viajes/{viaje}/mapa', [ViajeController::class, 'mapaVirtual'])
+    ->name('viajes.mapa');
+
 Route::post('/viajes/{reserva}/comenzar', [ViajeController::class, 'comenzarViaje'])
     ->name('viajes.comenzar');
 
 Route::post('/viajes/{viaje}/finalizar', [ViajeController::class, 'finalizarViaje'])
     ->name('viajes.finalizar');
 
+Route::get('/api/viajes/{viaje}/coordenadas', function (Viaje $viaje) {
+    return response()->json(
+        $viaje->coordenadas()
+              ->latest('fecha_hora')
+              ->limit(20)
+              ->get()
+    );
+});
 
    /********************************** Rutas de dependencia ************************************************/
 
