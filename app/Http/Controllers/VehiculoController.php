@@ -92,6 +92,7 @@ $this->authorize('view', $vehiculo);
         'id' => $vehiculo->id,
         'dominio' => $vehiculo->dominio,
         'marca' => $vehiculo->marca,
+        'unidad'=>$vehiculo->unidad,
         'modelo' => $vehiculo->modelo,
         'anio' => $vehiculo->anio,
         'kilometros' => $vehiculo->kilometros,
@@ -166,6 +167,7 @@ public function detalle(Vehiculo $vehiculo)
             $data = $request->validate([
                 'dominio' => 'required|string|unique:vehiculos,dominio',
                 'marca' => 'required|string',
+                'unidad'=> 'required|string',
                 'modelo' => 'required|string',
                 'anio' => 'required|integer',
                 'id_dependencia_duena' => 'required|exists:dependencias,id',
@@ -174,9 +176,8 @@ public function detalle(Vehiculo $vehiculo)
                 'id_estado_vehiculo' => 'required|exists:estados_vehiculos,id',
                 'kilometros' => 'required|integer|min:0',
                 'vtv' => 'required|date',
-               'habilitado_prestamo' => 'required|boolean',
-               'control_satelital' => 'required|boolean',
-
+                'habilitado_prestamo' => 'required|boolean',
+                'control_satelital' => 'required|boolean',
                 'condiciones_prestamo' => 'nullable|string',
             ]);
 
@@ -247,6 +248,7 @@ public function detalle(Vehiculo $vehiculo)
             $data = $request->validate([
                 'dominio' => 'sometimes|string',
                 'marca' => 'sometimes|string',
+                'unidad'=> 'sometimes|string',
                 'modelo' => 'sometimes|string',
                 'anio' => 'sometimes|integer',
                 'id_estado_vehiculo' => 'sometimes|exists:estados_vehiculos,id',

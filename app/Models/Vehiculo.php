@@ -37,6 +37,7 @@ class Vehiculo extends Model
 
     protected $fillable = [
         'dominio',
+        'unidad',
         'marca',
         'modelo',
         'anio',

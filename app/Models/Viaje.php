@@ -79,6 +79,12 @@ public function ultimaCoordenada()
     return $this->hasOne(CoordenadasVehiculo::class, 'id_viaje')->latest('fecha_hora');
 }
 
+public function getFechaFinFormateadaAttribute()
+{
+    return $this->fecha_fin
+        ? $this->fecha_fin->format('d/m/Y H:i')
+        : 'Viaje en curso';
+}
 
 public function getEstadoViajeAttribute(): string
 {

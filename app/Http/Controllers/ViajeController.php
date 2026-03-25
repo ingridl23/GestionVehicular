@@ -132,7 +132,18 @@ public function mapaVirtual(Viaje $viaje)
    public function comenzarViaje($reservaId)
 {
 
+    try {
+        $viaje = $this->service->comenzarViaje($reservaId);
 
+        return redirect()->route('viajes.mapa', $viaje->id)
+            ->with('success', 'Viaje iniciado.');
+
+    } catch (\Exception $e) {
+        return back()->withErrors(['error' => $e->getMessage()]);
+    }
+}
+
+/*
     try {
         $viaje = $this->service->comenzarViaje($reservaId);
         return redirect()->route('operativo.viajes.index')
@@ -144,7 +155,7 @@ public function mapaVirtual(Viaje $viaje)
             ->withErrors(['error' => $e->getMessage()]);
     }
 }
-
+*/
 
 /**
  * Finaliza un viaje activo.

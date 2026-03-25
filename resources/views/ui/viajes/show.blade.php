@@ -39,7 +39,7 @@
               <div>
                 <p class="text-sm text-gray-500">Fecha Fin</p>
                 <p class="font-semibold">
-                    {{ $viaje->fecha_fin->format('d/m/Y H:i')?? 'viaje en curso o no iniciado' }}
+                   {{ $viaje->fecha_fin_formateada }}
                 </p>
             </div>
 
@@ -103,6 +103,7 @@
                               class="w-full border rounded-lg p-2"></textarea>
                 </div>
 
+
                 <button type="submit"
                         class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg">
                     Finalizar viaje
@@ -117,10 +118,6 @@
     </div>
 
 </div>
-<a href="{{ route('viajes.mapa', $viaje->id) }}"
-   class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg">
-   Ver seguimiento en mapa
-</a>
 <a href="{{ url()->previous() }}"
          class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">
      <-

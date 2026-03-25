@@ -73,11 +73,11 @@ Route::middleware(['auth'])->group(function () {
             ->name('reportes.mis');
 
  /********************************VIAJES ******************************************** */
-// Route::post('/viajes/iniciar/{reserva}', [ViajeController::class, 'iniciar'])
-   // ->name('viajes.iniciar');
+ Route::post('/viajes/iniciar/{reserva}', [ViajeController::class, 'iniciar'])
+   ->name('viajes.iniciar');
 
-   // Route::post('/viajes/finalizar/{viaje}', [ViajeController::class, 'finalizar'])
-  //  ->name('viajes.finalizar');
+    Route::post('/viajes/finalizar/{viaje}', [ViajeController::class, 'finalizar'])
+  ->name('viajes.finalizar');
      /********************************** VIAJES  **********************************/
 
 Route::get('/viajes', [ViajeController::class, 'index'])

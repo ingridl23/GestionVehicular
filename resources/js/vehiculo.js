@@ -89,7 +89,7 @@ document.addEventListener('DOMContentLoaded', function() {
             var nombreModelo = v.modelo || '';
             var dominio = v.dominio || 'N/A';
             var anio = v.anio || 'N/A';
-
+            var unidad = v.unidad || 'N/A';
             // Acceso seguro a objetos anidados sin usar ?.
             var estadoStr = (v.estado_vehiculo && v.estado_vehiculo.estado) ? v.estado_vehiculo.estado : 'N/A';
             var depStr = (v.dependencia_duena && v.dependencia_duena.nombre) ? v.dependencia_duena.nombre : 'N/A';
@@ -177,6 +177,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 condiciones_prestamo: document.getElementById('condiciones_prestamo').value,
                 dominio: document.getElementById('dominio').value,
                 marca: document.getElementById('marca').value,
+                unidad: document.getElementById('unidad').value,
                 modelo: document.getElementById('modelo').value,
                 anio: document.getElementById('anio').value,
                 kilometros: document.getElementById('kilometros').value,

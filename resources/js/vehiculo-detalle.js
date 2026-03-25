@@ -68,6 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 condiciones_prestamo: document.getElementById('condiciones_prestamo').value,
                 dominio: document.getElementById('dominio').value,
                 marca: document.getElementById('marca').value,
+                unidad: document.getElementById(unidad).value,
                 modelo: document.getElementById('modelo').value,
                 anio: document.getElementById('anio').value,
                 kilometros: document.getElementById('kilometros').value,
@@ -150,6 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <strong>Dominio:</strong> ${v.dominio}<br>
             <strong>Marca:</strong> ${v.marca}<br>
             <strong>Modelo:</strong> ${v.modelo}<br>
+            <strong>Unidad:</strong> ${v.unidad}<br>
             <strong>Año:</strong> ${v.anio}<br>
             <strong>Kilómetros:</strong> ${formatNumber(v.kilometros)} km<br>
             <strong>VTV:</strong> ${formatDate(v.VTV)}<br>
@@ -214,6 +216,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Llenar campos
         form.dominio.value = vehiculo.dominio || '';
         form.marca.value = vehiculo.marca || '';
+        form.unidad.value = vehiculo.marca || '';
         form.modelo.value = vehiculo.modelo || '';
         form.anio.value = vehiculo.anio || '';
         form.kilometros.value = vehiculo.kilometros || '';

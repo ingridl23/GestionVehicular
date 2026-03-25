@@ -98,6 +98,7 @@
       {{-- Acciones --}}
       <div class="vm-actions">
 
+
         {{-- Ver detalle --}}
         @canany(['ver_reservas_internas', 'ver_reservas_prestamos'])
         <a href="{{ route('viajes.show', $viaje->id) }}" class="vm-btn b-blue" title="Ver detalle">
@@ -106,7 +107,11 @@
         @endcanany
 
         @if($mostrarAcciones)
-
+        {{-- ver mapa --}}
+<a href="{{ route('viajes.mapa', $viaje->id) }}"
+   class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg">
+   Ver mapa
+</a>
           {{-- Editar --}}
           @if($configEditar && ($ids === null || in_array($viaje->id, $ids ?? [])))
             @can($configEditar['can'])

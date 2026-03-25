@@ -193,7 +193,11 @@
                 @endif
 
                 @if($mostrarAcciones)
-
+     {{-- ver mapa --}}
+<a href="{{ route('viajes.mapa', $viaje->id) }}"
+   class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg">
+   Ver mapa
+</a>
                   {{-- Iniciar viaje (solo Operativo con reserva aprobada) --}}
                   @role('Operativo')
                     @if($viaje->reserva?->estado_reserva?->estado === 'APROBADA')
