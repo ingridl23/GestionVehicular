@@ -94,7 +94,7 @@ class ViajeController extends Controller
 
     /**
      * Detalle de un viaje.
-     * Permite que al seleccionar un viaje se pueda visalizar la informacion vinculada al mismo.
+     * Permite que al seleccionar un viaje se pueda visualizar la informacion vinculada al mismo.
      * Detalles: dependencia de origen,usuario asignado,estado del combustible al iniciar el recorrido,estado del combustible al finalizar el recorrido,
      * gasto obtenido una vez finalizado el viaje y la ubicacion actual del vehiculo una vez finalizada la reserva.
      */

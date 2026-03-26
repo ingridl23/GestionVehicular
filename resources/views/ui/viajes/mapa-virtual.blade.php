@@ -59,8 +59,22 @@
     </div>
   </div>
 </div>
+@vite(['resources/js/simulador.js', 'resources/css/simulador.css'])
 @endsection
 <script>
-    const viajeId = @json($viaje->id);
+window.VIAJE_DATA = {
+    id: @json($viaje->id),
+    fechaInicio: @json($viaje->fecha_inicio),
+    fechaFin: @json($viaje->fecha_fin),
+    kilometros_inicio: @json($viaje->kilometros_inicio),
+    kilometros_fin: @json($viaje->kilometros_fin),
+
+    finalizar_url: @json(route('operativo.viajes.finalizar', $viaje->id)),
+
+    vehiculo: {
+        dominio: @json($viaje->vehiculo->dominio ?? null)
+    },
+
+    coordenadas: @json($viaje->ultimaCoordenada)
+};
 </script>
-@vite(['resources/js/mapa/simulador.js', 'resources/css/mapa/simulador.css'])

@@ -85,13 +85,14 @@ $mostrarAcciones = $mostrarAcciones ?? true;
       <button type="button"
         class="botonCancelar px-4 py-2 text-sm font-medium text-white
                bg-red-500 hover:bg-red-600 rounded-md transition">
-        Confirmar cancelación
+        Confirmar Cancelación
       </button>
     </div>
   </div>
 </dialog>
 
 <script>
+
 function vfToggle() {
   const panel   = document.getElementById('vfPanel');
   const chevron = document.getElementById('vfChevron');
@@ -101,7 +102,7 @@ function vfToggle() {
 }
 
 // Abre el panel automáticamente si hay filtros activos en la URL
-document.addEventListener('DOMContentLoaded', function () {
+  document.addEventListener('DOMContentLoaded', function () {
   const params = new URLSearchParams(window.location.search);
   const active = ['nombre','fecha_inicio','fecha_fin','estado','vehiculo']
     .filter(k => params.get(k) && params.get(k) !== 'default').length;
@@ -114,6 +115,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (badge) { badge.textContent = active; badge.classList.remove('hidden'); }
   }
 });
+
 </script>
 
 @endsection

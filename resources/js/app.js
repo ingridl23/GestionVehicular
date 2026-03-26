@@ -7,13 +7,13 @@ import Alpine from 'alpinejs';
 
 import './calculadora';
 import './reportes';
-import './vehiculo';
-
+import './simulador';
 import {
     closeUserModal,
     openEditModal,
     openUserCreateModal
 } from './users-modal';
+import './vehiculo';
 
 window.openUserCreateModal = openUserCreateModal;
 window.openEditModal = openEditModal;

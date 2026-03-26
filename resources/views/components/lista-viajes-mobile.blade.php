@@ -25,14 +25,14 @@
         'EN_CURSO'   => 'en-curso',
         'FINALIZADO' => 'finalizado',
         'CANCELADO'  => 'cancelado',
-        'PAUSADO'    => 'pausado',
+      //  'PAUSADO'    => 'pausado',
         default      => 'aprobada',
     };
     $estadoLabel = match($estadoRaw) {
         'EN_CURSO'   => 'En curso',
         'FINALIZADO' => 'Finalizado',
         'CANCELADO'  => 'Cancelado',
-        'PAUSADO'    => 'Pausado',
+        //'PAUSADO'    => 'Pausado',
         default      => 'Aprobado',
     };
     $nombreCompleto = $viaje->reserva?->usuario?->name ?? '—';
@@ -102,24 +102,28 @@
         {{-- Ver detalle --}}
         @canany(['ver_reservas_internas', 'ver_reservas_prestamos'])
         <a href="{{ route('viajes.show', $viaje->id) }}" class="vm-btn b-blue" title="Ver detalle">
-          <i class="fas fa-eye"></i> Ver
+          <i class="fas fa-eye"></i>
         </a>
         @endcanany
 
-        @if($mostrarAcciones)
+  @canany(['ver_reservas_internas', 'ver_reservas_prestamos'])
         {{-- ver mapa --}}
-<a href="{{ route('viajes.mapa', $viaje->id) }}"
-   class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg">
-   Ver mapa
+<a href="{{ route('viajes.mapa', $viaje->id) }}"class="vm-btn b-green" title="Ver mapa">
+    <i  class="fas fa-map"></i>
 </a>
+  @endcanany
+
+
+
+        @if($mostrarAcciones)
           {{-- Editar --}}
           @if($configEditar && ($ids === null || in_array($viaje->id, $ids ?? [])))
-            @can($configEditar['can'])
-              @if(!in_array($estadoRaw, ['CANCELADO','PAUSADO','FINALIZADO']))
+            @can($configEditar['can'])       {{-- pausado --}}
+              @if(!in_array($estadoRaw, ['CANCELADO','FINALIZADO']))
               <a href="{{ $configEditar['route'] }}"
                  data-id="{{ $viaje->id }}"
-                 class="vm-btn b-yellow btn-editar">
-                <i class="fas fa-pen"></i> Editar
+                 class="vm-btn b-yellow btn-editar" title="editar viaje">
+                <i class="fas fa-pen"></i>
               </a>
               @endif
             @endcan
@@ -132,8 +136,8 @@
                   action="{{ route('operativo.viajes.comenzar', $viaje->reserva->id) }}"
                   class="flex-1">
               @csrf
-              <button type="submit" class="vm-btn b-green w-full">
-                <i class="fas fa-play"></i> Iniciar
+              <button type="submit" class="vm-btn b-green w-full" title="iniciar viaje">
+                <i class="fas fa-play"></i>iniciar
               </button>
             </form>
             @endif

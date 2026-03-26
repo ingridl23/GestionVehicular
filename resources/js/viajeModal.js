@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+/*document.addEventListener('DOMContentLoaded', () => {
 
     const btnFinalizar = document.getElementById('btnFinalizar');
     const modal = document.getElementById('modalFinalizar');
@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const estado = document.getElementById('estadoNafta').value;
             const obs = document.getElementById('observaciones').value;
 
-            await fetch(`/viajes/finalizar/${window.viajeId}`, {
+            await fetch(window.VIAJE_DATA.finalizar_url, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -34,4 +34,4 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-});
+});*/

@@ -72,3 +72,449 @@
 #btn-cancel {
     display: none;
 }
+
+
+/*************************************************************************************/
+
+
+/* resources/css/simulador.css */
+
+
+/* ── Layout principal ─────────────────────────────────────────── */
+
+#vm-layout {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+}
+
+#vm-map-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 0;
+}
+
+#vm-side-col {
+    width: 260px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+
+/* ── Tarjeta del mapa ──────────────────────────────────────────── */
+
+#vm-map-card {
+    background: #fff;
+    border: 0.5px solid #e2e8f0;
+    border-radius: 12px;
+    overflow: hidden;
+    aspect-ratio: 420 / 300;
+}
+
+.dark #vm-map-card {
+    background: #1e293b;
+    border-color: #334155;
+}
+
+#map-svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+
+/* ── Status card ───────────────────────────────────────────────── */
+
+#vm-status-card {
+    background: #fff;
+    border: 0.5px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.dark #vm-status-card {
+    background: #1e293b;
+    border-color: #334155;
+}
+
+#vm-status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    transition: background 0.3s;
+}
+
+#vm-status-dot.idle {
+    background: #d1d5db;
+}
+
+#vm-status-dot.moving {
+    background: #16a34a;
+    animation: vm-pulse 1.4s infinite;
+}
+
+#vm-status-dot.done {
+    background: #2563eb;
+}
+
+@keyframes vm-pulse {
+    0%,
+    100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.35;
+    }
+}
+
+#vm-status-title {
+    font-size: 15px;
+    font-weight: 500;
+    color: #0f172a;
+}
+
+#vm-status-text {
+    font-size: 13px;
+    color: #64748b;
+}
+
+.dark #vm-status-title {
+    color: #f1f5f9;
+}
+
+.dark #vm-status-text {
+    color: #94a3b8;
+}
+
+
+/* ── Info cards (distancia, resumen) ──────────────────────────── */
+
+.vm-info-card {
+    background: #fff;
+    border: 0.5px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 14px 16px;
+}
+
+.dark .vm-info-card {
+    background: #1e293b;
+    border-color: #334155;
+}
+
+.vm-info-label {
+    font-size: 11px;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 4px;
+}
+
+.vm-info-value {
+    font-size: 22px;
+    font-weight: 500;
+    color: #0f172a;
+}
+
+.dark .vm-info-value {
+    color: #f1f5f9;
+}
+
+.vm-info-unit {
+    font-size: 13px;
+    color: #94a3b8;
+    margin-left: 3px;
+}
+
+
+/* ── Barra de progreso ─────────────────────────────────────────── */
+
+#vm-progress-bar-wrap {
+    height: 3px;
+    background: #f1f5f9;
+    border-radius: 2px;
+    overflow: hidden;
+    margin-top: 8px;
+}
+
+.dark #vm-progress-bar-wrap {
+    background: #334155;
+}
+
+#vm-progress-bar {
+    height: 100%;
+    width: 0%;
+    background: #16a34a;
+    transition: width 0.4s;
+}
+
+
+/* ── Tarjeta de ruta ───────────────────────────────────────────── */
+
+#vm-route-card {
+    background: #fff;
+    border: 0.5px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 14px 16px;
+}
+
+.dark #vm-route-card {
+    background: #1e293b;
+    border-color: #334155;
+}
+
+.vm-route-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 3px 0;
+}
+
+.vm-rdot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    margin-top: 4px;
+    flex-shrink: 0;
+}
+
+.vm-rdot.o {
+    background: #16a34a;
+}
+
+.vm-rdot.d {
+    background: #dc2626;
+}
+
+.vm-rname {
+    font-size: 13px;
+    font-weight: 500;
+    color: #0f172a;
+}
+
+.dark .vm-rname {
+    color: #f1f5f9;
+}
+
+.vm-raddr {
+    font-size: 12px;
+    color: #94a3b8;
+    margin-top: 1px;
+}
+
+.vm-rline {
+    width: 9px;
+    display: flex;
+    justify-content: center;
+    margin: 2px 0 2px 0;
+}
+
+.vm-rline-inner {
+    width: 1.5px;
+    height: 14px;
+    background: #cbd5e1;
+}
+
+
+/* ── Panel finalizar ───────────────────────────────────────────── */
+
+#vm-finalizar-panel {
+    background: #fff;
+    border: 0.5px solid #fcd34d;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.dark #vm-finalizar-panel {
+    background: #1e293b;
+    border-color: #92400e;
+}
+
+#vm-toggle-finalizar {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 16px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    color: #92400e;
+    text-align: left;
+    transition: background 0.15s;
+}
+
+.dark #vm-toggle-finalizar {
+    color: #fbbf24;
+}
+
+#vm-toggle-finalizar:hover {
+    background: #fffbeb;
+}
+
+.dark #vm-toggle-finalizar:hover {
+    background: #292524;
+}
+
+#vm-form-wrap {
+    padding: 0 16px 16px;
+    border-top: 0.5px solid #fde68a;
+}
+
+.dark #vm-form-wrap {
+    border-top-color: #78350f;
+}
+
+#vm-form-wrap.hidden {
+    display: none;
+}
+
+
+/* Campos del form */
+
+.vm-field-group {
+    margin-top: 12px;
+}
+
+.vm-field-group label {
+    display: block;
+    font-size: 12px;
+    font-weight: 500;
+    color: #374151;
+    margin-bottom: 4px;
+}
+
+.dark .vm-field-group label {
+    color: #d1d5db;
+}
+
+.vm-field-group label span {
+    color: #ef4444;
+}
+
+.vm-field-group input,
+.vm-field-group select,
+.vm-field-group textarea {
+    width: 100%;
+    border: 0.5px solid #d1d5db;
+    border-radius: 8px;
+    padding: 7px 10px;
+    font-size: 13px;
+    color: #0f172a;
+    background: #fff;
+    outline: none;
+    transition: border-color 0.15s;
+}
+
+.dark .vm-field-group input,
+.dark .vm-field-group select,
+.dark .vm-field-group textarea {
+    background: #0f172a;
+    border-color: #334155;
+    color: #f1f5f9;
+}
+
+.vm-field-group input:focus,
+.vm-field-group select:focus,
+.vm-field-group textarea:focus {
+    border-color: #f59e0b;
+    box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.15);
+}
+
+.vm-errors {
+    margin-top: 12px;
+    padding: 8px 10px;
+    background: #fef2f2;
+    border: 0.5px solid #fca5a5;
+    border-radius: 8px;
+    font-size: 12px;
+    color: #dc2626;
+}
+
+.dark .vm-errors {
+    background: #450a0a;
+    border-color: #7f1d1d;
+    color: #fca5a5;
+}
+
+.vm-errors p+p {
+    margin-top: 3px;
+}
+
+.vm-btn-finalizar {
+    width: 100%;
+    margin-top: 14px;
+    padding: 10px;
+    background: #f59e0b;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: background 0.15s, transform 0.1s;
+}
+
+.vm-btn-finalizar:hover {
+    background: #d97706;
+}
+
+.vm-btn-finalizar:active {
+    transform: scale(0.98);
+}
+
+
+/* ── GPS pill ──────────────────────────────────────────────────── */
+
+#vm-gps-pill {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 12px;
+    background: #f8fafc;
+    border: 0.5px solid #e2e8f0;
+    border-radius: 20px;
+}
+
+.dark #vm-gps-pill {
+    background: #1e293b;
+    border-color: #334155;
+}
+
+#vm-gps-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #d1d5db;
+    flex-shrink: 0;
+}
+
+#vm-gps-txt {
+    font-size: 11px;
+    color: #94a3b8;
+}
+
+
+/* ── Responsive ────────────────────────────────────────────────── */
+
+@media (max-width: 640px) {
+    #vm-layout {
+        flex-direction: column;
+    }
+    #vm-side-col {
+        width: 100%;
+    }
+}

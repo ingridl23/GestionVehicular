@@ -27,9 +27,9 @@
     <button class="vt-chip c-green" data-estado="EN_CURSO" onclick="vtFilter(this)">
       <span class="chip-dot"></span> En curso
     </button>
-    <button class="vt-chip c-amber" data-estado="PAUSADO" onclick="vtFilter(this)">
+  {{--    <button class="vt-chip c-amber" data-estado="PAUSADO" onclick="vtFilter(this)">
       <span class="chip-dot"></span> Pausado
-    </button>
+    </button>--}}
     <button class="vt-chip" data-estado="APROBADA" onclick="vtFilter(this)">
       Aprobados
     </button>
@@ -73,7 +73,7 @@
                 'EN_CURSO'   => 'en-curso',
                 'FINALIZADO' => 'finalizado',
                 'CANCELADO'  => 'cancelado',
-                'PAUSADO'    => 'pausado',
+               // 'PAUSADO'    => 'pausado',
                 'APROBADA'   => 'aprobada',
                 default      => 'aprobada',
             };
@@ -81,7 +81,7 @@
                 'EN_CURSO'   => 'En curso',
                 'FINALIZADO' => 'Finalizado',
                 'CANCELADO'  => 'Cancelado',
-                'PAUSADO'    => 'Pausado',
+               // 'PAUSADO'    => 'Pausado',
                 'APROBADA'   => 'Aprobado',
                 default      => $estadoRaw,
             };
@@ -178,10 +178,17 @@
                 </a>
                 @endcanany
 
+  @canany(['ver_reservas_internas', 'ver_reservas_prestamos'])
+       {{-- ver mapa --}}
+<a href="{{ route('viajes.mapa', $viaje->id) }}"
+   class="vt-btn b-green" title="Ver mapa">
+    <i class="fas fa-map"></i>
+</a>
+ @endcanany
                 {{-- Editar (si config disponible y estado permite) --}}
                 @if($configEditar && ($ids === null || in_array($viaje->id, $ids ?? [])))
-                  @can($configEditar['can'])
-                    @if(!in_array($estadoRaw, ['CANCELADO', 'PAUSADO', 'FINALIZADO']))
+                  @can($configEditar['can'])      {{-- pausado --}}
+                    @if(!in_array($estadoRaw, ['CANCELADO','FINALIZADO']))
                     <a href="{{ $configEditar['route'] }}"
                        data-id="{{ $viaje->id }}"
                        class="vt-btn b-yellow btn-editar"
@@ -193,11 +200,8 @@
                 @endif
 
                 @if($mostrarAcciones)
-     {{-- ver mapa --}}
-<a href="{{ route('viajes.mapa', $viaje->id) }}"
-   class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg">
-   Ver mapa
-</a>
+
+
                   {{-- Iniciar viaje (solo Operativo con reserva aprobada) --}}
                   @role('Operativo')
                     @if($viaje->reserva?->estado_reserva?->estado === 'APROBADA')

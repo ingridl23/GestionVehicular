@@ -1,3 +1,4 @@
+{{-- resources/views/ui/viajes/show.blade.php --}}
 @extends('layout.app')
 
 @section('content')
@@ -94,7 +95,6 @@
     @endforeach
 </select>
 
-</select>
                 </div>
 
                 <div>
@@ -122,5 +122,10 @@
          class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">
      <-
 </a>
-
 @endsection
+<script>
+    window.VIAJE_DATA = {
+        id: @json($viaje->id),
+        finalizar_url: @json(route('operativo.viajes.finalizar', $viaje->id))
+    };
+</script>

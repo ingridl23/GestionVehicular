@@ -37,8 +37,6 @@ Route::middleware(['auth'])->group(function () {
    Route::get('/auditoria', [UserController::class, 'dashboard'])->name('auditoria.index');
 
 
-
-
     // Vehículos
     Route::get('/vehiculos', [VehiculoController::class, 'sectionVehiculo'])->name('vehiculos.index');
     Route::get('/vehiculos/{vehiculo}', [VehiculoController::class, 'detalle'])->name('vehiculos.show');
