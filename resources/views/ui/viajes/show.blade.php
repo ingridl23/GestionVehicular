@@ -67,10 +67,20 @@
 
         </div>
 
+@if ($errors->any())
+    <div style="color:red;">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
         @if(!$viaje->fecha_fin)
 
         <form method="POST"
-              action="{{ route('operativo.viajes.finalizar', $viaje->id) }}">
+              action="{{ route('operativo.viajes.finalizar', $viaje->id) }}"onsubmit="console.log('FORM ENVIADO')">
             @csrf
 
             <div class="space-y-4">
@@ -105,8 +115,9 @@
 
 
             </div>
-            <button type="submit"
-                    class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg">
+          <button type="submit"
+        onclick="console.log('CLICK')"
+        class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg">
                 Finalizar viaje
             </button>
 
