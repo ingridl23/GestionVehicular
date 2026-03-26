@@ -99,17 +99,16 @@
 
                 <div>
                     <label class="block text-sm">Observaciones</label>
-                    <textarea name="observaciones"
-                              class="w-full border rounded-lg p-2"></textarea>
+                    <textarea name="observaciones" class="w-full border rounded-lg p-2"></textarea>
                 </div>
 
 
-                <button type="submit"
-                        class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg">
-                    Finalizar viaje
-                </button>
 
             </div>
+            <button type="submit"
+                    class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg">
+                Finalizar viaje
+            </button>
 
         </form>
 

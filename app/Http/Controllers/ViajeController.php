@@ -175,6 +175,8 @@ public function mapaVirtual(Viaje $viaje)
     public function finalizarViaje(Request $request, $viajeId)
     {
 
+    // dd('ENTRÓ AL CONTROLLER');
+
         $request->validate([
             'kilometros_fin'      => 'required|integer|min:0',
             'id_estado_nafta_fin' => 'required|exists:estados_naftas,id',
