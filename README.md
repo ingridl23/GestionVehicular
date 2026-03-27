@@ -173,7 +173,7 @@ Descripción de carpetas y archivos
 
 ### Estructura de la base de datos
 
-![Diagrama de base de datos](./docs/iconos/imagenbase.png)
+![Diagrama de base de datos](./docs/icono/imagenbase.png)
 
 
 
