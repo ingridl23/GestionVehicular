@@ -47,6 +47,22 @@
                     />
                 </div>
 
+    <!-- unidad -->
+     <div>
+    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+        Unidad
+    </label>
+    <input
+        type="text"
+        name="unidad"
+        id="unidad"
+        class="w-full px-3 py-2 border border-gray-300 rounded-lg"
+        placeholder="Ej: Unidad 1"
+    />
+       </div>
+
+
+
                 <!-- Modelo -->
                 <div>
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">

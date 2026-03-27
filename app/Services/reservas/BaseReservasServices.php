@@ -369,6 +369,35 @@ $conductor?->notify(new UsuarioModificadoNotification(
     }
 
 
+public function finalizarReserva($id)
+{
+    $reserva = Reserva::findOrFail($id);
+
+    // Cambiar estado de reserva
+    $id_estado_finalizada = EstadosReserva::where("estado", "FINALIZADA")->value('id');
+    $reserva->update([
+        'id_estado_reserva' => $id_estado_finalizada
+    ]);
+
+    //  LIBERAR VEHICULO
+    $id_estado_disponible = EstadosVehiculo::where("estado", "DISPONIBLE")->value('id');
+
+    $reserva->vehiculo->update([
+        'id_estado_vehiculo' => $id_estado_disponible
+    ]);
+
+    return true;
+}
+
+
+
+
+
+
+
+
+
+
     /**
      * Ejecuta todas las validaciones necesarias para crear o editar
      * una reserva o préstamo de vehículo.
@@ -438,7 +467,7 @@ $conductor?->notify(new UsuarioModificadoNotification(
         // ===============================
         $usuarioQuery = Reserva::join('estados_reservas', 'estados_reservas.id', '=', 'reservas.id_estado_reserva')
             ->where('id_usuario', $id_usuario)
-            ->whereIn('estados_reservas.estado', ['APROBADA', 'EN_CURSO', 'PENDIENTE','RECHAZADA'])
+            ->whereIn('estados_reservas.estado', ['APROBADA', 'EN_CURSO', 'PENDIENTE','RECHAZADA','FINALIZADA'])
             ->where(function ($q) use ($fecha_inicio, $fecha_fin) {
                 $q->where('fecha_inicio_reserva', '<', $fecha_fin)
                 ->where('fecha_fin_reserva', '>', $fecha_inicio);

@@ -1,5 +1,5 @@
+<!--C:\laragon\www\GestionVehicular\resources\views\components\vehiculos\vehiculo-detalle.blade.php -->
 @extends('layout.app')
-
 @section('page-title', 'Listado de vehiculos')
 @section('page-description', 'Gestión de vehiculos del sistema , detalles')
 

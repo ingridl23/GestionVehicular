@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 condiciones_prestamo: document.getElementById('condiciones_prestamo').value,
                 dominio: document.getElementById('dominio').value,
                 marca: document.getElementById('marca').value,
-                unidad: document.getElementById(unidad).value,
+                unidad: document.getElementById('unidad').value,
                 modelo: document.getElementById('modelo').value,
                 anio: document.getElementById('anio').value,
                 kilometros: document.getElementById('kilometros').value,
@@ -216,7 +216,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Llenar campos
         form.dominio.value = vehiculo.dominio || '';
         form.marca.value = vehiculo.marca || '';
-        form.unidad.value = vehiculo.marca || '';
+        form.unidad.value = vehiculo.unidad || '';
         form.modelo.value = vehiculo.modelo || '';
         form.anio.value = vehiculo.anio || '';
         form.kilometros.value = vehiculo.kilometros || '';
