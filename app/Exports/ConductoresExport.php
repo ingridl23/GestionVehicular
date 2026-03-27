@@ -30,7 +30,7 @@ class ConductoresExport implements FromCollection, WithHeadings, WithMapping
 
             'conductor',
             'legajo',
-            'reserva',
+            'vehiculo asignado',
             'dependencia_duena',
             'registrado',
             'modificado'
@@ -42,11 +42,14 @@ class ConductoresExport implements FromCollection, WithHeadings, WithMapping
         return [
             $conductor->name,
             $conductor->legajo,
-            //$conductor->reservas?->id,
-            $conductor->reservas,
-            $conductor->dependencia?->id,
-            $conductor->created_at?->format('Y-m-d'),
-            $conductor->updated_at?->format('Y-m-d'),
+
+
+
+        // Si querés lista:
+            $conductor->reservas->last()?->vehiculo?->dominio,
+            $conductor->dependencia?->nombre,
+            $conductor->created_at?->format('Y-m-d H:i'),
+            $conductor->updated_at?->format('Y-m-d H:i'),
         ];
     }
 }
