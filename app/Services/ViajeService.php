@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use App\Models\Gasto;
 use App\Models\PrecioCombustible;
+use App\Models\EstadosVehiculo;
 /**
  * @brief ViajeService presenta la logica de negocio de viajes dentro del sistema
  * @description Service que permite comenzar un viaje con reserva utorizada previamente, y finalizar un viaje en curso */
@@ -144,6 +145,13 @@ class ViajeService
             $viaje->reserva->update([
                 'id_estado_reserva' => EstadosReserva::FINALIZADA
             ]);
+
+           // Liberar vehículo
+             $id_estado_disponible = EstadosVehiculo::where("estado", "DISPONIBLE")->value('id');
+
+           $viaje->vehiculo->update([
+               'id_estado_vehiculo' => $id_estado_disponible
+          ]);
         });
     }
 }

@@ -8,6 +8,7 @@ use App\Services;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use App\Exports\ViajesExport;
+
 use Maatwebsite\Excel\Facades\Excel;
 use App\Services\ViajeService;
 
@@ -29,9 +30,12 @@ class ViajeController extends Controller
 {
    protected ViajeService $service;
 
-    public function __construct(ViajeService $service)
+    public function __construct(ViajeService $service )
     {
         $this->service = $service;
+
+
+
     }
 
     /**
@@ -174,8 +178,6 @@ public function mapaVirtual(Viaje $viaje)
 
     public function finalizarViaje(Request $request, $viajeId)
     {
-
-    // dd('ENTRÓ AL CONTROLLER');
 
         $request->validate([
             'kilometros_fin'      => 'required|integer|min:0',

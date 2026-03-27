@@ -289,13 +289,16 @@ return true;
 
 
         //  Notificar a admins de la dependencia dueña del vehículo
-$admins = User::role([
-    'Administrador General',
-    'Administrador de Dependencia'
-])
-->where('id_dependencia', $id_dependencia_duena)
-->get();
+// Administradores Generales (TODOS)
+$adminsGenerales = User::role('Administrador General')->get();
 
+// Administradores de Dependencia (solo de la dependencia dueña)
+$adminsDependencia = User::role('Administrador de Dependencia')
+    ->where('id_dependencia', $id_dependencia_duena)
+    ->get();
+
+// Unificar
+$admins = $adminsGenerales->merge($adminsDependencia);
 
     foreach ($admins as $admin) {
         $admin->notify(new UsuarioModificadoNotification(
@@ -344,7 +347,6 @@ $conductor?->notify(new UsuarioModificadoNotification(
     }
 
 
-
     public function editarConductor($request, $id){
         $reserva = Reserva::findOrFail($id);
         $fecha_inicio = $reserva->fecha_inicio_reserva;
@@ -368,9 +370,8 @@ $conductor?->notify(new UsuarioModificadoNotification(
         ]);
     }
 
-
-public function finalizarReserva($id)
-{
+/*
+  public function finalizarReserva($id){
     $reserva = Reserva::findOrFail($id);
 
     // Cambiar estado de reserva
@@ -388,7 +389,7 @@ public function finalizarReserva($id)
 
     return true;
 }
-
+*/
 
 
 

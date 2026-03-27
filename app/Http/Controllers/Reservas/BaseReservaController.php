@@ -428,4 +428,6 @@ protected function configurarBotones(string $contexto, string $ubicacion): array
             'id_vehiculo' => 'El vehiculo no se encuentra disponible en el rango de fechas seleccionado.'
         ];
     }
+
+
 }

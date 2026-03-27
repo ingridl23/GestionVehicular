@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Log;
  * Garantizando una comunicacion eficiente entre usuarios y tiempo de respuesta ante eventos del sistema.
  */
 
-class UsuarioModificadoNotification extends Notification implements ShouldQueue
+class UsuarioModificadoNotification extends Notification
 {
     use Queueable;
 
