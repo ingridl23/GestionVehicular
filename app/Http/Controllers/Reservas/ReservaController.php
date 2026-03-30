@@ -36,7 +36,7 @@ class ReservaController extends BaseReservaController{
     }
 
 
-    /**
+/**
  * Muestra listado de reservas internas.
  *
  * @return \Illuminate\View\View
@@ -89,13 +89,10 @@ public function show($id)
 
 
 
-
-
     /**
      * Muestra reservas propias del usuario que se encuentra logueado
      */
-public function misReservas()
-{
+  public function misReservas(){
     $this->authorize('viewAny', Reserva::class);
 
     $reservas = Reserva::where('id_usuario', auth()->id())

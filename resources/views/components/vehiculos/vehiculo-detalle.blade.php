@@ -80,9 +80,31 @@
             </div>
         </div>
 
+<dialog id="dialog-confirmar-vehiculo" class="rounded-lg p-6 w-full max-w-md">
+    <h2 class="text-lg font-semibold mb-4" id="dialog-texto">
+        ¿Confirmar acción?
+    </h2>
+
+    <div class="flex justify-end gap-4">
+        <button onclick="document.getElementById('dialog-confirmar-vehiculo').close()"
+            class="px-4 py-2 bg-gray-200 rounded">
+            Cancelar
+        </button>
+
+        <button id="dialog-confirmar-btn"
+            class="px-4 py-2 bg-red-600 text-white rounded">
+            Confirmar
+        </button>
+    </div>
+
+</dialog>
+<div id="toast"
+     class="fixed top-5 right-5 bg-red-600 text-white px-4 py-3 rounded shadow-lg hidden z-50">
+</div>
 @include('components.vehiculos.vehiculo-modal')
 
 @push('scripts')
+
 <script>
     window.VEHICULO = @json($vehiculo);
     window.CATALOGOS = {
@@ -95,6 +117,4 @@
 
 @vite(['resources/js/vehiculo-detalle.js'])
 @endpush
-
-
 @endsection

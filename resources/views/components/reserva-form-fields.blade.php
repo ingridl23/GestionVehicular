@@ -7,7 +7,7 @@
   'dependencias',
 ])
 
-<div class="space-y-12">
+  <div class="space-y-12">
                             <div class="border-b border-gray-200 dark:border-white/10 pb-12">
                                 <h2 class="text-base font-semibold text-gray-900 dark:text-white">
                                     Período de la reserva

@@ -20,11 +20,18 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ===== Evento Eliminar =====
+
     if (btnEliminar) {
+
+
         btnEliminar.addEventListener('click', async() => {
-            if (!confirm('¿Seguro que quieres dar de baja este vehículo?')) return;
+
+            //  1. CONFIRMAR (con tu dialog lindo)
+            const ok = await abrirDialogoConfirmacion('¿Dar de baja este vehículo?');
+            if (!ok) return;
 
             try {
+                //  2. RECIÉN ACÁ eliminás
                 const res = await fetch(`/vehiculos/${vehiculoId}`, {
                     method: 'DELETE',
                     headers: {
@@ -36,19 +43,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 const data = await res.json();
 
                 if (!res.ok) {
-                    alert(data.message || 'Error al modificar estado del vehiculo');
+                    mostrarToast(data.message);
                     return;
                 }
 
-                alert('Vehículo dado de baja correctamente');
+                //  3. REDIRECCIÓN
                 window.location.href = '/vehiculos';
+
             } catch (error) {
                 console.error('Error:', error);
-                alert('Error al procesar la solicitud');
+                mostrarToast(error);
             }
         });
     }
-
     // ===== Evento Guardar Cambios =====
     const btnGuardar = document.getElementById('btnGuardarCambios');
 
@@ -57,7 +64,8 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             console.log('Click en guardar cambios');
 
-            if (!confirm('¿Seguro que quieres modificar este vehículo?')) return;
+            const ok = await abrirDialogoConfirmacion('¿Modificar este vehículo?');
+            if (!ok) return;
 
             // Recopilar datos del formulario
             const formData = {
@@ -96,10 +104,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (!response.ok) {
                     // Si hay errores de validación
                     if (data.errors) {
-                        const errores = Object.values(data.errors).flat().join('\n');
-                        alert('Errores de validación:\n' + errores);
+                        const error = Object.values(data.errors).flat().join('\n');
+                        mostrarToast(error);
                     } else {
-                        alert(data.message || 'Error al actualizar el vehículo');
+                        mostrarToast(data.message || 'Error al modificar estado del vehiculo');
                     }
                     return;
                 }
@@ -113,12 +121,47 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Cerrar modal
                 closeModal();
 
-                alert('Vehículo modificado con éxito');
 
             } catch (error) {
                 console.error('Error en la petición:', error);
-                alert('Error al procesar la solicitud');
+                mostrarToast(error);
             }
+        });
+    }
+
+    function mostrarToast(mensaje) {
+        const toast = document.getElementById('toast');
+
+        toast.textContent = mensaje;
+        toast.classList.remove('hidden');
+
+        setTimeout(() => {
+            toast.classList.add('hidden');
+        }, 3000);
+    }
+
+    function abrirDialogoConfirmacion(texto) {
+        return new Promise((resolve) => {
+            const dialog = document.getElementById('dialog-confirmar-vehiculo');
+            const textoEl = document.getElementById('dialog-texto');
+            const btnConfirmar = document.getElementById('dialog-confirmar-btn');
+
+            textoEl.textContent = texto;
+
+            let confirmado = false;
+
+            const onConfirm = () => {
+                confirmado = true;
+                dialog.close();
+            };
+
+            btnConfirmar.onclick = onConfirm;
+
+            dialog.addEventListener('close', () => {
+                resolve(confirmado);
+            }, { once: true });
+
+            dialog.showModal();
         });
     }
 

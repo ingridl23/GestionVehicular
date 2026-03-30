@@ -9,13 +9,13 @@ use Illuminate\Validation\ValidationException;
 use App\Models\Gasto;
 use App\Models\PrecioCombustible;
 use App\Models\EstadosVehiculo;
+
 /**
  * @brief ViajeService presenta la logica de negocio de viajes dentro del sistema
  * @description Service que permite comenzar un viaje con reserva utorizada previamente, y finalizar un viaje en curso */
 
 class ViajeService
 {
-
    public function comenzarViaje(int $reservaId): Viaje
 {
     return DB::transaction(function () use ($reservaId) {
@@ -84,6 +84,7 @@ class ViajeService
         return $viaje;
     });
 }
+
     public function finalizarViaje(int $viajeId, array $data): void
     {
         DB::transaction(function () use ($viajeId, $data) {
