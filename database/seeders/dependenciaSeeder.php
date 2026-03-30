@@ -495,6 +495,28 @@ class DependenciaSeeder extends Seeder
                 'id_dependencia_padre' => 59,
             ],
 
+             [
+                'nombre' => 'Municipalidad De Claromeco',
+                'activa' => 1,
+                'id_direccion' => 27,
+                'id_dependencia_padre' => 1,
+            ],
+
+           [
+                'nombre' => 'Parque Industrial',
+                'activa' => 1,
+                'id_direccion' => 28,
+                'id_dependencia_padre' =>null,
+            ],
+  [
+                'nombre' => 'Hormigonera Municipal',
+                'activa' => 1,
+                'id_direccion' => 28,
+                'id_dependencia_padre' => 27,
+            ],
+
+
+
         ]);
     }
 }

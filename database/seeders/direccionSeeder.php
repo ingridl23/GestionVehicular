@@ -145,6 +145,18 @@ class DireccionSeeder extends Seeder
                 'ciudad' => 'Tres Arroyos',
             ],
 
+             [
+                'calle' => 'calle esquina',
+                'altura' => '28 y 11',
+                'ciudad' => 'Claromeco',
+            ],
+
+             [
+                'calle' => 'ruta nacional n°3',
+                'altura' => '496,5',
+                'ciudad' => 'Tres Arroyos',
+            ],
+
         ]);
     }
 }
