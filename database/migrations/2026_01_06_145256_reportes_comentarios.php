@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('reporte_comentarios', function (Blueprint $table) {
+        Schema::create('reporte_comentario', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('reporte_id')->constrained('reportes')->cascadeOnDelete();
+            $table->foreignId('reporte_id')->constrained('reporte')->cascadeOnDelete();
             $table->foreignId('id_usuario')->constrained('users')->restrictOnDelete();
             $table->text('comentario');
             $table->timestamps();
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('reporte_comentario');
     }
 };

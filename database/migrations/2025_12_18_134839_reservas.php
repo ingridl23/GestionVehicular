@@ -11,15 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('reservas', function(Blueprint $table){
+        Schema::create('reserva', function(Blueprint $table){
             $table->id();
             $table->dateTime('fecha_reserva')->nullable(); // Es el día que registra la reserva, no la deberia cargar, lo toma directamente el sistema
             $table->dateTime('fecha_inicio_reserva')->nullable();
             $table->dateTime('fecha_fin_reserva')->nullable();
-            $table->foreignId('id_vehiculo')->references('id')->on('vehiculos')->onDelete('cascade');
+            $table->foreignId('id_vehiculo')->references('id')->on('vehiculo')->onDelete('cascade');
             $table->foreignId('id_estado_reserva')->references('id')->on('estados_reservas')->onDelete('restrict');
-            $table->foreignId('id_dependencia_duena')->references('id')->on('dependencias')->onDelete('restrict');
-            $table->foreignId('id_dependencia_solicitante')->references('id')->on('dependencias')->onDelete('restrict');
+            $table->foreignId('id_dependencia_duena')->references('id')->on('dependencia')->onDelete('restrict');
+            $table->foreignId('id_dependencia_solicitante')->references('id')->on('dependencia')->onDelete('restrict');
             $table->foreignId('id_usuario')->references('id')->on('users')->onDelete('restrict'); //Es quien realizará el viaje
             $table->timestamps();
         });
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('reservas');
+        Schema::dropIfExists('reserva');
     }
 };

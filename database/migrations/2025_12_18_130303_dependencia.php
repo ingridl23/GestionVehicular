@@ -11,18 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('dependencias', function (Blueprint $table) {
+        Schema::create('dependencia', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
             $table->boolean('activa')->default(true);
 
             $table->foreignId('id_direccion')
-                ->constrained('direcciones')
+                ->constrained('direccion')
                 ->restrictOnDelete();
 
             $table->foreignId('id_dependencia_padre')
                 ->nullable()
-                ->constrained('dependencias')
+                ->constrained('dependencia')
                 ->restrictOnDelete();
 
             $table->timestamps();
@@ -34,6 +34,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+
+        Schema::dropIfExists('dependencia');
     }
 };

@@ -15,11 +15,11 @@ return new class extends Migration
     $table->id();
 
     $table->foreignId('id_reserva')
-        ->constrained('reservas')
+        ->constrained('reserva')
         ->onDelete('cascade');
 
     $table->foreignId('id_vehiculo')
-        ->constrained('vehiculos')
+        ->constrained('vehiculo')
         ->onDelete('cascade');
 
     $table->dateTime('fecha_inicio');
