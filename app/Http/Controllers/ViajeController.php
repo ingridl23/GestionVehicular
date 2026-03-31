@@ -2,13 +2,9 @@
 namespace App\Http\Controllers;
 use App\Models\Viaje;
 use App\Models\Reserva;
-use App\Models\EstadosReserva;
 use App\Models\EstadosNafta;
-use App\Services;
 use Illuminate\Http\Request;
-use Illuminate\Validation\ValidationException;
 use App\Exports\ViajesExport;
-
 use Maatwebsite\Excel\Facades\Excel;
 use App\Services\ViajeService;
 
@@ -74,7 +70,7 @@ class ViajeController extends Controller
     ->whereNotExists(function ($q) {
         $q->select('id')
           ->from('viaje')
-          ->whereColumn('viaje.id_reserva', 'reservas.id')
+          ->whereColumn('viaje.id_reserva', 'reserva.id')
           ->whereNull('viaje.fecha_fin');
     })
     ->first();

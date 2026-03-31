@@ -34,6 +34,7 @@ class Reportes extends Model
         'estado'
     ];
 
+    protected $table ="reporte";
 
     // Cast del estado a enum (opcional pero recomendado)
     protected $casts = [

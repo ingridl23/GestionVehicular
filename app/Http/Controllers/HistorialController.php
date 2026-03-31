@@ -2,8 +2,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Reportes;
-use App\Models\Reserva;
-use App\Models\Vehiculo;
+
 
 
 /**

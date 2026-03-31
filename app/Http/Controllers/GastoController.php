@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers;
 use App\Models\Gasto;
-use App\Models\Viaje;
-use Illuminate\Http\Request;
+use App\Models\PrecioCombustible;
 use App\Services\GastoService;
 use App\Policies\GastoPolicy;
 use Illuminate\Http\JsonResponse;
 use Exception;
 use App\Exports\GastosExport;
 use Maatwebsite\Excel\Facades\Excel;
-use function PHPUnit\Framework\isEmpty;
+
 /**
  * @class GastoController
  * @brief Controlador encargado de la gestión de gastos asociados a viajes.

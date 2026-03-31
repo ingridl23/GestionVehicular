@@ -23,7 +23,7 @@ use Illuminate\Notifications\Notifiable;
 class Dependencia extends Model
 {
     use HasFactory, Notifiable;
-
+     protected $table ='dependencia';
 
     protected $fillable = [
         'nombre',

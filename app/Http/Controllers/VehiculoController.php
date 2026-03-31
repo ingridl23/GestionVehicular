@@ -9,8 +9,6 @@ use Illuminate\Http\Request;
 use App\Services\VehiculoService;
 use Illuminate\Http\JsonResponse;
 use Exception;
-use App\Http\Controllers\UserController;
-use App\Policies\VehiculoPolicy;
 use Illuminate\Support\Facades\Log;
 use App\Exports\VehiculosExport;
 use Maatwebsite\Excel\Facades\Excel;
@@ -165,13 +163,13 @@ public function detalle(Vehiculo $vehiculo)
             ]);
 
             $data = $request->validate([
-                'dominio' => 'required|string|unique:vehiculos,dominio',
+                'dominio' => 'required|string|unique:vehiculo,dominio',
                 'marca' => 'required|string',
                 'unidad'=> 'required|string',
                 'modelo' => 'required|string',
                 'anio' => 'required|integer',
-                'id_dependencia_duena' => 'required|exists:dependencias,id',
-                'id_direccion_actual' => 'required|exists:direcciones,id',
+                'id_dependencia_duena' => 'required|exists:dependencia,id',
+                'id_direccion_actual' => 'required|exists:direccione,id',
                 'id_estado_nafta' => 'required|exists:estados_naftas,id',
                 'id_estado_vehiculo' => 'required|exists:estados_vehiculos,id',
                 'kilometros' => 'required|integer|min:0',
@@ -252,8 +250,8 @@ public function detalle(Vehiculo $vehiculo)
                 'modelo' => 'sometimes|string',
                 'anio' => 'sometimes|integer',
                 'id_estado_vehiculo' => 'sometimes|exists:estados_vehiculos,id',
-                'id_direccion_actual' => 'sometimes|exists:direcciones,id',
-                'id_dependencia_duena' => 'sometimes|exists:dependencias,id',
+                'id_direccion_actual' => 'sometimes|exists:direccione,id',
+                'id_dependencia_duena' => 'sometimes|exists:dependencia,id',
                 'id_estado_nafta' => 'sometimes|exists:estados_naftas,id',
                 'kilometros' => 'sometimes|integer|min:0',
                 'VTV' => 'sometimes|date',
@@ -330,7 +328,7 @@ public function detalle(Vehiculo $vehiculo)
     {
           $this->authorize('modificarAsignacion', $vehiculo);
         $request->validate([
-            'id_dependencia_duena' => 'required|exists:dependencias,id'
+            'id_dependencia_duena' => 'required|exists:dependencia,id'
         ]);
 
         $vehiculo = $service->cambiarAsignacion(

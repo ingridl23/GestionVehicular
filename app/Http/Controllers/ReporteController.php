@@ -3,11 +3,9 @@
 namespace App\Http\Controllers;
 use App\Models\Reportes;
 use App\Models\User;
-use App\Models\ReporteComentarios;
 use App\Models\Alerta;
 use App\Services\ReporteService;
 use Illuminate\Validation\Rule;
-use App\Policies\ReportePolicy;
 use Illuminate\Http\Request;
 use App\Enums\EstadoReporte;
 use App\Notifications\UsuarioModificadoNotification;

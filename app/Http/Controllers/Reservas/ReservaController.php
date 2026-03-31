@@ -206,7 +206,7 @@ $data = array_merge(
     public function editarConductor(Request $request, $id){
 
         $request->validate([
-            'id_usuario' => 'required|integer|min:1|exists:users,id',
+            'id_usuario' => 'required|integer|min:1|exists:user,id',
         ],
         [
             'id_usuario.required' => 'Debe seleccionar un conductor.',

@@ -29,7 +29,7 @@ use Illuminate\Support\Facades\DB;
 class Reserva extends Model
 {
     use HasFactory, Notifiable;
-    protected $table = 'reservas';
+    protected $table = 'reserva';
 
     protected $fillable = [
         'fecha_reserva',

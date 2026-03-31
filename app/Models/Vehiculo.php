@@ -32,7 +32,7 @@ use Illuminate\Support\Facades\Date;
 class Vehiculo extends Model
 {
     use HasFactory, Notifiable;
-    protected $table = 'vehiculos';
+    protected $table = 'vehiculo';
 
 
     protected $fillable = [

@@ -6,10 +6,8 @@ use App\Models\Dependencia;
 use App\Models\Alerta;
 use App\Models\EstadosNafta;
 use App\Models\Reserva;
-use App\Models\EstadosReserva;
 use App\Models\Reportes;
 use App\Models\Vehiculo;
-use App\Models\Viaje;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -20,7 +18,6 @@ use App\Exports\UsuariosExport;
 use App\Exports\ConductoresExport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\UsuariosImport;
-use Maatwebsite\Excel\Concerns\WithValidation;
 /**
  * @class UserController
  * @brief Controlador encargado de la gestión integral de usuarios del sistema.
@@ -45,7 +42,6 @@ use Maatwebsite\Excel\Concerns\WithValidation;
 
 
 class UserController extends Controller{
-
 
 /**
  * Muestra el dashboard principal según el rol del usuario.
@@ -175,7 +171,7 @@ $ultimosUsuarios = User::with('dependencia')
             'mantenimiento' => 0,
         ];
 
-        $total      = Vehiculo::count();
+        $total       = Vehiculo::count();
         $disponibles = Vehiculo::whereHas('estadoVehiculo', fn($q) =>
             $q->where('estado', 'DISPONIBLE')
         )->count();
@@ -546,6 +542,7 @@ $user->notify(
     /**
      * Actualizar mi perfil (usuario logueado) o si el admin selecciona un usuario
      */
+
     public function updateProfile(Request $request)
     {
        $usuario = Auth::user();
@@ -574,7 +571,7 @@ $user->notify(
 
         // Solo admin puede cambiar dependencia
         if ($usuario->hasRole('Administrador General')) {
-            $rules['id_dependencia'] = 'sometimes|exists:dependencias,id';
+            $rules['id_dependencia'] = 'sometimes|exists:dependencia,id';
 
             $validated = $request->validate($rules);
         }

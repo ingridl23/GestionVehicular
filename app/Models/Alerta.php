@@ -25,7 +25,7 @@ use Illuminate\Database\Eloquent\Model;
 class Alerta extends Model
 {
       /** @var string $table Nombre de la tabla asociada */
-    protected $table = "alertas";
+    protected $table = "alerta";
     protected $fillable = [
         'tipo',
         'entidad_tipo',
