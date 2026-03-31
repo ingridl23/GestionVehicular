@@ -95,19 +95,19 @@ abstract class BaseReservasServices implements ReservaServiceInterface{
      * @return array<string, \Illuminate\Database\Eloquent\Builder>
      */
     protected function obtenerDatosBase(){
-        $queryVehiculos = Vehiculo::join('estados_vehiculos', 'estados_vehiculos.id', '=', 'vehiculos.id_estado_vehiculo')
-            ->join('dependencias', 'dependencias.id', '=', 'vehiculos.id_dependencia_duena')
+        $queryVehiculos = Vehiculo::join('estados_vehiculos', 'estados_vehiculos.id', '=', 'vehiculo.id_estado_vehiculo')
+            ->join('dependencia', 'dependencia.id', '=', 'vehiculo.id_dependencia_duena')
             ->orderByRaw("
                 CASE
                     WHEN estados_vehiculos.estado = 'DISPONIBLE' THEN 0
                     ELSE 1
                 END
             ")
-            ->select('vehiculos.*', 'dependencias.nombre');
+            ->select('vehiculo.*', 'dependencia.nombre');
 
         $queryUsuarios = User::with('carnet')
-            ->join('dependencias', 'dependencias.id', '=', 'users.id_dependencia')
-            ->select('users.*', 'dependencias.nombre');
+            ->join('dependencia', 'dependencia.id', '=', 'user.id_dependencia')
+            ->select('user.*', 'dependencia.nombre');
 
         return compact('queryVehiculos', 'queryUsuarios');
     }
@@ -428,7 +428,7 @@ $conductor?->notify(new UsuarioModificadoNotification(
         // ===============================
         // VEHÍCULO OCUPADO QUE TENGA LA RESERVA APROBADA/EN CURSO/PENDIENTE
         // ===============================
-        $vehiculoQuery = Reserva::join('estados_reservas', 'estados_reservas.id', '=', 'reservas.id_estado_reserva')
+        $vehiculoQuery = Reserva::join('estados_reservas', 'estados_reservas.id', '=', 'reserva.id_estado_reserva')
             ->where('id_vehiculo', $id_vehiculo)
             ->whereIn('estados_reservas.estado', ['APROBADA', 'EN_CURSO', 'SOLICITADA'])
             ->where(function ($q) use ($fecha_inicio, $fecha_fin) {
@@ -437,7 +437,7 @@ $conductor?->notify(new UsuarioModificadoNotification(
             });
 
         if ($id != null) {
-            $vehiculoQuery->where('reservas.id', '!=', $id);
+            $vehiculoQuery->where('reserva.id', '!=', $id);
         }
 
         if ($vehiculoQuery->exists()) {
@@ -466,7 +466,7 @@ $conductor?->notify(new UsuarioModificadoNotification(
         // ===============================
         // USUARIO OCUPADO
         // ===============================
-        $usuarioQuery = Reserva::join('estados_reservas', 'estados_reservas.id', '=', 'reservas.id_estado_reserva')
+        $usuarioQuery = Reserva::join('estados_reservas', 'estados_reservas.id', '=', 'reserva.id_estado_reserva')
             ->where('id_usuario', $id_usuario)
             ->whereIn('estados_reservas.estado', ['APROBADA', 'EN_CURSO', 'PENDIENTE','RECHAZADA','FINALIZADA'])
             ->where(function ($q) use ($fecha_inicio, $fecha_fin) {
@@ -476,7 +476,7 @@ $conductor?->notify(new UsuarioModificadoNotification(
 
 
         if ($id) {
-            $usuarioQuery->where('reservas.id', '!=', $id);
+            $usuarioQuery->where('reserva.id', '!=', $id);
         }
 
         if ($usuarioQuery->exists()) {
@@ -700,7 +700,7 @@ return $resultado;
            $query->soloExternas($id_dependencia)->where('id_dependencia_duena' , $ids);
         }
 
-        return response()->json(['reservas' => $query->get()]);
+        return response()->json(['reserva' => $query->get()]);
 
     }
 

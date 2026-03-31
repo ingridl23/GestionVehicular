@@ -25,7 +25,7 @@ class DependenciaRequest extends FormRequest
     {
         return [
             'nombre'=>'required|string|min:2|max:100',
-            'id_dependencia_padre'=>'nullable|integer|min:1|exists:dependencias,id',
+            'id_dependencia_padre'=>'nullable|integer|min:1|exists:dependencia,id',
             'id_direccion'=>'required',
             'activa'=>'required',
             'calle'  => 'required_if:id_direccion,nueva', 'string', 'max:255',

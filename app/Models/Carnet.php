@@ -25,6 +25,7 @@ class Carnet extends Model
 {
     use hasFactory, Notifiable;
 
+    protected $table ='carnet';
     protected $fillable = [
         'fecha_vencimiento',
         'fecha_emision',

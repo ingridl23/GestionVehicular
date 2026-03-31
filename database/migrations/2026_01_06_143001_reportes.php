@@ -17,7 +17,7 @@ return new class extends Migration
 
             // quien reporta
             $table->foreignId('id_usuario')->nullable()
-                ->constrained('users')
+                ->constrained('user')
                 ->onDelete('restrict');
 
             // entidad asociada

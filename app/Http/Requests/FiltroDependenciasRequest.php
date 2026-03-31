@@ -25,7 +25,7 @@ class FiltroDependenciasRequest extends FormRequest
     {
         return [
             'nombre'=>'nullable|string|min:1|max:200',
-            'id_dependencia_padre'=>'nullable|integer|min:1|exists:dependencias,id',
+            'id_dependencia_padre'=>'nullable|integer|min:1|exists:dependencia,id',
         ];
     }
 

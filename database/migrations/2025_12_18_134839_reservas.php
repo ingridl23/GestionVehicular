@@ -20,7 +20,7 @@ return new class extends Migration
             $table->foreignId('id_estado_reserva')->references('id')->on('estados_reservas')->onDelete('restrict');
             $table->foreignId('id_dependencia_duena')->references('id')->on('dependencia')->onDelete('restrict');
             $table->foreignId('id_dependencia_solicitante')->references('id')->on('dependencia')->onDelete('restrict');
-            $table->foreignId('id_usuario')->references('id')->on('users')->onDelete('restrict'); //Es quien realizará el viaje
+            $table->foreignId('id_usuario')->references('id')->on('user')->onDelete('restrict'); //Es quien realizará el viaje
             $table->timestamps();
         });
     }

@@ -76,11 +76,11 @@ class ReservasExternasService extends BaseReservasServices{
         if ($this->rol() !== 'Administrador General') {
 
            $queryVehiculos
-    ->where('vehiculos.id_dependencia_duena', '!=', $id_dependencia)
-    ->where('vehiculos.habilitado_prestamo', true);
+    ->where('vehiculo.id_dependencia_duena', '!=', $id_dependencia)
+    ->where('vehiculo.habilitado_prestamo', true);
 
             $queryUsuarios
-            ->whereIn('users.id_dependencia', $ids);
+            ->whereIn('user.id_dependencia', $ids);
             }
 
 
@@ -207,7 +207,7 @@ class ReservasExternasService extends BaseReservasServices{
          * whereHas:
          * Filtra vehículos que posean reservas que cumplan las condiciones
          */
-        $query = Vehiculo::whereHas('reservas', function ($q) use ($rol, $id_dependencia) {
+        $query = Vehiculo::whereHas('reserva', function ($q) use ($rol, $id_dependencia) {
 
             //Externas de su dependencia
             if($rol == 'Administrador de Dependencia' || $rol == 'Jefe de Area'){

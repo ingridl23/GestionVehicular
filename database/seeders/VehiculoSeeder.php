@@ -1,15 +1,9 @@
 <?php
 
 namespace Database\Seeders;
-
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-
 use App\Models\Vehiculo;
-use App\Models\Dependencia;
-use App\Models\EstadosVehiculo;
-use App\Models\EstadosNafta;
-use App\Models\Direcciones;
+
 
 class VehiculoSeeder extends Seeder
 {
@@ -24,7 +18,7 @@ class VehiculoSeeder extends Seeder
         $vehiculos = [
             [
                 //*********************** seguridad ***************************************** */
-                'dominio' => '',
+                'dominio' => 'sin00dominio',
                 'marca' => 'Mercedez Benz',
                 'modelo' => 'Sprinter',
                 'unidad'=>'morguera',
@@ -33,7 +27,7 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => true,
                 'habilitado_prestamo' => false,
                 'condiciones_prestamo' => '',
-                'VTV' => now()->addMonths(6),
+                'vtv' => now()->addMonths(6),
                 'id_dependencia_duena' => 59, // Ajusta según tu BD
                 'id_direccion_actual' => 20,  // Ajusta según tu BD
                 'id_estado_vehiculo' => 1,   // Disponible
@@ -49,7 +43,7 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => true,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'VTV' => now()->addMonths(3),
+                'vtv' => now()->addMonths(3),
                 'id_dependencia_duena' => 67,
                 'id_direccion_actual' => 20,
                 'id_estado_vehiculo' => 1, //
@@ -65,7 +59,7 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => true,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'VTV' => now()->addMonths(6),
+                'vtv' => now()->addMonths(6),
                 'id_dependencia_duena' => 67,
                 'id_direccion_actual' => 20,
                 'id_estado_vehiculo' => 1, //
@@ -81,11 +75,12 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => true,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => null,
-                'VTV' => now()->addMonths(6),
+                'vtv' => now()->addMonths(6),
                 'id_dependencia_duena' => 67,
                 'id_direccion_actual' => 20,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
+            ],
             [
                 'dominio' => 'KAH 331',
                 'marca' => 'Chevrolet',
@@ -96,7 +91,7 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => true,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'VTV' => now()->addMonths(6),
+                'vtv' => now()->addMonths(6),
                 'id_dependencia_duena' => 67,
                 'id_direccion_actual' => 20,
                 'id_estado_vehiculo' => 1,
@@ -112,7 +107,7 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => true,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                  'VTV' => now()->addMonths(6),
+                'vtv' => now()->addMonths(6),
                 'id_dependencia_duena' => 67,
                 'id_direccion_actual' => 20,
                 'id_estado_vehiculo' => 1,
@@ -128,7 +123,7 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => true,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'VTV' => now()->addMonths(6),
+                'vtv' => now()->addMonths(6),
                 'id_dependencia_duena' => 67,
                 'id_direccion_actual' => 20,
                 'id_estado_vehiculo' => 1,
@@ -144,7 +139,7 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => true,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'VTV' => now()->addMonths(6),
+                'vtv' => now()->addMonths(6),
                 'id_dependencia_duena' => 67,
                 'id_direccion_actual' => 20,
                 'id_estado_vehiculo' => 1,
@@ -160,7 +155,7 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => true,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                  'VTV' => now()->addMonths(6),
+                'vtv' => now()->addMonths(6),
                 'id_dependencia_duena' => 67,
                 'id_direccion_actual' => 20,
                 'id_estado_vehiculo' => 1,
@@ -177,7 +172,7 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => true,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                   'VTV' => now()->addMonths(6),
+                'vtv' => now()->addMonths(6),
                 'id_dependencia_duena' => 67,
                 'id_direccion_actual' => 20,
                 'id_estado_vehiculo' => 1,
@@ -193,7 +188,7 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => true,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                   'VTV' => now()->addMonths(6),
+                'vtv' => now()->addMonths(6),
                 'id_dependencia_duena' => 67,
                 'id_direccion_actual' => 20,
                 'id_estado_vehiculo' => 1,
@@ -209,7 +204,7 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => true,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'VTV' => now()->addMonths(6),
+                'vtv' => now()->addMonths(6),
                 'id_dependencia_duena' => 67,
                 'id_direccion_actual' => 20,
                 'id_estado_vehiculo' => 1,
@@ -225,7 +220,7 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => true,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-               'VTV' => now()->addMonths(6),
+                'vtv' => now()->addMonths(6),
                 'id_dependencia_duena' => 67,
                 'id_direccion_actual' => 20,
                 'id_estado_vehiculo' => 1,
@@ -241,7 +236,7 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => true,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-               'VTV' => now()->addMonths(6),
+                'vtv' => now()->addMonths(6),
                 'id_dependencia_duena' => 67,
                 'id_direccion_actual' => 20,
                 'id_estado_vehiculo' => 1,
@@ -258,7 +253,7 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => true,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-               'VTV' => now()->addMonths(6),
+                'vtv' => now()->addMonths(6),
                 'id_dependencia_duena' => 67,
                 'id_direccion_actual' => 20,
                 'id_estado_vehiculo' => 1,
@@ -275,7 +270,7 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => true,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-               'VTV' => now()->addMonths(6),
+                'vtv' => now()->addMonths(6),
                 'id_dependencia_duena' => 67,
                 'id_direccion_actual' => 20,
                 'id_estado_vehiculo' => 1,
@@ -292,7 +287,7 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => true,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-               'VTV' => now()->addMonths(6),
+                'vtv' => now()->addMonths(6),
                 'id_dependencia_duena' => 67,
                 'id_direccion_actual' => 20,
                 'id_estado_vehiculo' => 1,
@@ -309,7 +304,7 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => true,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-               'VTV' => now()->addMonths(6),
+                'vtv' => now()->addMonths(6),
                 'id_dependencia_duena' => 67,
                 'id_direccion_actual' => 20,
                 'id_estado_vehiculo' => 1,
@@ -320,13 +315,13 @@ class VehiculoSeeder extends Seeder
                 'dominio' => 'sin dominio 0',
                 'marca' => 'UTV',
                 'modelo' => 'CAN - AM - VERDE',
-                'unidad'=>'sin unidad 0',
+                'unidad'=>'126',
                 'anio' => 2000,
                 'kilometros' => 0,
                 'control_satelital' => true,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-               'VTV' => now()->addMonths(6),
+                'vtv' => now()->addMonths(6),
                 'id_dependencia_duena' => 67,
                 'id_direccion_actual' => 20,
                 'id_estado_vehiculo' => 1,
@@ -338,7 +333,7 @@ class VehiculoSeeder extends Seeder
 
 
             //********************* transito ******************************************************
-
+/*
     [
                 'dominio' => 'AA 163 HN',
                 'marca' => 'Bajaj',
@@ -349,13 +344,13 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => true,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-               'VTV' => now()->addMonths(6),
+                'vtv' => now()->addMonths(6),
                 'id_dependencia_duena' => 60,
                 'id_direccion_actual' => 20,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
             ],
-
+*/
 
   [
                 'dominio' => 'A16 4MKD',
@@ -367,7 +362,7 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => true,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-               'VTV' => now()->addMonths(6),
+                'vtv' => now()->addMonths(6),
                 'id_dependencia_duena' => 60,
                 'id_direccion_actual' => 20,
                 'id_estado_vehiculo' => 1,
@@ -385,7 +380,7 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => true,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-               'VTV' => now()->addMonths(6),
+                'vtv' => now()->addMonths(6),
                 'id_dependencia_duena' => 60,
                 'id_direccion_actual' => 20,
                 'id_estado_vehiculo' => 1,
@@ -394,7 +389,7 @@ class VehiculoSeeder extends Seeder
 
 
  [
-                'dominio' => 'A00 1VUK',
+                'dominio' => 'A00 2VUK',
                 'marca' => 'Bajaj',
                 'modelo' => 'Ranser 220F blanco y negro',
                 'unidad'=>'MT 640',
@@ -403,7 +398,7 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => true,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-               'VTV' => now()->addMonths(6),
+                'vtv' => now()->addMonths(6),
                 'id_dependencia_duena' => 60,
                 'id_direccion_actual' => 20,
                 'id_estado_vehiculo' => 1,
@@ -421,7 +416,7 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => true,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-               'VTV' => now()->addMonths(6),
+                'vtv' => now()->addMonths(6),
                 'id_dependencia_duena' => 60,
                 'id_direccion_actual' => 20,
                 'id_estado_vehiculo' => 1,
@@ -438,7 +433,7 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => true,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-               'VTV' => now()->addMonths(6),
+                'vtv' => now()->addMonths(6),
                 'id_dependencia_duena' => 60,
                 'id_direccion_actual' => 20,
                 'id_estado_vehiculo' => 1,
@@ -449,13 +444,13 @@ class VehiculoSeeder extends Seeder
                 'dominio' => 'A16 4MKI',
                 'marca' => 'Bajaj',
                 'modelo' => 'Rouser 200 Negro',
-                'unidad'=>'MT 726',
+                'unidad'=>'MT 724',
                 'anio' => 2013,
                 'kilometros' => 0,
                 'control_satelital' => true,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-               'VTV' => now()->addMonths(6),
+                'vtv' => now()->addMonths(6),
                 'id_dependencia_duena' => 60,
                 'id_direccion_actual' => 20,
                 'id_estado_vehiculo' => 1,
@@ -472,7 +467,7 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => true,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-               'VTV' => now()->addMonths(6),
+                'vtv' => now()->addMonths(6),
                 'id_dependencia_duena' => 60,
                 'id_direccion_actual' => 20,
                 'id_estado_vehiculo' => 1,
@@ -489,7 +484,7 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => true,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-               'VTV' => now()->addMonths(6),
+                'vtv' => now()->addMonths(6),
                 'id_dependencia_duena' => 60,
                 'id_direccion_actual' => 20,
                 'id_estado_vehiculo' => 1,
@@ -507,7 +502,7 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => true,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-               'VTV' => now()->addMonths(6),
+                'vtv' => now()->addMonths(6),
                 'id_dependencia_duena' => 60,
                 'id_direccion_actual' => 20,
                 'id_estado_vehiculo' => 1,
@@ -525,7 +520,7 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => true,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-               'VTV' => now()->addMonths(6),
+                'vtv' => now()->addMonths(6),
                 'id_dependencia_duena' => 60,
                 'id_direccion_actual' => 20,
                 'id_estado_vehiculo' => 1,
@@ -543,7 +538,7 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => true,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-               'VTV' => now()->addMonths(6),
+                'vtv' => now()->addMonths(6),
                 'id_dependencia_duena' => 60,
                 'id_direccion_actual' => 20,
                 'id_estado_vehiculo' => 1,
@@ -562,7 +557,7 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => true,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-               'VTV' => now()->addMonths(6),
+                'vtv' => now()->addMonths(6),
                 'id_dependencia_duena' => 60,
                 'id_direccion_actual' => 20,
                 'id_estado_vehiculo' => 1,
@@ -580,7 +575,7 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => true,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-               'VTV' => now()->addMonths(6),
+                'vtv' => now()->addMonths(6),
                 'id_dependencia_duena' => 60,
                 'id_direccion_actual' => 20,
                 'id_estado_vehiculo' => 1,
@@ -597,7 +592,7 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => true,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-               'VTV' => now()->addMonths(6),
+                'vtv' => now()->addMonths(6),
                 'id_dependencia_duena' => 60,
                 'id_direccion_actual' => 20,
                 'id_estado_vehiculo' => 1,
@@ -614,7 +609,7 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => true,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-               'VTV' => now()->addMonths(6),
+                'vtv' => now()->addMonths(6),
                 'id_dependencia_duena' => 60,
                 'id_direccion_actual' => 20,
                 'id_estado_vehiculo' => 1,
@@ -633,13 +628,13 @@ class VehiculoSeeder extends Seeder
                 'dominio' => 'AA 628 LB',
                 'marca' => 'Agrale',
                 'modelo' => 'Camion Regador',
-                'unidad'=>'',
+                'unidad'=>'125',
                 'anio' => 1993,
                 'kilometros' => 0,
                 'control_satelital' => true,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-               'VTV' => now()->addMonths(6),
+                'vtv' => now()->addMonths(6),
                 'id_dependencia_duena' => 13,
                 'id_direccion_actual' => 6,
                 'id_estado_vehiculo' => 1,
@@ -649,13 +644,13 @@ class VehiculoSeeder extends Seeder
                 'dominio' => 'sin0dominio',
                 'marca' => 'Volkswagen',
                 'modelo' => 'sin modelo',
-                'unidad'=>'C 658',
+                'unidad'=>'124',
                 'anio' => 1993,
                 'kilometros' => 0,
                 'control_satelital' => true,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-               'VTV' => now()->addMonths(6),
+                'vtv' => now()->addMonths(6),
                 'id_dependencia_duena' => 13,
                 'id_direccion_actual' => 6,
                 'id_estado_vehiculo' => 1,
@@ -663,7 +658,7 @@ class VehiculoSeeder extends Seeder
             ],
 
  [
-                'dominio' => 'sin 00 dominio',
+                'dominio' => 'sin000dominio',
                 'marca' => 'Iveco',
                 'modelo' => 'C/Cabina',
                 'unidad'=>'C 679',
@@ -672,7 +667,7 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => true,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-               'VTV' => now()->addMonths(6),
+                'vtv' => now()->addMonths(6),
                 'id_dependencia_duena' => 13,
                 'id_direccion_actual' => 6,
                 'id_estado_vehiculo' => 1,
@@ -680,7 +675,7 @@ class VehiculoSeeder extends Seeder
             ],
 
              [
-                'dominio' => 'sin 00 dominio',
+                'dominio' => 'sinun0dominio',
                 'marca' => 'Peugeot',
                 'modelo' => 'Boxer Ambulancia',
                 'unidad'=>'F 659',
@@ -689,7 +684,7 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => true,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-               'VTV' => now()->addMonths(6),
+                'vtv' => now()->addMonths(6),
                 'id_dependencia_duena' => 13,
                 'id_direccion_actual' => 6,
                 'id_estado_vehiculo' => 1,
@@ -697,16 +692,16 @@ class VehiculoSeeder extends Seeder
             ],
 
              [
-                'dominio' => 'sin dominio 0',
+                'dominio' => 'sindominio0',
                 'marca' => 'Iron XCMG',
                 'modelo' => 'Pala Cargadora',
-                'unidad'=>'sin unidad 0',
+                'unidad'=>'123',
                 'anio' => 1993,
                 'kilometros' => 0,
                 'control_satelital' => true,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-               'VTV' => now()->addMonths(6),
+                'vtv' => now()->addMonths(6),
                 'id_dependencia_duena' => 13,
                 'id_direccion_actual' => 6,
                 'id_estado_vehiculo' => 1,
@@ -724,7 +719,7 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => true,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-               'VTV' => now()->addMonths(6),
+                'vtv' => now()->addMonths(6),
                 'id_dependencia_duena' => 57,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 1,
@@ -736,7 +731,7 @@ class VehiculoSeeder extends Seeder
 
 
 
-        ]
+
      ];
 
         foreach ($vehiculos as $vehiculo) {

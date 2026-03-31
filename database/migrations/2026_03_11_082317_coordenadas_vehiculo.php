@@ -14,7 +14,7 @@ return new class extends Migration
     {
          Schema::create('coordenadas_vehiculo', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('id_vehiculo')->constrained('vehiculos')->cascadeOnDelete();
+            $table->foreignId('id_vehiculo')->constrained('vehiculo')->cascadeOnDelete();
             $table->foreignId('id_viaje')->constrained('viaje')->cascadeOnDelete();
             $table->decimal('latitud',10,7);
             $table->decimal('longitud',10,7);

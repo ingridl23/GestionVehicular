@@ -97,18 +97,19 @@ class VehiculoService
              throw new Exception ('No se puede utilizar, el vehiculo esta en mantenimiento');
         }
 
-       if (
+   if (
     $vehiculo->reservas()
-        ->whereIn('estado', ['PENDIENTE', 'APROBADA'])
+        ->whereHas('estado_reserva', function ($q) {
+            $q->whereIn('estado', ['PENDIENTE', 'APROBADA']);
+        })
         ->exists()
     ||
     $vehiculo->viajes()
-        ->whereIn('estado', ['EN_CURSO'])
+        ->whereNull('fecha_fin')
         ->exists()
 ) {
     throw new Exception('El vehículo tiene reservas o viajes activos');
 }
-
         // baja lógica
         $vehiculo->update([
             'id_estado_vehiculo' => $baja

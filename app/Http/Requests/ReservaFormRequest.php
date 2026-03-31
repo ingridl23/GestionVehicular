@@ -26,9 +26,9 @@ class ReservaFormRequest extends FormRequest
         return [
             'fecha_inicio'=>'required|date|after:now',
             'fecha_fin'=>'required|date|after_or_equal:fecha_inicio',
-            'id_vehiculo'=>'required|integer|exists:vehiculos,id|not_in:default',
-            'id_usuario'=>'required|integer|exists:users,id|not_in:default',
-            'id_dependencia'=>'required|integer|exists:dependencias,id',
+            'id_vehiculo'=>'required|integer|exists:vehiculo,id|not_in:default',
+            'id_usuario'=>'required|integer|exists:user,id|not_in:default',
+            'id_dependencia'=>'required|integer|exists:dependencia,id',
         ];
     }
 

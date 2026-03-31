@@ -147,13 +147,13 @@ class DireccionSeeder extends Seeder
 
              [
                 'calle' => 'calle esquina',
-                'altura' => '28 y 11',
+                'altura' => '28',
                 'ciudad' => 'Claromeco',
             ],
 
              [
                 'calle' => 'ruta nacional n°3',
-                'altura' => '496,5',
+                'altura' => '496',
                 'ciudad' => 'Tres Arroyos',
             ],
 

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('reporte_comentario', function (Blueprint $table) {
             $table->id();
             $table->foreignId('reporte_id')->constrained('reporte')->cascadeOnDelete();
-            $table->foreignId('id_usuario')->constrained('users')->restrictOnDelete();
+            $table->foreignId('id_usuario')->constrained('user')->restrictOnDelete();
             $table->text('comentario');
             $table->timestamps();
         });

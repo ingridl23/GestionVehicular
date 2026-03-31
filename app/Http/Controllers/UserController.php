@@ -190,7 +190,7 @@ $ultimosUsuarios = User::with('dependencia')
             ->whereNotExists(function ($q) {
                 $q->select('id')
                   ->from('viaje')
-                  ->whereColumn('viaje.id_reserva', 'reservas.id')
+                  ->whereColumn('viaje.id_reserva', 'reserva.id')
                   ->whereNull('viaje.fecha_fin');
             })
             ->first();
@@ -298,9 +298,9 @@ $ultimosUsuarios = User::with('dependencia')
             'name' => 'required|string|max:100',
             'lastname' => 'required|string|max:100',
             'legajo' => 'nullable|string|max:20',
-            'email' => 'required|email|unique:users',
+            'email' => 'required|email|unique:user',
             'password' => 'required|min:8',
-            'id_dependencia' => 'required|exists:dependencias,id',
+            'id_dependencia' => 'required|exists:dependencia,id',
             'role' => 'required|string|exists:roles,name',
             'role' => 'required|string|exists:roles,name',
             'fecha_emision' => 'required|date',
@@ -553,13 +553,13 @@ $user->notify(
         'email' => [
             'required',
             'email',
-            Rule::unique('users', 'email')->ignore($usuario->id),
+            Rule::unique('user', 'email')->ignore($usuario->id),
         ],
         'legajo' => [
             'nullable',
             'string',
             'max:20',
-            Rule::unique('users', 'legajo')->ignore($usuario->id),
+            Rule::unique('user', 'legajo')->ignore($usuario->id),
         ],
 
 

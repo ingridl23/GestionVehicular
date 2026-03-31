@@ -21,7 +21,7 @@ class ReporteComentarios extends Model
 {
 
 
-    protected $table = "reporte_comentarios";
+    protected $table = "reporte_comentario";
     protected $fillable = [
         'reporte_id',
         'id_usuario',
