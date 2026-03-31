@@ -173,9 +173,14 @@ Descripción de carpetas y archivos
 
 ### Estructura de la base de datos
 
-![Diagrama de base de datos](./docs/icono/imagenbase.png)
+![Diagrama de base de datos](./docs/icono/fotoDiagramaBasesDatos.drawio.png)
 
 
+## Captura Dashboard Admin General
+## Captura Vehiculos listado
+## Captura Login
+## Captura Reservas Listado
+## Captura Form Reservas
 
 ## 📍 Rutas
 
