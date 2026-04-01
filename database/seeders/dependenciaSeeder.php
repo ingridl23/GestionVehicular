@@ -515,7 +515,12 @@ class DependenciaSeeder extends Seeder
                 'id_dependencia_padre' => 27,
             ],
 
-
+  [
+                'nombre' => 'Secretaria De Higiene Urbana',
+                'activa' => 1,
+                'id_direccion' => 24,
+                'id_dependencia_padre' => 77,
+            ],
 
         ]);
     }

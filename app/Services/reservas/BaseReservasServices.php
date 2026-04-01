@@ -194,7 +194,7 @@ abstract class BaseReservasServices implements ReservaServiceInterface{
             CASE (
             SELECT estado
             FROM estados_reservas
-            WHERE estados_reservas.id = reservas.id_estado_reserva
+            WHERE estados_reservas.id = reserva.id_estado_reserva
         )
                 WHEN 'APROBADA' THEN 1
                 WHEN 'SOLICITADA'  THEN 2
