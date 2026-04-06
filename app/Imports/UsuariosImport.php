@@ -1,7 +1,6 @@
 <?php
+namespace App\Imports;
 use App\Models\User;
-use App\Models\Dependencia;
-use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Row;
 use Maatwebsite\Excel\Concerns\OnEachRow;
 use Illuminate\Support\Facades\Hash;
@@ -40,49 +39,43 @@ class UsuariosImport implements OnEachRow
 
            $fila = $row->toArray();
 
-           if(empty($fila['nombre']) || empty($fila['apellido']) || empty($fila['legajo'])){
+           if(empty($fila[0]) || empty($fila[1]) || empty($fila[3])){
                   throw new \Exception("Faltan datos obligatorios");
                                                      }
 
-          if(!filter_var($fila['email'], FILTER_VALIDATE_EMAIL)){
+          if(!filter_var($fila[2], FILTER_VALIDATE_EMAIL)){
                  throw new \Exception("Email inválido");
                         }
 
 
          $user = User::updateOrCreate(
-                ['legajo' => $fila['legajo']],
+                ['legajo' => $fila[3]],
                 [
-                    'name' => $fila['nombre'],
-                    'lastname' => $fila['apellido'],
-                    'email' => $fila['email'],
+                    'name' => $fila[0],
+                    'lastname' => $fila[1],
+                    'email' => $fila[2],
                     'id_dependencia' => $this->dependencia->id,
-
+                    'password' => Hash::make('12345678')
                 ]
             );
 
-            if(!$user->wasRecentlyCreated){
-    // no tocar password
-          } else {
-                  $user->password = Hash::make('12345678');
-                  $user->save();
-                }
 
             // Carnet
-            if(!empty($fila[5])){
+            if(!empty($fila[4])){
                 $user->carnet()->updateOrCreate(
                     ['id_usuario'=>$user->id],
                     [
-                        'numero'=>$fila['licencia_de_conducir'],
-                        'fecha_emision'=>$fila['licencia_emision'],
-                        'fecha_vencimiento'=>$fila['licencia_vencimiento']
+                        'licencia_de_conducir'=>$fila[4],
+                        'fecha_emision'=>$fila[5],
+                        'fecha_vencimiento'=>$fila[6]
                     ]
                 );
             }
 
             // Rol
-            $rol = $this->obtenerRol((int)$fila['rol']);
+            $rol = $this->obtenerRol((int)$fila[7]);
 
-            if(empty($fila['rol'])){
+            if(empty($fila[7])){
                  throw new \Exception("Rol vacío");
                  }
 

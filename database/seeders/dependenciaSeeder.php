@@ -521,6 +521,12 @@ class DependenciaSeeder extends Seeder
                 'id_direccion' => 24,
                 'id_dependencia_padre' => 77,
             ],
+          [
+                'nombre' => 'Lincalel',
+                'activa' => 1,
+                'id_direccion' => 28,
+                'id_dependencia_padre' => 77,
+            ],
 
         ]);
     }

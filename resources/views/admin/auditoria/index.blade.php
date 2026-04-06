@@ -543,7 +543,7 @@
                 </p>
                 <br>
                 <p class="text-xs text-yellow-700 dark:text-yellow-400 flex items-start gap-2">Para consultar el precio del combustible actual recomendamos visitar el siguiente enlace </p>
-                <a class="text-xs text-blue-400 " href="https://naftas.com.ar/">click aqui</a>
+                <a class="text-xs text-blue-400 " href="https://surtidores.com.ar/precios/">click aqui</a>
             </div>
 
         </div>

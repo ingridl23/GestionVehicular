@@ -36,14 +36,24 @@ class ImportarUsuarios extends Command
         $totalErrores = 0;
 
 
+        //  BUSQUEDA ROBUSTA (con normalización)
+          $dependencias = Dependencia::all();
         foreach ($archivosExcel as $archivo) {
 
             $this->info("Procesando: $archivo");
 
-             $nombreDependencia = str_replace('_', ' ', pathinfo($archivo, PATHINFO_FILENAME));
+             $nombreArchivo = pathinfo($archivo, PATHINFO_FILENAME);
 
+// eliminar prefijo SOLO si es hash
+$nombreSinPrefijo = preg_replace('/^[a-z0-9]+_/', '', $nombreArchivo);
 
-            $dependencia = Dependencia::where('nombre', $nombreDependencia)->first();
+// convertir _ a espacios
+$nombreDependencia = str_replace('_', ' ', $nombreSinPrefijo);
+//buscar con onrmalizacion
+    $dependencia = $dependencias->first(function($dep) use ($nombreDependencia) {
+        return $this->normalizar($dep->nombre) === $this->normalizar($nombreDependencia);
+    });
+
 
              if(!$dependencia){
                    $this->error("❌ Dependencia no encontrada: '$nombreDependencia'");
@@ -82,7 +92,12 @@ class ImportarUsuarios extends Command
         $this->info("✔ TOTAL EXITOSOS: $totalExitosos");
         $this->error("❌ TOTAL ERRORES: $totalErrores");
     }
-
+private function normalizar($texto)
+{
+    $texto = strtolower($texto);
+    $texto = iconv('UTF-8', 'ASCII//TRANSLIT', $texto);
+    return $texto;
+}
 
     /** comando : php artisan import:usuarios */
 }
