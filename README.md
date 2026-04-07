@@ -177,10 +177,17 @@ Descripción de carpetas y archivos
 
 
 ## Captura Dashboard Admin General
+![Diagrama de base de datos](./docs/icono/pantallaGeneral.png)
 ## Captura Vehiculos listado
+![Diagrama de base de datos](./docs/icono/listadoVehiculos.png)
 ## Captura Login
+![Diagrama de base de datos](./docs/icono/login.png)
 ## Captura Reservas Listado
+![Diagrama de base de datos](./docs/icono/reservaListadoCartel.png)
+
 ## Captura Form Reservas
+![Diagrama de base de datos](./docs/icono/formReserva.png)
+
 
 ## 📍 Rutas
 
