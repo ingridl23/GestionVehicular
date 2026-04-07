@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Console;
-
+use App\Jobs\ProcesarReservasCaducadas;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Illuminate\Support\Facades\Log;
@@ -24,8 +24,9 @@ class Kernel extends ConsoleKernel
         $schedule->command('app:verificar-alertas')
             ->dailyAt('03:00')
             ->withoutOverlapping();
-        
+
         $schedule->command('reservas:expirar-pendientes')->everyThirtyMinutes();
+        $schedule->job(new ProcesarReservasCaducadas)->everyMinute();
     }
 
     /**

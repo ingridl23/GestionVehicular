@@ -1,6 +1,7 @@
 <?php
 namespace App\Services\reservas;
 use App\Notifications\UsuarioModificadoNotification;
+use App\Notifications\ReservaCaducada;
 use App\Contracts\ReservaServiceInterface;
 use App\Models\Carnet;
 use App\Models\Dependencia;
@@ -11,7 +12,7 @@ use App\Models\User;
 use App\Models\Vehiculo;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
-
+use PhpOffice\PhpSpreadsheet\Calculation\DateTimeExcel\Date;
 
 abstract class BaseReservasServices implements ReservaServiceInterface{
 
@@ -259,6 +260,61 @@ return true;
 
 
 
+public function procesarReservasCaducadas()
+{
+    // Cambiar estado de reserva
+               $id_estado_finalizada = EstadosReserva::where("estado", "FINALIZADA")->value('id');
+     // Liberar vehículo
+              $id_estado_disponible = EstadosVehiculo::where("estado", "DISPONIBLE")->value('id');
+    //  Administradores generales
+               $adminsGenerales = User::role('Administrador General')->get();
+
+
+    $reservas = Reserva::whereHas('estado_reserva', function ($q) {
+        $q->where('estado', 'EN_CURSO');
+    })->with('vehiculo','usuario')->get();
+
+
+
+    foreach ($reservas as $reserva) {
+
+        if (now()->greaterThanOrEqualTo($reserva->fecha_fin_reserva)&&
+             $reserva->estado_reserva->estado === 'EN_CURSO') {
+
+
+//cambiar estado
+     $reserva->update([
+    'id_estado_reserva' => $id_estado_finalizada
+     ]);
+
+            // Admins de dependencia
+            $adminsDependencia = User::role('Administrador de Dependencia')
+                ->where('id_dependencia', $reserva->id_dependencia_duena)
+                ->get();
+
+            $admins = $adminsGenerales->merge($adminsDependencia);
+
+            // Notificar admins
+            foreach ($admins as $admin) {
+                $admin->notify(new ReservaCaducada($reserva));
+            }
+
+            //Notificar conductor
+             $reserva->usuario?->notify(new ReservaCaducada($reserva));
+
+           // Liberar vehículo
+           if($reserva->vehiculo){
+
+               $reserva->vehiculo->update([
+                   'id_estado_vehiculo' => $id_estado_disponible
+               ]);
+           }
+        }
+    }
+    return true;
+}
+
+
     public function crearReserva($request){
         $fecha_inicio = Carbon::createFromFormat('Y-m-d\TH:i', $request->input('fecha_inicio'));
         $fecha_fin = Carbon::createFromFormat('Y-m-d\TH:i', $request->input('fecha_fin'));
@@ -490,7 +546,7 @@ $conductor?->notify(new UsuarioModificadoNotification(
         $usuario = User::with('carnet')->find($id_usuario);
 
         if (!$usuario || !$usuario->carnet) {
-            return ['usuario_sin_carnet', true];
+            return ['usuario sin carnet vigente', true];
         }
 
         $fechaVencimiento = $usuario->carnet->fecha_vencimiento;
