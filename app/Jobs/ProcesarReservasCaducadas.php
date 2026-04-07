@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Jobs;
-
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 use App\Services\reservas\BaseReservasServices;
