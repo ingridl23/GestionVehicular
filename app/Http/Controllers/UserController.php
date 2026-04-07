@@ -417,14 +417,14 @@ $user->notify(
         $data = $request->validate([
             'name' => 'required|string|max:100',
             'lastname' => 'required|string|max:100',
-            'email' => 'required|email|unique:users,email,' . $usuario->id,
+            'email' => 'required|email|unique:user,email,' . $usuario->id,
             'legajo' => [
             'nullable',
             'string',
             'max:20',
-             Rule::unique('users', 'legajo')->ignore($usuario->id),
+             Rule::unique('user', 'legajo')->ignore($usuario->id),
     ],
-            'id_dependencia' => 'required|exists:dependencias,id',
+            'id_dependencia' => 'required|exists:dependencia,id',
             'role' => 'required|string|exists:roles,name',
             'password' => 'nullable|min:8',
 
