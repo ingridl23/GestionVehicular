@@ -92,6 +92,8 @@ $nombreDependencia = str_replace('_', ' ', $nombreSinPrefijo);
         $this->info("✔ TOTAL EXITOSOS: $totalExitosos");
         $this->error("❌ TOTAL ERRORES: $totalErrores");
     }
+
+
 private function normalizar($texto)
 {
     $texto = strtolower($texto);

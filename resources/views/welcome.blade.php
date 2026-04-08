@@ -12,6 +12,10 @@
     <div class="min-h-screen w-full flex items-center justify-center bg-cover bg-center bg-flota">
         <div class="relative max-w-lg w-full text-center px-4">
 
+            <div class="flex justify-center pb-6">
+                <img src="{{ asset('assets/iconos/logo.png') }}" alt="Logo Tres Arroyos" alt="Logo Tres Arroyos" class="w-60 h-auto">
+            </div>
+
             <!-- TÍTULO -->
             <h1 class="text-3xl font-bold text-blue-900 drop-shadow-md">
                 Gestión Vehicular
