@@ -8,7 +8,7 @@ La municipalidad de Tres Arroyos cuenta con una flota de vehiculos limitada que 
 
 ## 🧰 Tecnologías utilizadas
 
--   **Backend:** Laravel 4.2
+-   **Backend:** Laravel 12
 -   **Frontend:** Blade, Bootstrap, HTML/CSS, JavaScript , TailwindCSS , Vite 
 -   **Base de datos:** MySQL 
 -   **Control de versiones:** Git y GitHub
