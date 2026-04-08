@@ -525,6 +525,12 @@ class DependenciaSeeder extends Seeder
                 'nombre' => 'Lincalel',
                 'activa' => 1,
                 'id_direccion' => 28,
+                'id_dependencia_padre' => null,
+            ],
+            [
+                'nombre' => 'Predio De Disposicion Final Y Tratamiento De Residuos',
+                'activa' => 1,
+                'id_direccion' => 24,
                 'id_dependencia_padre' => 77,
             ],
 
