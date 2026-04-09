@@ -73,10 +73,10 @@ class Reserva extends Model
         return $this->belongsTo(User::class, 'id_usuario');
     }
 
-    public function viaje()
-    {
-        return $this->hasMany(Viaje::class);
-    }
+   public function viaje()
+{
+    return $this->hasOne(Viaje::class, 'id_reserva');
+}
 
 
     /**

@@ -164,41 +164,63 @@
       action="{{ route('operativo.viajes.finalizar', $viaje->id) }}">
       @csrf
 
-      {{-- KM finales --}}
-      <label class="vms-form-label">Kilómetros finales *</label>
-      <input
-        type="number"
-        name="kilometros_fin"
-        id="vmsKmFinal"
-        class="vms-form-input"
-        placeholder="ej: {{ ($viaje->kilometros_inicio ?? 0) + 50 }}"
-        min="{{ $viaje->kilometros_inicio ?? 0 }}"
-        required>
+   <div class="space-y-4">
 
-      {{-- Estado de nafta — botones táctiles --}}
-      <label class="vms-form-label">Estado de nafta al entregar *</label>
-      <div class="nafta-grid">
-@foreach($estadosNafta as $estado)
-  <button
-    type="button"
-    class="nafta-btn {{ $loop->last ? 'active' : '' }}"
-    data-value="{{ $estado->id }}"
-    onclick="vmsSelNafta(this)">
-    {{ $estado->estado }}
-  </button>
-@endforeach
+                <div>
+                    <label class="block text-sm">Kilómetros finales</label>
+                    <input type="number"
+                           name="kilometros_fin"
+                           required
+                           class="w-full border rounded-lg p-2">
+                </div>
+
+                  <div>
+<label class="block text-sm">Estado nafta final</label>
+ <select name="id_estado_nafta_fin" class="form-control" required>
+    <option value="">Seleccione estado</option>
+
+    @foreach($estadosNafta as $estado)
+        <option value="{{ $estado->id }}">
+            {{ $estado->estado }}
+        </option>
+    @endforeach
+</select>
+
+                </div>
+  <div>
+    {{-- Observaciones --}}
+    <label class="vms-form-label">Observaciones  <span class="text-gray-500">*Opcional</span></label>
+    <br>
+    <textarea
+    name="observaciones"
+    class="w-full border rounded-lg p-2"
+    rows="2"
+    style="resize:none;"
+    placeholder="Ej: sin novedades, entregué llaves en recepción…"></textarea>
+
+
+</div>
+            </div>
+<div class="mt-4">
+    <label class="block text-sm mb-1">
+        Dirección de estacionamiento
+        <span class="text-gray-500">(Completar Solo si no hay GPS conectado)</span>
+    </label>
+
+    @if(!$viaje->vehiculo->control_satelital)
+        <select name="id_direccion"
+                class="w-full border rounded-lg p-2 bg-white">
+            <option value="">Seleccionar dirección</option>
+
+            @foreach($direcciones as $direccion)
+                <option value="{{ $direccion->id }}">
+                    {{ $direccion->calle }} {{ $direccion->altura }} - {{ $direccion->ciudad }}
+                </option>
+            @endforeach
+        </select>
+    @endif
 </div>
 
-<input type="hidden" name="id_estado_nafta_fin" id="vmsNaftaHidden"
-       value="{{ $estadosNafta->last()?->id }}">
-      {{-- Observaciones --}}
-      <label class="vms-form-label">Observaciones <span style="font-weight:400; text-transform:none; letter-spacing:0;">— opcional</span></label>
-      <textarea
-        name="observaciones"
-        class="vms-form-input"
-        rows="2"
-        style="resize:none;"
-        placeholder="Ej: sin novedades, entregué llaves en recepción…"></textarea>
 
       <button type="submit" class="vms-btn-confirm">
         <i class="fas fa-flag-checkered"></i> Confirmar finalización

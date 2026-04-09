@@ -39,6 +39,10 @@ return new class extends Migration
 
 
     $table->string('observaciones')->nullable();
+    $table->foreignId('id_direccion_actual')
+    ->nullable()
+    ->constrained('direccion')
+    ->nullOnDelete();
 
     $table->timestamps();
 });

@@ -41,6 +41,7 @@ class Viaje extends Model
         'id_estado_nafta_inicio',
         'id_estado_nafta_fin',
         'observaciones',
+        'id_direccion_actual'
     ];
 
     protected $casts = [
@@ -77,6 +78,10 @@ class Viaje extends Model
 public function ultimaCoordenada()
 {
     return $this->hasOne(CoordenadasVehiculo::class, 'id_viaje')->latest('fecha_hora');
+}
+public function direccionActual()
+{
+    return $this->belongsTo(Direcciones::class, 'id_direccion_actual');
 }
 
 public function getFechaFinFormateadaAttribute()

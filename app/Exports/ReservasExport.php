@@ -33,6 +33,7 @@ class ReservasExport implements FromCollection, WithHeadings, WithMapping
             'fecha de inicio de reserva',
             'fecha finalizacion de reserva',
             'estado de la reserva',
+            'direccionActual',
             'dependencia duena',
             'dependencia solicitante',
             'creado',
@@ -55,6 +56,10 @@ class ReservasExport implements FromCollection, WithHeadings, WithMapping
         $reserva->fecha_inicio_reserva?->format('Y-m-d H:i'),
         $reserva->fecha_fin_reserva?->format('Y-m-d H:i'),
         $reserva->estado_reserva?->estado,
+        $reserva->viaje?->direccionActual
+      ? $reserva->viaje->direccionActual->calle . ' ' .
+        $reserva->viaje->direccionActual->altura . ' - ' .
+        $reserva->viaje->direccionActual->ciudad : null,
         $reserva->dependencia_duena?->nombre,
         $reserva->dependencia_solicitante?->nombre,
         $reserva->created_at?->format('Y-m-d'),

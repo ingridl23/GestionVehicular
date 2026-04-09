@@ -9,6 +9,7 @@ use Illuminate\Validation\ValidationException;
 use App\Models\Gasto;
 use App\Models\PrecioCombustible;
 use App\Models\EstadosVehiculo;
+use PHPUnit\Framework\Constraint\IsEmpty;
 
 /**
  * @brief ViajeService presenta la logica de negocio de viajes dentro del sistema
@@ -103,9 +104,20 @@ class ViajeService
                 ]);
             }
 
+
+
             $vehiculo = $viaje->vehiculo;
 
             $kmRecorridos = $data['kilometros_fin'] - $viaje->kilometros_inicio;
+
+
+            $idDireccion = $data['id_direccion'] ?? null;
+
+            if (!$vehiculo->control_satelital && empty($data['id_direccion'])) {
+                  throw ValidationException::withMessages([
+                   'id_direccion' => 'Debe seleccionar una dirección para vehículos sin GPS.'
+    ]);
+}
 
             // Calcular gasto automático
             $litrosConsumidos = $kmRecorridos * 0.10;
@@ -125,13 +137,15 @@ class ViajeService
                 'fecha_fin' => now(),
                 'kilometros_fin' => $data['kilometros_fin'],
                 'id_estado_nafta_fin' => $data['id_estado_nafta_fin'],
-                'observaciones' => $data['observaciones'] ?? null
+                'observaciones' => $data['observaciones'] ?? null ,
+                'id_direccion_actual' => $idDireccion ?? $vehiculo->id_direccion_actual
             ]);
 
             // Actualizar vehículo
             $vehiculo->update([
                 'kilometros' => $data['kilometros_fin'],
                 'id_estado_nafta' => $data['id_estado_nafta_fin'],
+                'id_direccion_actual' => $idDireccion ?? $vehiculo->id_direccion_actual
             ]);
 
             // Crear gasto

@@ -1,7 +1,7 @@
 @extends('layout.app')
 
 @section('content')
-<div id="wrap">
+<div id="wrap" class="flex flex-col lg:flex-row gap-4">
   <div id="map-col">
     <div id="map-card">
       <svg id="map-svg" viewBox="0 0 420 300"></svg>

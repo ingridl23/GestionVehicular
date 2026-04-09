@@ -140,7 +140,7 @@
             <div class="mb-4">
                 <label class="block text-xs font-semibold uppercase tracking-wider
                               text-gray-500 dark:text-gray-400 mb-1.5">
-                    Estado de nafta al entregar *
+                    Estado del tanque al entregar *
                 </label>
                 <div class="grid gap-2"
                      style="grid-template-columns: repeat({{ $estadosNafta->count() }}, 1fr)">
@@ -184,12 +184,34 @@
                            transition"></textarea>
             </div>
 
+
+            <div class="mt-4">
+    <label class="block text-sm mb-1">
+        Dirección de estacionamiento
+        <span class="text-gray-500">(Completar Solo si no hay GPS conectado)</span>
+    </label>
+
+    @if(!$viajeActivo->vehiculo->control_satelital)
+        <select name="id_direccion"
+                class="w-full border rounded-lg p-2 bg-white">
+            <option value="">Seleccionar dirección</option>
+
+            @foreach($direcciones as $direccion)
+                <option value="{{ $direccion->id }}">
+                    {{ $direccion->calle }} {{ $direccion->altura }} - {{ $direccion->ciudad }}
+                </option>
+            @endforeach
+        </select>
+    @endif
+</div>
+
+
             <button type="submit"
-                    class="w-full py-3 rounded-xl font-bold text-sm text-white
-                           bg-orange-500 hover:bg-orange-600 active:bg-orange-700
-                           transition flex items-center justify-center gap-2">
-                <i class="fas fa-flag-checkered"></i> Confirmar finalización
+        onclick="console.log('CLICK')"
+        class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg">
+                Finalizar viaje
             </button>
+
         </form>
 
         <button type="button"

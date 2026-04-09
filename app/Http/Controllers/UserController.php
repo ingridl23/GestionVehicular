@@ -7,6 +7,7 @@ use App\Models\Alerta;
 use App\Models\EstadosNafta;
 use App\Models\Reserva;
 use App\Models\Reportes;
+use App\Models\Direcciones;
 use App\Models\Vehiculo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -181,7 +182,7 @@ $ultimosUsuarios = User::with('dependencia')
 
         $alertas      = Alerta::latest()->take(10)->get();
         $estadosNafta = EstadosNafta::all();
-
+        $direcciones = Direcciones::all();
         // ── Reserva aprobada del conductor logueado
         // Sin viaje activo ya iniciado (whereNotExists evita doble inicio)
         $reservaActiva = Reserva::with('vehiculo')
@@ -206,6 +207,7 @@ $ultimosUsuarios = User::with('dependencia')
             'reservados',
             'estadosNafta',
             'reservaActiva',
+            'direcciones'
         ));
     }
 
