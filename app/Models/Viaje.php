@@ -78,6 +78,10 @@ public function ultimaCoordenada()
 {
     return $this->hasOne(CoordenadasVehiculo::class, 'id_viaje')->latest('fecha_hora');
 }
+public function direccionActual()
+{
+    return $this->belongsTo(Direcciones::class, 'id_direccion_actual');
+}
 
 public function getFechaFinFormateadaAttribute()
 {

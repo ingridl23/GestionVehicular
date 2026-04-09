@@ -145,6 +145,7 @@ class ViajeService
             $vehiculo->update([
                 'kilometros' => $data['kilometros_fin'],
                 'id_estado_nafta' => $data['id_estado_nafta_fin'],
+                'id_direccion_actual' => $idDireccion ?? $vehiculo->id_direccion_actual
             ]);
 
             // Crear gasto
