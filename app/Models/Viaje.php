@@ -41,6 +41,7 @@ class Viaje extends Model
         'id_estado_nafta_inicio',
         'id_estado_nafta_fin',
         'observaciones',
+        'id_direccion_actual'
     ];
 
     protected $casts = [
