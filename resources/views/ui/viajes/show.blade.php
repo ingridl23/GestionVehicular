@@ -106,15 +106,42 @@
 </select>
 
                 </div>
+<div>
+    {{-- Observaciones --}}
+    <label class="vms-form-label">Observaciones  <span class="text-gray-500">*Opcional</span></label>
+    <br>
+    <textarea
+    name="observaciones"
+    class="w-full border rounded-lg p-2"
+    rows="2"
+    style="resize:none;"
+    placeholder="Ej: sin novedades, entregué llaves en recepción…"></textarea>
 
-                <div>
-                    <label class="block text-sm">Observaciones</label>
-                    <textarea name="observaciones" class="w-full border rounded-lg p-2"></textarea>
-                </div>
 
-
-
+</div>
             </div>
+<div class="mt-4">
+    <label class="block text-sm mb-1">
+        Dirección de estacionamiento
+        <span class="text-gray-500">(Completar Solo si no hay GPS conectado)</span>
+    </label>
+
+    @if(!$viaje->vehiculo->control_satelital)
+        <select name="id_direccion"
+                class="w-full border rounded-lg p-2 bg-white">
+            <option value="">Seleccionar dirección</option>
+
+            @foreach($direcciones as $direccion)
+                <option value="{{ $direccion->id }}">
+                    {{ $direccion->calle }} {{ $direccion->altura }} - {{ $direccion->ciudad }}
+                </option>
+            @endforeach
+        </select>
+    @endif
+</div>
+
+
+
           <button type="submit"
         onclick="console.log('CLICK')"
         class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg">
@@ -132,10 +159,10 @@
          class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">
      <-
 </a>
-@endsection
 <script>
     window.VIAJE_DATA = {
         id: @json($viaje->id),
         finalizar_url: @json(route('operativo.viajes.finalizar', $viaje->id))
     };
 </script>
+@endsection

@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 use App\Models\Viaje;
 use App\Models\Reserva;
 use App\Models\EstadosNafta;
+use App\Models\Direcciones;
 use Illuminate\Http\Request;
 use App\Exports\ViajesExport;
 use Maatwebsite\Excel\Facades\Excel;
@@ -82,6 +83,8 @@ class ViajeController extends Controller
         $estados_filtros   = \App\Models\EstadosViaje::all();
 
 
+        $direcciones = Direcciones::all();
+
 
         return view('ui.viajes.index', compact(
             'viajes',
@@ -89,6 +92,7 @@ class ViajeController extends Controller
             'estadosNafta',
             'vehiculos_filtros',
             'estados_filtros',
+            'direcciones'
         ));
     }
 
@@ -106,13 +110,13 @@ class ViajeController extends Controller
         'estadoNaftaInicio',
         'estadoNaftaFin',
         'gasto',
-        'ultimaCoordenada'
+        'ultimaCoordenada',
 
     ]);
 
     $estadosNafta = EstadosNafta::all();
-
-    return view('ui.viajes.show', compact('viaje', 'estadosNafta'));
+    $direcciones = Direcciones::all();
+    return view('ui.viajes.show', compact('viaje', 'estadosNafta','direcciones'));
 }
 
 public function mapaVirtual(Viaje $viaje)
@@ -179,6 +183,7 @@ public function mapaVirtual(Viaje $viaje)
             'kilometros_fin'      => 'required|integer|min:0',
             'id_estado_nafta_fin' => 'required|exists:estados_naftas,id',
             'observaciones'       => 'nullable|string|max:500',
+              'id_direccion'        => 'nullable|exists:direccion,id'
         ]);
 
         $this->service->finalizarViaje((int) $viajeId, $request->all());
