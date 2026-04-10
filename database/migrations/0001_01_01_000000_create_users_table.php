@@ -19,7 +19,11 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->integer('legajo')->unique();
-            //$table->foreign('id_dependencia')->constrained('dependencia')->cascadeOnDelete();
+            $table->unsignedBigInteger('id_photo_profile')->nullable();
+            $table->foreign('id_photo_profile')
+        ->references('id')
+        ->on('image_profile_user')
+        ->nullOnDelete();
             $table->foreignId('id_dependencia')->nullable();
             $table->rememberToken();
             $table->timestamps();

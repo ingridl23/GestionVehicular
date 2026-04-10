@@ -22,46 +22,7 @@ class UserSeeder extends Seeder
         $roleAdminGeneral = Role::firstOrCreate(['name' => 'Administrador General']);
 
         //Se crean los usuarios
-      /*  $adminDependenciaUser = User::query()->create([
-            'name' => 'admin',
-            'lastname' => 'dependencia',
-            'email' => 'adminDependencia@gmail.com',
-            'password' => Hash::make('123456789'),
-            'legajo' => 0001,
-            'id_dependencia' => 1,
-            'email_verified_at' => now()
-        ]);
 
-        $jefeDeOficina = User::query()->create([
-            'name' => 'jefe',
-            'lastname' => 'oficina',
-            'email' => 'jefeDeOficina@gmail.com',
-            'password' => Hash::make('123456789'),
-            'legajo' => 0002,
-            'id_dependencia' => 1,
-            'email_verified_at' => now()
-        ]);
-
-        $conductor = User::query()->create([
-            'name' => 'conductor',
-            'lastname' => 'perez',
-            'email' => 'conductor@gmail.com',
-            'password' => Hash::make('123456789'),
-            'legajo' => 0003,
-            'id_dependencia' => 2,
-            'email_verified_at' => now()
-        ]);
-
-        $administradorGeneral = User::query()->create([
-            'name' => 'administrador',
-            'lastname' => 'general',
-            'email' => 'administradorGeneral@gmail.com',
-            'password' => Hash::make('123456789'),
-            'legajo' => 0004,
-            'id_dependencia' => 2,
-            'email_verified_at' => now()
-        ]);
-        */
 
    $adminComputos = User::query()->create([
             'name' => 'Computos',

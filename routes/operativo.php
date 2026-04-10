@@ -4,7 +4,6 @@ use App\Http\Controllers\VehiculoController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ReporteController;
 use App\Http\Controllers\Reservas\ReservaController;
-use App\Http\Controllers\Reservas\BaseReservaController;
 use App\Http\Controllers\ViajeController;
 
  Route::middleware(['auth', 'role:Operativo'])

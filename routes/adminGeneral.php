@@ -70,7 +70,7 @@ Route::middleware(['auth', 'role:Administrador General|Administrador de Dependen
 
         });
 
-/*** voy por aca guia de rutas  ***/
+
 /******************************************************* */
 
 Route::middleware(['auth', 'role:Administrador General|Administrador de Dependencia|Jefe de Area'])

@@ -29,14 +29,42 @@
         <div class="bg-gradient-to-r from-blue-600 to-blue-700 py-8 px-6">
             <div class="flex flex-col md:flex-row items-center md:items-start gap-6">
 
-                <!-- Avatar -->
-                <div class="w-24 h-24 bg-white rounded-full flex items-center justify-center shadow-lg">
-                    <span class="text-4xl text-blue-600 font-bold">
-                        {{ strtoupper(substr($usuario->name, 0, 1) . substr($usuario->lastname, 0, 1)) }}
-                    </span>
-                </div>
+         <!-- Avatar -->
+         <div class="relative w-24 h-24 bg-white rounded-full flex items-center justify-center shadow-lg">
 
-                <!-- Info -->
+       @if($usuario->imagenProfile)
+          <img
+            src="{{ $usuario->imagenProfile->url_photo_profile }}"
+            class="w-24 h-24 rounded-full object-cover shadow-lg"
+        >
+    @else
+        <div class="w-24 h-24 bg-white rounded-full flex items-center justify-center shadow-lg">
+            <span class="text-4xl text-blue-600 font-bold">
+                {{ strtoupper(substr($usuario->name, 0, 1) . substr($usuario->lastname, 0, 1)) }}
+            </span>
+        </div>
+    @endif
+
+    {{-- Botón editar --}}
+    @if($puedeEditarFoto)
+        <label class="absolute bottom-0 right-0 bg-blue-600 text-white p-2 rounded-full cursor-pointer hover:bg-blue-700">
+            <i class="fas fa-camera"></i>
+               <input type="file" name="foto" form="formFoto" class="hidden" onchange="submitFoto(event)">
+           <script>
+              function submitFoto(event) {
+                  document.getElementById('formFoto').submit();
+                   }
+          </script>
+        </label>
+    @endif
+
+
+    <form id="formFoto" action="{{ route('profile.updatePhoto') }}" method="POST" enctype="multipart/form-data">
+    @csrf
+    </form>
+</div>
+
+         <!-- Info -->
                 <div class="flex-1 text-center md:text-left">
                     <h2 class="text-3xl font-bold text-white mb-2">
                         {{ $usuario->name }} {{ $usuario->lastname }}
@@ -62,9 +90,9 @@
 
         <!-- Profile Body -->
      @if($esAdmin && auth()->id() !== $usuario->id)
-    <form action="{{ route('admin.usuarios.update', $usuario) }}" method="POST" class="p-6">
+    <form  id="formPerfil"  action="{{ route('admin.usuarios.update', $usuario) }}" method="POST" enctype="multipart/form-data"  class="p-6">
 @else
-    <form action="{{ route('profile.update') }}" method="POST" class="p-6">
+    <form  id="formPerfil"  action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data"  class="p-6">
 @endif
             @csrf
             @method('PUT')

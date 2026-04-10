@@ -23,7 +23,8 @@ class User extends Authenticatable
         'legajo',
         'email',
         'password',
-        'id_dependencia'
+        'id_dependencia',
+        'id_photo_profile',
     ];
 
     /**
@@ -64,6 +65,10 @@ class User extends Authenticatable
         return $this->hasMany(Reserva::class, 'id_usuario');
     }
 
+  public function imagenProfile()
+{
+    return $this->belongsTo(ImagenProfile::class, 'id_photo_profile');
+}
 
     public function puedeConducir(): bool
     {
@@ -104,4 +109,6 @@ public function getViajeActivoAttribute()
         ->whereNull('fecha_fin')
         ->first();
 }
+
+
 }

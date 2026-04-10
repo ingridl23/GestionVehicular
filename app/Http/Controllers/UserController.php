@@ -19,6 +19,11 @@ use App\Exports\UsuariosExport;
 use App\Exports\ConductoresExport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\UsuariosImport;
+use App\Models\ImagenProfile;
+//use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
+
+use Cloudinary\Cloudinary;
+
 /**
  * @class UserController
  * @brief Controlador encargado de la gestión integral de usuarios del sistema.
@@ -211,7 +216,8 @@ $ultimosUsuarios = User::with('dependencia')
         ));
     }
 
-   /**
+
+/**
  * Lista usuarios con filtros dinámicos.
  *
  * Permite filtrar por:
@@ -304,12 +310,12 @@ $ultimosUsuarios = User::with('dependencia')
             'password' => 'required|min:8',
             'id_dependencia' => 'required|exists:dependencia,id',
             'role' => 'required|string|exists:roles,name',
-            'role' => 'required|string|exists:roles,name',
             'fecha_emision' => 'required|date',
             'fecha_vencimiento' => 'required|date|after:fecha_emision',
-            'vigente' => 'required|in:true,false'
+            'vigente' => 'required|in:true,false',
         ]);
 
+        try{
         $user = User::create([
             'name' => $data['name'],
             'lastname' => $data['lastname'],
@@ -320,6 +326,28 @@ $ultimosUsuarios = User::with('dependencia')
             'enabled' => true,
         ]);
 
+        if ($request->hasFile('foto_perfil')) {
+          $uploaded = Cloudinary::upload($imagen = $request->file('foto_perfil'), [
+           'folder' => 'profile_photo2026'
+           ]);
+
+           $imagen = ImagenProfile::create([
+           'url_photo_profile' => $uploaded->getSecurePath(),
+           'public_id' => $uploaded->getPublicId(),
+            ]);
+
+            $user->id_photo_profile = $imagen->id;
+            $user->save();
+        }
+
+                } catch (\Exception $e) {
+                    $mensajes = [
+                        'titulo' => '¡Error!',
+                        'detalle' => 'Ha sucedido un error en la carga de la imagen de perfil, intente nuevamente.'
+                    ];
+                    return redirect()->route('admin.usuarios.index')->with('error', $mensajes);
+                }
+
          //  CREAR CARNET
         $user->carnet()->create([
         'fecha_emision' => $data['fecha_emision'],
@@ -329,7 +357,8 @@ $ultimosUsuarios = User::with('dependencia')
 
 
         $user->assignRole($data['role']);
-$user->notify(
+
+  $user->notify(
     new UsuarioModificadoNotification(
         'Tu usuario y  rol fue creado por un administrador',
         'warning'
@@ -337,7 +366,9 @@ $user->notify(
 );
         return redirect()->route('admin.usuarios.index')
             ->with('success', 'Usuario creado correctamente');
-    }
+}
+
+
 
     /**
      * Mostrar un usuario específico (perfil público)
@@ -345,9 +376,10 @@ $user->notify(
     public function show(User $usuario)
     {
         $user = Auth::user();
-        $usuario->load(['dependencia', 'roles', 'carnet']);
+        $usuario->load(['dependencia', 'roles', 'carnet','imagenProfile']);
         // Verificar permisos
         $esAdmin = $user->hasRole('Administrador General');
+        $puedeEditarFoto = Gate::allows('editarFotoPerfil', $usuario);
         $esAdminDependencia = $user->hasRole('Administrador de Dependencia');
         $esJefeArea = $user->hasRole('Jefe de Area');
         $esPropietario = $user->id === $usuario->id;
@@ -380,6 +412,7 @@ $user->notify(
             'usuario',
             'puedeEditar',
             'esAdmin',
+            'puedeEditarFoto',
             'dependencias'
         ));
     }
@@ -393,9 +426,62 @@ $user->notify(
 
         $dependencias = Dependencia::orderBy('nombre')->get();
         $roles = Role::orderBy('name')->get();
-
-        return view('admin.usuarios.edit', compact('usuario', 'dependencias', 'roles'));
+        $imagenesProfile = ImagenProfile::find($usuario->id);
+        return view('admin.usuarios.edit', compact('usuario', 'dependencias', 'roles','imagenesProfile'));
     }
+
+
+  /**
+     *Modificar imagen de un perfil:
+     *
+     * Se deben iterar  las imagenes persistidas, en caso de no estar en el $request (imagenes_conservar) que llega por parametro, pasan a estar eliminadas.
+     * Si el resultado de la coleccion no esta vacio, las imagenes (url) se agregan.
+     * @param int $id, ID perteneciente al usuario a modificar
+     * @param Request $request, Viene en FormData con la nueva imagen a cargar
+     *
+     * @return JsonResponse, Envio de estado de la respuesta del fetch
+     */
+    public function editarImagenProfile($id, Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'imagenes.*' => 'image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048|dimensions:max_width=1920,max_height=1080',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'redirect' => "admin/usuarios/edit/{$id}",
+                'message' => [
+                    'titulo' => '¡Error!',
+                    'detalle' => 'Ha sucedido un error en la validación de la imagen',
+                ],
+                'status' => 'error',
+            ], 400);
+        };
+        $usuario = User::find($id);
+        $imagenesBD = ImagenProfile::where('user_id', $usuario->id)->get();
+        $imagenRequest = $request->file("images_profile_photo");
+        $totalImagenesDB = count($imagenesBD);
+
+        $imagenesConservarJson = $request->input('imagenes_conservar');
+        $imagenesConservar = json_decode($imagenesConservarJson, true); // true para array asociativo
+        $idsConservar = collect($imagenesConservar)->pluck('id')->filter()->toArray();
+
+        if (count($imagenesBD) > 0) {
+            foreach ($imagenesBD as $imagen) {
+                if (!in_array($imagen->id, $idsConservar)) {
+                    try {
+                        Cloudinary::uploadApi()->destroy($imagen->public_id);
+                        ImagenProfile::eliminarImagen($imagen);
+                        $totalImagenesDB = $totalImagenesDB - 1;
+                    } catch (\Exception $e) {
+                        return response()->json(['error' => "No se ha podido cargar la/s imagen/es"], 400);
+                    }
+                }
+            }
+        }
+
+
+    }
+
 
   /**
  * Actualiza un usuario existente.
@@ -511,6 +597,23 @@ $user->notify(
             return back()->withErrors('No podés eliminar tu propio usuario');
         }
 
+            $imagenprofile = ImagenProfile::find($usuario->id);
+
+            if ($usuario != null && $imagenprofile) {
+
+                    try {
+                        Cloudinary::uploadApi()->destroy($imagenprofile->public_id);
+                        ImagenProfile::eliminarImagen($imagenprofile);
+                    } catch (\Exception $e) {
+                        $mensajes = [
+                            'titulo' => '¡Error!',
+                            'detalle' => 'Ha sucedido un error al eliminar la imagen del perfil, intente nuevamente.'
+                        ];
+                        return redirect('/usuario')->with('error', $mensajes);
+                    }
+            }
+
+
         $usuario->delete();
 
         return redirect()->route('admin.usuarios.index')
@@ -524,22 +627,61 @@ $user->notify(
     public function myProfile()
     {
         $usuario = Auth::user();
-        $usuario->load(['dependencia', 'roles', 'carnet']);
+        $usuario->load(['dependencia', 'roles', 'carnet','imagenProfile']);
 
         // Todos pueden ver su propio perfil
         $puedeEditar = true;
         $esAdmin = $usuario->hasRole('Administrador General');
         $dependencias = $esAdmin ? Dependencia::all() : collect();
         $esConductorBase = $usuario->hasRole('Operativo');
+
+        $puedeEditarFoto = $usuario->can('editarFotoPerfil');
         if($esAdmin){
-            return view('auth.profile', compact('usuario', 'puedeEditar', 'esAdmin', 'dependencias'));
+            return view('auth.profile', compact('usuario', 'puedeEditar', 'esAdmin', 'dependencias', 'puedeEditarFoto'));
         }
 
         else{
             $puedeEditar = false;
-            return view('auth.profileOperativo', compact('usuario','dependencias','esAdmin','puedeEditar'));
+
+            return view('auth.profileOperativo', compact('usuario','dependencias','esAdmin','puedeEditar', 'puedeEditarFoto'));
         }
     }
+
+    public function updatePhoto(Request $request)
+{
+    $usuario = Auth::user();
+
+    $request->validate([
+        'foto' => 'required|image|mimes:jpg,jpeg,png,webp|max:2048',
+    ]);
+
+
+    if ($request->hasFile('foto')) {
+
+        // eliminar anterior
+        if ($usuario->imagenProfile) {
+            Cloudinary::uploadApi()->destroy($usuario->imagenProfile->public_id);
+            $usuario->imagenProfile->delete();
+        }
+//dd(config('cloudinary'));
+        // subir nueva
+
+     $uploaded = Cloudinary::upload(
+    $request->file('foto'),
+    ['folder' => 'profile_photo2026']
+);
+
+        $imagen = ImagenProfile::create([
+            'url_photo_profile' => $uploaded->getSecurePath(),
+            'public_id' => $uploaded->getPublicId(),
+        ]);
+
+        $usuario->id_photo_profile = $imagen->id;
+        $usuario->save();
+    }
+
+    return back()->with('success', 'Foto actualizada correctamente');
+}
 
     /**
      * Actualizar mi perfil (usuario logueado) o si el admin selecciona un usuario
@@ -563,20 +705,17 @@ $user->notify(
             'max:20',
             Rule::unique('user', 'legajo')->ignore($usuario->id),
         ],
-
+        'foto' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
 
 
     ]);
 
-
-
-
         // Solo admin puede cambiar dependencia
         if ($usuario->hasRole('Administrador General')) {
             $rules['id_dependencia'] = 'sometimes|exists:dependencia,id';
+            }
 
             $validated = $request->validate($rules);
-        }
 
 
 
@@ -585,17 +724,54 @@ $user->notify(
             unset($validated['id_dependencia']);
         }
 
-        // Actualizar usuario
-        $usuario->update($validated);
 
-        return redirect()->route('profile.show')
-            ->with('success', 'Perfil actualizado correctamente');
+    if ($request->hasFile('foto')) {
+
+    // borrar imagen anterior si existe
+    if ($usuario->imagenProfile) {
+        Cloudinary::uploadApi()->destroy($usuario->imagenProfile->public_id);
+        $usuario->imagenProfile->delete();
     }
+
+
+$cloudinary = new Cloudinary([
+    'cloud' => [
+        'cloud_name' => env('CLOUDINARY_CLOUD_NAME'),
+        'api_key'    => env('CLOUDINARY_API_KEY'),
+        'api_secret' => env('CLOUDINARY_API_SECRET'),
+    ],
+]);
+
+$uploaded = $cloudinary->uploadApi()->upload(
+    $request->file('foto')->getRealPath(),
+    ['folder' => 'profile_photo2026']
+);
+
+    $imagen = ImagenProfile::create([
+        'url_photo_profile' => $uploaded->getSecurePath(),
+        'public_id' => $uploaded->getPublicId(),
+    ]);
+
+    $usuario->id_photo_profile = $imagen->id;
+    $usuario->save();
+}
+
+// SIEMPRE se ejecuta
+$usuario->update($validated);
+
+return redirect()->route('profile.show')
+    ->with('success', 'Perfil actualizado correctamente');
+
+    }
+
+
 
     /**
      * Listar usuarios por dependencia
      */
+
     public function usuariosPorDependencia(Request $request)
+
     {
         $user = Auth::user();
 
@@ -618,6 +794,7 @@ $user->notify(
 
         return view('admin.auditoria.personal', compact('usuarios', 'dependencias', 'roles'));
     }
+
 
   /**
  * Alterna el estado habilitado/deshabilitado de un usuario.
@@ -676,3 +853,4 @@ public function importar(Request $request)
     return back()->with('success','Usuarios importados');
 }
 }
+
