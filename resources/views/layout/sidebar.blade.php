@@ -238,9 +238,23 @@
     <!-- User Profile (bottom) -->
     <div x-show="sidebarOpen" class="border-t border-gray-200 dark:border-gray-700 p-4">
         <div class="flex items-center gap-3">
-            <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white font-semibold">
-                {{ strtoupper(substr(auth()->user()->name, 0, 2)) }}
+
+
+
+            @if(auth()->user()->imagenProfile)
+            <img src="{{ auth()->user()->imagenProfile->url_photo_profile }}"
+                 class="w-10 h-10 rounded-full object-cover shadow-lg">
+        @else
+            <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-lg">
+                <span class="text-1xl text-blue-600 font-bold">
+                    {{ strtoupper(substr(auth()->user()->name, 0, 1) . substr(auth()->user()->lastname, 0, 1)) }}
+                </span>
             </div>
+        @endif
+
+
+
+
             <div class="flex-1 min-w-0">
                 <p class="text-sm font-medium text-gray-900 dark:text-white truncate">
                     {{ auth()->user()->name }}

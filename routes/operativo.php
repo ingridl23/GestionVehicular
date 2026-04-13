@@ -4,7 +4,6 @@ use App\Http\Controllers\VehiculoController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ReporteController;
 use App\Http\Controllers\Reservas\ReservaController;
-use App\Http\Controllers\Reservas\BaseReservaController;
 use App\Http\Controllers\ViajeController;
 
  Route::middleware(['auth', 'role:Operativo'])
@@ -50,6 +49,11 @@ Route::post(
 
         Route::get('/editar-conductor/{id}', [ReservaController::class, 'formularioEditarConductor'])->name('editar-conductor');
         Route::patch('/editar-conductor/{id}', [ReservaController::class, 'editarConductor'])->name('update.conductor');
+       //editar foto de perfil conductor
+        Route::post('/usuario/editarImagen/{id}',[UserController::class, 'editarImagenProfile'])->name('usuario.editarImagen');
+      // eliminar imagen del perfil y de cloudinary
+        Route::delete('/deleteImage/{id}',[UserController::class, 'destroyImage'])->name('usuario.eliminarImagen');
+
 
 
 

@@ -142,6 +142,17 @@
                     <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="flex items-center">
+
+   @if($usuario->imagenProfile)
+            <img src="{{ $usuario->imagenProfile->url_photo_profile }}"
+                 class="w-10 h-10 rounded-full object-cover shadow-lg">
+                  <div class="ml-4">
+                                    <div class="text-sm font-medium text-gray-900 dark:text-white">
+                                        {{ $usuario->name }} {{ $usuario->lastname }}
+                                    </div>
+                                </div>
+@else
+
                                 <div class="flex-shrink-0 h-10 w-10">
                                     <div class="h-10 w-10 rounded-full bg-blue-600 flex items-center justify-center text-white font-semibold">
                                         {{ strtoupper(substr($usuario->name, 0, 1) . substr($usuario->lastname, 0, 1)) }}
@@ -152,6 +163,7 @@
                                         {{ $usuario->name }} {{ $usuario->lastname }}
                                     </div>
                                 </div>
+@endif
                             </div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">

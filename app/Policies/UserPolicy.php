@@ -20,6 +20,18 @@ class UserPolicy
         }
     }
 
+    public function editarFotoPerfil(User $user, User $objetivo): bool
+{
+    // Puede editar SU PROPIA foto si tiene permiso
+    if ($user->id === $objetivo->id) {
+        return $user->can('editarFotoPerfil');
+    }
+
+
+
+    return false;
+}
+
     /**
      * Ver listado general de usuarios
      * - Dueño Dependencia: solo personal de su dependencia

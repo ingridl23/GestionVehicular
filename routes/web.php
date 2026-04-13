@@ -5,7 +5,6 @@ use App\Http\Controllers\VehiculoController;
 use App\Http\Controllers\AlertaController;
 use App\Http\Controllers\ReporteController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\HistorialController;
 use App\Http\Controllers\ViajeController;
 use App\Http\Controllers\HomeController;
 use App\Models\Viaje;
@@ -57,7 +56,8 @@ Route::middleware(['auth'])->group(function () {
 
     // Actualizar mi perfil
     Route::put('/profile', [UserController::class, 'updateProfile'])->name('profile.update');
-
+Route::post('/profile/photo', [UserController::class, 'updatePhoto'])
+    ->name('profile.updatePhoto');
     // Ver perfil de otro usuario (requiere permisos)
     Route::get('/profile/{usuario}', [UserController::class, 'show'])->name('profile.view');
 

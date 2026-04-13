@@ -99,6 +99,7 @@ class RoleAndPermissionsSeeder extends Seeder
     'editar_personal_dependencia',
     'eliminar_personal_dependencia',
     'ver_menu',
+    'editarFotoPerfil',
     // ==========================
     // NUEVOS PERMISOS
     // ==========================
@@ -114,7 +115,8 @@ class RoleAndPermissionsSeeder extends Seeder
     'ver_historial_reservas',
     // Reportes
     'ver_reportes_operativos',
-    'actualizar_reportes'
+    'actualizar_reportes',
+
 ];
 
 
@@ -213,6 +215,7 @@ $conductor->syncPermissions([
     'ver_historial_reservas',
     'solicitar_reserva_interna',
     'cancelar_reserva_interna',
+     'editarFotoPerfil'
 ]);
 
 
