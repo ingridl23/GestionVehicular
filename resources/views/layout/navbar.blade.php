@@ -98,9 +98,16 @@ function marcarLeida(id) {
                 @click="open = !open"
                 class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
             >
-                <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white text-sm font-semibold">
-                    {{ strtoupper(substr(auth()->user()->name, 0, 2)) }}
-                </div>
+                  @if(auth()->user()->imagenProfile)
+            <img src="{{ auth()->user()->imagenProfile->url_photo_profile }}"
+                 class="w-10 h-10 rounded-full object-cover shadow-lg">
+        @else
+            <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-lg">
+                <span class="text-1xl text-blue-600 font-bold">
+                    {{ strtoupper(substr(auth()->user()->name, 0, 1) . substr(auth()->user()->lastname, 0, 1)) }}
+                </span>
+            </div>
+        @endif
                 <div class="hidden lg:block text-left">
                     <p class="text-sm font-medium text-gray-900 dark:text-white">{{ auth()->user()->name }}</p>
                     <p class="text-xs text-gray-500 dark:text-gray-400">{{ auth()->user()->getRoleNames()->first() ?? 'Usuario' }}</p>
