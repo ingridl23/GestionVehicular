@@ -99,7 +99,7 @@ public function carnetPorVencer(int $dias = 30): bool
 }
 
 /**
- * Metodo para obtener si una reserva esta activa dada la fehca actual dentro del sistema
+ * Metodo para obtener si una reserva esta activa dada la fecha actual dentro del sistema
  */
 public function getViajeActivoAttribute()
 {

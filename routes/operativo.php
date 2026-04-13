@@ -49,8 +49,8 @@ Route::post(
 
         Route::get('/editar-conductor/{id}', [ReservaController::class, 'formularioEditarConductor'])->name('editar-conductor');
         Route::patch('/editar-conductor/{id}', [ReservaController::class, 'editarConductor'])->name('update.conductor');
-
-
+       //editar foto de perfil conductor
+        Route::post('/usuario/editarImagen/{id}',[UserController::class, 'editarImagenProfile'])->name('usuario.editarImagen');
 
     //*********************************************************************************************************************** */
     /*********************************Reservas de Vehiculos Operativos ****************************************************** */

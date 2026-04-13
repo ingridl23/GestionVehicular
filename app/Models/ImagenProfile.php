@@ -9,7 +9,7 @@ use Illuminate\Notifications\Notifiable;
 class ImagenProfile extends Model
 {
     use HasFactory;
-    protected $table = 'image_profile_users';
+    protected $table = 'image_profile_user';
 
     protected $fillable = [
         'public_id',

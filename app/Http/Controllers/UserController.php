@@ -21,9 +21,8 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\UsuariosImport;
 use App\Models\ImagenProfile;
 //use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
-
-use Cloudinary\Cloudinary;
-
+//use Cloudinary\Configuration\Configuration;
+use App\Services\CloudinaryService;
 /**
  * @class UserController
  * @brief Controlador encargado de la gestión integral de usuarios del sistema.
@@ -326,24 +325,14 @@ $ultimosUsuarios = User::with('dependencia')
             'enabled' => true,
         ]);
 
-        if ($request->hasFile('foto_perfil')) {
-          $uploaded = Cloudinary::upload($imagen = $request->file('foto_perfil'), [
-           'folder' => 'profile_photo2026'
-           ]);
 
-           $imagen = ImagenProfile::create([
-           'url_photo_profile' => $uploaded->getSecurePath(),
-           'public_id' => $uploaded->getPublicId(),
-            ]);
 
-            $user->id_photo_profile = $imagen->id;
-            $user->save();
-        }
+
 
                 } catch (\Exception $e) {
                     $mensajes = [
                         'titulo' => '¡Error!',
-                        'detalle' => 'Ha sucedido un error en la carga de la imagen de perfil, intente nuevamente.'
+                        'detalle' => 'Error al crear el usuario, intente nuevamente.'
                     ];
                     return redirect()->route('admin.usuarios.index')->with('error', $mensajes);
                 }
@@ -403,7 +392,7 @@ $ultimosUsuarios = User::with('dependencia')
         $puedeEditar = $esAdmin || $esPropietario;
 
         // Cargar relaciones necesarias
-        $usuario->load(['dependencia', 'roles']);
+        $usuario->load(['dependencia', 'roles','imagenProfile']);
 
         // Obtener listas
         $dependencias = $esAdmin ? Dependencia::all() : collect();
@@ -426,7 +415,7 @@ $ultimosUsuarios = User::with('dependencia')
 
         $dependencias = Dependencia::orderBy('nombre')->get();
         $roles = Role::orderBy('name')->get();
-        $imagenesProfile = ImagenProfile::find($usuario->id);
+       $imagenesProfile = $usuario->imagenProfile;
         return view('admin.usuarios.edit', compact('usuario', 'dependencias', 'roles','imagenesProfile'));
     }
 
@@ -443,44 +432,49 @@ $ultimosUsuarios = User::with('dependencia')
      */
     public function editarImagenProfile($id, Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'imagenes.*' => 'image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048|dimensions:max_width=1920,max_height=1080',
-        ]);
-        if ($validator->fails()) {
-            return response()->json([
-                'redirect' => "admin/usuarios/edit/{$id}",
-                'message' => [
-                    'titulo' => '¡Error!',
-                    'detalle' => 'Ha sucedido un error en la validación de la imagen',
-                ],
-                'status' => 'error',
-            ], 400);
-        };
-        $usuario = User::find($id);
-        $imagenesBD = ImagenProfile::where('user_id', $usuario->id)->get();
-        $imagenRequest = $request->file("images_profile_photo");
-        $totalImagenesDB = count($imagenesBD);
-
-        $imagenesConservarJson = $request->input('imagenes_conservar');
-        $imagenesConservar = json_decode($imagenesConservarJson, true); // true para array asociativo
-        $idsConservar = collect($imagenesConservar)->pluck('id')->filter()->toArray();
-
-        if (count($imagenesBD) > 0) {
-            foreach ($imagenesBD as $imagen) {
-                if (!in_array($imagen->id, $idsConservar)) {
-                    try {
-                        Cloudinary::uploadApi()->destroy($imagen->public_id);
-                        ImagenProfile::eliminarImagen($imagen);
-                        $totalImagenesDB = $totalImagenesDB - 1;
-                    } catch (\Exception $e) {
-                        return response()->json(['error' => "No se ha podido cargar la/s imagen/es"], 400);
-                    }
-                }
-            }
-        }
 
 
+       // dd(config('cloudinary.cloud_url'));
+        $usuario = User::findOrFail($id);
+        Gate::authorize('editarFotoPerfil', $usuario);
+
+    $request->validate([
+        'foto' => 'required|image|mimes:jpg,jpeg,png,webp|max:2048',
+    ]);
+
+    if ($request->hasFile('foto')) {
+
+        // eliminar anterior
+      $cloudinary = new CloudinaryService();
+
+if ($usuario->imagenProfile && $usuario->imagenProfile->public_id) {
+    $cloudinary->destroy($usuario->imagenProfile->public_id);
+    $usuario->imagenProfile->delete();
+}
+if (!$request->hasFile('foto')) {
+    return back()->withErrors('No se recibió la imagen');
+}
+
+
+$cloudinary = new CloudinaryService();
+
+$uploaded = $cloudinary->upload(
+    $request->file('foto')->getRealPath(),
+    'profile_photo2026'
+);
+$imagen = ImagenProfile::create([
+    'url_photo_profile' => $uploaded['secure_url'],
+    'public_id' => $uploaded['public_id'],
+]);
+
+        $usuario->id_photo_profile = $imagen->id;
+        $usuario->save();
     }
+
+    return back()->with('success', 'Foto actualizada correctamente');
+}
+
+
 
 
   /**
@@ -597,13 +591,15 @@ $ultimosUsuarios = User::with('dependencia')
             return back()->withErrors('No podés eliminar tu propio usuario');
         }
 
-            $imagenprofile = ImagenProfile::find($usuario->id);
+           $imagenprofile = $usuario->imagenProfile;
 
             if ($usuario != null && $imagenprofile) {
 
                     try {
-                        Cloudinary::uploadApi()->destroy($imagenprofile->public_id);
-                        ImagenProfile::eliminarImagen($imagenprofile);
+                     $cloudinary = new CloudinaryService();
+
+                     $cloudinary->destroy($imagenprofile->public_id);
+                         $imagenprofile->delete();
                     } catch (\Exception $e) {
                         $mensajes = [
                             'titulo' => '¡Error!',
@@ -647,41 +643,6 @@ $ultimosUsuarios = User::with('dependencia')
         }
     }
 
-    public function updatePhoto(Request $request)
-{
-    $usuario = Auth::user();
-
-    $request->validate([
-        'foto' => 'required|image|mimes:jpg,jpeg,png,webp|max:2048',
-    ]);
-
-
-    if ($request->hasFile('foto')) {
-
-        // eliminar anterior
-        if ($usuario->imagenProfile) {
-            Cloudinary::uploadApi()->destroy($usuario->imagenProfile->public_id);
-            $usuario->imagenProfile->delete();
-        }
-//dd(config('cloudinary'));
-        // subir nueva
-
-     $uploaded = Cloudinary::upload(
-    $request->file('foto'),
-    ['folder' => 'profile_photo2026']
-);
-
-        $imagen = ImagenProfile::create([
-            'url_photo_profile' => $uploaded->getSecurePath(),
-            'public_id' => $uploaded->getPublicId(),
-        ]);
-
-        $usuario->id_photo_profile = $imagen->id;
-        $usuario->save();
-    }
-
-    return back()->with('success', 'Foto actualizada correctamente');
-}
 
     /**
      * Actualizar mi perfil (usuario logueado) o si el admin selecciona un usuario
@@ -724,37 +685,6 @@ $ultimosUsuarios = User::with('dependencia')
             unset($validated['id_dependencia']);
         }
 
-
-    if ($request->hasFile('foto')) {
-
-    // borrar imagen anterior si existe
-    if ($usuario->imagenProfile) {
-        Cloudinary::uploadApi()->destroy($usuario->imagenProfile->public_id);
-        $usuario->imagenProfile->delete();
-    }
-
-
-$cloudinary = new Cloudinary([
-    'cloud' => [
-        'cloud_name' => env('CLOUDINARY_CLOUD_NAME'),
-        'api_key'    => env('CLOUDINARY_API_KEY'),
-        'api_secret' => env('CLOUDINARY_API_SECRET'),
-    ],
-]);
-
-$uploaded = $cloudinary->uploadApi()->upload(
-    $request->file('foto')->getRealPath(),
-    ['folder' => 'profile_photo2026']
-);
-
-    $imagen = ImagenProfile::create([
-        'url_photo_profile' => $uploaded->getSecurePath(),
-        'public_id' => $uploaded->getPublicId(),
-    ]);
-
-    $usuario->id_photo_profile = $imagen->id;
-    $usuario->save();
-}
 
 // SIEMPRE se ejecuta
 $usuario->update($validated);

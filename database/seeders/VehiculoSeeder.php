@@ -1115,8 +1115,24 @@ class VehiculoSeeder extends Seeder
             ],
 
 
+/************************************Predio De Disposicion Final Y Tratamiento De Residuos************************************************ */
 
-
+ [
+                'dominio' => 'MDO097',
+                'marca' => 'Chevrolet',
+                'modelo' => 'Clio',
+                'unidad'=>'P708',
+                'anio' => 1900,
+                'kilometros' => 0,
+                'control_satelital' => false,
+                'habilitado_prestamo' => true,
+                'condiciones_prestamo' => '',
+                'vtv' => now()->addMonths(85),
+                'id_dependencia_duena' => 86,
+                'id_direccion_actual' => 24,
+                'id_estado_vehiculo' => 1,
+                'id_estado_nafta' => 4,
+            ],
             /**********************************secretaria de higiene urbana ****************************** */
   [
                 'dominio' => 'AD487KI',
