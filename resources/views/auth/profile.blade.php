@@ -50,16 +50,6 @@
             </div>
         @endif
 
-        @if($puedeEditarFoto)
-            <label class="absolute bottom-0 right-0 bg-blue-600 text-white p-2 rounded-full cursor-pointer hover:bg-blue-700">
-                <i class="fas fa-camera"></i>
-
-                <input type="file"
-                       name="foto"
-                       class="hidden"
-                       onchange="this.form.submit()">
-            </label>
-        @endif
 
     </div>
 </form>

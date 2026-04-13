@@ -27,10 +27,7 @@ class UserPolicy
         return $user->can('editarFotoPerfil');
     }
 
-    // Si querés que admin también pueda editar cualquiera:
-    if ($user->hasRole('Administrador General')) {
-        return true;
-    }
+
 
     return false;
 }
