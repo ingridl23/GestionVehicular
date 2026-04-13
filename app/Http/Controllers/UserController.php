@@ -474,8 +474,31 @@ $imagen = ImagenProfile::create([
     return back()->with('success', 'Foto actualizada correctamente');
 }
 
+ public function destroyImage($id)
+{
+    $usuario = User::findOrFail($id);
 
+    Gate::authorize('editarFotoPerfil', $usuario);
 
+    if ($usuario->imagenProfile) {
+
+        $cloudinary = new CloudinaryService();
+
+        // eliminar de cloudinary
+        if ($usuario->imagenProfile->public_id) {
+            $cloudinary->destroy($usuario->imagenProfile->public_id);
+        }
+
+        // eliminar de la BD
+        $usuario->imagenProfile->delete();
+
+        // limpiar FK en user
+        $usuario->id_photo_profile = null;
+        $usuario->save();
+    }
+
+    return back()->with('success', 'Foto eliminada correctamente');
+}
 
   /**
  * Actualiza un usuario existente.
@@ -574,6 +597,7 @@ $imagen = ImagenProfile::create([
             ->with('success', 'Usuario actualizado correctamente');
     }
 
+
   /**
  * Elimina un usuario del sistema.
  *
@@ -605,7 +629,7 @@ $imagen = ImagenProfile::create([
                             'titulo' => '¡Error!',
                             'detalle' => 'Ha sucedido un error al eliminar la imagen del perfil, intente nuevamente.'
                         ];
-                        return redirect('/usuario')->with('error', $mensajes);
+                        return redirect('/my-profile')->with('error', $mensajes);
                     }
             }
 
@@ -620,6 +644,7 @@ $imagen = ImagenProfile::create([
      * Ver mi perfil (usuario logueado)
      * Solo el administrador general puede cambiar sus datos, los demas solo pueden ver
      */
+
     public function myProfile()
     {
         $usuario = Auth::user();

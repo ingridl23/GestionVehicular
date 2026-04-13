@@ -49,15 +49,19 @@
         @if($usuario->imagenProfile)
             <img src="{{ $usuario->imagenProfile->url_photo_profile }}"
                  class="w-24 h-24 rounded-full object-cover shadow-lg">
+
         @else
             <div class="w-24 h-24 bg-white rounded-full flex items-center justify-center shadow-lg">
                 <span class="text-4xl text-blue-600 font-bold">
                     {{ strtoupper(substr($usuario->name, 0, 1) . substr($usuario->lastname, 0, 1)) }}
                 </span>
             </div>
-        @endif
+       @endif
 
         @if($puedeEditarFoto)
+
+              @if(!$usuario->imagenProfile)
+            <!-- SUBIR FOTO -->
             <label class="absolute bottom-0 right-0 bg-blue-600 text-white p-2 rounded-full cursor-pointer hover:bg-blue-700">
                 <i class="fas fa-camera"></i>
 
@@ -66,7 +70,31 @@
                        class="hidden"
                        onchange="this.form.submit()">
             </label>
+
+            @else
+        <!-- BOTÓN ELIMINAR FOTO -->
+        <button type="button"
+                onclick="eliminarFoto()"
+                class="absolute bottom-0 right-0 bg-red-600 text-white p-2 rounded-full hover:bg-red-700">
+            <i class="fas fa-trash"></i>
+        </button>
+        <script>
+function eliminarFoto() {
+    if (confirm('¿Eliminar foto de perfil?')) {
+        fetch("{{ route('operativo.usuario.eliminarImagen', $usuario->id) }}", {
+            method: 'DELETE',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            }
+        }).then(() => location.reload());
+    }
+}
+</script>
+    @endif
+
+
         @endif
+
 
     </div>
 </form>

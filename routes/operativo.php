@@ -51,6 +51,11 @@ Route::post(
         Route::patch('/editar-conductor/{id}', [ReservaController::class, 'editarConductor'])->name('update.conductor');
        //editar foto de perfil conductor
         Route::post('/usuario/editarImagen/{id}',[UserController::class, 'editarImagenProfile'])->name('usuario.editarImagen');
+      // eliminar imagen del perfil y de cloudinary
+        Route::delete('/deleteImage/{id}',[UserController::class, 'destroyImage'])->name('usuario.eliminarImagen');
+
+
+
 
     //*********************************************************************************************************************** */
     /*********************************Reservas de Vehiculos Operativos ****************************************************** */
