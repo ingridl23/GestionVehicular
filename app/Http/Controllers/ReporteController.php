@@ -145,17 +145,26 @@ public function index()
 
     $reporte = $service->crear($data);
 
-   //  Notificar a administradores
-    $admins = User::whereHas('roles', function ($q) {
-        $q->whereIn('name', ['Administrador General', 'Administrador de Dependencia']);
-    })->get();
+   //  Notificar a administradores de esa dependencia
+   $dependenciaId = auth()->user()->id_dependencia;
 
-    foreach ($admins as $admin) {
-        $admin->notify(new UsuarioModificadoNotification(
-            'Nuevo reporte creado por ' . auth()->user()->name . ': ' . $reporte->titulo,
-            'info'
-        ));
-    }
+$admins = User::where('id_dependencia', $dependenciaId)
+    ->whereHas('roles', function ($q) {
+        $q->whereIn('name', [
+            'Administrador General',
+            'Administrador de Dependencia',
+            'Administrador de Área'
+        ]);
+    })
+    ->get();
+
+foreach ($admins as $admin) {
+    $admin->notify(new UsuarioModificadoNotification(
+        'Nuevo reporte creado por ' . auth()->user()->name . ': ' . $reporte->titulo,
+        'info'
+    ));
+}
+
 
     return redirect()
         ->route('operativo.reportes.index')
