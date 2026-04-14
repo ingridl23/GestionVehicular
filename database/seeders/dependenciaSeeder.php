@@ -534,6 +534,19 @@ class DependenciaSeeder extends Seeder
                 'id_dependencia_padre' => 77,
             ],
 
+             [
+                'nombre' => 'Electrotecnia',
+                'activa' => 1,
+                'id_direccion' => 17,
+                'id_dependencia_padre' => 51,
+            ],
+              [
+                'nombre' => 'Division De Estudio Y Proyecto',
+                'activa' => 1,
+                'id_direccion' => 17,
+                'id_dependencia_padre' => 51,
+            ],
+
         ]);
     }
 }
