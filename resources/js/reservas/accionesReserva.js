@@ -7,6 +7,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const btn = e.target.closest('.btn-cancelar');
         if (!btn) return;
         reservaIdCancelar = btn.dataset.id;
+        const dialog = document.getElementById('dialog-cancelar');
+        if (dialog) dialog.showModal();
     });
 
     const botonCancelar = document.querySelector('.botonCancelar');
@@ -14,9 +16,14 @@ document.addEventListener("DOMContentLoaded", () => {
         botonCancelar.addEventListener('click', (e) => {
             e.preventDefault();
             if (!reservaIdCancelar) return;
+            //  cerrar el dialogo de confirmación
+            const dialogCancelar = document.getElementById('dialog-cancelar');
+            if (dialogCancelar) dialogCancelar.close();
+
             cancelarReserva(reservaIdCancelar);
         });
     }
+
 
     async function cancelarReserva(id) {
         try {
@@ -30,15 +37,36 @@ document.addEventListener("DOMContentLoaded", () => {
             });
             const data = await res.json();
 
-            if (data.success) {
-                if (window.APP_CONFIG.ubicacion == "interna") {
-                    window.location.href = "/listado-reservas";
-                } else {
-                    window.location.href = "/listado-prestamos";
-                }
+            //abro el dialogo de mensaje de confirmacion de cancelacion de la  reserva
+            const dialog = document.getElementById('dialog-confirm-cancelacion');
+            const ParrafoCancelacion = document.getElementById('parrafo-cancelacion');
+
+            if (dialog) {
+                ParrafoCancelacion.textContent = data.message;
+                dialog.showModal();
+
+                dialog.addEventListener('close', () => {
+                    if (window.APP_CONFIG.ubicacion == "interna") {
+
+                        window.location.href = "/listado-reservas";
+                    } else {
+
+                        window.location.href = "/listado-prestamos";
+                    }
+
+                }, { once: true });
             }
+
         } catch (err) {
             console.error(err);
+
+            const dialog = document.getElementById('dialog-confirm-cancelacion');
+            const ParrafoCancelacion = document.getElementById('parrafo-cancelacion');
+
+            if (dialog && ParrafoCancelacion) {
+                ParrafoCancelacion.textContent = "Ocurrió un error al cancelar la reserva";
+                dialog.showModal();
+            }
         }
     }
 
@@ -78,17 +106,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 const data = await res.json();
                 document.getElementById('dialog-aceptar').close();
+                //abro el dialogo de mensaje de confirmacion de reserva
+                const dialog = document.getElementById('dialog-confirmacion');
+                if (dialog) {
+                    dialog.showModal();
+                }
+                //const botonAceptar = document.querySelector('.botonAprobarReserva');
 
+                ConfirmReserva = document.getElementById('parrafo-confirmacion');
                 if (data.success) {
-                    alert(data.message);
+
+                    ConfirmReserva.textContent = data.message;
+
                     window.location.reload();
                 } else {
-                    alert(data.message ? data.message : 'No se pudo aprobar la reserva.');
+                    ConfirmReserva.textContent = data.message ? data.message : 'No se pudo aprobar la reserva.';
                 }
 
             } catch (err) {
                 console.error(err);
-                alert('Error al procesar la solicitud.');
+                ConfirmReserva('Error al procesar la solicitud.');
             }
         });
     }

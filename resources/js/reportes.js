@@ -149,7 +149,14 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('selectEstado').value = reporteActivo.estado;
 
         renderMensajes();
+        scrollChatAbajo();
     };
+
+    function scrollChatAbajo() {
+        const chat = document.getElementById('chatBody');
+        chat.scrollTop = chat.scrollHeight;
+    }
+
 
     // ===============================
     // Renderizar mensajes
@@ -210,8 +217,11 @@ document.addEventListener('DOMContentLoaded', () => {
     `;
         });
 
+        requestAnimationFrame(() => {
+            body.scrollTop = body.scrollHeight;
+        });
 
-        body.scrollTop = body.scrollHeight;
+
     }
 
     // ===============================
@@ -310,6 +320,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             reporteActivo.comentarios.push(data.comentario);
             renderMensajes();
+            scrollChatAbajo();
             textarea.value = ''; //  limpiar input
             textarea.focus(); //  volver a enfocar
         })
@@ -372,14 +383,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
     });
-
-
-
-
-
-
-
-
 
 
 });

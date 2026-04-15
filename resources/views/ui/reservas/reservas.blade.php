@@ -118,6 +118,37 @@
   </div>
 </dialog>
 
+<!-- ********************** dialogo de confirmacion de reserva cancelada ********************** -->
+
+
+<dialog id="dialog-confirm-cancelacion" class="p-0 backdrop:bg-black/50 rounded-lg">
+  <div class="bg-white dark:bg-gray-900 rounded-lg shadow-xl w-full max-w-md mx-auto">
+    <div class="p-6">
+      <div class="flex items-center gap-4">
+        <div class="flex h-12 w-12 items-center justify-center rounded-full bg-green-100 dark:bg-green-500/10">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="h-6 w-6 text-green-600 dark:text-green-400">
+            <path d="M9 12.75 11.25 15 15 9.75" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="12" cy="12" r="9" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Reserva Cancelada Exitosamente</h3>
+      </div>
+      <p  id="parrafo-cancelacion" class="mt-4 text-sm text-gray-600 dark:text-gray-300">
+
+      </p>
+    </div>
+    <div class="flex justify-end gap-3 bg-gray-100 dark:bg-gray-800 px-6 py-4 rounded-b-lg">
+      <button type="button" onclick="this.closest('dialog').close()"
+        class="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-md">
+        Aceptar
+      </button>
+
+    </div>
+  </div>
+</dialog>
+
+
+<!-- ************************ ***************************** *************************************** -->
 <dialog id="dialog-aceptar" class="p-0 backdrop:bg-black/50 rounded-lg">
   <div class="bg-white dark:bg-gray-900 rounded-lg shadow-xl w-full max-w-md mx-auto">
     <div class="p-6">
@@ -146,6 +177,43 @@
     </div>
   </div>
 </dialog>
+
+
+
+
+
+
+
+
+
+<!--- *************** dialogo de confirmacion reserva aprobada ********************* -->
+
+<dialog id="dialog-confirmacion" class="p-0 backdrop:bg-black/50 rounded-lg">
+  <div class="bg-white dark:bg-gray-900 rounded-lg shadow-xl w-full max-w-md mx-auto">
+    <div class="p-6">
+      <div class="flex items-center gap-4">
+        <div class="flex h-12 w-12 items-center justify-center rounded-full bg-green-100 dark:bg-green-500/10">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="h-6 w-6 text-green-600 dark:text-green-400">
+            <path d="M9 12.75 11.25 15 15 9.75" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="12" cy="12" r="9" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Reserva Aprobada</h3>
+      </div>
+      <p  id="parrafo-confirmacion" class="mt-4 text-sm text-gray-600 dark:text-gray-300">
+
+      </p>
+    </div>
+    <div class="flex justify-end gap-3 bg-gray-100 dark:bg-gray-800 px-6 py-4 rounded-b-lg">
+      <button type="button" onclick="this.closest('dialog').close()"
+        class="px-4 py-2 text-sm font-medium text-white bg-green-600 hover:bg-green-700 rounded-md">
+        Aceptar
+      </button>
+
+    </div>
+  </div>
+</dialog>
+
 
 <script>
   window.RESERVAS_CONFIG = {

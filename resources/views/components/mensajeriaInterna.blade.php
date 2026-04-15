@@ -7,7 +7,7 @@
             id="mensajeInput"
             rows="1"
             placeholder="Escribí un mensaje..."
-            class="w-full resize-none px-4 py-2 text-sm rounded-xl border border-gray-200 dark:border-gray-600
+            class="w-full resize-none max-h-24 overflow-y-auto px-4 py-2 text-sm rounded-xl border border-gray-200 dark:border-gray-600
                    bg-gray-50 dark:bg-gray-700 dark:text-white
                    focus:outline-none focus:ring-2 focus:ring-blue-500"
         ></textarea>
