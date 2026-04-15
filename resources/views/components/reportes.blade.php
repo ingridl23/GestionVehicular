@@ -143,7 +143,7 @@
         </div>
 
         <!-- Estado: reporte seleccionado -->
-        <div id="reporteSeleccionado" class="flex-1 flex flex-col hidden">
+        <div id="reporteSeleccionado" class="flex-1 flex flex-col hidden  min-h-0">
 
             <!-- Header del reporte -->
             <div class="px-5 py-3 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 flex items-center justify-between flex-shrink-0">
@@ -179,7 +179,7 @@
             </div>
 
             <!-- Body: mensajes -->
-            <div id="chatBody" class="flex-1 overflow-y-auto px-5 py-4 space-y-4 bg-gray-50 dark:bg-gray-900">
+            <div id="chatBody" class="flex-1 min-h-0 overflow-y-auto px-5 py-4 space-y-4 bg-gray-50 dark:bg-gray-900">
                 <!-- Se renderiza con JS -->
             </div>
 
