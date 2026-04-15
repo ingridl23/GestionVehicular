@@ -173,7 +173,7 @@ Descripción de carpetas y archivos
 
 ### Estructura de la base de datos
 
-![Diagrama de base de datos](./docs/icono/fotoDiagramaBasesDatos.drawio.png)
+![Diagrama de base de datos](./docs/icono/gestionvehicular2026.png)
 
 
 ## Captura Dashboard Admin General
