@@ -1,5 +1,5 @@
 <?php
-namespace App\Services;
+namespace App\Services\alertas;
 use App\Models\Alerta;
 use App\Models\Reportes;
 use Carbon\Carbon;

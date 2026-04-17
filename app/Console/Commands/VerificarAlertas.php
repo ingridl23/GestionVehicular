@@ -3,9 +3,9 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\Services\AlertaVTVService;
-use App\Services\AlertaLicenciaService;
-use App\Services\AlertaReservaService;
+use App\Services\alertas\AlertaVTVService;
+use App\Services\alertas\AlertaLicenciaService;
+use App\Services\alertas\AlertaReservaService;
 class VerificarAlertas extends Command
 {
     /**
@@ -27,9 +27,9 @@ class VerificarAlertas extends Command
      */
 
     public function handle(
-        AlertaVtvService $vtvService,
-        AlertaLicenciaService $licenciaService,
-         AlertaReservaService $reserva
+   AlertaVTVService $vtvService,
+   AlertaLicenciaService $licenciaService,
+   AlertaReservaService $reserva
     ) {
         $vtvService->verificar();
         $licenciaService->verificar();

@@ -249,6 +249,8 @@ abstract class BaseReservasServices implements ReservaServiceInterface{
         $id_estado_disponible = EstadosVehiculo::where("estado", "DISPONIBLE")->value('id');
         $reserva->vehiculo->update(['id_estado_vehiculo' => $id_estado_disponible]);
     }
+
+
     // Notificar al conductor que fue cancelada
 $reserva->usuario->notify(new UsuarioModificadoNotification(
     'Tu reserva del ' . $reserva->fecha_inicio_reserva->format('d/m/Y H:i') . ' fue cancelada.',
@@ -344,7 +346,7 @@ public function procesarReservasCaducadas()
 
 
 
-        //  Notificar a admins de la dependencia dueña del vehículo
+        //Notificar a admins de la dependencia dueña del vehículo
 // Administradores Generales (TODOS)
 $adminsGenerales = User::role('Administrador General')->get();
 

@@ -190,8 +190,8 @@ class DependenciaSeeder extends Seeder
             [
                 'nombre' => 'Catastro',
                 'activa' => 1,
-                'id_direccion' => 11,
-                'id_dependencia_padre' => 28,
+                'id_direccion' => 17,
+                'id_dependencia_padre' => 57,
             ],
             [
                 'nombre' => 'Juzgados',

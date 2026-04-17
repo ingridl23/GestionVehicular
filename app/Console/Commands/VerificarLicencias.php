@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\Services\AlertaLicenciaService;
+use App\Services\alertas\AlertaLicenciaService;
 
 class VerificarLicencias extends Command
 {

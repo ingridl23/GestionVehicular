@@ -76,8 +76,8 @@ class Alerta extends Model
      */
     public function usuario(): BelongsTo
     {
-        return $this->belongsTo(\App\Models\User::class, 'entidad_id')
-            ->where('entidad_tipo', 'usuario');
+        return $this->belongsTo(\App\Models\User::class, 'entidad_id');
+
     }
 
     /**
@@ -121,12 +121,12 @@ class Alerta extends Model
     {
         return match($this->tipo) {
             'vtv_vencida', 'vtv_por_vencer' => 'fa-id-card',
-            'vehiculo_fuera_servicio' => 'fa-car-crash',
+             'vehiculo_fuera_servicio' => 'bg-red-100 text-red-600',
             'reserva_rechazada', 'reserva_vencida', 'reserva_por_vencer' => 'fa-calendar-times',
-            'mantenimiento_pendiente' => 'fa-wrench',
+            'mantenimiento_pendiente' => 'bg-blue-100 text-blue-600',
             'combustible_bajo' => 'fa-gas-pump',
-            'licencia_vencimiento' => 'fa-id-badge',
-            default => 'fa-bell'
+              'licencia_vencimiento' => 'bg-yellow-100 text-yellow-600',
+           default => 'bg-gray-100 text-gray-600',
             };
             }
 
