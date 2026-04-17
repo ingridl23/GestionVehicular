@@ -1,5 +1,5 @@
 <p style="text-align:center;">
-<img src="{{ asset('images/logo-muni-azul-claro.png') }}" width="180">
+<img src="{{ asset('assets/iconos/logo.png') }}" width="180">
 </p>
 
 <x-mail::message>
@@ -14,7 +14,7 @@ Hola {{ $usuario }}
 Ver en el sistema
 </x-mail::button>
 
-Ante cualquier inconveniente comuníquese con el área de informática.
+Ante cualquier inconveniente informatico comuníquese con **centro de computos**.
 
 Saludos
 Municipalidad de Tres Arroyos
