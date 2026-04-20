@@ -75,35 +75,26 @@
             Todas las Alertas
         </h2>
 
-        <button
-            onclick="resolverTodas()"
-            class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition-colors">
-            <i class="fas fa-check-double mr-2"></i>
-            Marcar todas como leídas
-        </button>
+        <button onclick="resolverSeleccionadas()"
+    class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition-colors">
+    Resolver seleccionadas
+</button>
     </div>
 
     <div class="space-y-3">
         @forelse($alertas as $alerta)
             <div class="flex items-start gap-4 p-4 rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
-
+<input type="checkbox" class="alerta-checkbox mt-1" value="{{ $alerta->id }}">
                 <!-- Icono -->
-             <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0
-                 bg-{{ $alerta->color }}-100 dark:bg-{{ $alerta->color }}-900/20">
-           <i class="fas {{ $alerta->icono }} text-{{ $alerta->color }}-600 dark:text-{{ $alerta->color }}-400"></i>
-            </div>
-                    <i class="fas
-                        {{ $alerta->tipo === 'vehiculo_fuera_servicio' ? 'fa-car-crash text-red-600 dark:text-red-400' : '' }}
-                        {{ $alerta->tipo === 'licencia_vencimiento' ? 'fa-id-card text-yellow-600 dark:text-yellow-400' : '' }}
-                        {{ $alerta->tipo === 'mantenimiento_pendiente' ? 'fa-wrench text-blue-600 dark:text-blue-400' : '' }}
-                        {{ $alerta->tipo === 'reserva_rechazada' ? 'fa-calendar-times text-orange-600 dark:text-orange-400' : '' }}
-                    "></i>
-                </div>
+        <div class="w-10 h-10 rounded-lg flex items-center justify-center {{ $alerta->color_class }}">
+    <i class="fas {{ $alerta->icono }}"></i>
+</div>
+
 
                 <!-- Contenido -->
                 <div class="flex-1 min-w-0">
                     <div class="flex items-start justify-between gap-4">
-                        <div class="flex-1">
+                        <div class="flex-1 cursor-pointer" onclick= "verDetalle({{ $alerta->id }})">
                             <h3 class="text-sm font-semibold text-gray-900 dark:text-white">
                             {{ $alerta->titulo }}
 
@@ -142,42 +133,22 @@
     </div>
 
 </div>
+<div id="modalAlerta" class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+    <div class="bg-white p-6 rounded-lg w-96">
+        <h2 class="text-lg font-bold mb-3">Detalle de alerta</h2>
 
+        <p id="detalleMensaje"></p>
+         <p class="text-sm mt-2">
+            <strong>Dependencia:</strong>
+            <span id="detalleDependencia"></span>
+        </p>
+
+        <p id="detalleFecha" class="text-sm text-gray-500 mt-2"></p>
+
+        <button onclick="cerrarModal()" class="mt-4 px-4 py-2 bg-gray-600 text-white rounded">
+            Cerrar
+        </button>
+    </div>
+</div>
 @endsection
-
-@push('scripts')
-<script>
-async function resolver(id) {
-    if (!confirm('¿Marcar esta alerta como resuelta?')) return;
-
-    try {
-        const response = await fetch(`/alertas/${id}/resolver`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-            }
-        });
-
-        const data = await response.json();
-
-        if (data.success) {
-            // Recargar página
-            window.location.reload();
-        } else {
-            alert('Error al resolver la alerta');
-        }
-    } catch (error) {
-        console.error('Error:', error);
-        alert('Error al resolver la alerta');
-    }
-}
-
-async function resolverTodas() {
-    if (!confirm('¿Marcar todas las alertas como resueltas?')) return;
-
-    // Aquí puedes implementar la lógica para resolver todas
-    alert('Funcionalidad en desarrollo');
-}
-</script>
-@endpush
+@vite('resources/js/alertas/alerta.js')

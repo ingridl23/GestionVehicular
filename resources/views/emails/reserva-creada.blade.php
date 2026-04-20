@@ -1,5 +1,5 @@
 <p style="text-align:center;">
-<img src="{{ asset('images/logo-muni-azul-claro.png') }}" width="180">
+<img src="{{ asset('assets/iconos/logo.png') }}" width="180">
 </p>
 
 <x-mail::message>
@@ -16,7 +16,7 @@ Se ha registrado una reserva de vehículo en el sistema **Gestión Vehicular**.
 Ver reserva
 </x-mail::button>
 
-Ante cualquier inconveniente comuníquese con el área de informática.
+Ante cualquier inconveniente informatico comuníquese con **centro de computos**.
 
 Saludos
 Municipalidad de Tres Arroyos

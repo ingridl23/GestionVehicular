@@ -14,525 +14,626 @@ class DependenciaSeeder extends Seeder
     {
         Dependencia::insert([
             [
-                'nombre' => 'Intendente',
+                'nombre' => 'Intendente',  //1
                 'activa' => 1,
                 'id_direccion' => 1,
                 'id_dependencia_padre' => null,
             ],
             [
-                'nombre' => 'Asesoria Letrada',
+                'nombre' => 'Secretaria Privada',  //2
                 'activa' => 1,
                 'id_direccion' => 1,
                 'id_dependencia_padre' => 1,
             ],
             [
-                'nombre' => 'Entes Descentralizados',
+                'nombre' => 'Asesoria Letrada', //3
                 'activa' => 1,
                 'id_direccion' => 1,
                 'id_dependencia_padre' => 1,
             ],
+
             [
-                'nombre' => 'Secretaria Privada',
+                'nombre' => 'Ente Descentralizado Vialidad Rural',  //4
                 'activa' => 1,
                 'id_direccion' => 1,
                 'id_dependencia_padre' => 1,
-            ],
-            [
-                'nombre' => 'Jefatura De Gabinete',
+                ],
+
+                [
+                    'nombre' => 'PITA',   //5
+                    'activa' => 1,
+                    'id_direccion' => 1,
+                    'id_dependencia_padre' => 1,
+                    ],
+
+                [
+                    'nombre' => 'CRESTA',  //6
+                    'activa' => 1,
+                    'id_direccion' => 2,
+                    'id_dependencia_padre' => 1,
+                    ],
+
+                    [
+                                   'nombre' => 'Juzgados De Falta 1 y 2',  //7
+                                   'activa' => 1,
+                                   'id_direccion' => 13,
+                                   'id_dependencia_padre' => 1,
+                               ],
+
+
+//***************** primera linea primera entidad ******************************** */
+                        [
+                            'nombre' => 'Jefatura De Gabinete', //8
+                            'activa' => 1,
+                            'id_direccion' => 1,
+                            'id_dependencia_padre' => 1,
+                        ],
+
+//linea debajo de jefatura de gabinete
+
+    [
+                'nombre' => 'Secretaria Privada 2',   //9
                 'activa' => 1,
                 'id_direccion' => 1,
-                'id_dependencia_padre' => null,
+                'id_dependencia_padre' => 8,
             ],
-            [
-                'nombre' => 'Coordinación De Comunicación Institucional',
+
+                [
+                'nombre' => 'Subsecretaria De Gobierno Y Transporte',  //10
                 'activa' => 1,
                 'id_direccion' => 1,
-                'id_dependencia_padre' => 5,
+                'id_dependencia_padre' => 8,
             ],
+
+
             [
-                'nombre' => 'CRESTA',
-                'activa' => 1,
-                'id_direccion' => 2,
-                'id_dependencia_padre' => 5,
-            ],
-            [
-                'nombre' => 'Cultura',
+                'nombre' => 'Direccion De Cultura', //11
                 'activa' => 1,
                 'id_direccion' => 3,
-                'id_dependencia_padre' => 5,
+                'id_dependencia_padre' => 8,
             ],
-            [
-                'nombre' => 'Centro Cultural',
-                'activa' => 1,
-                'id_direccion' => 3,
-                'id_dependencia_padre' => 5,
-            ],
-            [
-                'nombre' => 'Despacho General',
-                'activa' => 1,
-                'id_direccion' => 1,
-                'id_dependencia_padre' => 5,
-            ],
-            [
-                'nombre' => 'Deportes',
-                'activa' => 1,
-                'id_direccion' => 4,
-                'id_dependencia_padre' => 5,
-            ],
-            [
-                'nombre' => 'Delegacion De Orense',
-                'activa' => 1,
-                'id_direccion' => 5,
-                'id_dependencia_padre' => 5,
-            ],
-            [
-                'nombre' => 'Delegacion De Reta',
-                'activa' => 1,
-                'id_direccion' => 6,
-                'id_dependencia_padre' => 5,
-            ],
-            [
-                'nombre' => 'Delegacion De San Francisco De Bellocq',
-                'activa' => 1,
-                'id_direccion' => 7,
-                'id_dependencia_padre' => 5,
-            ],
-            [
-                'nombre' => 'Delegacion De Micaela Cascallares',
-                'activa' => 1,
-                'id_direccion' => 8,
-                'id_dependencia_padre' => 5,
-            ],
-            [
-                'nombre' => 'Delegacion De Copetonas',
-                'activa' => 1,
-                'id_direccion' => 9,
-                'id_dependencia_padre' => 5,
-            ],
-            [
-                'nombre' => 'Museo Mulazzi',
+              [
+                'nombre' => 'Museo Mulazzi', //12
                 'activa' => 1,
                 'id_direccion' => 10,
-                'id_dependencia_padre' => 5,
+                'id_dependencia_padre' => 11,
             ],
+
+
             [
-                'nombre' => 'Departamento De Recursos Humano De La Administración Central (RRHH)',
+                'nombre' => 'Centro Cultural La Estacion', //13
                 'activa' => 1,
-                'id_direccion' => 1,
-                'id_dependencia_padre' => 5,
+                'id_direccion' => 3,
+                'id_dependencia_padre' => 11,
             ],
-            [
-                'nombre' => 'Oficina De Información Al Consumidor (OMIC)',
-                'activa' => 1,
-                'id_direccion' => 11,
-                'id_dependencia_padre' => 5,
-            ],
-            [
-                'nombre' => 'Dirección De Politicas De La Juventud',
+
+ [
+                'nombre' => 'Direccion De Deportes Y Juventud', //14
                 'activa' => 1,
                 'id_direccion' => 12,
-                'id_dependencia_padre' => 5,
+                'id_dependencia_padre' => 8,
             ],
-            [
-                'nombre' => 'Punto Digital',
+
+[
+                'nombre' => 'Punto Digital',//15
                 'activa' => 1,
                 'id_direccion' => 12,
-                'id_dependencia_padre' => 5,
+                'id_dependencia_padre' => 14,
+            ],
+
+            //delegaciones
+
+    [
+                'nombre' => 'Ente Descentralizado Claromeco Servicios Turisticos', //16
+                'activa' => 1,
+                'id_direccion' => 27,
+                'id_dependencia_padre' => 8,
+            ],
+
+
+  [
+                'nombre' => 'Delegacion De San Francisco De Bellocq', //17
+                'activa' => 1,
+                'id_direccion' => 7,
+                'id_dependencia_padre' => 8,
+            ],
+
+
+     [
+                'nombre' => 'Delegacion De Micaela Cascallares',//18
+                'activa' => 1,
+                'id_direccion' => 8,
+                'id_dependencia_padre' => 8,
             ],
             [
-                'nombre' => 'Escrituraciones Sociales',
+                'nombre' => 'Delegacion De Copetonas',//19
                 'activa' => 1,
-                'id_direccion' => 1,
-                'id_dependencia_padre' => 5,
+                'id_direccion' => 9,
+                'id_dependencia_padre' => 8,
             ],
-            [
-                'nombre' => 'Secretaria De Hacienda',
+
+
+    [
+                'nombre' => 'Delegacion De Reta',//20
                 'activa' => 1,
-                'id_direccion' => 1,
-                'id_dependencia_padre' => null,
+                'id_direccion' => 6,
+                'id_dependencia_padre' => 8,
             ],
+
             [
-                'nombre' => 'Direccion De Politicas Tributarias',
+                'nombre' => 'Lincalel',//21
                 'activa' => 1,
-                'id_direccion' => 11,
+                'id_direccion' => 5,
+                'id_dependencia_padre' => 8,
+            ],
+
+              [
+                'nombre' => 'San Mayol',//22
+                'activa' => 1,
+                'id_direccion' => 5,
+                'id_dependencia_padre' => 8,
+            ],
+
+  [
+                'nombre' => 'Delegacion De Orense',//23
+                'activa' => 1,
+                'id_direccion' => 5,
+                'id_dependencia_padre' => 8,
+            ],
+
+[
+                'nombre' => 'Balneario Orense',//24
+                'activa' => 1,
+                'id_direccion' => 5,
                 'id_dependencia_padre' => 23,
             ],
-            [
-                'nombre' => 'Subdireccion De Servicios Informáticos',
+
+             [
+                'nombre' => 'Despacho General',  //25
                 'activa' => 1,
                 'id_direccion' => 1,
-                'id_dependencia_padre' => 24,
+                'id_dependencia_padre' => 8,
             ],
-            [
-                'nombre' => 'Centro De Computos',
+
+              [
+                'nombre' => 'Mesa De Entradas',  //26
                 'activa' => 1,
                 'id_direccion' => 1,
                 'id_dependencia_padre' => 25,
             ],
-            [
-                'nombre' => 'Comunicaciones',
-                'activa' => 1,
-                'id_direccion' => 11, // PREGUNTAR
-                'id_dependencia_padre' => 25,
-            ],
-            [
-                'nombre' => 'Subdirección De Recaudación',
-                'activa' => 1,
-                'id_direccion' => 11,
-                'id_dependencia_padre' => 24,
-            ],
-            [
-                'nombre' => 'Atencion Presencial Remota Y Logística',
-                'activa' => 1,
-                'id_direccion' => 11,
-                'id_dependencia_padre' => 28,
-            ],
-            [
-                'nombre' => 'Catastro',
-                'activa' => 1,
-                'id_direccion' => 11,
-                'id_dependencia_padre' => 28,
-            ],
-            [
-                'nombre' => 'Juzgados',
-                'activa' => 1,
-                'id_direccion' => 13,
-                'id_dependencia_padre' => 28,
-            ],
-            [
-                'nombre' => 'Marcas Y Señales',
-                'activa' => 1,
-                'id_direccion' => 14,
-                'id_dependencia_padre' => 28,
-            ],
-            [
-                'nombre' => 'Automotores',
-                'activa' => 1,
-                'id_direccion' => 11,
-                'id_dependencia_padre' => 28,
-            ],
-            [
-                'nombre' => 'Subdireccion De Cobranzas Y Fiscalización',
-                'activa' => 1,
-                'id_direccion' => 11,
-                'id_dependencia_padre' => 24,
-            ],
-            [
-                'nombre' => 'Fiscalización',
-                'activa' => 1,
-                'id_direccion' => 11,
-                'id_dependencia_padre' => 34,
-            ],
-            [
-                'nombre' => 'Gestión Cobranzas',
-                'activa' => 1,
-                'id_direccion' => 11,
-                'id_dependencia_padre' => 34,
-            ],
-            [
-                'nombre' => 'Dirección De Hacienda Y Finanzas',
-                'activa' => 1,
-                'id_direccion' => 11,
-                'id_dependencia_padre' => 23 ,
-            ],
-            [
-                'nombre' => 'Compras',
+
+       [
+                'nombre' => 'Departamento De Recursos Humano De La Administración Central (RRHH)', //27
                 'activa' => 1,
                 'id_direccion' => 1,
-                'id_dependencia_padre' => 37 ,
+                'id_dependencia_padre' => 8,
             ],
-            [
-                'nombre' => 'Contaduría',
+
+     [
+                'nombre' => 'Oficina De Información Al Consumidor (OMIC)', //28
+                'activa' => 1,
+                'id_direccion' => 11,
+                'id_dependencia_padre' => 8,
+            ],
+
+[
+                'nombre' => 'Desarrollo Territorial', //29
                 'activa' => 1,
                 'id_direccion' => 1,
-                'id_dependencia_padre' => 37 ,
+                'id_dependencia_padre' => 8,
             ],
-            [
-                'nombre' => 'Tesoreria',
+
+
+
+            //***************** primera linea segunda entidad ***************************************
+
+  [
+                'nombre' => 'Secretaria De Hacienda', //30
                 'activa' => 1,
                 'id_direccion' => 1,
-                'id_dependencia_padre' => 37 ,
+                'id_dependencia_padre' => 1,
             ],
-            [
-                'nombre' => 'Sub Tesoreria',
+
+[
+                'nombre' => 'Direccion De Politicas Tributarias', //31
+                'activa' => 1,
+                'id_direccion' => 11,
+                'id_dependencia_padre' => 30,
+            ],
+
+  [
+                'nombre' => 'Direccion De Finanzas', //32
                 'activa' => 1,
                 'id_direccion' => 1,
-                'id_dependencia_padre' => 37 ,
+                'id_dependencia_padre' => 30,
             ],
             [
-                'nombre' => 'HCD',
+                'nombre' => 'Unidad De Fiscalización',//33
                 'activa' => 1,
                 'id_direccion' => 1,
-                'id_dependencia_padre' => null,
+                'id_dependencia_padre' => 32,
             ],
+
+
             [
-                'nombre' => 'Bloque Juntos Por El Cambio',
+                'nombre' => 'Oficina De Compras', //34
                 'activa' => 1,
                 'id_direccion' => 1,
-                'id_dependencia_padre' => 42,
+                'id_dependencia_padre' => 32 ,
             ],
-            [
-                'nombre' => 'Bloque Frente De Todos',
-                'activa' => 1,
-                'id_direccion' => 1,  // PREGUNTAR
-                'id_dependencia_padre' => 42,
-            ],
-            [
-                'nombre' => 'Bloque Movimiento Vecinal',
+
+    [
+                'nombre' => 'Contaduría',//35
                 'activa' => 1,
                 'id_direccion' => 1,
-                'id_dependencia_padre' => 42,
+                'id_dependencia_padre' => 32,
             ],
-            [
-                'nombre' => 'Secretaria De Desarrollo Económico Ciencia Y Tecnología',
+
+  [
+                'nombre' => 'Tesoreria',//36
                 'activa' => 1,
                 'id_direccion' => 1,
-                'id_dependencia_padre' => null,
+                'id_dependencia_padre' =>  32,
             ],
-            [
-                'nombre' => 'Dirección De Turismo',
+
+   [
+                'nombre' => 'Sistemas', //37
+                'activa' => 1,
+                'id_direccion' => 1,
+                'id_dependencia_padre' => 30,
+            ],
+
+
+
+
+ // ********************** primera linea tercera entidad ***********************************
+
+ [
+                'nombre' => 'Unidad De Impulso Para El Desarrollo Local Impulsar Tres Arroyos', //38
+                'activa' => 1,
+                'id_direccion' => 1,
+                'id_dependencia_padre' => 1,
+            ],
+
+  [
+                'nombre' => 'Dirección De Turismo', //39
                 'activa' => 1,
                 'id_direccion' => 12,
-                'id_dependencia_padre' => 46,
+                'id_dependencia_padre' => 38,
             ],
-            [
-                'nombre' => 'Oficina De Empleo Y Capacitación',
-                'activa' => 1,
-                'id_direccion' => 15,
-                'id_dependencia_padre' => 46,
-            ],
-            [
-                'nombre' => 'Oficina De Industria Y Comercio',
+
+   [
+                'nombre' => 'Direccion De Estrategia Productiva', //40
                 'activa' => 1,
                 'id_direccion' => 1,
-                'id_dependencia_padre' => 46,
+                'id_dependencia_padre' => 38,
             ],
-            [
-                'nombre' => 'Aeródromo Público Provincial De Tres Arroyos "Teniente Ricardo Volponi"',
+
+   [
+                'nombre' => 'Direccion De Produccion Y Sustentabilidad', //41
                 'activa' => 1,
-                'id_direccion' => 16,
-                'id_dependencia_padre' => 46,
+                'id_direccion' => 1,
+                'id_dependencia_padre' =>38,
             ],
-            [
-                'nombre' => 'Secretaria De Obras Públicas',
+
+               [
+                'nombre' => 'Direccion De Industria, Comercio Y Emprendedurismo',//42
+                'activa' => 1,
+                'id_direccion' => 1,
+                'id_dependencia_padre' => 38,
+            ],
+
+   [
+                'nombre' => 'Oficina De Empleo Y Capacitación', //43
+                'activa' => 1,
+                'id_direccion' => 15,
+                'id_dependencia_padre' => 42,
+            ],
+
+
+
+ // **************************  primera linea  cuarta  entidad ****************************
+
+  [
+                'nombre' => 'Secretaria De Planeamiento Urbano', //44
                 'activa' => 1,
                 'id_direccion' => 17,
-                'id_dependencia_padre' => null,
+                'id_dependencia_padre' => 1,
             ],
+
+      [
+                'nombre' => 'Subsecretaria De Gestión Ambiental', //45
+                'activa' => 1,
+                'id_direccion' => 24,
+                'id_dependencia_padre' => 44,
+            ],
+
+     [
+                'nombre' => 'Dirección Bromatología Y Zoonosis', //46
+                'activa' => 1,
+                'id_direccion' => 25,
+                'id_dependencia_padre' => 45,
+            ],
+
+             [
+                'nombre' => 'Secretaria De Higiene Urbana', //47
+                'activa' => 1,
+                'id_direccion' => 24,
+                'id_dependencia_padre' =>44 ,
+            ],
+
             [
-                'nombre' => 'Cementerio',
+                'nombre' => 'Predio De Disposicion Final Y Tratamiento De Residuos', //48
+                'activa' => 1,
+                'id_direccion' => 24,
+                'id_dependencia_padre' =>47 ,
+            ],
+
+    [
+                'nombre' => 'Subdireccion De Catastro',//49
+                'activa' => 1,
+                'id_direccion' => 17,
+                'id_dependencia_padre' => 44,
+            ],
+
+
+    [
+                'nombre' => 'Direccion De Obras Sanitarias',//50
+                'activa' => 1,
+                'id_direccion' => 19,
+                'id_dependencia_padre' => 44,
+            ],
+
+    [
+                'nombre' => 'Direccion De Servicios Urbanos', //51
+                'activa' => 1,
+                'id_direccion' => 17,
+                'id_dependencia_padre' => 44,
+            ],
+
+    [
+                'nombre' => 'Cementerio',//52
                 'activa' => 1,
                 'id_direccion' => 18,
                 'id_dependencia_padre' => 51,
             ],
-            [
-                'nombre' => 'Electrotécnica',
+
+     [
+                'nombre' => 'Departamento De Paseos Públicos',//53
                 'activa' => 1,
                 'id_direccion' => 17,
                 'id_dependencia_padre' => 51,
-            ],
-            [
-                'nombre' => 'Departamento De Obras Sanitarias',
-                'activa' => 1,
-                'id_direccion' => 19,
-                'id_dependencia_padre' => 51,
-            ],
-            [
-                'nombre' => 'Obras Particulares',
-                'activa' => 1,
-                'id_direccion' => 17,
-                'id_dependencia_padre' => 51,
-            ],
-            [
-                'nombre' => 'Departamento De Paseos Públicos',
-                'activa' => 1,
-                'id_direccion' => 17,
-                'id_dependencia_padre' => 51,
-            ],
-            [
-                'nombre' => 'Planeamiento',
-                'activa' => 1,
-                'id_direccion' => 17,
-                'id_dependencia_padre' => 51,
-            ],
-            [
-                'nombre' => 'Servicios Urbanos',
-                'activa' => 1,
-                'id_direccion' => 17,
-                'id_dependencia_padre' => 51,
-            ],
-            [
-                'nombre' => 'Secretaría De Seguridad',
-                'activa' => 1,
-                'id_direccion' => 20,
-                'id_dependencia_padre' => null,
-            ],
-            [
-                'nombre' => 'Dirección De Tránsito E Inspección General',
-                'activa' => 1,
-                'id_direccion' => 20, // VER
-                'id_dependencia_padre' => 59,
-            ],
-            [
-                'nombre' => 'Centro De Monitoreo',
-                'activa' => 1,
-                'id_direccion' => 20, // VER
-                'id_dependencia_padre' => 60,
-            ],
-            [
-                'nombre' => 'Cuerpo De Inspectores',
-                'activa' => 1,
-                'id_direccion' => 20,
-                'id_dependencia_padre' => 60,
-            ],
-            [
-                'nombre' => 'Estacionamiento Medido',
-                'activa' => 1,
-                'id_direccion' => 20,
-                'id_dependencia_padre' => 60,
-            ],
-            [
-                'nombre' => 'Exposiciones Civiles',
-                'activa' => 1,
-                'id_direccion' => 20,
-                'id_dependencia_padre' => 60,
-            ],
-            [
-                'nombre' => 'Defensa Civil',
-                'activa' => 1,
-                'id_direccion' => 20,
-                'id_dependencia_padre' => 60,
-            ],
-            [
-                'nombre' => 'Licencia De Conducir',
-                'activa' => 1,
-                'id_direccion' => 20,
-                'id_dependencia_padre' => 60,
-            ],
-            [
-                'nombre' => 'Patrulla Urbana',
-                'activa' => 1,
-                'id_direccion' => 20,
-                'id_dependencia_padre' => 60,
-            ],
-            [
-                'nombre' => 'Policia Comunal',
-                'activa' => 1,
-                'id_direccion' => 20,
-                'id_dependencia_padre' => 60,
-            ],
-            [
-                'nombre' => 'Transporte',
-                'activa' => 1,
-                'id_direccion' => 20,
-                'id_dependencia_padre' => 60,
-            ],
-            [
-                'nombre' => 'Terminal De Omnibus',
-                'activa' => 1,
-                'id_direccion' => 21,
-                'id_dependencia_padre' => 60,
-            ],
-            [
-                'nombre' => 'Secretaría De Desarrollo Social',
-                'activa' => 1,
-                'id_direccion' => 22,
-                'id_dependencia_padre' => null,
-            ],
-            [
-                'nombre' => 'Dirección De Acción Social',
-                'activa' => 1,
-                'id_direccion' => 23,
-                'id_dependencia_padre' => 71,
-            ],
-            [
-                'nombre' => 'Dirección De Mujeres Género Y Diversidad',
-                'activa' => 1,
-                'id_direccion' => 22,
-                'id_dependencia_padre' => 71,
-            ],
-            [
-                'nombre' => 'Emergencia Habitacional',
-                'activa' => 1,
-                'id_direccion' => 22,
-                'id_dependencia_padre' => 71,
-            ],
-            [
-                'nombre' => 'Niñez Adolescencia Y Familia',
-                'activa' => 1,
-                'id_direccion' => 22,
-                'id_dependencia_padre' => 71,
-            ],
-            [
-                'nombre' => 'IPS',
-                'activa' => 1,
-                'id_direccion' => 22,
-                'id_dependencia_padre' => 71,
-            ],
-            [
-                'nombre' => 'Secretaria De Gestión Ambiental',
-                'activa' => 1,
-                'id_direccion' => 24,
-                'id_dependencia_padre' => null,
-            ],
-            [
-                'nombre' => 'Dirección De Higiene Veterinaria Y Bromatología',
-                'activa' => 1,
-                'id_direccion' => 25,
-                'id_dependencia_padre' => 77,
-            ],
-            [
-                'nombre' => 'Secretaria De Salud Y Prevención',
-                'activa' => 1,
-                'id_direccion' => 26,
-                'id_dependencia_padre' => null,
             ],
 
-             [
-                'nombre' => 'Patrulla Municipal De Prevencion',
+      [
+                'nombre' => 'Direccion De Coordinacion Operativa',//54
                 'activa' => 1,
-                'id_direccion' => 20,
-                'id_dependencia_padre' => 59,
+                'id_direccion' => 17,
+                'id_dependencia_padre' => 44,
             ],
 
-             [
-                'nombre' => 'Municipalidad De Claromeco',
+   [
+                'nombre' => 'Electrotecnia', //55
                 'activa' => 1,
-                'id_direccion' => 27,
+                'id_direccion' => 17,
+                'id_dependencia_padre' => 44,
+            ],
+
+  [
+                'nombre' => 'Obras Particulares', //56
+                'activa' => 1,
+                'id_direccion' => 17,
+                'id_dependencia_padre' => 44,
+            ],
+
+
+
+// ****************************** primera linea quinta entidad *****************************
+
+   [
+                'nombre' => 'Secretaria De Seguridad', //57
+                'activa' => 1,
+                'id_direccion' => 20,
                 'id_dependencia_padre' => 1,
             ],
 
+ [
+                'nombre' => 'Direccion Geneal De Coordinacion Operativa', //58
+                'activa' => 1,
+                'id_direccion' => 20,
+                'id_dependencia_padre' => 57,
+            ],
+
+  [
+                'nombre' => 'Patrulla Urbana', //59
+                'activa' => 1,
+                'id_direccion' => 20,
+                'id_dependencia_padre' => 58,
+            ],
+
+            [
+                'nombre' => 'Policia Comunal', //60
+                'activa' => 1,
+                'id_direccion' => 20,
+                'id_dependencia_padre' => 58,
+            ],
+
+ [
+                'nombre' => 'Dirección De Tránsito E Inspección General', //61
+                'activa' => 1,
+                'id_direccion' => 20, // VER
+                'id_dependencia_padre' => 58,
+            ],
+
+ [
+                'nombre' => 'Cuerpo De Inspectores', //62
+                'activa' => 1,
+                'id_direccion' => 20,
+                'id_dependencia_padre' => 58,
+            ],
+
+  [
+                'nombre' => 'Patrulla Municipal De Prevencion',//63
+                'activa' => 1,
+                'id_direccion' => 20,
+                'id_dependencia_padre' => 58,
+            ],
+
+   [
+                'nombre' => 'Estacionamiento Medido', //64
+                'activa' => 1,
+                'id_direccion' => 20,
+                'id_dependencia_padre' => 58,
+            ],
+
+//
+ [
+                'nombre' => 'Direccion General De Coordinacion Administrativa', //65
+                'activa' => 1,
+                'id_direccion' => 20,
+                'id_dependencia_padre' => 57,
+            ],
+
+  [
+                'nombre' => 'Centro De Monitoreo',//66
+                'activa' => 1,
+                'id_direccion' => 20, // VER
+                'id_dependencia_padre' => 65,
+            ],
+
+
+            [
+                'nombre' => 'Exposiciones Civiles',//67
+                'activa' => 1,
+                'id_direccion' => 20,
+                'id_dependencia_padre' => 65,
+            ],
+            [
+                'nombre' => 'Defensa Civil',//68
+                'activa' => 1,
+                'id_direccion' => 20,
+                'id_dependencia_padre' => 65,
+            ],
+
+   [
+                'nombre' => 'Aeródromo Público Provincial De Tres Arroyos "Teniente Ricardo Volponi"',//69
+                'activa' => 1,
+                'id_direccion' => 16,
+                'id_dependencia_padre' => 57,
+            ],
+
+
+//********************************  primera linea sexta entidad  ************************************ */
+
+  [
+                'nombre' => 'Secretaria De Desarrollo Social', //70
+                'activa' => 1,
+                'id_direccion' => 22,
+                'id_dependencia_padre' => 1,
+            ],
+
+   [
+                'nombre' => 'Direccion De Acción Social',//71
+                'activa' => 1,
+                'id_direccion' => 23,
+                'id_dependencia_padre' => 70,
+            ],
+
+  [
+                'nombre' => 'Direccion De Mujeres Genero Y Diversidad', //72
+                'activa' => 1,
+                'id_direccion' => 22,
+                'id_dependencia_padre' => 70,
+            ],
+
+
+
+
+//***************************** primera linea septima entidad *********************** */
+
+[
+                'nombre' => 'Secretaria De Salud', //73
+                'activa' => 1,
+                'id_direccion' => 25,
+                'id_dependencia_padre' => 1,
+            ],
+
+[
+                'nombre' => 'Ente Descentralizado Centro Municipal De Salud', //74
+                'activa' => 1,
+                'id_direccion' => 25,
+                'id_dependencia_padre' => 73,
+            ],
+
+            [
+                'nombre' => 'Direccion Tecnica', //75
+                'activa' => 1,
+                'id_direccion' => 25,
+                'id_dependencia_padre' => 74,
+            ],
+
+[
+                'nombre' => 'Direccion Administrativa', //76
+                'activa' => 1,
+                'id_direccion' => 25,
+                'id_dependencia_padre' => 74,
+            ],
+
+            [
+                'nombre' => 'Direccion De Atencion Primaria De La Salud', //77
+                'activa' => 1,
+                'id_direccion' => 25,
+                'id_dependencia_padre' =>74 ,
+            ],
+
+
+
+
+
+//******************************* oficinas a reubicar **************************************************
+
+
+            [
+                'nombre' => 'Marcas Y Señales', //78
+                'activa' => 1,
+                'id_direccion' => 14,
+                'id_dependencia_padre' => null,
+            ],
+
+
+
+            [
+                'nombre' => 'Secretaria De Obras Públicas', //79
+                'activa' => 1,
+                'id_direccion' => 17,
+                'id_dependencia_padre' =>null,
+            ],
+
+
+
+            [
+                'nombre' => 'IPS', //80
+                'activa' => 1,
+                'id_direccion' => 22,
+                'id_dependencia_padre' =>null,
+            ],
+
+
+
            [
-                'nombre' => 'Parque Industrial',
+                'nombre' => 'Parque Industrial',//81
                 'activa' => 1,
                 'id_direccion' => 28,
                 'id_dependencia_padre' =>null,
             ],
   [
-                'nombre' => 'Hormigonera Municipal',
-                'activa' => 1,
-                'id_direccion' => 28,
-                'id_dependencia_padre' => 27,
-            ],
-
-  [
-                'nombre' => 'Secretaria De Higiene Urbana',
-                'activa' => 1,
-                'id_direccion' => 24,
-                'id_dependencia_padre' => 77,
-            ],
-          [
-                'nombre' => 'Lincalel',
+                'nombre' => 'Hormigonera Municipal',//82
                 'activa' => 1,
                 'id_direccion' => 28,
                 'id_dependencia_padre' => null,
             ],
-            [
-                'nombre' => 'Predio De Disposicion Final Y Tratamiento De Residuos',
-                'activa' => 1,
-                'id_direccion' => 24,
-                'id_dependencia_padre' => 77,
-            ],
+
+
 
              [
                 'nombre' => 'Electrotecnia',

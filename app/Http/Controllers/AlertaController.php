@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Alerta;
 use Illuminate\Http\JsonResponse;
 use Illuminate\View\View;
+use Illuminate\Http\Request;
 use App\Enums\TipoAlerta;
 /**
  * @class AlertaController
@@ -140,7 +141,62 @@ class AlertaController extends Controller
             'message' => 'Alerta resuelta correctamente'
         ]);
     }
+public function resolverMultiples(Request $request): JsonResponse
+{
+    $ids = $request->input('ids', []);
 
+    if (empty($ids)) {
+        return response()->json([
+            'success' => false,
+            'message' => 'No se enviaron IDs'
+        ], 400);
+    }
+
+    Alerta::whereIn('id', $ids)->update([
+        'activa' => false,
+        'fecha_resuelta' => now()
+    ]);
+
+    return response()->json([
+        'success' => true,
+        'message' => 'Alertas resueltas correctamente'
+    ]);
+}
+
+public function resolverTodas(): JsonResponse
+{
+    Alerta::where('activa', true)->update([
+        'activa' => false,
+        'fecha_resuelta' => now()
+    ]);
+
+    return response()->json([
+        'success' => true
+    ]);
+}
+
+public function show(int $id): JsonResponse
+{
+    $alerta = Alerta::findOrFail($id);
+
+    $dependencia = 'Sin dependencia';
+
+    if ($alerta->entidad_tipo === 'usuario') {
+        $usuario = $alerta->usuario()->with('dependencia')->first();
+
+        if ($usuario && $usuario->dependencia) {
+            $dependencia = $usuario->dependencia->nombre;
+        }
+    }
+
+    return response()->json([
+        'id' => $alerta->id,
+        'tipo' => $alerta->tipo,
+        'mensaje' => $alerta->mensaje,
+        'fecha' => $alerta->fecha_generada->format('d/m/Y H:i'),
+        'dependencia' => $dependencia,
+    ]);
+}
     /**
      * Obtener ícono según tipo de alerta
      */

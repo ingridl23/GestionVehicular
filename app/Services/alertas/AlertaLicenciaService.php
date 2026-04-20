@@ -1,6 +1,5 @@
 <?php
-
-namespace App\Services;
+namespace App\Services\alertas;
 
 use App\Models\Carnet;
 use App\Enums\TipoAlerta;
@@ -17,8 +16,8 @@ class AlertaLicenciaService
 
     public function verificar(): void
     {
-        $carnets = Carnet::with('user')->get();
-
+        $carnets = Carnet::with('user.dependencia')->get();
+        $dependenciaNombre = $usuario->dependencia?->nombre ?? 'Sin dependencia';
         foreach ($carnets as $carnet) {
 
             $usuario = $carnet->user;
@@ -32,7 +31,7 @@ class AlertaLicenciaService
                     TipoAlerta::LICENCIA_VENCIDA,
                     'usuario',
                     $usuario->id,
-                    "La licencia de {$usuario->name} está vencida",
+                    "La licencia de {$usuario->name} {$usuario->lastname}de {$dependenciaNombre} está vencida",
                     'critica'
                 );
             }
@@ -46,7 +45,9 @@ class AlertaLicenciaService
                     TipoAlerta::LICENCIA_POR_VENCER,
                     'usuario',
                     $usuario->id,
-                    "La licencia de {$usuario->name} vence pronto",
+
+
+                    "La licencia de {$usuario->name} {$usuario->lastname} ({$dependenciaNombre}) vence el proximo {$carnet->fecha_vencimiento->format('d/m/Y')}",
                     'warning'
                 );
             }

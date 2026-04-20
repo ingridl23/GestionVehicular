@@ -132,6 +132,18 @@ Route::get('/api/viajes/{viaje}/coordenadas', function (Viaje $viaje) {
 
 });
 
+
+/*********************************************** ALERTAS ****************************************** */
+
+Route::post('/alertas/resolver-multiples', [AlertaController::class, 'resolverMultiples']);
+Route::post('/alertas/resolver-todas', [AlertaController::class, 'resolverTodas']);
+Route::get('/alertas/{id}', [AlertaController::class, 'show']);
+
+Route::post('/alertas/{id}/resolver', [AlertaController::class, 'resolver']);
+
+
+
+
  /*********************************************************************************************/
     /***************************  NOTIFICACIONES *************************************************/
     /*********************************************************************************************/

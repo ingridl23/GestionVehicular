@@ -1,5 +1,5 @@
 <?php
-namespace App\Services;
+namespace App\Services\alertas;
 use App\Models\Vehiculo;
 use App\Enums\TipoAlerta;
 use Carbon\Carbon;
@@ -10,7 +10,7 @@ use Carbon\Carbon;
  * permitiendo que los usuarios administradores sepan estado de la vtv de un vehiculo, fecha de vencimiento de la misma
  *  y recibir el aviso de manera automatica o mediante una notificacion.
  */
-class AlertaVtvService
+class AlertaVTVService
 {
     /**
      * Metodo de verificacion del estado de la vtv de vehiculos registrados.
