@@ -27,7 +27,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 59, // Ajusta según BD
+                'id_dependencia_duena' => 57, // Ajusta según BD
                 'id_direccion_actual' => 20,  // Ajusta según  BD
                 'id_estado_vehiculo' => 1,   // Disponible
                 'id_estado_nafta' => 4,      // Lleno
@@ -44,7 +44,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 59, // Ajusta según BD
+                'id_dependencia_duena' => 57, // Ajusta según BD
                 'id_direccion_actual' => 20,  // Ajusta según  BD
                 'id_estado_vehiculo' => 1,   // Disponible
                 'id_estado_nafta' => 4,      // Lleno
@@ -61,7 +61,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 59, // Ajusta según BD
+                'id_dependencia_duena' => 57, // Ajusta según BD
                 'id_direccion_actual' => 20,  // Ajusta según  BD
                 'id_estado_vehiculo' => 1,   // Disponible
                 'id_estado_nafta' => 4,      // Lleno
@@ -79,7 +79,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 59, // Ajusta según BD
+                'id_dependencia_duena' => 57, // Ajusta según BD
                 'id_direccion_actual' => 20,  // Ajusta según  BD
                 'id_estado_vehiculo' => 1,   // Disponible
                 'id_estado_nafta' => 4,      // Lleno
@@ -96,7 +96,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 59, // Ajusta según BD
+                'id_dependencia_duena' => 57, // Ajusta según BD
                 'id_direccion_actual' => 20,  // Ajusta según  BD
                 'id_estado_vehiculo' => 1,   // Disponible
                 'id_estado_nafta' => 4,      // Lleno
@@ -113,7 +113,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 59, // Ajusta según BD
+                'id_dependencia_duena' => 57, // Ajusta según BD
                 'id_direccion_actual' => 20,  // Ajusta según  BD
                 'id_estado_vehiculo' => 1,   // Disponible
                 'id_estado_nafta' => 4,      // Lleno
@@ -130,7 +130,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 59, // Ajusta según BD
+                'id_dependencia_duena' => 57, // Ajusta según BD
                 'id_direccion_actual' => 20,  // Ajusta según  BD
                 'id_estado_vehiculo' => 1,   // Disponible
                 'id_estado_nafta' => 4,      // Lleno
@@ -147,7 +147,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 59, // Ajusta según BD
+                'id_dependencia_duena' => 57, // Ajusta según BD
                 'id_direccion_actual' => 20,  // Ajusta según  BD
                 'id_estado_vehiculo' => 1,   // Disponible
                 'id_estado_nafta' => 4,      // Lleno
@@ -164,7 +164,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 59, // Ajusta según BD
+                'id_dependencia_duena' => 57, // Ajusta según BD
                 'id_direccion_actual' => 20,  // Ajusta según  BD
                 'id_estado_vehiculo' => 1,   // Disponible
                 'id_estado_nafta' => 4,      // Lleno
@@ -181,7 +181,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 59, // Ajusta según BD
+                'id_dependencia_duena' => 57, // Ajusta según BD
                 'id_direccion_actual' => 20,  // Ajusta según  BD
                 'id_estado_vehiculo' => 1,   // Disponible
                 'id_estado_nafta' => 4,      // Lleno
@@ -198,7 +198,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 59, // Ajusta según BD
+                'id_dependencia_duena' => 57, // Ajusta según BD
                 'id_direccion_actual' => 20,  // Ajusta según  BD
                 'id_estado_vehiculo' => 1,   // Disponible
                 'id_estado_nafta' => 4,      // Lleno
@@ -215,7 +215,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 59, // Ajusta según BD
+                'id_dependencia_duena' => 57, // Ajusta según BD
                 'id_direccion_actual' => 20,  // Ajusta según  BD
                 'id_estado_vehiculo' => 1,   // Disponible
                 'id_estado_nafta' => 4,      // Lleno
@@ -232,7 +232,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 59, // Ajusta según BD
+                'id_dependencia_duena' => 57, // Ajusta según BD
                 'id_direccion_actual' => 20,  // Ajusta según  BD
                 'id_estado_vehiculo' => 1,   // Disponible
                 'id_estado_nafta' => 4,      // Lleno
@@ -249,7 +249,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 59, // Ajusta según BD
+                'id_dependencia_duena' => 57, // Ajusta según BD
                 'id_direccion_actual' => 20,  // Ajusta según  BD
                 'id_estado_vehiculo' => 1,   // Disponible
                 'id_estado_nafta' => 4,      // Lleno
@@ -266,7 +266,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 59, // Ajusta según BD
+                'id_dependencia_duena' => 57, // Ajusta según BD
                 'id_direccion_actual' => 20,  // Ajusta según  BD
                 'id_estado_vehiculo' => 1,   // Disponible
                 'id_estado_nafta' => 4,      // Lleno
@@ -283,7 +283,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 59, // Ajusta según BD
+                'id_dependencia_duena' => 57, // Ajusta según BD
                 'id_direccion_actual' => 20,  // Ajusta según  BD
                 'id_estado_vehiculo' => 1,   // Disponible
                 'id_estado_nafta' => 4,      // Lleno
@@ -300,7 +300,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 59, // Ajusta según BD
+                'id_dependencia_duena' => 57, // Ajusta según BD
                 'id_direccion_actual' => 20,  // Ajusta según  BD
                 'id_estado_vehiculo' => 1,   // Disponible
                 'id_estado_nafta' => 4,      // Lleno
@@ -317,7 +317,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 59, // Ajusta según BD
+                'id_dependencia_duena' => 57, // Ajusta según BD
                 'id_direccion_actual' => 20,  // Ajusta según  BD
                 'id_estado_vehiculo' => 1,   // Disponible
                 'id_estado_nafta' => 4,      // Lleno
@@ -334,7 +334,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 59, // Ajusta según BD
+                'id_dependencia_duena' => 57, // Ajusta según BD
                 'id_direccion_actual' => 20,  // Ajusta según  BD
                 'id_estado_vehiculo' => 1,   // Disponible
                 'id_estado_nafta' => 4,      // Lleno
@@ -351,7 +351,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 59, // Ajusta según BD
+                'id_dependencia_duena' => 57, // Ajusta según BD
                 'id_direccion_actual' => 20,  // Ajusta según  BD
                 'id_estado_vehiculo' => 1,   // Disponible
                 'id_estado_nafta' => 4,      // Lleno
@@ -368,7 +368,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 59, // Ajusta según BD
+                'id_dependencia_duena' => 57, // Ajusta según BD
                 'id_direccion_actual' => 20,  // Ajusta según  BD
                 'id_estado_vehiculo' => 1,   // Disponible
                 'id_estado_nafta' => 4,      // Lleno
@@ -385,7 +385,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 59, // Ajusta según BD
+                'id_dependencia_duena' => 57, // Ajusta según BD
                 'id_direccion_actual' => 20,  // Ajusta según  BD
                 'id_estado_vehiculo' => 1,   // Disponible
                 'id_estado_nafta' => 4,      // Lleno
@@ -402,7 +402,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 59, // Ajusta según BD
+                'id_dependencia_duena' => 57, // Ajusta según BD
                 'id_direccion_actual' => 20,  // Ajusta según  BD
                 'id_estado_vehiculo' => 1,   // Disponible
                 'id_estado_nafta' => 4,      // Lleno
@@ -419,7 +419,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 59, // Ajusta según BD
+                'id_dependencia_duena' => 57, // Ajusta según BD
                 'id_direccion_actual' => 20,  // Ajusta según  BD
                 'id_estado_vehiculo' => 1,   // Disponible
                 'id_estado_nafta' => 4,      // Lleno
@@ -436,7 +436,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 59, // Ajusta según BD
+                'id_dependencia_duena' => 57, // Ajusta según BD
                 'id_direccion_actual' => 20,  // Ajusta según  BD
                 'id_estado_vehiculo' => 1,   // Disponible
                 'id_estado_nafta' => 4,      // Lleno
@@ -453,7 +453,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 59, // Ajusta según BD
+                'id_dependencia_duena' => 57, // Ajusta según BD
                 'id_direccion_actual' => 20,  // Ajusta según  BD
                 'id_estado_vehiculo' => 1,   // Disponible
                 'id_estado_nafta' => 4,      // Lleno
@@ -469,7 +469,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 59, // Ajusta según BD
+                'id_dependencia_duena' => 57, // Ajusta según BD
                 'id_direccion_actual' => 20,  // Ajusta según  BD
                 'id_estado_vehiculo' => 1,   // Disponible
                 'id_estado_nafta' => 4,      // Lleno
@@ -485,7 +485,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 59, // Ajusta según BD
+                'id_dependencia_duena' => 57, // Ajusta según BD
                 'id_direccion_actual' => 20,  // Ajusta según  BD
                 'id_estado_vehiculo' => 1,   // Disponible
                 'id_estado_nafta' => 4,      // Lleno
@@ -501,7 +501,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 59, // Ajusta según BD
+                'id_dependencia_duena' => 57, // Ajusta según BD
                 'id_direccion_actual' => 20,  // Ajusta según  BD
                 'id_estado_vehiculo' => 1,   // Disponible
                 'id_estado_nafta' => 4,      // Lleno
@@ -517,7 +517,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 59, // Ajusta según BD
+                'id_dependencia_duena' => 57, // Ajusta según BD
                 'id_direccion_actual' => 20,  // Ajusta según  BD
                 'id_estado_vehiculo' => 1,   // Disponible
                 'id_estado_nafta' => 4,      // Lleno
@@ -533,7 +533,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 59, // Ajusta según BD
+                'id_dependencia_duena' => 57, // Ajusta según BD
                 'id_direccion_actual' => 20,  // Ajusta según  BD
                 'id_estado_vehiculo' => 1,   // Disponible
                 'id_estado_nafta' => 4,      // Lleno
@@ -549,7 +549,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 59, // Ajusta según BD
+                'id_dependencia_duena' => 57, // Ajusta según BD
                 'id_direccion_actual' => 20,  // Ajusta según  BD
                 'id_estado_vehiculo' => 1,   // Disponible
                 'id_estado_nafta' => 4,      // Lleno
@@ -565,7 +565,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 59, // Ajusta según BD
+                'id_dependencia_duena' => 57, // Ajusta según BD
                 'id_direccion_actual' => 20,  // Ajusta según  BD
                 'id_estado_vehiculo' => 1,   // Disponible
                 'id_estado_nafta' => 4,      // Lleno
@@ -581,7 +581,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 59, // Ajusta según BD
+                'id_dependencia_duena' => 57, // Ajusta según BD
                 'id_direccion_actual' => 20,  // Ajusta según  BD
                 'id_estado_vehiculo' => 1,   // Disponible
                 'id_estado_nafta' => 4,      // Lleno
@@ -600,7 +600,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 4, // Ajusta según BD
+                'id_dependencia_duena' => 2, // Ajusta según BD
                 'id_direccion_actual' => 1,  // Ajusta según  BD
                 'id_estado_vehiculo' => 1,   // Disponible
                 'id_estado_nafta' => 4,      // Lleno
@@ -617,20 +617,13 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 4, // Ajusta según BD
+                'id_dependencia_duena' => 2, // Ajusta según BD
                 'id_direccion_actual' => 1,  // Ajusta según  BD
                 'id_estado_vehiculo' => 1,   // Disponible
                 'id_estado_nafta' => 4,      // Lleno
             ],
 
 
-
-
-
-
-
-
-/***************************************************** subsecretario de gobierno (privada) ************************************** */
 
  [
                 'dominio' => 'AH438EK',
@@ -643,7 +636,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 4, // Ajusta según BD
+                'id_dependencia_duena' => 2, // Ajusta según BD
                 'id_direccion_actual' => 1,  // Ajusta según  BD
                 'id_estado_vehiculo' => 1,   // Disponible
                 'id_estado_nafta' => 4,      // Lleno
@@ -664,7 +657,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 71, // Ajusta según BD
+                'id_dependencia_duena' => 70, // Ajusta según BD
                 'id_direccion_actual' => 22,  // Ajusta según  BD
                 'id_estado_vehiculo' => 3,   //
                 'id_estado_nafta' => 4,      // Lleno
@@ -680,7 +673,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 71, // Ajusta según BD
+                'id_dependencia_duena' => 70, // Ajusta según BD
                 'id_direccion_actual' => 22,  // Ajusta según  BD
                 'id_estado_vehiculo' => 1,   // Disponible
                 'id_estado_nafta' => 4,      // Lleno
@@ -696,7 +689,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 71, // Ajusta según BD
+                'id_dependencia_duena' => 70, // Ajusta según BD
                 'id_direccion_actual' => 22,  // Ajusta según  BD
                 'id_estado_vehiculo' => 1,   // Disponible
                 'id_estado_nafta' => 4,      // Lleno
@@ -712,7 +705,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 71, // Ajusta según BD
+                'id_dependencia_duena' => 70, // Ajusta según BD
                 'id_direccion_actual' => 22,  // Ajusta según  BD
                 'id_estado_vehiculo' => 3,   // Disponible
                 'id_estado_nafta' => 4,      // Lleno
@@ -728,7 +721,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 71, // Ajusta según BD
+                'id_dependencia_duena' => 70, // Ajusta según BD
                 'id_direccion_actual' => 22,  // Ajusta según  BD
                 'id_estado_vehiculo' => 3,   // Disponible
                 'id_estado_nafta' => 4,      // Lleno
@@ -744,7 +737,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 71, // Ajusta según BD
+                'id_dependencia_duena' => 70, // Ajusta según BD
                 'id_direccion_actual' => 22,  // Ajusta según  BD
                 'id_estado_vehiculo' => 3,   // Disponible
                 'id_estado_nafta' => 4,      // Lleno
@@ -760,7 +753,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 71, // Ajusta según BD
+                'id_dependencia_duena' => 70, // Ajusta según BD
                 'id_direccion_actual' => 22,  // Ajusta según  BD
                 'id_estado_vehiculo' => 1,   // Disponible
                 'id_estado_nafta' => 4,      // Lleno
@@ -776,7 +769,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 71, // Ajusta según BD
+                'id_dependencia_duena' => 70, // Ajusta según BD
                 'id_direccion_actual' => 22,  // Ajusta según  BD
                 'id_estado_vehiculo' => 1,   // Disponible
                 'id_estado_nafta' => 4,      // Lleno
@@ -792,7 +785,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 71, // Ajusta según BD
+                'id_dependencia_duena' => 70, // Ajusta según BD
                 'id_direccion_actual' => 22,  // Ajusta según  BD
                 'id_estado_vehiculo' => 1,   // Disponible
                 'id_estado_nafta' => 4,      // Lleno
@@ -800,7 +793,7 @@ class VehiculoSeeder extends Seeder
 
 
 
-            /****************************** Direccion de deportes ************************* */
+            /****************************** Direccion de deportes y juventud ************************* */
 
              [
                 'dominio' => 'GPD285',
@@ -813,7 +806,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 11, // Ajusta según BD
+                'id_dependencia_duena' => 14, // Ajusta según BD
                 'id_direccion_actual' => 4,  // Ajusta según  BD
                 'id_estado_vehiculo' => 1,   // Disponible
                 'id_estado_nafta' => 4,      // Lleno
@@ -829,7 +822,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 11, // Ajusta según BD
+                'id_dependencia_duena' => 14, // Ajusta según BD
                 'id_direccion_actual' => 4,  // Ajusta según  BD
                 'id_estado_vehiculo' => 1,   // Disponible
                 'id_estado_nafta' => 4,      // Lleno
@@ -847,7 +840,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 8, // Ajusta según BD
+                'id_dependencia_duena' => 11, // Ajusta según BD
                 'id_direccion_actual' => 3,  // Ajusta según  BD
                 'id_estado_vehiculo' => 1,   // Disponible
                 'id_estado_nafta' => 4,      // Lleno
@@ -866,7 +859,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 24, // Ajusta según BD
+                'id_dependencia_duena' => 31, // Ajusta según BD
                 'id_direccion_actual' => 11,  // Ajusta según  BD
                 'id_estado_vehiculo' => 1,   // Disponible
                 'id_estado_nafta' => 4,      // Lleno
@@ -885,13 +878,13 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 47, // Ajusta según BD
+                'id_dependencia_duena' => 39, // Ajusta según BD
                 'id_direccion_actual' => 12,  // Ajusta según  BD
                 'id_estado_vehiculo' => 1,   // Disponible
                 'id_estado_nafta' => 4,      // Lleno
             ],
 
-/************************************************ industria y comercio ****************************************************** */
+/************************************************ direccion de industria  comercio y emprendedurismo ****************************************************** */
 
 [
                 'dominio' => 'HMB949',
@@ -904,13 +897,13 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 49, // Ajusta según BD
+                'id_dependencia_duena' => 42, // Ajusta según BD
                 'id_direccion_actual' => 1,  // Ajusta según  BD
                 'id_estado_vehiculo' => 1,   // Disponible
                 'id_estado_nafta' => 4,      // Lleno
             ],
 
-/********************************************* aerodromo *************************************************** */
+/********************************************* aerodromo municipal *************************************************** */
 [
                 'dominio' => 'sindomini0',
                 'marca' => 'Blackstone',
@@ -922,12 +915,12 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 50, // Ajusta según BD
+                'id_dependencia_duena' => 69, // Ajusta según BD
                 'id_direccion_actual' => 16,  // Ajusta según  BD
                 'id_estado_vehiculo' => 1,   // Disponible
                 'id_estado_nafta' => 4,      // Lleno
             ],
-/****************************************************direccion de higiene, veterinaria y bromatologia *************************** */
+/****************************************************direccion de  bromatologia y zooosis*************************** */
   [
                 'dominio' => 'AC262IM',
                 'marca' => 'Fiat',
@@ -939,7 +932,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 78,
+                'id_dependencia_duena' => 46,
                 'id_direccion_actual' => 25,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -955,7 +948,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 78,
+                'id_dependencia_duena' => 46,
                 'id_direccion_actual' => 25,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -971,7 +964,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 78,
+                'id_dependencia_duena' =>46,
                 'id_direccion_actual' => 25,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -989,7 +982,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 77,
+                'id_dependencia_duena' => 45,
                 'id_direccion_actual' => 24,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -1005,7 +998,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 77,
+                'id_dependencia_duena' => 45,
                 'id_direccion_actual' => 24,
                 'id_estado_vehiculo' => 3,
                 'id_estado_nafta' => 4,
@@ -1021,7 +1014,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 77,
+                'id_dependencia_duena' =>45,
                 'id_direccion_actual' => 24,
                 'id_estado_vehiculo' => 3,
                 'id_estado_nafta' => 4,
@@ -1037,7 +1030,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 77,
+                'id_dependencia_duena' => 45,
                 'id_direccion_actual' => 24,
                 'id_estado_vehiculo' => 3,
                 'id_estado_nafta' => 4,
@@ -1053,7 +1046,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 77,
+                'id_dependencia_duena' => 45,
                 'id_direccion_actual' => 24,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -1069,7 +1062,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 77,
+                'id_dependencia_duena' => 45,
                 'id_direccion_actual' => 24,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -1085,7 +1078,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 77,
+                'id_dependencia_duena' => 45,
                 'id_direccion_actual' => 24,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -1102,7 +1095,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => false,
                 'condiciones_prestamo' => 'FUERA DE CIRCULACION POR ROTURA DE EMBRAGUE (HACE 1 MES ) Y COMPRESOR (HACE 3 MESES)',
                 'vtv' => now()->addMonths(45),
-                'id_dependencia_duena' => 77,
+                'id_dependencia_duena' => 45,
                 'id_direccion_actual' => 24,
                 'id_estado_vehiculo' => 4,
                 'id_estado_nafta' => 4,
@@ -1119,7 +1112,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => false,
                 'condiciones_prestamo' => 'FUERA DE CIRCULACION (HACE 1 AÑO) POR ROTURA DE MOTOR',
                 'vtv' => now()->addMonths(45),
-                'id_dependencia_duena' => 77,
+                'id_dependencia_duena' => 45,
                 'id_direccion_actual' => 24,
                 'id_estado_vehiculo' => 3,
                 'id_estado_nafta' => 4,
@@ -1136,7 +1129,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => false,
                 'condiciones_prestamo' => 'FUERA DE CIRCULACION',
                 'vtv' => now()->addMonths(45),
-                'id_dependencia_duena' => 77,
+                'id_dependencia_duena' => 45,
                 'id_direccion_actual' => 24,
                 'id_estado_vehiculo' => 3,
                 'id_estado_nafta' => 4,
@@ -1152,7 +1145,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => false,
                 'condiciones_prestamo' => 'FUERA DE CIRCULACION',
                 'vtv' => now()->addMonths(45),
-                'id_dependencia_duena' => 77,
+                'id_dependencia_duena' => 45,
                 'id_direccion_actual' => 24,
                 'id_estado_vehiculo' => 3,
                 'id_estado_nafta' => 4,
@@ -1172,7 +1165,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(85),
-                'id_dependencia_duena' => 86,
+                'id_dependencia_duena' => 48,
                 'id_direccion_actual' => 24,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -1189,7 +1182,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 84,
+                'id_dependencia_duena' => 47,
                 'id_direccion_actual' => 24,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -1205,7 +1198,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 84,
+                'id_dependencia_duena' => 47,
                 'id_direccion_actual' => 24,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -1221,7 +1214,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 84,
+                'id_dependencia_duena' => 47,
                 'id_direccion_actual' => 24,
                 'id_estado_vehiculo' => 3,
                 'id_estado_nafta' => 4,
@@ -1237,7 +1230,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 84,
+                'id_dependencia_duena' => 47,
                 'id_direccion_actual' => 24,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -1253,7 +1246,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 84,
+                'id_dependencia_duena' => 47,
                 'id_direccion_actual' => 24,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -1269,7 +1262,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 84,
+                'id_dependencia_duena' => 47,
                 'id_direccion_actual' => 24,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -1285,7 +1278,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 84,
+                'id_dependencia_duena' => 47,
                 'id_direccion_actual' => 24,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -1301,7 +1294,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 84,
+                'id_dependencia_duena' => 47,
                 'id_direccion_actual' => 24,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -1317,7 +1310,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 84,
+                'id_dependencia_duena' => 47,
                 'id_direccion_actual' => 24,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -1336,7 +1329,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 54,
+                'id_dependencia_duena' => 50,
                 'id_direccion_actual' => 19,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -1353,7 +1346,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 54,
+                'id_dependencia_duena' => 50,
                 'id_direccion_actual' => 19,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -1369,7 +1362,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 54,
+                'id_dependencia_duena' => 50,
                 'id_direccion_actual' => 19,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -1385,7 +1378,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 54,
+                'id_dependencia_duena' => 50,
                 'id_direccion_actual' => 19,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -1401,7 +1394,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 54,
+                'id_dependencia_duena' => 50,
                 'id_direccion_actual' => 19,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -1417,7 +1410,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 54,
+                'id_dependencia_duena' => 50,
                 'id_direccion_actual' => 19,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -1433,7 +1426,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 54,
+                'id_dependencia_duena' => 50,
                 'id_direccion_actual' => 19,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -1449,7 +1442,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 54,
+                'id_dependencia_duena' => 50,
                 'id_direccion_actual' => 19,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -1465,7 +1458,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 54,
+                'id_dependencia_duena' => 50,
                 'id_direccion_actual' => 19,
                 'id_estado_vehiculo' => 3,
                 'id_estado_nafta' => 4,
@@ -1481,7 +1474,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 54,
+                'id_dependencia_duena' =>50,
                 'id_direccion_actual' => 19,
                 'id_estado_vehiculo' => 3,
                 'id_estado_nafta' => 4,
@@ -1497,7 +1490,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 54,
+                'id_dependencia_duena' =>50,
                 'id_direccion_actual' => 19,
                 'id_estado_vehiculo' => 3,
                 'id_estado_nafta' => 4,
@@ -1513,7 +1506,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 54,
+                'id_dependencia_duena' =>50,
                 'id_direccion_actual' => 19,
                 'id_estado_vehiculo' => 3,
                 'id_estado_nafta' => 4,
@@ -1531,7 +1524,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 54,
+                'id_dependencia_duena' => 50,
                 'id_direccion_actual' => 19,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -1548,7 +1541,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 54,
+                'id_dependencia_duena' => 50,
                 'id_direccion_actual' => 19,
                 'id_estado_vehiculo' => 3,
                 'id_estado_nafta' => 4,
@@ -1564,7 +1557,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 54,
+                'id_dependencia_duena' => 50,
                 'id_direccion_actual' => 19,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -1582,7 +1575,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 57,
+                'id_dependencia_duena' => 44,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -1598,7 +1591,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 57,
+                'id_dependencia_duena' => 44,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -1614,7 +1607,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 57,
+                'id_dependencia_duena' => 44,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -1630,7 +1623,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 57,
+                'id_dependencia_duena' => 44,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -1646,7 +1639,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 57,
+                'id_dependencia_duena' => 44,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -1662,7 +1655,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 57,
+                'id_dependencia_duena' => 44,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -1678,7 +1671,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 57,
+                'id_dependencia_duena' =>44,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -1694,7 +1687,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 57,
+                'id_dependencia_duena' => 44,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -1710,7 +1703,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 57,
+                'id_dependencia_duena' => 44,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -1726,7 +1719,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 57,
+                'id_dependencia_duena' => 44,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 3,
                 'id_estado_nafta' => 4,
@@ -1742,7 +1735,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 57,
+                'id_dependencia_duena' => 44,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -1758,7 +1751,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 57,
+                'id_dependencia_duena' =>44,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -1774,7 +1767,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 57,
+                'id_dependencia_duena' => 44,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -1790,7 +1783,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 57,
+                'id_dependencia_duena' => 44,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -1806,7 +1799,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 57,
+                'id_dependencia_duena' => 44,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -1822,7 +1815,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 57,
+                'id_dependencia_duena' => 44,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -1838,7 +1831,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 57,
+                'id_dependencia_duena' => 44,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -1854,7 +1847,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 57,
+                'id_dependencia_duena' => 44,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -1870,7 +1863,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 57,
+                'id_dependencia_duena' => 44,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -1886,7 +1879,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 57,
+                'id_dependencia_duena' => 44,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -1902,7 +1895,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 57,
+                'id_dependencia_duena' => 44,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -1916,7 +1909,7 @@ class VehiculoSeeder extends Seeder
 //
 
 
-/************************************* electrotecnica ************************************* */
+/************************************* electrotecnia ************************************* */
 
    [
                 'dominio' => '00000',
@@ -1929,7 +1922,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 53,
+                'id_dependencia_duena' => 55,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -1945,7 +1938,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 53,
+                'id_dependencia_duena' =>55,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 3,
                 'id_estado_nafta' => 4,
@@ -1961,7 +1954,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 53,
+                'id_dependencia_duena' => 55,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -1980,7 +1973,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 56,
+                'id_dependencia_duena' => 53,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -1996,7 +1989,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 56,
+                'id_dependencia_duena' => 53,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 3,
                 'id_estado_nafta' => 4,
@@ -2012,7 +2005,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 56,
+                'id_dependencia_duena' => 53,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -2028,7 +2021,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 56,
+                'id_dependencia_duena' => 53,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -2044,7 +2037,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 56,
+                'id_dependencia_duena' =>53,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -2060,7 +2053,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 56,
+                'id_dependencia_duena' => 53,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -2076,7 +2069,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 56,
+                'id_dependencia_duena' =>53,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -2092,7 +2085,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 56,
+                'id_dependencia_duena' => 53,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -2108,7 +2101,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 56,
+                'id_dependencia_duena' => 53,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -2124,7 +2117,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 56,
+                'id_dependencia_duena' => 53,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -2140,7 +2133,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 56,
+                'id_dependencia_duena' => 53,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -2156,7 +2149,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 56,
+                'id_dependencia_duena' => 53,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -2172,7 +2165,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 56,
+                'id_dependencia_duena' => 53,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -2188,7 +2181,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 56,
+                'id_dependencia_duena' => 53,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -2204,7 +2197,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 56,
+                'id_dependencia_duena' => 53,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -2220,7 +2213,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 56,
+                'id_dependencia_duena' => 53,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -2236,13 +2229,13 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 56,
+                'id_dependencia_duena' =>53,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
             ],
 
-/******************************************** cementerio************************************************* */
+/********************************************  cementerio   ************************************************* */
  [
                 'dominio' => 'DLB814',
                 'marca' => 'FORD',
@@ -2259,6 +2252,11 @@ class VehiculoSeeder extends Seeder
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
             ],
+
+
+
+
+
 
  [
                 'dominio' => 'CZY108',
@@ -2337,7 +2335,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 58,
+                'id_dependencia_duena' => 51,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -2353,7 +2351,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 58,
+                'id_dependencia_duena' => 51,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -2369,7 +2367,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 58,
+                'id_dependencia_duena' => 51,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -2386,7 +2384,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 58,
+                'id_dependencia_duena' => 51,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -2402,7 +2400,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 58,
+                'id_dependencia_duena' => 51,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -2418,7 +2416,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 58,
+                'id_dependencia_duena' => 51,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -2434,7 +2432,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 58,
+                'id_dependencia_duena' => 51,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -2450,7 +2448,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 58,
+                'id_dependencia_duena' =>51,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -2466,7 +2464,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 58,
+                'id_dependencia_duena' => 51,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -2482,7 +2480,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 58,
+                'id_dependencia_duena' => 51,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -2498,7 +2496,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 58,
+                'id_dependencia_duena' => 51,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -2514,7 +2512,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(18),
-                'id_dependencia_duena' => 58,
+                'id_dependencia_duena' => 51,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 3,
                 'id_estado_nafta' => 4,
@@ -2530,7 +2528,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 58,
+                'id_dependencia_duena' => 51,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -2546,7 +2544,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 58,
+                'id_dependencia_duena' => 51,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -2562,7 +2560,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 58,
+                'id_dependencia_duena' => 51,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -2578,7 +2576,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 58,
+                'id_dependencia_duena' => 51,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -2594,7 +2592,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 58,
+                'id_dependencia_duena' => 51,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -2610,7 +2608,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 58,
+                'id_dependencia_duena' => 51,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -2626,7 +2624,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 58,
+                'id_dependencia_duena' => 51,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -2642,7 +2640,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 58,
+                'id_dependencia_duena' => 51,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 3,
                 'id_estado_nafta' => 4,
@@ -2658,7 +2656,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 58,
+                'id_dependencia_duena' => 51,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -2674,7 +2672,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 58,
+                'id_dependencia_duena' => 51,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -2690,7 +2688,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 58,
+                'id_dependencia_duena' => 51,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -2706,7 +2704,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 58,
+                'id_dependencia_duena' => 51,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -2722,7 +2720,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 58,
+                'id_dependencia_duena' => 51,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -2738,7 +2736,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 58,
+                'id_dependencia_duena' => 51,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -2754,7 +2752,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 58,
+                'id_dependencia_duena' => 51,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -2770,7 +2768,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 58,
+                'id_dependencia_duena' => 51,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -2786,7 +2784,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 58,
+                'id_dependencia_duena' => 51,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -2802,7 +2800,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 58,
+                'id_dependencia_duena' => 51,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -2818,7 +2816,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 58,
+                'id_dependencia_duena' => 51,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -2834,7 +2832,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 58,
+                'id_dependencia_duena' => 51,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -2850,7 +2848,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 58,
+                'id_dependencia_duena' => 51,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -2866,7 +2864,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 58,
+                'id_dependencia_duena' =>51,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -2882,7 +2880,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 58,
+                'id_dependencia_duena' => 51,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -2898,7 +2896,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 58,
+                'id_dependencia_duena' => 51,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -2914,7 +2912,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 58,
+                'id_dependencia_duena' => 51,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -2930,7 +2928,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 58,
+                'id_dependencia_duena' => 51,
                 'id_direccion_actual' => 17,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -2951,8 +2949,8 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => false,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 13,
+                'vtv' => now()->addMonths(18),
+                'id_dependencia_duena' => 20,
                 'id_direccion_actual' => 6,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -2968,8 +2966,8 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => false,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 13,
+                'vtv' => now()->addMonths(18),
+                'id_dependencia_duena' => 20,
                 'id_direccion_actual' => 6,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -2985,8 +2983,8 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => false,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 13,
+                'vtv' => now()->addMonths(18),
+                'id_dependencia_duena' => 20,
                 'id_direccion_actual' => 6,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -3001,8 +2999,8 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' =>false,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 13,
+                'vtv' => now()->addMonths(18),
+                'id_dependencia_duena' => 20,
                 'id_direccion_actual' => 6,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -3017,8 +3015,8 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => true,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 13,
+                'vtv' => now()->addMonths(18),
+                'id_dependencia_duena' => 20,
                 'id_direccion_actual' => 6,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -3033,8 +3031,8 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => false,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 13,
+                'vtv' => now()->addMonths(18),
+                'id_dependencia_duena' => 20,
                 'id_direccion_actual' => 6,
                 'id_estado_vehiculo' => 3,
                 'id_estado_nafta' => 4,
@@ -3049,8 +3047,8 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => false,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 13,
+                'vtv' => now()->addMonths(18),
+                'id_dependencia_duena' => 20,
                 'id_direccion_actual' => 6,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -3065,8 +3063,8 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => false,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 13,
+                'vtv' => now()->addMonths(18),
+                'id_dependencia_duena' => 20,
                 'id_direccion_actual' => 6,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -3081,8 +3079,8 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' =>false,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 13,
+                'vtv' => now()->addMonths(18),
+                'id_dependencia_duena' => 20,
                 'id_direccion_actual' => 6,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -3097,8 +3095,8 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => false,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 13,
+                'vtv' => now()->addMonths(18),
+                'id_dependencia_duena' => 20,
                 'id_direccion_actual' => 6,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -3113,8 +3111,8 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => false,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 13,
+                'vtv' => now()->addMonths(18),
+                'id_dependencia_duena' => 20,
                 'id_direccion_actual' => 6,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -3129,8 +3127,8 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => false,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'vtv' => now()->addMonths(8),
-                'id_dependencia_duena' => 13,
+                'vtv' => now()->addMonths(18),
+                'id_dependencia_duena' => 20,
                 'id_direccion_actual' => 6,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -3145,8 +3143,8 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => false,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'vtv' => now()->addMonths(8),
-                'id_dependencia_duena' => 13,
+                'vtv' => now()->addMonths(18),
+                'id_dependencia_duena' => 20,
                 'id_direccion_actual' => 6,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -3163,8 +3161,8 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => false,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'vtv' => now()->addMonths(8),
-                'id_dependencia_duena' => 14,
+                'vtv' => now()->addMonths(18),
+                'id_dependencia_duena' => 17,
                 'id_direccion_actual' => 7,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -3179,8 +3177,8 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => false,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'vtv' => now()->addMonths(8),
-                'id_dependencia_duena' => 14,
+                'vtv' => now()->addMonths(18),
+                'id_dependencia_duena' => 17,
                 'id_direccion_actual' => 7,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -3195,8 +3193,8 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' =>false,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'vtv' => now()->addMonths(8),
-                'id_dependencia_duena' => 14,
+                'vtv' => now()->addMonths(18),
+                'id_dependencia_duena' => 17,
                 'id_direccion_actual' => 7,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -3211,8 +3209,8 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => false,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'vtv' => now()->addMonths(8),
-                'id_dependencia_duena' => 14,
+                'vtv' => now()->addMonths(18),
+                'id_dependencia_duena' => 17,
                 'id_direccion_actual' => 7,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -3227,8 +3225,8 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => false,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'vtv' => now()->addMonths(8),
-                'id_dependencia_duena' => 14,
+                'vtv' => now()->addMonths(18),
+                'id_dependencia_duena' => 17,
                 'id_direccion_actual' => 7,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -3243,8 +3241,8 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' =>false,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'vtv' => now()->addMonths(8),
-                'id_dependencia_duena' => 14,
+                'vtv' => now()->addMonths(18),
+                'id_dependencia_duena' => 17,
                 'id_direccion_actual' => 7,
                 'id_estado_vehiculo' => 3,
                 'id_estado_nafta' => 4,
@@ -3259,8 +3257,8 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => false,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'vtv' => now()->addMonths(8),
-                'id_dependencia_duena' => 14,
+                'vtv' => now()->addMonths(18),
+                'id_dependencia_duena' => 17,
                 'id_direccion_actual' => 7,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -3275,8 +3273,8 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => false,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'vtv' => now()->addMonths(8),
-                'id_dependencia_duena' => 14,
+                'vtv' => now()->addMonths(18),
+                'id_dependencia_duena' => 17,
                 'id_direccion_actual' => 7,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -3291,8 +3289,8 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => false,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'vtv' => now()->addMonths(8),
-                'id_dependencia_duena' => 14,
+                'vtv' => now()->addMonths(18),
+                'id_dependencia_duena' => 17,
                 'id_direccion_actual' => 7,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -3307,8 +3305,8 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => false,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'vtv' => now()->addMonths(8),
-                'id_dependencia_duena' => 14,
+                'vtv' => now()->addMonths(18),
+                'id_dependencia_duena' =>17,
                 'id_direccion_actual' => 7,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -3323,8 +3321,8 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' =>false,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'vtv' => now()->addMonths(8),
-                'id_dependencia_duena' => 14,
+                'vtv' => now()->addMonths(18),
+                'id_dependencia_duena' =>17,
                 'id_direccion_actual' => 7,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -3339,8 +3337,8 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' =>false,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'vtv' => now()->addMonths(8),
-                'id_dependencia_duena' => 14,
+                'vtv' => now()->addMonths(18),
+                'id_dependencia_duena' => 17,
                 'id_direccion_actual' => 7,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -3355,8 +3353,8 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' =>false,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'vtv' => now()->addMonths(8),
-                'id_dependencia_duena' => 14,
+                'vtv' => now()->addMonths(18),
+                'id_dependencia_duena' => 17,
                 'id_direccion_actual' => 7,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -3371,8 +3369,8 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => false,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'vtv' => now()->addMonths(8),
-                'id_dependencia_duena' => 14,
+                'vtv' => now()->addMonths(18),
+                'id_dependencia_duena' => 17,
                 'id_direccion_actual' => 7,
                 'id_estado_vehiculo' => 3,
                 'id_estado_nafta' => 4,
@@ -3387,8 +3385,8 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' =>false,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'vtv' => now()->addMonths(8),
-                'id_dependencia_duena' => 14,
+                'vtv' => now()->addMonths(18),
+                'id_dependencia_duena' =>17,
                 'id_direccion_actual' => 7,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -3403,8 +3401,8 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => false,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'vtv' => now()->addMonths(8),
-                'id_dependencia_duena' => 14,
+                'vtv' => now()->addMonths(18),
+                'id_dependencia_duena' => 17,
                 'id_direccion_actual' => 7,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -3419,8 +3417,8 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => false,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'vtv' => now()->addMonths(8),
-                'id_dependencia_duena' => 14,
+                'vtv' => now()->addMonths(18),
+                'id_dependencia_duena' => 17,
                 'id_direccion_actual' => 7,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -3435,8 +3433,8 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' =>false,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'vtv' => now()->addMonths(8),
-                'id_dependencia_duena' => 14,
+                'vtv' => now()->addMonths(18),
+                'id_dependencia_duena' => 17,
                 'id_direccion_actual' => 7,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -3451,8 +3449,8 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => false,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'vtv' => now()->addMonths(8),
-                'id_dependencia_duena' => 14,
+                'vtv' => now()->addMonths(18),
+                'id_dependencia_duena' => 17,
                 'id_direccion_actual' => 7,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -3467,8 +3465,8 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => false,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'vtv' => now()->addMonths(8),
-                'id_dependencia_duena' => 14,
+                'vtv' => now()->addMonths(18),
+                'id_dependencia_duena' => 17,
                 'id_direccion_actual' => 7,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -3483,8 +3481,8 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => false,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'vtv' => now()->addMonths(8),
-                'id_dependencia_duena' => 14,
+                'vtv' => now()->addMonths(18),
+                'id_dependencia_duena' => 17,
                 'id_direccion_actual' => 7,
                 'id_estado_vehiculo' => 3,
                 'id_estado_nafta' => 4,
@@ -3499,8 +3497,8 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' =>false,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'vtv' => now()->addMonths(8),
-                'id_dependencia_duena' => 14,
+                'vtv' => now()->addMonths(18),
+                'id_dependencia_duena' => 17,
                 'id_direccion_actual' => 7,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -3516,7 +3514,7 @@ class VehiculoSeeder extends Seeder
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
                 'vtv' => now()->addMonths(20),
-                'id_dependencia_duena' => 14,
+                'id_dependencia_duena' => 17,
                 'id_direccion_actual' => 7,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -3531,8 +3529,8 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => false,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'vtv' => now()->addMonths(8),
-                'id_dependencia_duena' => 14,
+                'vtv' => now()->addMonths(18),
+                'id_dependencia_duena' => 17,
                 'id_direccion_actual' => 7,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -3551,8 +3549,8 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => false,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'vtv' => now()->addMonths(8),
-                'id_dependencia_duena' => 16,
+                'vtv' => now()->addMonths(18),
+                'id_dependencia_duena' => 19,
                 'id_direccion_actual' => 9,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -3568,8 +3566,8 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' =>false,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'vtv' => now()->addMonths(8),
-                'id_dependencia_duena' => 16,
+                'vtv' => now()->addMonths(18),
+                'id_dependencia_duena' => 19,
                 'id_direccion_actual' => 9,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -3584,8 +3582,8 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => false,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'vtv' => now()->addMonths(8),
-                'id_dependencia_duena' => 16,
+                'vtv' => now()->addMonths(18),
+                'id_dependencia_duena' => 19,
                 'id_direccion_actual' => 9,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -3600,8 +3598,8 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => false,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'vtv' => now()->addMonths(8),
-                'id_dependencia_duena' => 16,
+                'vtv' => now()->addMonths(18),
+                'id_dependencia_duena' => 19,
                 'id_direccion_actual' => 9,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -3616,8 +3614,8 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => false,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'vtv' => now()->addMonths(8),
-                'id_dependencia_duena' => 16,
+                'vtv' => now()->addMonths(18),
+                'id_dependencia_duena' => 19,
                 'id_direccion_actual' => 9,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -3632,8 +3630,8 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => false,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'vtv' => now()->addMonths(8),
-                'id_dependencia_duena' => 16,
+                'vtv' => now()->addMonths(18),
+                'id_dependencia_duena' => 19,
                 'id_direccion_actual' => 9,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -3648,8 +3646,8 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => false,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'vtv' => now()->addMonths(8),
-                'id_dependencia_duena' => 16,
+                'vtv' => now()->addMonths(18),
+                'id_dependencia_duena' => 19,
                 'id_direccion_actual' => 9,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -3664,8 +3662,8 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => false,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'vtv' => now()->addMonths(8),
-                'id_dependencia_duena' => 16,
+                'vtv' => now()->addMonths(18),
+                'id_dependencia_duena' => 19,
                 'id_direccion_actual' => 9,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -3680,8 +3678,8 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => false,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'vtv' => now()->addMonths(8),
-                'id_dependencia_duena' => 16,
+                'vtv' => now()->addMonths(18),
+                'id_dependencia_duena' => 19,
                 'id_direccion_actual' => 9,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -3696,8 +3694,8 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => false,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'vtv' => now()->addMonths(8),
-                'id_dependencia_duena' => 16,
+                'vtv' => now()->addMonths(18),
+                'id_dependencia_duena' => 19,
                 'id_direccion_actual' => 9,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -3712,8 +3710,8 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => false,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'vtv' => now()->addMonths(8),
-                'id_dependencia_duena' => 16,
+                'vtv' => now()->addMonths(18),
+                'id_dependencia_duena' => 19,
                 'id_direccion_actual' => 9,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -3728,8 +3726,8 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => false,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'vtv' => now()->addMonths(8),
-                'id_dependencia_duena' => 16,
+                'vtv' => now()->addMonths(18),
+                'id_dependencia_duena' => 19,
                 'id_direccion_actual' => 9,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -3746,8 +3744,8 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' =>false,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'vtv' => now()->addMonths(8),
-                'id_dependencia_duena' => 85,
+                'vtv' => now()->addMonths(18),
+                'id_dependencia_duena' => 21,
                 'id_direccion_actual' => 28,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -3762,8 +3760,8 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => false,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'vtv' => now()->addMonths(8),
-                'id_dependencia_duena' => 85,
+                'vtv' => now()->addMonths(18),
+                'id_dependencia_duena' => 21,
                 'id_direccion_actual' => 28,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -3781,8 +3779,8 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => false,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'vtv' => now()->addMonths(8),
-                'id_dependencia_duena' => 15,
+                'vtv' => now()->addMonths(18),
+                'id_dependencia_duena' => 18,
                 'id_direccion_actual' => 8,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -3797,8 +3795,8 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => false,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'vtv' => now()->addMonths(8),
-                'id_dependencia_duena' => 15,
+                'vtv' => now()->addMonths(18),
+                'id_dependencia_duena' => 18,
                 'id_direccion_actual' => 8,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -3813,8 +3811,8 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => false,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'vtv' => now()->addMonths(8),
-                'id_dependencia_duena' => 15,
+                'vtv' => now()->addMonths(18),
+                'id_dependencia_duena' => 18,
                 'id_direccion_actual' => 8,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -3829,8 +3827,8 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => false,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'vtv' => now()->addMonths(8),
-                'id_dependencia_duena' => 15,
+                'vtv' => now()->addMonths(18),
+                'id_dependencia_duena' => 18,
                 'id_direccion_actual' => 8,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -3845,8 +3843,8 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => false,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'vtv' => now()->addMonths(8),
-                'id_dependencia_duena' => 15,
+                'vtv' => now()->addMonths(18),
+                'id_dependencia_duena' => 18,
                 'id_direccion_actual' => 8,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -3861,8 +3859,8 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' =>false,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'vtv' => now()->addMonths(8),
-                'id_dependencia_duena' => 15,
+                'vtv' => now()->addMonths(18),
+                'id_dependencia_duena' => 18,
                 'id_direccion_actual' => 8,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -3877,8 +3875,8 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => false,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'vtv' => now()->addMonths(8),
-                'id_dependencia_duena' => 15,
+                'vtv' => now()->addMonths(18),
+                'id_dependencia_duena' => 18,
                 'id_direccion_actual' => 8,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -3893,8 +3891,8 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' =>false,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'vtv' => now()->addMonths(8),
-                'id_dependencia_duena' => 15,
+                'vtv' => now()->addMonths(18),
+                'id_dependencia_duena' => 18,
                 'id_direccion_actual' => 8,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -3909,8 +3907,8 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' =>false,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'vtv' => now()->addMonths(8),
-                'id_dependencia_duena' => 15,
+                'vtv' => now()->addMonths(18),
+                'id_dependencia_duena' => 18,
                 'id_direccion_actual' => 8,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -3932,8 +3930,8 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => false,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'vtv' => now()->addMonths(8),
-                'id_dependencia_duena' => 12,
+                'vtv' => now()->addMonths(18),
+                'id_dependencia_duena' => 23,
                 'id_direccion_actual' => 5,
                 'id_estado_vehiculo' => 3,
                 'id_estado_nafta' => 4,
@@ -3948,8 +3946,8 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' =>false,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'vtv' => now()->addMonths(8),
-                'id_dependencia_duena' => 12,
+                'vtv' => now()->addMonths(18),
+                'id_dependencia_duena' => 23,
                 'id_direccion_actual' => 5,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -3964,8 +3962,8 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => false,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'vtv' => now()->addMonths(8),
-                'id_dependencia_duena' => 12,
+                'vtv' => now()->addMonths(18),
+                'id_dependencia_duena' => 23,
                 'id_direccion_actual' => 5,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -3980,8 +3978,8 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' =>false,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'vtv' => now()->addMonths(8),
-                'id_dependencia_duena' => 12,
+                'vtv' => now()->addMonths(18),
+                'id_dependencia_duena' => 23,
                 'id_direccion_actual' => 5,
                 'id_estado_vehiculo' => 3,
                 'id_estado_nafta' => 4,
@@ -3996,8 +3994,8 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => false,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'vtv' => now()->addMonths(8),
-                'id_dependencia_duena' => 12,
+                'vtv' => now()->addMonths(18),
+                'id_dependencia_duena' => 23,
                 'id_direccion_actual' => 5,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -4012,8 +4010,8 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => false,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'vtv' => now()->addMonths(8),
-                'id_dependencia_duena' => 12,
+                'vtv' => now()->addMonths(18),
+                'id_dependencia_duena' => 23,
                 'id_direccion_actual' => 5,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -4028,8 +4026,8 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => false,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'vtv' => now()->addMonths(8),
-                'id_dependencia_duena' => 12,
+                'vtv' => now()->addMonths(18),
+                'id_dependencia_duena' => 23,
                 'id_direccion_actual' => 5,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -4044,8 +4042,8 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => false,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'vtv' => now()->addMonths(8),
-                'id_dependencia_duena' => 12,
+                'vtv' => now()->addMonths(18),
+                'id_dependencia_duena' => 23,
                 'id_direccion_actual' => 5,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -4060,8 +4058,8 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => false,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'vtv' => now()->addMonths(8),
-                'id_dependencia_duena' => 12,
+                'vtv' => now()->addMonths(18),
+                'id_dependencia_duena' => 23,
                 'id_direccion_actual' => 5,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -4076,8 +4074,8 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' =>false,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'vtv' => now()->addMonths(8),
-                'id_dependencia_duena' => 12,
+                'vtv' => now()->addMonths(18),
+                'id_dependencia_duena' => 23,
                 'id_direccion_actual' => 5,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -4092,8 +4090,8 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => false,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'vtv' => now()->addMonths(8),
-                'id_dependencia_duena' => 12,
+                'vtv' => now()->addMonths(18),
+                'id_dependencia_duena' => 23,
                 'id_direccion_actual' => 5,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -4108,8 +4106,8 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => false,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'vtv' => now()->addMonths(8),
-                'id_dependencia_duena' => 12,
+                'vtv' => now()->addMonths(18),
+                'id_dependencia_duena' => 23,
                 'id_direccion_actual' => 5,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -4124,8 +4122,8 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => false,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'vtv' => now()->addMonths(8),
-                'id_dependencia_duena' => 12,
+                'vtv' => now()->addMonths(18),
+                'id_dependencia_duena' => 23,
                 'id_direccion_actual' => 5,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -4140,8 +4138,8 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => false,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'vtv' => now()->addMonths(8),
-                'id_dependencia_duena' => 12,
+                'vtv' => now()->addMonths(18),
+                'id_dependencia_duena' => 23,
                 'id_direccion_actual' => 5,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -4156,8 +4154,8 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => false,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'vtv' => now()->addMonths(8),
-                'id_dependencia_duena' => 12,
+                'vtv' => now()->addMonths(18),
+                'id_dependencia_duena' => 23,
                 'id_direccion_actual' => 5,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -4172,8 +4170,8 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => false,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'vtv' => now()->addMonths(8),
-                'id_dependencia_duena' => 12,
+                'vtv' => now()->addMonths(18),
+                'id_dependencia_duena' => 23,
                 'id_direccion_actual' => 5,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -4188,8 +4186,8 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' => false,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'vtv' => now()->addMonths(8),
-                'id_dependencia_duena' => 12,
+                'vtv' => now()->addMonths(18),
+                'id_dependencia_duena' => 23,
                 'id_direccion_actual' => 5,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
@@ -4204,8 +4202,8 @@ class VehiculoSeeder extends Seeder
                 'control_satelital' =>false,
                 'habilitado_prestamo' => true,
                 'condiciones_prestamo' => '',
-                'vtv' => now()->addMonths(8),
-                'id_dependencia_duena' => 12,
+                'vtv' => now()->addMonths(18),
+                'id_dependencia_duena' => 23,
                 'id_direccion_actual' => 5,
                 'id_estado_vehiculo' => 1,
                 'id_estado_nafta' => 4,
