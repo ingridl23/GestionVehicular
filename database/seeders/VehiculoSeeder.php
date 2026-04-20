@@ -323,22 +323,6 @@ class VehiculoSeeder extends Seeder
                 'id_estado_nafta' => 4,      // Lleno
             ],
 
-[
-                'dominio' => 'MDO097',
-                'marca' => 'Renault',
-                'modelo' => 'Renault Clio Mio 5p confort pack sat',
-                'unidad'=>'AS708',
-                'anio' => 2013,
-                'kilometros' =>0,
-                'control_satelital' =>false,
-                'habilitado_prestamo' => true,
-                'condiciones_prestamo' => '',
-                'vtv' => now()->addMonths(6),
-                'id_dependencia_duena' => 57, // Ajusta según BD
-                'id_direccion_actual' => 20,  // Ajusta según  BD
-                'id_estado_vehiculo' => 1,   // Disponible
-                'id_estado_nafta' => 4,      // Lleno
-            ],
 
 [
                 'dominio' => 'KXC857',
