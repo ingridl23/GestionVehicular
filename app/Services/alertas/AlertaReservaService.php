@@ -3,12 +3,15 @@ namespace App\Services\alertas;
 use App\Models\Reserva;
 use App\Enums\TipoAlerta;
 use App\Models\EstadosReserva;
+
+
 /**
  * @brief AlertaReservaService dedicado a las alertas de reservas dentro del sistema
  * @description AlertaReservaService permite validar el estado de reservas
  * permitiendo que los usuarios sepan estado de la reservacion , fecha de venciminto y recibir el aviso de manera automatica
  * o meidante una notificacion.
  */
+
 class AlertaReservaService
 {
     protected int $horasDeAviso = 24; // aviso 1 día antes
@@ -40,12 +43,12 @@ class AlertaReservaService
                 continue;
             }
 
+
+            $horasRestantes = now()->diffInHours($reserva->fecha_fin_reserva);
             // RESERVA POR VENCER
             if (
-                $reserva->fecha_fin_reserva
-                ->diffInHours(now()) <= $horasDeAviso
-                && $reserva->fecha_fin_reserva > now()
-            ) {
+               $horasRestantes <= $this->horasDeAviso
+                && $reserva->fecha_fin_reserva > now()){
                 app(AlertaService::class)->crearSiNoExiste(
                     TipoAlerta::RESERVA_POR_VENCER,
                     'reserva',

@@ -223,7 +223,9 @@
     </div>
 </div>
 @endif
-
+<div class="contenedor_loader">
+        <div class="loader"></div>
+    </div>
 {{-- Script: abrir/cerrar modal + selección nafta --}}
 <script>
 document.addEventListener('DOMContentLoaded', function () {

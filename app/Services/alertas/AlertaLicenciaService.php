@@ -3,7 +3,6 @@ namespace App\Services\alertas;
 use App\Models\Carnet;
 use App\Enums\TipoAlerta;
 
-
 /**
  * @brief Service dedicado a las alertas de licencias dentro del sistema
  * @description AlertaLicenciaService permite validar informacion importante de licencias de usuarios como carnet y su fecha de vencimiento

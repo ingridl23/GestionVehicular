@@ -15,6 +15,4 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 500); // podés ajustar el tiempo
 
 
-
-
 })

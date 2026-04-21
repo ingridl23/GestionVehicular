@@ -26,7 +26,8 @@ class AlertaVTVService
             $dias = $hoy->diffInDays(Carbon::parse($vehiculo->vtv), false);
 
             /*VTV vencida*/
-            if ($dias < 0) {
+
+            if ($dias <= 0) {
                 app(AlertaService::class)->crearSiNoExiste(
                     TipoAlerta::VTV_VENCIDA,
                     'vehiculo',
@@ -38,7 +39,8 @@ class AlertaVTVService
                 continue;
             }
 
-            /* VTV por vencer (ej: 30 días)*/
+            /* VTV por vencer (ej: 30 días )*/
+
             if ($dias <= 30) {
                 app(AlertaService::class)->crearSiNoExiste(
                     TipoAlerta::VTV_POR_VENCER,
