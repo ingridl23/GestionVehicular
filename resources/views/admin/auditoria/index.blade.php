@@ -315,7 +315,7 @@
 
                     <div class="flex-1">
                         <p class="text-sm font-medium text-gray-900 dark:text-white">
-                            {{ substr($usuario->name ?? 'N', 0, 1) }}
+                            {{ $usuario->name }} {{ $usuario->lastname }}
                         </p>
                         <p class="text-xs text-gray-500 dark:text-gray-400">
                             {{ $usuario->getRoleNames()->implode(', ') }} {{ $usuario->dependencia->nombre ?? 'sin dependencia'}}
@@ -335,36 +335,104 @@
     </div>
 
 
-    {{-- calculadora de gastos del sistema --}}
-    {{--
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
 
 
+ <!-- Recent System for Reports -->
+    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6">
         <div class="flex items-center justify-between mb-4">
-            <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Calculadora de gastos en reservas efectuadas en el sistema </h2>
-
+            <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Reportes registrados recientemente</h2>
           <div class="flex gap-3">
-        <a href="{{ route('gastos.export') }}"
-            title="Descargar formato Excel ultimos 6 meses "
+        <a href="{{ route('reportes.export') }}"
+           title="Descargar ultimos 3 meses a formato Excel "
            class="text-sm text-green-600 dark:text-green-400 hover:underline flex items-center gap-1">
 
             <i class="fas fa-download"></i>
         </a>
-          </div>
 
-
-
+        <a href="{{ route('admin.reportes.index') }}"
+           class="text-sm text-blue-600 dark:text-blue-400 hover:underline">
+           Ver todos
+        </a>
     </div>
+        </div>
+
+
+        <div class="space-y-3">
+            @forelse($ultimosReportes as $reporte)
+                <div class="flex items-center gap-4 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700/50">
+
+                    <div class="w-12 h-12 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-user text-gray-600 dark:text-gray-400"></i>
+                    </div>
+
+                    <div class="flex-1">
+                        <p class="text-sm font-medium text-gray-900 dark:text-white"> {{ $reporte->titulo }} </p>
+                        <p class="text-xs text-gray-500 dark:text-gray-400"> {{ Str::limit($reporte->descripcion, 50) }} </p>
+                         <p class="text-xs text-gray-400 mt-1"> {{ $reporte->usuario?->name }} • {{ $reporte->created_at->format('d/m/Y H:i') }} </p>
+
+                    </div>
+
+                </div>
+            @empty
+                <p class="text-sm text-gray-500 dark:text-gray-400">
+                    No hay reportes enviados recientemente
+                </p>
+            @endforelse
+        </div>
     </div>
 
-    --}}
 
-    {{-- ============================================================
-     CALCULADORA DE GASTOS - Sección para dashboard de Auditoría
-     Incluir dentro de @section('content') en auditoria/index.blade.php
-     Reemplaza el div vacío de "calculadora de gastos" existente
-     ============================================================ --}}
+
+
+
+
+
+
+
+
+
+
+
+
+
 </div>
+
+{{-- calculadora de gastos del sistema --}}
+{{--
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+
+
+    <div class="flex items-center justify-between mb-4">
+        <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Calculadora de gastos en reservas efectuadas en el sistema </h2>
+
+      <div class="flex gap-3">
+    <a href="{{ route('gastos.export') }}"
+        title="Descargar formato Excel ultimos 6 meses "
+       class="text-sm text-green-600 dark:text-green-400 hover:underline flex items-center gap-1">
+
+        <i class="fas fa-download"></i>
+    </a>
+      </div>
+
+
+
+</div>
+</div>
+
+--}}
+
+{{-- ============================================================
+ CALCULADORA DE GASTOS - Sección para dashboard de Auditoría
+ Incluir dentro de @section('content') en auditoria/index.blade.php
+ Reemplaza el div vacío de "calculadora de gastos" existente
+ ============================================================ --}}
+
+
+
+
+
+
+
 <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 mb-6">
 
     {{-- Header --}}
@@ -605,10 +673,8 @@
                             <span class="text-xs bg-gray-200 dark:bg-gray-600 text-gray-200 dark:text-gray-600 rounded px-8 py-1 animate-pulse">—</span>
                         </div>
                     @endforeach
-                    <p class="text-xs text-gray-400 dark:text-gray-500 mt-2">
-                        <code class="bg-gray-100 dark:bg-gray-700 px-1 rounded">$resumenGastos.
-                    </p>
-                </div>
+
+        </div>
             @endif
 
         </div>

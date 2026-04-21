@@ -2,7 +2,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Reportes;
-
+use App\Http\Controllers\GastoController;
 
 
 /**

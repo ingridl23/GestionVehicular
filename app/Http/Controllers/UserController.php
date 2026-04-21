@@ -20,6 +20,7 @@ use App\Exports\ConductoresExport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\UsuariosImport;
 use App\Models\ImagenProfile;
+use App\Http\Controllers\GastoController;
 //use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 //use Cloudinary\Configuration\Configuration;
 use App\Services\CloudinaryService;
@@ -76,7 +77,8 @@ class UserController extends Controller{
         'mantenimiento' => 0,
         'vehiculos' => 0,
     ];
-
+//datos para calculadora estimativa de gastos
+    $datosCalculadora = (new GastoController())->getDatosCalculadora();
      //  ESTO ES LO QUE FALTABA
     $ultimosVehiculos = Vehiculo::with('estadoVehiculo')
         ->orderBy('created_at', 'desc')
@@ -98,6 +100,10 @@ $ultimosUsuarios = User::with('dependencia')
     ->take(4)
     ->get();
 
+  $ultimosReportes = \App\Models\Reportes::with('usuario')
+    ->latest()
+    ->take(5)
+    ->get();
     $vehiculosStats = [
     $total = Vehiculo::count(),
     $disponibles = Vehiculo::whereHas('estadoVehiculo', fn($q) =>
@@ -141,11 +147,11 @@ $ultimosUsuarios = User::with('dependencia')
         }
 
         if ($user->hasRole('Administrador General')) {
-            return view('admin.auditoria.index', compact('user','ultimosVehiculos','disponibles','total','reservados','mantenimiento','baja','reportesp','reportesA','ultimasReservas','ultimosVehiculos','reservascount','total','disponibles','reservados','mantenimiento','baja','ultimosConductores','ultimosUsuarios'));
+            return view('admin.auditoria.index',array_merge( compact('user','ultimosVehiculos','disponibles','total','reservados','mantenimiento','baja','reportesp','reportesA','ultimasReservas','ultimosVehiculos','ultimosReportes','reservascount','total','disponibles','reservados','mantenimiento','baja','ultimosConductores','ultimosUsuarios'), $datosCalculadora));
         }
 
         if ($user->hasAnyRole(['Administrador de Dependencia', 'Jefe de Area'])) {
-            return view('admin.auditoria.index', compact('user','stats','alertas','ultimosVehiculos','disponibles','total','reservados','mantenimiento','baja','reportesp','reportesA','ultimasReservas','ultimosVehiculos','reservascount','total','disponibles','reservados','mantenimiento','baja','ultimosConductores','ultimosUsuarios'));
+            return view('admin.auditoria.index',array_merge( compact('user','stats','alertas','ultimosVehiculos','disponibles','total','reservados','mantenimiento','baja','reportesp','reportesA','ultimasReservas','ultimosVehiculos','ultimosReportes','reservascount','total','disponibles','reservados','mantenimiento','baja','ultimosConductores','ultimosUsuarios',$datosCalculadora)));
         }
 
         abort(403);

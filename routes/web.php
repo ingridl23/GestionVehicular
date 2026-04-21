@@ -190,11 +190,17 @@ Route::post('/alertas/{id}/resolver', [AlertaController::class, 'resolver']);
     Route::get('/export/conductores', [UserController::class, 'exportConductores'])
         ->name('conductores.export');
 
-            Route::get('/export/usuarios', [UserController::class, 'export'])
+    Route::get('/export/usuarios', [UserController::class, 'export'])
         ->name('usuarios.export');
 
     Route::get('/export/gastos', [GastoController::class, 'export'])
         ->name('gastos.export');
+
+    Route::get('/export/reportes', [ReporteController::class, 'export'])
+        ->name('reportes.export');
+
+
+
 });
 
 

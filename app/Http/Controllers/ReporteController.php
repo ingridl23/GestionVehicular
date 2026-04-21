@@ -8,6 +8,8 @@ use App\Services\ReporteService;
 use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 use App\Enums\EstadoReporte;
+use App\Exports\ReportesExport;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Notifications\UsuarioModificadoNotification;
 
 /**
@@ -37,6 +39,11 @@ use App\Notifications\UsuarioModificadoNotification;
 
 class ReporteController extends Controller
 {
+
+
+
+
+
 
 /**
  * Muestra el listado de reportes según el nivel de acceso del usuario.
@@ -384,6 +391,22 @@ return response()->json([
     'success' => true,
     'message' => 'Reporte eliminado correctamente'
 ]);
+}
+
+
+
+/**
+ * Permite generar un documento excel con la totalidad de vehiculos y sus datos registrados en el sistema.
+ * Posteriormente garantiza a la gestion administrativa de las dependencia un mejor control de segumienwto de uso y gasto
+ * de recursos en reservas y posesion de vehiculos y utilizacion real de los empleados.
+ */
+
+public function export()
+{
+    return Excel::download(
+        new ReportesExport,
+        'reportes_gestionVehicular.xlsx'
+    );
 }
 
 }
