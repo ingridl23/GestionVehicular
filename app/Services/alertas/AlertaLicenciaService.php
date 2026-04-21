@@ -1,6 +1,5 @@
 <?php
 namespace App\Services\alertas;
-
 use App\Models\Carnet;
 use App\Enums\TipoAlerta;
 

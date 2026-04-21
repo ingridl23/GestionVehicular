@@ -6,6 +6,7 @@ import Alpine from 'alpinejs';
 
 
 import './calculadora';
+import './loader.js';
 import './reportes';
 import './simulador';
 import {

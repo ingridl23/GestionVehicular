@@ -310,12 +310,12 @@
                 <div class="flex items-center gap-4 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700/50">
 
                     <div class="w-12 h-12 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center">
-                        <i class="fas fa-car text-gray-600 dark:text-gray-400"></i>
+                        <i class="fas fa-user text-gray-600 dark:text-gray-400"></i>
                     </div>
 
                     <div class="flex-1">
                         <p class="text-sm font-medium text-gray-900 dark:text-white">
-                            {{ strtoupper(substr($usuario->name ?? 'N', 0, 1)) }}
+                            {{ substr($usuario->name ?? 'N', 0, 1) }}
                         </p>
                         <p class="text-xs text-gray-500 dark:text-gray-400">
                             {{ $usuario->getRoleNames()->implode(', ') }} {{ $usuario->dependencia->nombre ?? 'sin dependencia'}}

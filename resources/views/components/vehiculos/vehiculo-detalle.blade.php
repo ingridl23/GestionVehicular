@@ -101,6 +101,10 @@
 <div id="toast"
      class="fixed top-5 right-5 bg-red-600 text-white px-4 py-3 rounded shadow-lg hidden z-50">
 </div>
+ <div class="contenedor_loader">
+        <div class="loader"></div>
+    </div>
+
 @include('components.vehiculos.vehiculo-modal')
 
 @push('scripts')
@@ -116,5 +120,6 @@
 </script>
 
 @vite(['resources/js/vehiculo-detalle.js'])
+
 @endpush
 @endsection

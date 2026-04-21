@@ -173,7 +173,7 @@
                         </td>
                         @role("Administrador General")
                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                            
+
                             <div class="flex justify-end gap-2">
                                 <a
                                     href="{{ route('admin.usuarios.show', $usuario->id) }}"
@@ -200,7 +200,7 @@
                                 </button>
                                 @endcan
                             </div>
-                           
+
                         </td>
                          @endrole
                     </tr>
@@ -305,6 +305,9 @@
     </div>
 </div>
 
+ <div class="contenedor_loader">
+        <div class="loader"></div>
+    </div>
 @push('scripts')
 <script>
 
@@ -356,6 +359,7 @@ function confirmDelete(userId) {
     }
 }
 </script>
+
 @endpush
 
 

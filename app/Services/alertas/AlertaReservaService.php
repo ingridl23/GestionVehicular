@@ -11,7 +11,7 @@ use App\Models\EstadosReserva;
  */
 class AlertaReservaService
 {
-    private int $diasAviso = 1; // aviso 1 día antes
+    protected int $horasDeAviso = 24; // aviso 1 día antes
 
     public function verificar(): void
     {
@@ -43,7 +43,7 @@ class AlertaReservaService
             // RESERVA POR VENCER
             if (
                 $reserva->fecha_fin_reserva
-                ->diffInHours(now()) <= 24
+                ->diffInHours(now()) <= $horasDeAviso
                 && $reserva->fecha_fin_reserva > now()
             ) {
                 app(AlertaService::class)->crearSiNoExiste(

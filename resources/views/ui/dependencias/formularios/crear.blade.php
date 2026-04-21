@@ -22,7 +22,7 @@
                                 Crear
                             </button>
                         </div>
-                            
+
                         </div>
                     </form>
                 </div>
@@ -31,5 +31,7 @@
     </div>
 </section>
 
-
+ <div class="contenedor_loader">
+        <div class="loader"></div>
+    </div>
 @endsection

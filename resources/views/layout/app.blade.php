@@ -18,7 +18,7 @@
         window.csrfToken = "{{ csrf_token() }}";
     </script>
     <!-- Tailwind CSS & Alpine.js -->
-    @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/css/filtrosReservas.css'])
+    @vite(['resources/css/app.css','resources/js/app.js', 'resources/css/filtrosReservas.css','resources/css/loader.css'])
     <link href="{{ asset('css/operador.css') }}" rel="stylesheet" />
 
     <style>
