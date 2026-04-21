@@ -1,4 +1,4 @@
 var _usuarios_import_8php =
 [
-    [ "UsuariosImport", "class_usuarios_import.html", "class_usuarios_import" ]
+    [ "App\\Imports\\UsuariosImport", "class_app_1_1_imports_1_1_usuarios_import.html", "class_app_1_1_imports_1_1_usuarios_import" ]
 ];

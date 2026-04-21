@@ -103,6 +103,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a6f750f1c0ea1e581569b835e23644221" id="r_a6f750f1c0ea1e581569b835e23644221"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6f750f1c0ea1e581569b835e23644221">dependencia</a> ()</td></tr>
 <tr class="memitem:a0a3a777e623f1823e9aab7c3003c6f74" id="r_a0a3a777e623f1823e9aab7c3003c6f74"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0a3a777e623f1823e9aab7c3003c6f74">carnet</a> ()</td></tr>
 <tr class="memitem:a1dc0dd8650000f50b9bd9aa83ecabf13" id="r_a1dc0dd8650000f50b9bd9aa83ecabf13"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1dc0dd8650000f50b9bd9aa83ecabf13">reservas</a> ()</td></tr>
+<tr class="memitem:a5734199be20878db4c4ef990b436c9b0" id="r_a5734199be20878db4c4ef990b436c9b0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5734199be20878db4c4ef990b436c9b0">imagenProfile</a> ()</td></tr>
 <tr class="memitem:ae9696b4372d3b2e7a6de7fe87217b1cb" id="r_ae9696b4372d3b2e7a6de7fe87217b1cb"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae9696b4372d3b2e7a6de7fe87217b1cb">puedeConducir</a> ()</td></tr>
 <tr class="memitem:a6e4870a0223cf9bd7afc69d9cdd2d04c" id="r_a6e4870a0223cf9bd7afc69d9cdd2d04c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6e4870a0223cf9bd7afc69d9cdd2d04c">licenciaVigente</a> ()</td></tr>
 <tr class="memitem:ad6338fea4031cd7a907ebf22929da147" id="r_ad6338fea4031cd7a907ebf22929da147"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad6338fea4031cd7a907ebf22929da147">carnetPorVencer</a> (int $dias=30)</td></tr>
@@ -114,7 +115,7 @@ Protected Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pro-attribs" class="groupheader"><a id="pro-attribs" name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
-<tr class="memitem:a4857bc512ad964b76520d121e9e616be" id="r_a4857bc512ad964b76520d121e9e616be"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4857bc512ad964b76520d121e9e616be">$table</a> = 'users'</td></tr>
+<tr class="memitem:a4857bc512ad964b76520d121e9e616be" id="r_a4857bc512ad964b76520d121e9e616be"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4857bc512ad964b76520d121e9e616be">$table</a> = 'user'</td></tr>
 <tr class="memitem:ab4030437e467a0cc396b0c3ea53199f7" id="r_ab4030437e467a0cc396b0c3ea53199f7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab4030437e467a0cc396b0c3ea53199f7">$fillable</a></td></tr>
 <tr class="memitem:a1f25bef37dae884e548034f839fa1f63" id="r_a1f25bef37dae884e548034f839fa1f63"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1f25bef37dae884e548034f839fa1f63">$hidden</a></td></tr>
 </table>
@@ -212,7 +213,24 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Metodo para obtener si una reserva esta activa dada la fehca actual dentro del sistema </p>
+<p>Metodo para obtener si una reserva esta activa dada la fecha actual dentro del sistema </p>
+
+</div>
+</div>
+<a id="a5734199be20878db4c4ef990b436c9b0" name="a5734199be20878db4c4ef990b436c9b0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5734199be20878db4c4ef990b436c9b0">&#9670;&#160;</a></span>imagenProfile()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">App\Models\User::imagenProfile </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -293,7 +311,8 @@ Protected Attributes</h2></td></tr>
 <div class="line">        <span class="stringliteral">&#39;legajo&#39;</span>,</div>
 <div class="line">        <span class="stringliteral">&#39;email&#39;</span>,</div>
 <div class="line">        <span class="stringliteral">&#39;password&#39;</span>,</div>
-<div class="line">        <span class="stringliteral">&#39;id_dependencia&#39;</span></div>
+<div class="line">        <span class="stringliteral">&#39;id_dependencia&#39;</span>,</div>
+<div class="line">        <span class="stringliteral">&#39;id_photo_profile&#39;</span>,</div>
 <div class="line">    ]</div>
 </div><!-- fragment -->
 </div>
@@ -334,7 +353,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">App\Models\User::$table = 'users'</td>
+          <td class="memname">App\Models\User::$table = 'user'</td>
         </tr>
       </table>
   </td>

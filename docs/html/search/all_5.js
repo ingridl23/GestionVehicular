@@ -29,12 +29,13 @@ var searchData=
   ['dependenciaservice_26',['DependenciaService',['../class_app_1_1_services_1_1_dependencia_service.html',1,'App::Services']]],
   ['dependenciaservice_2ephp_27',['DependenciaService.php',['../_dependencia_service_8php.html',1,'']]],
   ['dependenciashijas_28',['dependenciasHijas',['../class_app_1_1_models_1_1_dependencia.html#a086bd37b081e082676015a322a8f4bf5',1,'App::Models::Dependencia']]],
-  ['destroy_29',['destroy',['../class_app_1_1_http_1_1_controllers_1_1_auth_1_1_authenticated_session_controller.html#a706cabc17ed36bd586ec0ea969a42c8d',1,'App\Http\Controllers\Auth\AuthenticatedSessionController\destroy()'],['../class_app_1_1_http_1_1_controllers_1_1_user_controller.html#a0c9d03f4577304133d59bf6b396f932d',1,'App\Http\Controllers\UserController\destroy()'],['../class_app_1_1_http_1_1_controllers_1_1_vehiculo_controller.html#a42d888986cc6468c3939f17a59c2fec8',1,'App\Http\Controllers\VehiculoController\destroy(Vehiculo $vehiculo, VehiculoService $service)']]],
-  ['detalle_30',['detalle',['../class_app_1_1_http_1_1_controllers_1_1_vehiculo_controller.html#aec9b6789d8da235ae3263f5d45266d45',1,'App::Http::Controllers::VehiculoController']]],
-  ['direccion_31',['direccion',['../class_app_1_1_models_1_1_dependencia.html#ad2abf43d89ec88306658c888fdc455c3',1,'App::Models::Dependencia']]],
-  ['direccionactual_32',['direccionActual',['../class_app_1_1_models_1_1_vehiculo.html#ad982829c27140eec9b31d2fa9a4a36d7',1,'App::Models::Vehiculo']]],
-  ['direcciones_33',['Direcciones',['../class_app_1_1_models_1_1_direcciones.html',1,'App::Models']]],
-  ['direcciones_2ephp_34',['Direcciones.php',['../_direcciones_8php.html',1,'']]],
-  ['direccionservice_35',['DireccionService',['../class_app_1_1_services_1_1_direccion_service.html',1,'App::Services']]],
-  ['direccionservice_2ephp_36',['DireccionService.php',['../_direccion_service_8php.html',1,'']]]
+  ['destroy_29',['destroy',['../class_app_1_1_http_1_1_controllers_1_1_auth_1_1_authenticated_session_controller.html#a706cabc17ed36bd586ec0ea969a42c8d',1,'App\Http\Controllers\Auth\AuthenticatedSessionController\destroy()'],['../class_app_1_1_http_1_1_controllers_1_1_user_controller.html#a0c9d03f4577304133d59bf6b396f932d',1,'App\Http\Controllers\UserController\destroy()'],['../class_app_1_1_http_1_1_controllers_1_1_vehiculo_controller.html#a42d888986cc6468c3939f17a59c2fec8',1,'App\Http\Controllers\VehiculoController\destroy()'],['../class_app_1_1_services_1_1_cloudinary_service.html#aba2b2509c1a4eb52ab95937d9cc177bf',1,'App\Services\CloudinaryService\destroy()']]],
+  ['destroyimage_30',['destroyImage',['../class_app_1_1_http_1_1_controllers_1_1_user_controller.html#a8738f9161deddd0206f4062c61b9afda',1,'App::Http::Controllers::UserController']]],
+  ['detalle_31',['detalle',['../class_app_1_1_http_1_1_controllers_1_1_vehiculo_controller.html#aec9b6789d8da235ae3263f5d45266d45',1,'App::Http::Controllers::VehiculoController']]],
+  ['direccion_32',['direccion',['../class_app_1_1_models_1_1_dependencia.html#ad2abf43d89ec88306658c888fdc455c3',1,'App::Models::Dependencia']]],
+  ['direccionactual_33',['direccionActual',['../class_app_1_1_models_1_1_vehiculo.html#ad982829c27140eec9b31d2fa9a4a36d7',1,'App\Models\Vehiculo\direccionActual()'],['../class_app_1_1_models_1_1_viaje.html#a5c18d07ea26f607e98b4bb726be21d95',1,'App\Models\Viaje\direccionActual()']]],
+  ['direcciones_34',['Direcciones',['../class_app_1_1_models_1_1_direcciones.html',1,'App::Models']]],
+  ['direcciones_2ephp_35',['Direcciones.php',['../_direcciones_8php.html',1,'']]],
+  ['direccionservice_36',['DireccionService',['../class_app_1_1_services_1_1_direccion_service.html',1,'App::Services']]],
+  ['direccionservice_2ephp_37',['DireccionService.php',['../_direccion_service_8php.html',1,'']]]
 ];

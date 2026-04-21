@@ -380,11 +380,10 @@ $reporte = Reportes::findOrFail($id);
     }
 
     $reporte->delete();
-
-    return response()->json([
-        'message' => 'Reporte eliminado correctamente'
-    ]);
-
+return response()->json([
+    'success' => true,
+    'message' => 'Reporte eliminado correctamente'
+]);
 }
 
 }

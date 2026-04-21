@@ -113,6 +113,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a25d8745c27f95ad4ff14955be6bc12d3" id="r_a25d8745c27f95ad4ff14955be6bc12d3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a25d8745c27f95ad4ff14955be6bc12d3">store</a> (Request $request)</td></tr>
 <tr class="memitem:a788c17e8199321252c5f0c64fb3edbbe" id="r_a788c17e8199321252c5f0c64fb3edbbe"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a788c17e8199321252c5f0c64fb3edbbe">show</a> (<a class="el" href="class_app_1_1_models_1_1_user.html">User</a> $usuario)</td></tr>
 <tr class="memitem:a03d4653c1b7bc59c8614a58af7c0693a" id="r_a03d4653c1b7bc59c8614a58af7c0693a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a03d4653c1b7bc59c8614a58af7c0693a">edit</a> (<a class="el" href="class_app_1_1_models_1_1_user.html">User</a> $usuario)</td></tr>
+<tr class="memitem:a63f9092a67423bdf5e0377dccf5b4776" id="r_a63f9092a67423bdf5e0377dccf5b4776"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a63f9092a67423bdf5e0377dccf5b4776">editarImagenProfile</a> ($id, Request $request)</td></tr>
+<tr class="memitem:a8738f9161deddd0206f4062c61b9afda" id="r_a8738f9161deddd0206f4062c61b9afda"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8738f9161deddd0206f4062c61b9afda">destroyImage</a> ($id)</td></tr>
 <tr class="memitem:a4d0c73033319dbf5c4054658f46a9ef1" id="r_a4d0c73033319dbf5c4054658f46a9ef1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4d0c73033319dbf5c4054658f46a9ef1">update</a> (Request $request, <a class="el" href="class_app_1_1_models_1_1_user.html">User</a> $usuario)</td></tr>
 <tr class="memitem:a0c9d03f4577304133d59bf6b396f932d" id="r_a0c9d03f4577304133d59bf6b396f932d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0c9d03f4577304133d59bf6b396f932d">destroy</a> (<a class="el" href="class_app_1_1_models_1_1_user.html">User</a> $usuario)</td></tr>
 <tr class="memitem:a4a5e4c01204568eef3d7c289d7813a99" id="r_a4a5e4c01204568eef3d7c289d7813a99"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4a5e4c01204568eef3d7c289d7813a99">myProfile</a> ()</td></tr>
@@ -234,6 +236,23 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a8738f9161deddd0206f4062c61b9afda" name="a8738f9161deddd0206f4062c61b9afda"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8738f9161deddd0206f4062c61b9afda">&#9670;&#160;</a></span>destroyImage()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">App\Http\Controllers\UserController::destroyImage </td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>$id</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a03d4653c1b7bc59c8614a58af7c0693a" name="a03d4653c1b7bc59c8614a58af7c0693a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a03d4653c1b7bc59c8614a58af7c0693a">&#9670;&#160;</a></span>edit()</h2>
 
@@ -249,6 +268,36 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Mostrar formulario de edición </p>
+
+</div>
+</div>
+<a id="a63f9092a67423bdf5e0377dccf5b4776" name="a63f9092a67423bdf5e0377dccf5b4776"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a63f9092a67423bdf5e0377dccf5b4776">&#9670;&#160;</a></span>editarImagenProfile()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">App\Http\Controllers\UserController::editarImagenProfile </td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>$id</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Request</td>          <td class="paramname"><span class="paramname"><em>$request</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Modificar imagen de un perfil:</p>
+<p>Se deben iterar las imagenes persistidas, en caso de no estar en el $request (imagenes_conservar) que llega por parametro, pasan a estar eliminadas. Si el resultado de la coleccion no esta vacio, las imagenes (url) se agregan. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">int</td><td class="paramname">$id,ID</td><td>perteneciente al usuario a modificar </td></tr>
+    <tr><td class="paramtype">Request</td><td class="paramname">$request,Viene</td><td>en FormData con la nueva imagen a cargar</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>JsonResponse, Envio de estado de la respuesta del fetch </dd></dl>
 
 </div>
 </div>

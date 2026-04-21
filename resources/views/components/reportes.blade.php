@@ -200,12 +200,28 @@
     window.REPORTES_DATA = @json($reportesData);
     window.USUARIO_ACTUAL_ID = {{ auth()->id() }};
 
-
-
-
 </script>
 
 
+<dialog id="dialog-confirmar-reporte" class="rounded-lg p-6 w-full max-w-md">
+    <h2 class="text-lg font-semibold mb-4" id="dialog-texto">
+        ¿Seguro que quieres eliminar el reporte?
+
+    </h2>
+<p>  (El sistema recomienda descargar el historial antes de esta accion)</p>
+    <div class="flex justify-end gap-4">
+        <button onclick="document.getElementById('dialog-confirmar-reporte').close()"
+            class="px-4 py-2 bg-gray-200 rounded">
+            Cancelar
+        </button>
+
+        <button id="dialog-confirmar-btn"
+            class="px-4 py-2 bg-red-600 text-white rounded">
+            Confirmar
+        </button>
+    </div>
+
+</dialog>
 
 @endsection
 

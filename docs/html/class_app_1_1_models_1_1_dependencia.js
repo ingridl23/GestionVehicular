@@ -7,5 +7,6 @@ var class_app_1_1_models_1_1_dependencia =
     [ "puedeSerDesactivada", "class_app_1_1_models_1_1_dependencia.html#a3950a8fb3c7c287abf91619d10f5b758", null ],
     [ "scopeObtenerDependenciasInternas", "class_app_1_1_models_1_1_dependencia.html#a38ae67943d606027fab2af3a25b16416", null ],
     [ "vehiculos", "class_app_1_1_models_1_1_dependencia.html#a47a9446f0c8c0d2bf530f96c7483e424", null ],
-    [ "$fillable", "class_app_1_1_models_1_1_dependencia.html#ab727426c3cd0844da6819685e8d4cdf6", null ]
+    [ "$fillable", "class_app_1_1_models_1_1_dependencia.html#ab727426c3cd0844da6819685e8d4cdf6", null ],
+    [ "$table", "class_app_1_1_models_1_1_dependencia.html#ae633dd0ca2687716edf743b2a6de7e12", null ]
 ];

@@ -13,6 +13,7 @@ var class_app_1_1_services_1_1reservas_1_1_base_reservas_services =
     [ "obtenerDependenciasIds", "class_app_1_1_services_1_1reservas_1_1_base_reservas_services.html#a90dcb810e42657d5e8c15a244a03378d", null ],
     [ "obtenerDependenciasPadres", "class_app_1_1_services_1_1reservas_1_1_base_reservas_services.html#ad65104d677748d9134df1e3d28699cee", null ],
     [ "obtenerEstadoReserva", "class_app_1_1_services_1_1reservas_1_1_base_reservas_services.html#aff1b46a69fb315703022bc07ccfd2e4b", null ],
+    [ "procesarReservasCaducadas", "class_app_1_1_services_1_1reservas_1_1_base_reservas_services.html#a1cf0b6fde528d493d9dd9db86ef34888", null ],
     [ "rechazarPrestamo", "class_app_1_1_services_1_1reservas_1_1_base_reservas_services.html#a4c82e81c646c1544ef25dbbb3d4809f8", null ],
     [ "rol", "class_app_1_1_services_1_1reservas_1_1_base_reservas_services.html#a4f971c67b088ff978e72c9f3c9427d92", null ],
     [ "user", "class_app_1_1_services_1_1reservas_1_1_base_reservas_services.html#aced0ab44068ddfa9d910fd537d8688c7", null ],

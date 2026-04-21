@@ -331,58 +331,83 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
+
+
     /******************************************************************************************************* */
     /********************* FUNCIONALIDAD DE ASIGNAR BOTON DE ELIMINAR REPORTE SOLO SI ESTA CERRADO ******** */
     //**************************************************************************************************** */
 
-
+    let reporteAEliminar = null;
     document.addEventListener('click', function(e) {
 
-        if (!e.target.classList.contains('btn-eliminar')) return;
+        const btn = e.target.closest('.btn-eliminar');
+        if (!btn) return;
 
-        e.stopPropagation(); // evitar que seleccione el reporte
+        e.stopPropagation();
 
-        const reporteId = e.target.dataset.id;
+        reporteAEliminar = btn.dataset.id;
 
-        if (!confirm('¿Seguro que querés eliminar este reporte?')) return;
-
-        fetch(`/admin/reportes/${reporteId}/eliminar`, {
-                method: 'DELETE',
-                headers: {
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                    'Content-Type': 'application/json'
-                }
-            })
-            .then(res => {
-                if (!res.ok) throw new Error();
-                return res.json();
-            })
-            .then(() => {
-
-                // eliminar del DOM
-                const item = document.querySelector(`.reporte-item[data-id="${reporteId}"]`);
-                if (item) item.remove();
-
-                // eliminar del array
-                const index = reportesData.findIndex(r => r.id == reporteId);
-                if (index !== -1) {
-                    reportesData.splice(index, 1);
-                }
-
-                //  limpiar panel derecho si era el activo
-                if (reporteActivo && reporteActivo.id == reporteId) {
-                    reporteActivo = null;
-                    document.getElementById('reporteSeleccionado').classList.add('hidden');
-                    document.getElementById('sinSeleccion').classList.remove('hidden');
-                }
-
-                console.log("Reporte eliminado correctamente");
-            })
-            .catch(() => {
-                alert('No se pudo eliminar el reporte');
-            });
-
+        const dialog = document.getElementById('dialog-confirmar-reporte');
+        if (dialog) dialog.showModal();
     });
+
+
+    // ===============================
+    // CONFIRMAR ELIMINACIÓN
+    // ===============================
+    const btnConfirmar = document.getElementById('dialog-confirmar-btn');
+
+    if (btnConfirmar) {
+        btnConfirmar.addEventListener('click', async() => {
+
+            if (!reporteAEliminar) return;
+
+            try {
+                const res = await fetch(`/admin/reportes/${reporteAEliminar}/eliminar`, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                const data = await res.json();
+
+                document.getElementById('dialog-confirmar-reporte').close();
+
+                if (data.success) {
+
+                    //  eliminar del DOM
+                    const item = document.querySelector(`.reporte-item[data-id="${reporteAEliminar}"]`);
+                    if (item) item.remove();
+
+                    //  eliminar del array
+                    const index = reportesData.findIndex(r => r.id == reporteAEliminar);
+                    if (index !== -1) {
+                        reportesData.splice(index, 1);
+                    }
+
+                    //  limpiar panel derecho
+                    if (reporteActivo && reporteActivo.id == reporteAEliminar) {
+                        reporteActivo = null;
+                        document.getElementById('reporteSeleccionado').classList.add('hidden');
+                        document.getElementById('sinSeleccion').classList.remove('hidden');
+                    }
+
+                    console.log("Reporte eliminado correctamente");
+
+                } else {
+                    alert(data.message || 'No se pudo eliminar el reporte');
+                }
+
+            } catch (error) {
+                console.error(error);
+                alert('Error al eliminar el reporte');
+            }
+
+            reporteAEliminar = null;
+        });
+    }
 
 
 });

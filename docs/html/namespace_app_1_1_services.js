@@ -1,12 +1,10 @@
 var namespace_app_1_1_services =
 [
+    [ "alertas", "namespace_app_1_1_services_1_1alertas.html", "namespace_app_1_1_services_1_1alertas" ],
     [ "Reservas", "namespace_app_1_1_services_1_1_reservas.html", "namespace_app_1_1_services_1_1_reservas" ],
     [ "reservas", "namespace_app_1_1_services_1_1reservas.html", "namespace_app_1_1_services_1_1reservas" ],
-    [ "AlertaLicenciaService", "class_app_1_1_services_1_1_alerta_licencia_service.html", "class_app_1_1_services_1_1_alerta_licencia_service" ],
-    [ "AlertaReservaService", "class_app_1_1_services_1_1_alerta_reserva_service.html", "class_app_1_1_services_1_1_alerta_reserva_service" ],
-    [ "AlertaService", "class_app_1_1_services_1_1_alerta_service.html", "class_app_1_1_services_1_1_alerta_service" ],
-    [ "AlertaVtvService", "class_app_1_1_services_1_1_alerta_vtv_service.html", "class_app_1_1_services_1_1_alerta_vtv_service" ],
     [ "CalculoGastoService", "class_app_1_1_services_1_1_calculo_gasto_service.html", "class_app_1_1_services_1_1_calculo_gasto_service" ],
+    [ "CloudinaryService", "class_app_1_1_services_1_1_cloudinary_service.html", "class_app_1_1_services_1_1_cloudinary_service" ],
     [ "CombustibleApiService", "class_app_1_1_services_1_1_combustible_api_service.html", null ],
     [ "DependenciaService", "class_app_1_1_services_1_1_dependencia_service.html", "class_app_1_1_services_1_1_dependencia_service" ],
     [ "DireccionService", "class_app_1_1_services_1_1_direccion_service.html", "class_app_1_1_services_1_1_direccion_service" ],

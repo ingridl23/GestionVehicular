@@ -10,6 +10,7 @@ var namespace_app_1_1_models =
     [ "EstadosVehiculo", "class_app_1_1_models_1_1_estados_vehiculo.html", "class_app_1_1_models_1_1_estados_vehiculo" ],
     [ "EstadosViaje", "class_app_1_1_models_1_1_estados_viaje.html", "class_app_1_1_models_1_1_estados_viaje" ],
     [ "Gasto", "class_app_1_1_models_1_1_gasto.html", "class_app_1_1_models_1_1_gasto" ],
+    [ "ImagenProfile", "class_app_1_1_models_1_1_imagen_profile.html", "class_app_1_1_models_1_1_imagen_profile" ],
     [ "PrecioCombustible", "class_app_1_1_models_1_1_precio_combustible.html", "class_app_1_1_models_1_1_precio_combustible" ],
     [ "ReporteComentarios", "class_app_1_1_models_1_1_reporte_comentarios.html", "class_app_1_1_models_1_1_reporte_comentarios" ],
     [ "Reportes", "class_app_1_1_models_1_1_reportes.html", "class_app_1_1_models_1_1_reportes" ],

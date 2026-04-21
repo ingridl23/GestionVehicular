@@ -1,10 +1,12 @@
 var class_app_1_1_models_1_1_viaje =
 [
     [ "coordenadas", "class_app_1_1_models_1_1_viaje.html#aa574f8c69ba102d53a190a2a1469c1a3", null ],
+    [ "direccionActual", "class_app_1_1_models_1_1_viaje.html#a5c18d07ea26f607e98b4bb726be21d95", null ],
     [ "estadoNaftaFin", "class_app_1_1_models_1_1_viaje.html#a6146be90d861ef05d1ce016412ca887f", null ],
     [ "estadoNaftaInicio", "class_app_1_1_models_1_1_viaje.html#addb606da5fc92457934cb4dbd28cc000", null ],
     [ "gasto", "class_app_1_1_models_1_1_viaje.html#a24683124b6994f8ef7b60b7feaddc49e", null ],
     [ "getEstadoViajeAttribute", "class_app_1_1_models_1_1_viaje.html#a7a7043608da84886f89a552183e0d442", null ],
+    [ "getFechaFinFormateadaAttribute", "class_app_1_1_models_1_1_viaje.html#a8a5a6c0e8bb97bdaf934537026e235f0", null ],
     [ "reserva", "class_app_1_1_models_1_1_viaje.html#a08a7299fc2b6b490a893714317cc54df", null ],
     [ "ultimaCoordenada", "class_app_1_1_models_1_1_viaje.html#a8e411a75600d98d61f492a8beca2e91d", null ],
     [ "vehiculo", "class_app_1_1_models_1_1_viaje.html#a81bf5a8ad6e742a2017db00ce50d91b6", null ],

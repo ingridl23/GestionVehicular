@@ -12,6 +12,7 @@ var namespace_app =
       [ "Requests", "namespace_app_1_1_http_1_1_requests.html", "namespace_app_1_1_http_1_1_requests" ],
       [ "Responses", "namespace_app_1_1_http_1_1_responses.html", "namespace_app_1_1_http_1_1_responses" ]
     ] ],
+    [ "Imports", "namespace_app_1_1_imports.html", "namespace_app_1_1_imports" ],
     [ "Integrations", null, [
       [ "Gestya", "namespace_app_1_1_integrations_1_1_gestya.html", "namespace_app_1_1_integrations_1_1_gestya" ],
       [ "GPS", null, [
@@ -19,6 +20,7 @@ var namespace_app =
       ] ],
       [ "Gps", "namespace_app_1_1_integrations_1_1_gps.html", "namespace_app_1_1_integrations_1_1_gps" ]
     ] ],
+    [ "Jobs", "namespace_app_1_1_jobs.html", "namespace_app_1_1_jobs" ],
     [ "Mail", "namespace_app_1_1_mail.html", "namespace_app_1_1_mail" ],
     [ "Models", "namespace_app_1_1_models.html", "namespace_app_1_1_models" ],
     [ "Notifications", "namespace_app_1_1_notifications.html", "namespace_app_1_1_notifications" ],
