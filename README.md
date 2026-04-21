@@ -285,11 +285,11 @@ Este rol interactúa directamente con el flujo operativo del sistema, especialme
 
 ### Desarrollado por:
 
-_Ingrid Ledesma – Desarrollador en  Municipalidad de Tres Arroyos - Oficina Centro De Computos
+Ingrid Ledesma – Desarrollador en  Municipalidad de Tres Arroyos - Oficina Centro De Computos
 
 ### Carrera: TUDAI (Desarrollo de Aplicaciones Informáticas) – UNICEN
 
 ## ⚖️ Licencia
 
-_Proyecto de uso institucional. Su distribución, copia o modificación está sujeta a autorización de la Municipalidad de Tres Arroyos y sus autores._
+Proyecto de uso institucional. Su distribución, copia o modificación está sujeta a autorización de la Municipalidad de Tres Arroyos y sus autores._
 
