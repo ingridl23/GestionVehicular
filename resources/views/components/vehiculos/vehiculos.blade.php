@@ -70,6 +70,9 @@
 </div>
 
 @include('components.vehiculos.vehiculo-modal-crear')
+ <div class="contenedor_loader">
+        <div class="loader"></div>
+    </div>
 
 @push('scripts')
 <script>

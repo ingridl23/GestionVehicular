@@ -681,7 +681,9 @@
 
     </div>
 </div>
-
+<div class="contenedor_loader">
+        <div class="loader"></div>
+    </div>
 <script>
     window.PRECIO_ACTUAL = {{ isset($precioLitroActual) && $precioLitroActual ? $precioLitroActual : 'null' }};
 </script>
