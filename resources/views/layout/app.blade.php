@@ -1,11 +1,13 @@
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" x-data="{ darkMode: false }" :class="{ 'dark': darkMode }">
 <head>
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'Gestion Vehicular') }}</title>
+    <link rel="icon" href="{{ asset('assets/iconos/iconoweb.png') }}" type="image/png">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -24,7 +26,12 @@
     <style>
         body { font-family: 'Inter', system-ui, -apple-system, sans-serif; }
     </style>
+
+
 </head>
+
+
+
 <body class="bg-gray-50    dark:bg-gray-900 antialiased">
     <div
         x-data="{

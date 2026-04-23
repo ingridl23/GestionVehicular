@@ -5,10 +5,13 @@
     <!-- Logo & Toggle -->
     <div class="h-16 flex items-center justify-between px-4 border-b border-gray-200 dark:border-gray-700">
         <div x-show="sidebarOpen" class="flex items-center gap-3">
-            <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+          <!--  <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
                 <i class="fas fa-car text-white text-sm"></i>
             </div>
-            <span class="font-semibold text-gray-900 dark:text-white text-lg">VMS</span>
+        -->
+        <img class="py-6 px-6 w-30 h-20" src="{{ asset('assets/iconos/iconoweb.png') }}" type="image/png">
+        <span class="font-semibold text-blue-600 dark:text-white text-lg">VMS</span>
+
         </div>
         <button
             @click="sidebarOpen = !sidebarOpen"
