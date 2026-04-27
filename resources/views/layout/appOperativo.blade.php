@@ -16,7 +16,7 @@
 
 <body class="bg-gray-100 min-h-screen pt-12">
 
-    @include('layout.navbarOperativo')
+  {{--   @include('layout.navbarOperativo') --}}
 
     <main class="max-w-md mx-auto px-4 mt-6">
         @yield('content')

@@ -14,7 +14,12 @@
 
     <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-6 gap-4">
       <div>
+          <div class="flex gap-2 pt-2">
+         <a  href="{{ route('operativo.dashboard2') }}"class="text-center px-2 py-1 rounded-lg border border-gray-300 text-white  text-center bg-blue-600 hover:bg-blue-700">
+                <-
+            </a>
         <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Reservas del Sistema</h1>
+        </div>
         @hasanyrole(['Administrador|Administrador de Dependencia|Jefe de Area'])
         <p class="text-gray-600">
           Total de reservas: <span class="font-semibold">{{$total}}</span>
@@ -52,7 +57,7 @@
     @endhasanyrole
 
     @if($reservas->isEmpty())
-      <p class="text-center text-gray-600">No hay reservas</p>
+      <p class="text-center text-gray-600 ">No hay reservas</p>
     @else
 
       <div class="hidden opacity-0 -translate-y-4 transition-all duration-300 ease-out" id="filtros">

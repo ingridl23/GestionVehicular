@@ -16,7 +16,12 @@ $mostrarAcciones = $mostrarAcciones ?? true;
     {{-- Cabecera --}}
     <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-6 gap-3">
       <div>
-        <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Recorridos</h1>
+        <div class="flex gap-2 pt-2">
+            <a  href="{{ route('operativo.dashboard2') }}"class="text-center px-2 py-1 rounded-lg border border-gray-300 text-white  text-center bg-blue-600 hover:bg-blue-700">
+                <-
+            </a>
+            <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Recorridos</h1>
+        </div>
         @hasanyrole('Administrador General|Administrador de Dependencia|Jefe de Area')
           <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
             Total: <span class="font-semibold text-gray-700 dark:text-gray-300">{{ $viajes->total() }}</span> viajes
@@ -33,6 +38,8 @@ $mostrarAcciones = $mostrarAcciones ?? true;
       </div>
 
     @else
+
+
 
       {{-- Desktop --}}
       <div class="hidden md:block">
