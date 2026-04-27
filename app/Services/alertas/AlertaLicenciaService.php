@@ -15,29 +15,29 @@ class AlertaLicenciaService
     public function verificar(): void
     {
         $carnets = Carnet::with('user.dependencia')->get();
-        $dependenciaNombre = $usuario->dependencia?->nombre ?? 'Sin dependencia';
         foreach ($carnets as $carnet) {
 
             $usuario = $carnet->user;
-
+            $dependenciaNombre = $usuario->dependencia?->nombre ?? 'Sin dependencia';
+            $diasRestantes = now()->diffInDays($carnet->fecha_vencimiento, false);
             //  Licencia vencida
-            if ($carnet->fecha_vencimiento < now()) {
+            if ($diasRestantes < 0) {
 
                 $carnet->update(['vigente' => false]);
 
-                app(AlertaService::class)->crearSiNoExiste(
-                    TipoAlerta::LICENCIA_VENCIDA,
-                    'usuario',
-                    $usuario->id,
-                    "La licencia de {$usuario->name} {$usuario->lastname}de {$dependenciaNombre} está vencida",
-                    'critica'
-                );
-            }
+
+                   app(AlertaService::class)->crearSiNoExiste(
+            TipoAlerta::LICENCIA_VENCIDA,
+            'usuario',
+            $usuario->id,
+            "La licencia de {$usuario->name} {$usuario->lastname} de {$dependenciaNombre} está vencida",
+            'critica'
+        );
+    }
 
             //  Licencia por vencer
-            elseif (
-                $carnet->fecha_vencimiento->diffInDays(now()) <= $this->diasAviso
-            ) {
+             elseif ($diasRestantes <= $this->diasAviso) {
+
 
                 app(AlertaService::class)->crearSiNoExiste(
                     TipoAlerta::LICENCIA_POR_VENCER,

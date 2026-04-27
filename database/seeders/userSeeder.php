@@ -27,7 +27,7 @@ class UserSeeder extends Seeder
    $adminComputos = User::query()->create([
             'name' => 'Computos',
             'lastname' => 'TsAs',
-            'email' => 'computos@tresarroyos.gov.ar',
+            'email' => 'gestionvehicular@tresarroyos.gov.ar',
             'password' => Hash::make('Computos2026'),
             'legajo' => 10,
             'id_dependencia' => 26,

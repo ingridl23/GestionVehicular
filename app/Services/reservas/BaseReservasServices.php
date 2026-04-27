@@ -11,8 +11,9 @@ use App\Models\Reserva;
 use App\Models\User;
 use App\Models\Vehiculo;
 use Carbon\Carbon;
+use App\Models\Viaje;
 use Illuminate\Support\Facades\Auth;
-use PhpOffice\PhpSpreadsheet\Calculation\DateTimeExcel\Date;
+
 
 abstract class BaseReservasServices implements ReservaServiceInterface{
 
@@ -233,31 +234,47 @@ abstract class BaseReservasServices implements ReservaServiceInterface{
 
 
     public function cancelarReserva($id) {
-    $reserva = Reserva::findOrFail($id);
-    if (!$reserva) {
-        return null;
-    }
+    $reserva = Reserva::with('vehiculo','estado_reserva')->findOrFail($id);
 
     $estadoAnterior = $reserva->estado_reserva->estado ?? null;
+  //  NUEVO: buscar viaje activo
+    $viajeActivo = Viaje::where('id_reserva', $reserva->id)
+        ->whereNull('fecha_fin')
+        ->first();
 
-    // Cancelar la reserva
+    if ($viajeActivo) {
+        // delegar en el servicio correcto
+        app(\App\Services\ViajeService::class)
+            ->cancelarViaje($viajeActivo->id, [
+                'observaciones' => 'Cancelado desde reserva'
+            ]);
+
+        return true;
+    }
+
+
+    // Cancelar reserva
     $estado_cancelado = EstadosReserva::where("estado", "CANCELADA")->value('id');
     $reserva->update(['id_estado_reserva' => $estado_cancelado]);
 
-    // Si estaba aprobada, liberar el vehículo
-    if ($estadoAnterior === 'APROBADA') {
-        $id_estado_disponible = EstadosVehiculo::where("estado", "DISPONIBLE")->value('id');
-        $reserva->vehiculo->update(['id_estado_vehiculo' => $id_estado_disponible]);
-    }
+    //  LIBERAR VEHÍCULO
+  $id_estado_disponible = EstadosVehiculo::where("estado", "DISPONIBLE")->value('id');
 
-
+if ($reserva->vehiculo) {
+    $reserva->vehiculo->update([
+        'id_estado_vehiculo' => $id_estado_disponible
+    ]);
+}
     // Notificar al conductor que fue cancelada
 $reserva->usuario->notify(new UsuarioModificadoNotification(
     'Tu reserva del ' . $reserva->fecha_inicio_reserva->format('d/m/Y H:i') . ' fue cancelada.',
     'warning'
 ));
 
-return true;
+    return true;
+
+
+
 }
 
 
@@ -426,6 +443,17 @@ $conductor?->notify(new UsuarioModificadoNotification(
         $reserva->update([
             'id_usuario' => $id_usuario,
         ]);
+
+   // Notificar al conductor asignado
+$conductor_reasignado = User::find($id_usuario);
+
+$conductor_reasignado?->notify(
+    new UsuarioModificadoNotification(
+        'Fuiste reasignado a un viaje en una reserva activa para el ' . $fecha_inicio->format('d/m/Y H:i'),
+        'info'
+    )
+);
+
     }
 
 /*
@@ -448,12 +476,6 @@ $conductor?->notify(new UsuarioModificadoNotification(
     return true;
 }
 */
-
-
-
-
-
-
 
 
 
@@ -644,7 +666,7 @@ $conductor?->notify(new UsuarioModificadoNotification(
 
     // Al final de autorizarReserva(), antes del return:
 $reserva->usuario->notify(new UsuarioModificadoNotification(
-    'Tu prestamo del ' . $reserva->fecha_inicio_reserva->format('d/m/Y H:i') . ' fue aprobada.',
+    'Tu prestamo del ' . $reserva->fecha_inicio_reserva->format('d/m/Y H:i') . ' fue aprobado.',
     'success'
 ));
 
@@ -666,7 +688,7 @@ public function autorizarReserva($id) {
 
   // Al final de autorizarPrestamo(), antes del return:
 $reserva->usuario->notify(new UsuarioModificadoNotification(
-    'Tu reserva del ' . $reserva->fecha_inicio_reserva->format('d/m/Y H:i') . ' fue aprobado.',
+    'Tu reserva del ' . $reserva->fecha_inicio_reserva->format('d/m/Y H:i') . ' fue aprobada.',
     'success'
 ));
 

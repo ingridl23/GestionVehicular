@@ -27,6 +27,9 @@ class Kernel extends ConsoleKernel
 
         $schedule->command('reservas:expirar-pendientes')->everyThirtyMinutes();
         $schedule->job(new ProcesarReservasCaducadas)->everyMinute();
+
+        $schedule->command('app:verificar-alertas')->everyMinute();
+          $schedule->command('app:verificar-licencias')->everyMinute();
     }
 
     /**

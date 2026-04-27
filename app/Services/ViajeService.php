@@ -169,4 +169,44 @@ class ViajeService
           ]);
         });
     }
+
+
+
+   public function cancelarViaje(int $viajeId, array $data): void
+{
+    DB::transaction(function () use ($viajeId, $data) {
+
+        $viaje = Viaje::with('vehiculo', 'reserva')->findOrFail($viajeId);
+
+        //  Si ya está finalizado, no cancelar
+        if ($viaje->fecha_fin) {
+            throw ValidationException::withMessages([
+                'viaje' => 'El viaje ya está finalizado.'
+            ]);
+        }
+
+        $vehiculo = $viaje->vehiculo;
+        $reserva = $viaje->reserva;
+
+        // Cerrar viaje
+        $viaje->update([
+            'fecha_fin' => now(),
+            'observaciones' => $data['observaciones'] ?? 'Viaje cancelado'
+        ]);
+
+        // Cambiar estado de reserva
+        $idEstadoCancelada = EstadosReserva::where('estado', 'CANCELADA')->value('id');
+
+        $reserva->update([
+            'id_estado_reserva' => $idEstadoCancelada
+        ]);
+
+        //  Liberar vehículo
+        $idEstadoDisponible = EstadosVehiculo::where('estado', 'DISPONIBLE')->value('id');
+
+        $vehiculo->update([
+            'id_estado_vehiculo' => $idEstadoDisponible
+        ]);
+    });
+}
 }

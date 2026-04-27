@@ -17,9 +17,17 @@ $mostrarAcciones = $mostrarAcciones ?? true;
     <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-6 gap-3">
       <div>
         <div class="flex gap-2 pt-2">
-            <a  href="{{ route('operativo.dashboard2') }}"class="text-center px-2 py-1 rounded-lg border border-gray-300 text-white  text-center bg-blue-600 hover:bg-blue-700">
-                <-
-            </a>
+           @hasanyrole('Administrador General|Administrador de Dependencia|Jefe de Area')
+                <a  href="{{ route('operativo.dashboard2') }}"class="text-center px-2 py-1 rounded-lg border border-gray-300 text-white  text-center bg-blue-600 hover:bg-blue-700">
+                       <-
+                   </a>
+
+            @else{
+                   <a  href="{{ route('admin.auditoria.index') }}"class="text-center px-2 py-1 rounded-lg border border-gray-300 text-white  text-center bg-blue-600 hover:bg-blue-700">
+                       <-
+                   </a>
+            }
+           @endhasanyrole
             <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Recorridos</h1>
         </div>
         @hasanyrole('Administrador General|Administrador de Dependencia|Jefe de Area')

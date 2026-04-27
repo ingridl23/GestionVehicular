@@ -151,7 +151,7 @@ $ultimosUsuarios = User::with('dependencia')
         }
 
         if ($user->hasAnyRole(['Administrador de Dependencia', 'Jefe de Area'])) {
-            return view('admin.auditoria.index',array_merge( compact('user','stats','alertas','ultimosVehiculos','disponibles','total','reservados','mantenimiento','baja','reportesp','reportesA','ultimasReservas','ultimosVehiculos','ultimosReportes','reservascount','total','disponibles','reservados','mantenimiento','baja','ultimosConductores','ultimosUsuarios',$datosCalculadora)));
+            return view('admin.auditoria.index',array_merge( compact('user','stats','alertas','ultimosVehiculos','disponibles','total','reservados','mantenimiento','baja','reportesp','reportesA','ultimasReservas','ultimosVehiculos','ultimosReportes','reservascount','total','disponibles','reservados','mantenimiento','baja','ultimosConductores','ultimosUsuarios'),$datosCalculadora));
         }
 
         abort(403);

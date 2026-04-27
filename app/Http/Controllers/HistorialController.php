@@ -93,4 +93,8 @@ class HistorialController extends Controller{
 
     // (futuros)
     // public function listarMantenimientos() { ... }
+
+
+
+
 }

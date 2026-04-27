@@ -5,10 +5,7 @@
        $estadosNafta  → Collection     (para el modal de finalizar)
 --}}
 
-{{-- ALERTAS --}}
-@foreach ($alertas as $alerta)
-    <x-alerta-card :alerta="$alerta" />
-@endforeach
+
 
 {{-- BOTONES RÁPIDOS --}}
 <section class="flex flex-col gap-4 mb-8">
