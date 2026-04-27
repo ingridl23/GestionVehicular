@@ -31,6 +31,8 @@
     </div>
 </div>
 
+
+
     <!-- Datos del vehículo -->
     <div class="bg-white dark:bg-gray-800 rounded-xl shadow p-6 mt-1 mb-4 transition-colors duration-300 hover:bg-gray-50 dark:hover:bg-gray-700">
         <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-4 border-b border-gray-200 dark:border-gray-600 pb-2">
@@ -156,6 +158,8 @@
 
         </div>
     </div>
+
+
  <div class="contenedor_loader">
         <div class="loader"></div>
     </div>
@@ -166,8 +170,6 @@
             ←
         </a>
     </div>
-
-
 
 </section>
 @endsection
