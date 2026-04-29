@@ -450,7 +450,7 @@
             @if(isset($precioLitroActual) && $precioLitroActual)
                 <span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 text-xs font-medium rounded-full border border-green-200 dark:border-green-800">
                     <i class="fas fa-gas-pump text-xs"></i>
-                    Nafta Super: ${{ number_format($precioLitroActual, 2, ',', '.') }}/L
+                    Precio Estimativo Cargado: ${{ number_format($precioLitroActual, 2, ',', '.') }}/L
                 </span>
             @else
                 <span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-400 text-xs font-medium rounded-full border border-yellow-200 dark:border-yellow-800">
