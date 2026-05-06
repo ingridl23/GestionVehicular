@@ -40,7 +40,8 @@ class UsuarioModificadoNotification extends Notification
              'fecha' => now()->format('d/m H:i')
         ];
     }
-public function toMail($notifiable)
+
+    public function toMail($notifiable)
 {
      //   Log::info('Entró a toMail de UsuarioModificadoNotification');
     return (new MailMessage)

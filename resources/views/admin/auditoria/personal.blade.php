@@ -17,9 +17,9 @@
             </p>
         </div>
 
-        @can('crear_usuario')
+      @can('crear_usuario')
         <button
-            onclick="openCreateModal()"
+            onclick="openUserCreateModal()"
             class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors"
         >
             <i class="fas fa-plus"></i>
@@ -288,10 +288,29 @@
                             @endforeach
                         </select>
                     </div>
+
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Licencia de conducir</label>
+                       <p class="font-small text-gray-400">fecha de emision</p>
+                        <input type="date" name="fecha_emision" required
+                            class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                        <p class="font-small text-gray-400">fecha de vencimiento</p>
+                            <input type="date" name="fecha_vencimiento" required
+                            class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                         <p class="font-small text-gray-400"> estado de la licencia</p>
+                         <select name="vigente" required
+                            class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                            <option value="true">Vigencia Activa</option>
+
+                           <option value="false">Vigencia caducada</option>
+
+                        </select>
+                        </div>
                 </div>
 
                 <div class="flex justify-end gap-2 mt-6">
-                    <button type="button" onclick="cerrarModal()"
+                       <button type="button" onclick="closeUserModal()"
                         class="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600">
                         Cancelar
                     </button>
@@ -308,59 +327,9 @@
  <div class="contenedor_loader">
         <div class="loader"></div>
     </div>
-@push('scripts')
-<script>
-
-function cerrarModal() {
-    document.getElementById('userModal').classList.add('hidden');
-}
-
-function openCreateModal() {
-    document.getElementById('modalTitle').textContent = 'Crear Usuario';
-    document.getElementById('userForm').action = '{{ route("admin.usuarios.store") }}';
-    document.getElementById('formMethod').value = 'POST';
-    document.getElementById('passwordField').required = true;
-    document.getElementById('userForm').reset();
-    document.getElementById('userModal').classList.remove('hidden');
-}
-
-function openEditModal(userId) {
-    // Aquí deberías cargar los datos del usuario vía AJAX
-    document.getElementById('modalTitle').textContent = 'Editar Usuario';
-    document.getElementById('userForm').action = `/admin/usuarios/${userId}`;
-    document.getElementById('formMethod').value = 'PUT';
-    document.getElementById('passwordField').required = false;
-    document.getElementById('userModal').classList.remove('hidden');
-}
 
 
 
-function confirmDelete(userId) {
-    if (confirm('¿Estás seguro de que deseas eliminar este usuario?')) {
-        const form = document.createElement('form');
-        form.method = 'POST';
-        form.action = `/admin/usuarios/${userId}`;
-
-        const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
-        const csrfInput = document.createElement('input');
-        csrfInput.type = 'hidden';
-        csrfInput.name = '_token';
-        csrfInput.value = csrfToken;
-
-        const methodInput = document.createElement('input');
-        methodInput.type = 'hidden';
-        methodInput.name = '_method';
-        methodInput.value = 'DELETE';
-
-        form.appendChild(csrfInput);
-        form.appendChild(methodInput);
-        document.body.appendChild(form);
-        form.submit();
-    }
-}
-</script>
-
-@endpush
 
 
 @endsection

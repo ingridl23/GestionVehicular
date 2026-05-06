@@ -1,6 +1,3 @@
-<p style="text-align:center;">
-<img src="{{ asset('assets/iconos/logo.png') }}" width="180">
-</p>
 
 <x-mail::message>
 
