@@ -81,6 +81,56 @@
 </button>
     </div>
 
+
+      <dialog id="DialogSinAlertas" class="p-0 backdrop:bg-black/50 rounded-lg">
+
+        <div class="bg-white dark:bg-gray-900 rounded-lg shadow-xl w-full max-w-md mx-auto">
+          <div class="p-6">
+            <div class="flex items-center gap-4">
+              <!-- Icono -->
+              <div class="flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-500/10">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                  class="h-6 w-6 text-blue-600 dark:text-blue-400">
+                    <path d="M9 12.75 11.25 15 15 9.75" stroke-linecap="round" stroke-linejoin="round" />
+                    <circle cx="12" cy="12" r="9" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </div>
+
+              <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
+                Sin seleccion
+              </h2>
+            </div>
+
+            <p id="dialogText" class="mt-4 text-sm text-gray-600 dark:text-gray-300">
+              <!-- texto dinámico -->
+            </p>
+          </div>
+
+          <div class="flex justify-end gap-3 bg-gray-100 dark:bg-gray-800 px-6 py-4 rounded-b-lg">
+
+
+            <button id="confirmBtn"
+              class="botonAceptar px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-md">
+              Aceptar
+            </button>
+          </div>
+        </div>
+      </dialog>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <div class="space-y-3">
         @forelse($alertas as $alerta)
             <div class="flex items-start gap-4 p-4 rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">

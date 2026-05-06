@@ -1,5 +1,6 @@
 // Resolver una alerta individual
 console.log('se carga alertas');
+const dialogAlert = document.getElementById('DialogSinAlertas');
 window.resolver = async function(id) {
     if (!confirm('¿Marcar esta alerta como resuelta?')) return;
 
@@ -46,17 +47,32 @@ window.cerrarModal = function() {
     document.getElementById('modalAlerta').classList.add('hidden');
 };
 
+document.getElementById('confirmBtn').addEventListener('click', () => {
+    dialogAlert.close();
+});
+
 // Resolver múltiples
 window.resolverSeleccionadas = async function() {
     const ids = Array.from(document.querySelectorAll('.alerta-checkbox:checked'))
         .map(el => el.value);
 
     if (ids.length === 0) {
-        alert('Seleccioná al menos una alerta');
+        document.getElementById('dialogText').textContent =
+            'Seleccioná al menos una alerta para resolver.';
+
+        dialogAlert.showModal();
         return;
     }
 
+
+    // Confirmación normal
     if (!confirm('¿Resolver alertas seleccionadas?')) return;
+
+
+
+
+
+
 
     try {
         await fetch('/alertas/resolver-multiples', {
@@ -74,4 +90,5 @@ window.resolverSeleccionadas = async function() {
     } catch (error) {
         console.error(error);
     }
+
 };
