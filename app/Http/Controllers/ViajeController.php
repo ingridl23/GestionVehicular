@@ -85,6 +85,20 @@ class ViajeController extends Controller
 
         $direcciones = Direcciones::all();
 
+$reservasPendientesAdmin = Reserva::with(['vehiculo', 'usuario', 'estado_reserva'])
+    ->where('id_usuario', $user->id)
+    ->whereHas('estado_reserva', fn($q) => $q->where('estado', 'APROBADA'))
+    ->get();
+$viajesEnCursoQuery = Viaje::with([
+    'vehiculo',
+    'reserva.usuario',
+    'reserva.estado_reserva'
+])->whereNull('fecha_fin')
+  ->whereHas('reserva', fn($q) =>
+      $q->where('id_usuario', $user->id)
+  );
+
+$viajesEnCurso = $viajesEnCursoQuery->get();
 
         return view('ui.viajes.index', compact(
             'viajes',
@@ -92,7 +106,9 @@ class ViajeController extends Controller
             'estadosNafta',
             'vehiculos_filtros',
             'estados_filtros',
-            'direcciones'
+            'direcciones',
+            'reservasPendientesAdmin',
+            'viajesEnCurso'
         ));
     }
 

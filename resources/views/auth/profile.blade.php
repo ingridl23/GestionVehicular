@@ -250,7 +250,7 @@
                             </div>
                             <div>
                                 <p class="text-2xl font-bold text-gray-900 dark:text-white">
-                                    {{ $usuario->reservas_count ?? 0 }}
+                                    {{ $reservas_count ?? 0 }}
                                 </p>
                                 <p class="text-sm text-gray-600 dark:text-gray-400">Reservas</p>
                             </div>
@@ -264,7 +264,7 @@
                             </div>
                             <div>
                                 <p class="text-2xl font-bold text-gray-900 dark:text-white">
-                                    {{ $usuario->viajes_count ?? 0 }}
+                                    {{ $viajes_count ?? 0 }}
                                 </p>
                                 <p class="text-sm text-gray-600 dark:text-gray-400">Viajes</p>
                             </div>

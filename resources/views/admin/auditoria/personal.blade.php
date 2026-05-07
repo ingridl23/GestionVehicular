@@ -328,8 +328,20 @@
         <div class="loader"></div>
     </div>
 
+<script>
+    window.USER_ROUTES = {
+        store: @json(
+            auth()->user()->hasRole('Administrador General')
+                ? route('admin.usuarios.store')
+                : route('dependencia.usuarios.store')
+        ),
+          updateBase: @json(
+        auth()->user()->hasRole('Administrador General')
+            ? url('/admin/usuarios')
+            : url('/dependencia/usuarios')
+    )
 
-
-
+    };
+</script>
 
 @endsection

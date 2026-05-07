@@ -1,8 +1,12 @@
 {{-- resources/views/ui/viajes/show.blade.php --}}
+@php
+$rutaFinalizar = auth()->user()->hasRole('Operativo')
+     ? route('operativo.viajes.finalizar', $viaje->id)
+     : route('viajes.finalizaradmin', $viaje->id);
+ @endphp
 @extends('layout.app')
 
 @section('content')
-
 <div class="max-w-4xl mx-auto p-6">
 
     <div class="bg-white dark:bg-gray-800 rounded-xl shadow p-6">
@@ -80,7 +84,7 @@
         @if(!$viaje->fecha_fin)
 
         <form method="POST"
-              action="{{ route('operativo.viajes.finalizar', $viaje->id) }}"onsubmit="console.log('FORM ENVIADO')">
+             action="{{ $rutaFinalizar }}" onsubmit="console.log('FORM ENVIADO')">
             @csrf
 
             <div class="space-y-4">
@@ -105,8 +109,9 @@
     @endforeach
 </select>
 
-                </div>
+</div>
 <div>
+
     {{-- Observaciones --}}
     <label class="vms-form-label">Observaciones  <span class="text-gray-500">*Opcional</span></label>
     <br>
@@ -140,7 +145,7 @@
     @endif
 </div>
 
-
+<br>
 
           <button type="submit"
         onclick="console.log('CLICK')"
@@ -166,7 +171,7 @@
 <script>
     window.VIAJE_DATA = {
         id: @json($viaje->id),
-        finalizar_url: @json(route('operativo.viajes.finalizar', $viaje->id))
+        finalizar_url: @json($rutaFinalizar)
     };
 </script>
 @endsection

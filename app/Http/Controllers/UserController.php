@@ -9,6 +9,7 @@ use App\Models\Reserva;
 use App\Models\Reportes;
 use App\Models\Direcciones;
 use App\Models\Vehiculo;
+use App\Models\Viaje;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -275,7 +276,13 @@ $ultimosUsuarios = User::with('dependencia')
         $dependencias = Dependencia::orderBy('nombre')->get();
         $roles = Role::orderBy('name')->get();
 
-        return view('admin.auditoria.usuarios', compact('usuarios', 'dependencias', 'roles'));
+        if($user->hasRole('Administrador de Dependencia') || $user->hasRole('Jefe de Area')){
+                return view('admin.auditoria.personal', compact('usuarios','dependencias','roles'));
+
+        }else{
+
+            return view('admin.auditoria.usuarios', compact('usuarios', 'dependencias', 'roles'));
+        }
     }
 
     /**
@@ -305,8 +312,8 @@ $ultimosUsuarios = User::with('dependencia')
  */
     public function store(Request $request)
     {
-        Gate::authorize('createUser', User::class);
-
+        //Gate::authorize('createUser', User::class);
+        Gate::authorize('createUser', [User::class, $request->id_dependencia]);
         $data = $request->validate([
             'name' => 'required|string|max:100',
             'lastname' => 'required|string|max:100',
@@ -402,13 +409,23 @@ $ultimosUsuarios = User::with('dependencia')
 
         // Obtener listas
         $dependencias = $esAdmin ? Dependencia::all() : collect();
+        $reservas_count = Reserva::where('id_usuario', $user->id)
+    ->whereHas('estado_reserva', fn($q) => $q->where('estado', 'FINALIZADA'))
+    ->count();
+    $viajes_count = Viaje::whereHas('reserva', function ($q) use ($usuario) {
+        $q->where('id_usuario', $usuario->id);
+    })
+    ->whereNotNull('fecha_fin')
+    ->count();
 
         return view('auth.profile', compact(
             'usuario',
             'puedeEditar',
             'esAdmin',
             'puedeEditarFoto',
-            'dependencias'
+            'dependencias',
+            'reservas_count',
+            'viajes_count'
         ));
     }
 
@@ -662,6 +679,17 @@ $imagen = ImagenProfile::create([
         $dependencias = $esAdmin ? Dependencia::all() : collect();
         $esConductorBase = $usuario->hasRole('Operativo');
 
+        $reservas_count = Reserva::where('id_usuario', $usuario->id)
+         ->whereHas('estado_reserva', fn($q) => $q->where('estado', 'FINALIZADA'))
+         ->count();
+       $viajes_count = Viaje::whereHas('reserva', function ($q) use ($usuario) {
+        $q->where('id_usuario', $usuario->id);
+    })
+    ->whereNotNull('fecha_fin')
+    ->count();
+
+
+
         $puedeEditarFoto = $usuario->can('editarFotoPerfil');
         if($esAdmin){
             return view('auth.profile', compact('usuario', 'puedeEditar', 'esAdmin', 'dependencias', 'puedeEditarFoto'));
@@ -670,7 +698,7 @@ $imagen = ImagenProfile::create([
         else{
             $puedeEditar = false;
 
-            return view('auth.profileOperativo', compact('usuario','dependencias','esAdmin','puedeEditar', 'puedeEditarFoto'));
+            return view('auth.profileOperativo', compact('usuario','dependencias','esAdmin','puedeEditar', 'puedeEditarFoto','reservas_count'));
         }
     }
 

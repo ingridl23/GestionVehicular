@@ -73,9 +73,11 @@ Route::post('/profile/photo', [UserController::class, 'updatePhoto'])
  /********************************VIAJES ******************************************** */
  Route::post('/viajes/iniciar/{reserva}', [ViajeController::class, 'iniciar'])
    ->name('viajes.iniciar');
+   Route::post('/viajes/{viaje}/finalizar', [ViajeController::class, 'finalizarViaje'])
+    ->name('viajes.finalizaradmin');
 
-    Route::post('/viajes/finalizar/{viaje}', [ViajeController::class, 'finalizar'])
-  ->name('viajes.finalizar');
+  /*  Route::post('/viajes/finalizar/{viaje}', [ViajeController::class, 'finalizar'])
+  ->name('viajes.finalizar');*/
      /********************************** VIAJES  **********************************/
 
 Route::get('/viajes', [ViajeController::class, 'index'])
@@ -90,8 +92,7 @@ Route::get('/viajes/{viaje}/mapa', [ViajeController::class, 'mapaVirtual'])
 Route::post('/viajes/{reserva}/comenzar', [ViajeController::class, 'comenzarViaje'])
     ->name('viajes.comenzar');
 
-Route::post('/viajes/{viaje}/finalizar', [ViajeController::class, 'finalizarViaje'])
-    ->name('viajes.finalizar');
+
 
 Route::get('/api/viajes/{viaje}/coordenadas', function (Viaje $viaje) {
     return response()->json(
@@ -115,8 +116,12 @@ Route::get('/api/viajes/{viaje}/coordenadas', function (Viaje $viaje) {
         Route::get('/usuarios', [UserController::class, 'usuariosPorDependencia'])
             ->middleware('permission:ver_usuarios_dependencia')
             ->name('usuarios');
-    });
 
+        Route::post('/usuarios', [UserController::class, 'store'])
+            ->middleware('permission:crear_usuario')
+            ->name('usuarios.store');
+
+    });
 
 
 
@@ -143,15 +148,17 @@ Route::post('/alertas/{id}/resolver', [AlertaController::class, 'resolver']);
 
 
 
-
  /*********************************************************************************************/
     /***************************  NOTIFICACIONES *************************************************/
     /*********************************************************************************************/
+
+
    Route::post('/notificaciones/{id}/leer', function ($id) {
     $notificacion = auth()->user()
         ->unreadNotifications()
         ->where('id', $id)
         ->firstOrFail();
+
 
     $notificacion->markAsRead();
 
@@ -202,9 +209,6 @@ Route::post('/alertas/{id}/resolver', [AlertaController::class, 'resolver']);
 
 
 });
-
-
-
 
 
 // RUTA DE PRUEBA API

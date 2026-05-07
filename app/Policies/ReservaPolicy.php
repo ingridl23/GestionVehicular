@@ -98,7 +98,7 @@ public function authorizeInternalReservation(User $user): bool
     }
 
         // Dueño Dependencia: reservas que involucren a su dependencia (puede ser solicitante o no)
-        if ($user->hasRole(['Dueño Dependencia','Jefe De Area'])) {
+        if ($user->hasRole(['Administrador de Dependencia','Jefe De Area'])) {
 
             $dependenciaUsuario = $user->dependencia;
 

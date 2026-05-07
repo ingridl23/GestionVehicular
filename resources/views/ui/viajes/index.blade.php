@@ -38,19 +38,53 @@ $mostrarAcciones = $mostrarAcciones ?? true;
       </div>
     </div>
 
+    {{-- ADMINS --}}
+@hasanyrole('Administrador General|Administrador de Dependencia|Jefe de Area')
 
-    @if($viajes->isEmpty())
+    @if($reservasPendientesAdmin->isNotEmpty())
+        <div class="hidden md:block">
+            <x-tabla-reservas-admin-pendientes
+                :reservas="$reservasPendientesAdmin"
+            />
+        </div>
+
+@endif
+ @if($viajesEnCurso->isNotEmpty())
+    <div class="hidden md:block mt-6">
+        <x-tabla-viajes-en-curso-admin
+            :viajes="$viajesEnCurso"
+        />
+    </div>
+    @endif
+
+    {{-- Mensaje vacío solo si no hay nada --}}
+
+     @if($reservasPendientesAdmin->isEmpty() && $viajesEnCurso->isEmpty())
+        <div class="flex flex-col items-center justify-center py-24 text-gray-400 dark:text-gray-600">
+            <i class="fas fa-route text-5xl mb-4 opacity-30"></i>
+            <p class="text-base">No hay viajes registrados</p>
+        </div>
+    @endif
+  <div class="flex justify-center mt-6">
+        {{ $viajes->links('vendor.pagination.simple-pagination') }}
+      </div>
+
+          @endhasanyrole
+
+{{-- Operativos --}}
+@hasrole('Operativo')
+    @if($viajes->isEmpty() )
       <div class="flex flex-col items-center justify-center py-24 text-gray-400 dark:text-gray-600">
         <i class="fas fa-route text-5xl mb-4 opacity-30"></i>
         <p class="text-base">No hay viajes registrados</p>
+
       </div>
 
     @else
 
-
-
       {{-- Desktop --}}
       <div class="hidden md:block">
+
      <x-tabla-viajes-desktop
     :viajes="$viajes"
     :ubicacion="null"
@@ -70,7 +104,8 @@ $mostrarAcciones = $mostrarAcciones ?? true;
         {{ $viajes->links('vendor.pagination.simple-pagination') }}
       </div>
 
-    @endif
+      @endif
+ @endhasrole
 
   </div>
 </section>

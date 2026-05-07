@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 export function openUserCreateModal() {
     document.getElementById('modalTitle').textContent = 'Crear Usuario';
-    document.getElementById('userForm').action = `/admin/usuarios`;
+    document.getElementById('userForm').action = window.USER_ROUTES.store;
     document.getElementById('formMethod').value = 'POST';
     document.getElementById('passwordField').required = true;
     document.getElementById('userForm').reset();
@@ -28,7 +28,7 @@ export function openUserCreateModal() {
 export function openEditModal(userId) {
     // Aquí deberías cargar los datos del usuario vía AJAX
     document.getElementById('modalTitle').textContent = 'Editar Usuario';
-    document.getElementById('userForm').action = `/admin/usuarios/${userId}`;
+    document.getElementById('userForm').action = `${window.USER_ROUTES.updateBase}/${userId}`;
     document.getElementById('formMethod').value = 'PUT';
     document.getElementById('passwordField').required = false;
     document.getElementById('userModal').classList.remove('hidden');

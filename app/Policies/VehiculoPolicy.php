@@ -64,7 +64,7 @@ class VehiculoPolicy
         }
 
         // Dueño de dependencia: solo su dependencia
-        if ($user->hasRole('Dueño Dependencia')) {
+        if ($user->hasRole('Administrador de Dependencia')) {
           return $vehiculo->id_dependencia_duena === $user->dependencia_id;
 
         }
@@ -81,7 +81,7 @@ class VehiculoPolicy
             return false;
         }
 
-        if ($user->hasRole('Dueño Dependencia')) {
+        if ($user->hasRole('Administrador de Dependencia')) {
       return $vehiculo->id_dependencia_duena === $user->dependencia_id;
 
         }

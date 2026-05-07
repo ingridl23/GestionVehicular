@@ -85,6 +85,7 @@ protected function configurarBotones(string $contexto, string $ubicacion): array
             ],
     ];
 //para
+
       return [
         'configAgregar' => [
             'can' => $ubicacion === 'interna'
@@ -127,15 +128,8 @@ protected function configurarBotones(string $contexto, string $ubicacion): array
     // permiso = ver_reservas_internas || ver_reservas_prestamos
     public function verReserva($id)
     {
-        //$this->authorize('vistaIndividual', Reserva::findOrFail($id));
-        $reserva = $this->service->verReserva($id, Auth::user());
-
-        if(auth()->user()->hasRole('Usuario Operativo')) {
-    $reserva = Reserva::where('id_usuario', auth()->id())->paginate(10);
-} else {
-    $reserva = Reserva::paginate(10);
-}
-        return view('ui.reservas.reserva', $reserva);
+     $reserva = $this->service->verReserva($id, Auth::user());
+    return view('ui.reservas.reserva', compact('reserva'));
     }
 
 /**

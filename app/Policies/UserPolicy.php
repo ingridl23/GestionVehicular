@@ -48,7 +48,7 @@ class UserPolicy
     public function showUser(User $user, User $objetivo): bool
     {
         // Dueño Dependencia → solo su dependencia
-        if ($user->hasRole('Dueño Dependencia')) {
+        if ($user->hasRole('Administrador de Dependencia')) {
             return $objetivo->id_dependencia === $user->id_dependencia;
         }
 
@@ -61,7 +61,7 @@ class UserPolicy
     public function createUser(User $user, int $dependenciaId): bool
     {
         // Dueño Dependencia → solo puede crear en su dependencia
-        if ($user->hasRole('Dueño Dependencia')) {
+        if ($user->hasRole('Administrador de Dependencia')) {
             return $user->id_dependencia === $dependenciaId
                 && $user->can('crear_usuario');
         }
@@ -78,7 +78,7 @@ class UserPolicy
      */
     public function update(User $user, User $objetivo): bool
     {
-        if ($user->hasRole('Dueño Dependencia')) {
+        if ($user->hasRole('Administrador de Dependencia')) {
             return $objetivo->id_dependencia === $user->id_dependencia
                 && $user->can('editar_personal_dependencia');
         }
@@ -91,7 +91,7 @@ class UserPolicy
      */
     public function delete(User $user, User $objetivo): bool
     {
-        if ($user->hasRole('Dueño Dependencia')) {
+        if ($user->hasRole('Administrador de Dependencia')) {
             return $objetivo->id_dependencia === $user->id_dependencia
                 && $user->can('eliminar_personal_dependencia');
         }
@@ -105,7 +105,7 @@ class UserPolicy
     public function assignRole(User $user, User $objetivo, string $rol): bool
     {
         // Dueño Dependencia NO puede escalar roles críticos
-        if ($user->hasRole('Dueño Dependencia')) {
+        if ($user->hasRole('Administrador de Dependencia')) {
             return !in_array($rol, [
                 'Administrador General',
             ]);
