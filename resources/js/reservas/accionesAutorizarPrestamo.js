@@ -88,15 +88,27 @@ document.addEventListener("DOMContentLoaded", () => {
                 },
             });
             const data = await res.json();
+            const dialog = document.getElementById('dialog-confirm-aceptacion');
+            const parrafo = document.getElementById('parrafo-aceptacion');
 
-            if (data.success || data.errors) {
-                alert(data.message);
-                window.location.href = "/admin/autorizar-prestamos";
+            if (dialog && parrafo) {
+                parrafo.textContent = data.message;
+                dialog.showModal();
 
+                dialog.addEventListener('close', () => {
+                    window.location.href = "/admin/autorizar-prestamos";
+                }, { once: true });
             }
 
         } catch (err) {
             console.error(err);
+            const dialog = document.getElementById('dialog-confirm-cancelacion');
+            const parrafo = document.getElementById('parrafo-cancelacion');
+
+            if (dialog && parrafo) {
+                parrafo.textContent = "Ocurrió un error al rechazar el préstamo";
+                dialog.showModal();
+            }
         }
     }
 

@@ -204,8 +204,14 @@ public function mapaVirtual(Viaje $viaje)
 
         $this->service->finalizarViaje((int) $viajeId, $request->all());
 
-        return redirect()->route('operativo.viajes.index')
-            ->with('success', 'Viaje finalizado correctamente.');
+     $ruta = auth()->user()->hasRole('Operativo')
+        ? 'operativo.viajes.index'
+        : 'viajes.index';
+
+    return redirect()
+        ->route($ruta)
+        ->with('success', 'Viaje finalizado correctamente.');
+
     }
 
 
