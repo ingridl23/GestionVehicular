@@ -39,7 +39,7 @@
   </div>
 
   <p id="mensajeNoHayReservas" class="hidden text-center text-sm text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-gray-900 border border-dashed border-gray-300 dark:border-gray-700 rounded-lg p-4"></p>
-          
+
   <div class="mx-auto px-0" id="contenedor-general">
     <div class="-mx-4 flex flex-wrap">
       <div class="w-full">
@@ -80,8 +80,8 @@
         <div class="flex h-12 w-12 items-center justify-center rounded-full bg-red-500/10">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
                stroke-width="1.5" class="h-6 w-6 text-red-400">
-            <path d="M12 9v3.75m0 3.75h.007M4.93 19h14.14c1.54 0 
-                     2.5-1.67 1.73-3L13.73 4c-.77-1.33-2.69-1.33-3.46 
+            <path d="M12 9v3.75m0 3.75h.007M4.93 19h14.14c1.54 0
+                     2.5-1.67 1.73-3L13.73 4c-.77-1.33-2.69-1.33-3.46
                      0L3.2 16c-.77 1.33.19 3 1.73 3Z" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </div>
@@ -95,7 +95,7 @@
 
       <p class="mt-4 text-sm text-gray-400">
         ¿Está seguro de que desea rechazar este préstamo?
-        El vehiculo, día y horario quedarán disponibles nuevamente 
+        El vehiculo, día y horario quedarán disponibles nuevamente
         y esta acción no podrá deshacerse.
       </p>
     </div>
@@ -143,8 +143,8 @@
       </div>
 
       <p class="mt-4 text-sm text-gray-600 dark:text-gray-300">
-        ¿Está seguro de que desea autorizar este préstamo? 
-        La solicitud quedará aprobada y el vehículo quedará asignado 
+        ¿Está seguro de que desea autorizar este préstamo?
+        La solicitud quedará aprobada y el vehículo quedará asignado
         para la fecha y horario indicados.
 
       </p>
@@ -165,7 +165,48 @@
 
   </div>
 </dialog>
-  
+
+
+<!-- DIALOG MENSAJE FINAL RECHAZO -->
+<dialog id="dialog-confirm-rechazo" class="p-0 backdrop:bg-black/50 rounded-lg">
+
+  <div class="bg-white dark:bg-gray-900 rounded-lg shadow-xl w-full max-w-md mx-auto">
+
+    <div class="p-6">
+      <div class="flex items-center gap-4">
+
+        <div class="flex h-12 w-12 items-center justify-center rounded-full bg-red-100 dark:bg-red-500/10">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="1.5"
+               class="h-6 w-6 text-red-600 dark:text-red-400">
+            <path d="M12 8v4m0 4h.01" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="12" cy="12" r="9"/>
+          </svg>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+            Resultado de operación
+          </h3>
+        </div>
+      </div>
+
+      <p id="parrafo-rechazo" class="mt-4 text-sm text-gray-600 dark:text-gray-300">
+        Mensaje...
+      </p>
+    </div>
+
+    <div class="flex justify-end bg-gray-100 dark:bg-gray-800 px-6 py-4 rounded-b-lg">
+      <button type="button"
+              onclick="this.closest('dialog').close()"
+              class="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-md">
+        Aceptar
+      </button>
+    </div>
+
+  </div>
+</dialog>
+
   </div>
 </section>
 

@@ -273,8 +273,6 @@ $reserva->usuario->notify(new UsuarioModificadoNotification(
 
     return true;
 
-
-
 }
 
 

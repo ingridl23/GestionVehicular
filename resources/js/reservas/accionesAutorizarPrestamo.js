@@ -1,41 +1,42 @@
-document.addEventListener("DOMContentLoaded", ()=>{
+document.addEventListener("DOMContentLoaded", () => {
 
     let reservaIdActiva = null;
     let reservaIdAutorizar = null;
 
 
-        document.querySelectorAll('.btn-rechazar').forEach(btn => {
-            btn.addEventListener('click', function () {
-                reservaIdActiva = this.dataset.id;
-                 document.getElementById('dialog-rechazar').showModal();
-            });
+    // let dialogRechazar = document.getElementById("dialog-cancelar");
+    document.querySelectorAll('.btn-rechazar').forEach(btn => {
+        btn.addEventListener('click', function() {
+            reservaIdActiva = this.dataset.id;
+            document.getElementById('dialog-rechazar').showModal();
         });
-        
+    });
 
 
-        document.querySelectorAll('.btn-autorizar').forEach(btn => {
-            btn.addEventListener('click', function () {
-                reservaIdAutorizar = this.dataset.id;
-            });
+
+    document.querySelectorAll('.btn-autorizar').forEach(btn => {
+        btn.addEventListener('click', function() {
+            reservaIdAutorizar = this.dataset.id;
         });
-           
-
-        document.querySelector('.botonRechazar').addEventListener('click', (e) => {
-            e.preventDefault();
-            if (!reservaIdActiva) return;
-
-            rechazarPrestamo(reservaIdActiva);
-        });
-
-        document.querySelector('.botonAutorizar').addEventListener('click', (e) => {
-            e.preventDefault();
-            if (!reservaIdAutorizar) return;
-
-            autorizarPrestamo(reservaIdAutorizar);
-        });
+    });
 
 
-    async function rechazarPrestamo(id){
+    document.querySelector('.botonRechazar').addEventListener('click', (e) => {
+        e.preventDefault();
+        if (!reservaIdActiva) return;
+
+        rechazarPrestamo(reservaIdActiva);
+    });
+
+    document.querySelector('.botonAutorizar').addEventListener('click', (e) => {
+        e.preventDefault();
+        if (!reservaIdAutorizar) return;
+
+        autorizarPrestamo(reservaIdAutorizar);
+    });
+
+
+    async function rechazarPrestamo(id) {
         try {
             const res = await fetch(`/admin/rechazar-prestamo/${id}`, {
                 method: "PATCH",
@@ -46,21 +47,37 @@ document.addEventListener("DOMContentLoaded", ()=>{
                 },
             });
             const data = await res.json();
-            
-            if (data.success) {
-                alert(data.message);
-                window.location.href = "/admin/autorizar-prestamos";
 
+            const dialog = document.getElementById('dialog-confirm-rechazo');
+            const parrafo = document.getElementById('parrafo-rechazo');
+
+            if (dialog && parrafo) {
+                parrafo.textContent = data.message;
+                dialog.showModal();
+
+                dialog.addEventListener('close', () => {
+                    window.location.href = "/admin/autorizar-prestamos";
+                }, { once: true });
             }
+
 
         } catch (err) {
             console.error(err);
+            console.error(err);
+
+            const dialog = document.getElementById('dialog-confirm-cancelacion');
+            const parrafo = document.getElementById('parrafo-cancelacion');
+
+            if (dialog && parrafo) {
+                parrafo.textContent = "Ocurrió un error al rechazar el préstamo";
+                dialog.showModal();
+            }
         }
     }
 
 
 
-    async function autorizarPrestamo(id){
+    async function autorizarPrestamo(id) {
         try {
             const res = await fetch(`/admin/autorizar-prestamo/${id}`, {
                 method: "PATCH",
@@ -73,8 +90,8 @@ document.addEventListener("DOMContentLoaded", ()=>{
             const data = await res.json();
 
             if (data.success || data.errors) {
-                    alert(data.message);
-                    window.location.href = "/admin/autorizar-prestamos";
+                alert(data.message);
+                window.location.href = "/admin/autorizar-prestamos";
 
             }
 
@@ -83,5 +100,5 @@ document.addEventListener("DOMContentLoaded", ()=>{
         }
     }
 
-    
+
 })
