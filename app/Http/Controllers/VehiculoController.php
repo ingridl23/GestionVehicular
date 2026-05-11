@@ -254,7 +254,7 @@ public function detalle(Vehiculo $vehiculo)
                 'id_dependencia_duena' => 'sometimes|exists:dependencia,id',
                 'id_estado_nafta' => 'sometimes|exists:estados_naftas,id',
                 'kilometros' => 'sometimes|integer|min:0',
-                'VTV' => 'sometimes|date',
+                'vtv' => 'sometimes|date',
                 'habilitado_prestamo' => 'sometimes|boolean',
                 'condiciones_prestamo' => 'nullable|string',
                 'control_satelital' => 'sometimes|boolean',
