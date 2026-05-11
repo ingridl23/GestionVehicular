@@ -197,7 +197,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <strong>Unidad:</strong> ${v.unidad}<br>
             <strong>Año:</strong> ${v.anio}<br>
             <strong>Kilómetros:</strong> ${formatNumber(v.kilometros)} km<br>
-            <strong>VTV:</strong> ${formatDate(v.VTV)}<br>
+            <strong>VTV:</strong> ${formatDate(v.vtv)}<br>
             <strong>Control Satelital:</strong> ${v.control_satelital ? 'Sí' : 'No'}<br>
             <strong>Habilitación De Prestamo:</strong> ${v.habilitado_prestamo ? 'Sí' : 'No'}<br>
             <strong>Condición Para Prestamo:</strong> ${v.condiciones_prestamo || 'N/A'}<br>

@@ -70,6 +70,93 @@
 </div>
 
 @include('components.vehiculos.vehiculo-modal-crear')
+
+
+<!-- DIALOG MENSAJE FINAL ACEPTACION -->
+<dialog id="dialog-confirm-aceptacion" class="p-0 backdrop:bg-black/50 rounded-lg">
+
+  <div class="bg-white dark:bg-gray-900 rounded-lg shadow-xl w-full max-w-md mx-auto">
+
+    <div class="p-6">
+      <div class="flex items-center gap-4">
+
+        <div class="flex h-12 w-12 items-center justify-center rounded-full bg-red-100 dark:bg-red-500/10">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="1.5"
+               class="h-6 w-6 text-green-600 dark:text-green-400">
+            <path d="M12 8v4m0 4h.01" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="12" cy="12" r="9"/>
+          </svg>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+            Resultado de operación
+          </h3>
+        </div>
+      </div>
+
+      <p id="parrafo-aceptacion" class="mt-4 text-sm text-gray-600 dark:text-gray-300">
+        Mensaje...
+      </p>
+    </div>
+
+    <div class="flex justify-end bg-gray-100 dark:bg-gray-800 px-6 py-4 rounded-b-lg">
+      <button type="button"
+              onclick="this.closest('dialog').close()"
+              class="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-md">
+        Aceptar
+      </button>
+    </div>
+
+  </div>
+</dialog>
+
+<!-- DIALOG MENSAJE FINAL RECHAZO -->
+<dialog id="dialog-confirm-rechazo" class="p-0 backdrop:bg-black/50 rounded-lg">
+
+  <div class="bg-white dark:bg-gray-900 rounded-lg shadow-xl w-full max-w-md mx-auto">
+
+    <div class="p-6">
+      <div class="flex items-center gap-4">
+
+        <div class="flex h-12 w-12 items-center justify-center rounded-full bg-red-100 dark:bg-red-500/10">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="1.5"
+               class="h-6 w-6 text-red-600 dark:text-red-400">
+            <path d="M12 8v4m0 4h.01" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="12" cy="12" r="9"/>
+          </svg>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+            Resultado de operación
+          </h3>
+        </div>
+      </div>
+
+      <p id="parrafo-rechazo" class="mt-4 text-sm text-gray-600 dark:text-gray-300">
+        Mensaje...
+      </p>
+    </div>
+
+    <div class="flex justify-end bg-gray-100 dark:bg-gray-800 px-6 py-4 rounded-b-lg">
+      <button type="button"
+              onclick="this.closest('dialog').close()"
+              class="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-md">
+        Aceptar
+      </button>
+    </div>
+
+  </div>
+</dialog>
+
+
+
+
+
+
  <div class="contenedor_loader">
         <div class="loader"></div>
     </div>
@@ -85,6 +172,8 @@
     };
 </script>
 
+{{--
 @vite(['resources/js/vehiculo.js'])
+--}}
 @endpush
 @endsection

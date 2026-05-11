@@ -233,7 +233,7 @@
                     Cancelar
                 </button>
                 <button
-                    type="button"
+                    type="submit"
                     id="btn-Alta"
                     class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors">
                     Guardar
@@ -244,7 +244,13 @@
 </div>
 
 
-    @push('scripts')
-        @vite(['resources/js/vehiculo.js'])
-    @endpush
+
+
+
+
+{{--
+@push('scripts')
+@vite(['resources/js/vehiculo.js'])
+@endpush
+--}}
 

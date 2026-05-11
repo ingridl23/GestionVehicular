@@ -151,23 +151,22 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ===== Evento Guardar Cambios =====
-    const btnAlta = document.getElementById('btn-Alta');
+    // const btnAlta = document.getElementById('btn-Alta');
 
-    if (btnAlta) {
-        btnAlta.addEventListener('click', async(e) => {
-            e.preventDefault();
-            console.log('Click en agregar vehiculo');
-
-            // Validación básica
-            const form = document.getElementById('vehiculo-form');
-            if (!form.checkValidity()) {
-                alert('Por favor complete todos los campos obligatorios');
-                form.reportValidity();
-                return;
-            }
-
-            if (!confirm('¿Desea agregar este vehículo?')) return;
-
+    /*
+        if (btnAlta) {
+            btnAlta.addEventListener('click', async(e) => {
+                e.preventDefault();
+                console.log('Click en agregar vehiculo');
+    */
+    // Validación básica
+    const form = document.getElementById('vehiculo-form');
+    form.addEventListener('submit', async(e) => {
+        e.preventDefault();
+        if (!form.checkValidity()) {
+            return;
+        }
+        try {
             // Recopilar datos del formulario
             const formData = {
                 id_direccion_actual: document.getElementById('id_direccion_actual').value,
@@ -188,44 +187,62 @@ document.addEventListener('DOMContentLoaded', function() {
 
             console.log('Datos a enviar:', formData);
 
-            try {
-                const response = await fetch(`/vehiculos`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': csrfToken,
-                        'Accept': 'application/json'
-                    },
-                    body: JSON.stringify(formData)
-                });
 
-                const data = await response.json();
-                console.log('Respuesta del servidor:', data);
+            const response = await fetch(`/vehiculos`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken,
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            });
 
-                if (!response.ok) {
-                    // Si hay errores de validación
-                    if (data.errors) {
-                        const errores = Object.values(data.errors).flat().join('\n');
-                        alert('Errores de validación:\n' + errores);
-                    } else {
-                        alert(data.message || 'Error al actualizar el vehículo');
-                    }
-                    return;
+            const data = await response.json();
+            console.log(data);
+            console.log(response.status);
+            console.log(response.ok);
+            // Cerrar modal formulario
+            closeModal();
+            const dialogAceptacion = document.getElementById('dialog-confirm-aceptacion');
+            const dialogRechazo = document.getElementById('dialog-confirm-rechazo');
+
+            const mensajeAceptacion = document.getElementById('parrafo-aceptacion');
+            const mensajeRechazo = document.getElementById('parrafo-rechazo');
+
+
+
+            if (response.ok) {
+                mensajeAceptacion.textContent =
+                    data.message || 'Vehículo creado correctamente';
+
+                if (dialogAceptacion) {
+                    dialogAceptacion.showModal();
                 }
-                alert('Vehículo añadido con éxito');
-                // Cerrar modal
-                closeModal();
 
-                // Recargar la lista
                 loadVehiculos(currentPage);
 
+            } else {
+                mensajeRechazo.textContent = data.message || 'No se pudo agregar el vehículo';
 
-            } catch (error) {
-                console.error('Error en la petición:', error);
-                alert('Error al procesar la solicitud');
+                if (dialogRechazo) {
+                    dialogRechazo.showModal();
+                }
+
             }
-        });
-    }
+        } catch (error) {
+            console.error('Error en la petición:', error);
+
+            mensajeRechazo.textContent = 'Error al procesar la solicitud.';
+
+            if (dialogRechazo) {
+                dialogRechazo.showModal();
+            }
+        }
+
+
+    });
+
 
 
 
