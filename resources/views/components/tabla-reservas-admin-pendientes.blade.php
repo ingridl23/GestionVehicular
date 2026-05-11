@@ -2,19 +2,7 @@
 
 
 @foreach($reservas as $reserva)
-<div class="mb-6 bg-white dark:bg-gray-800 rounded-xl shadow-md p-5 border border-gray-100 dark:border-gray-700">
-    <p>Reserva aprobada pendiente de iniciar</p>
 
-    <form method="POST"
-          action="{{ route('viajes.comenzar', $reserva->id) }}">
-        @csrf
-        <button type="submit"
-            class="bg-green-600 text-white px-3 py-2 rounded">
-            Iniciar viaje
-        </button>
-    </form>
-</div>
-@endforeach
 <div class="flex items-center justify-between mb-4">
 
         <div>
@@ -41,6 +29,7 @@
                 </tr>
             </thead>
         <tbody>
+            @endforeach
             @foreach($reservas as $reserva)
                   <tr class="border-b border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/40 transition">
 

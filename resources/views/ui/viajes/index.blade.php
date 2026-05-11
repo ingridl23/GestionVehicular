@@ -10,6 +10,13 @@
 $mostrarAcciones = $mostrarAcciones ?? true;
 @endphp
 
+@if($errors->any())
+    <div class="bg-red-100 text-red-700 p-4 rounded mb-4">
+        @foreach($errors->all() as $error)
+            <p>{{ $error }}</p>
+        @endforeach
+    </div>
+@endif
 <section class="py-6">
   <div class="container mx-auto px-4">
 

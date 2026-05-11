@@ -54,7 +54,7 @@ class ViajeController extends Controller
         if ($user->hasRole('Operativo')) {
             // Solo sus viajes
             $query->whereHas('reserva', fn($q) => $q->where('id_usuario', $user->id));
-        } elseif ($user->hasAnyRole(['Administrador de Dependencia', 'Jefe de Area'])) {
+        } elseif ($user->hasAnyRole(['Administrador de Dependencia', 'Jefe de Area', 'Administrador General'])) {
             // Viajes de su dependencia
             $query->whereHas('reserva', function ($q) use ($user) {
                 $q->where('id_dependencia_duena', $user->dependencia?->id);
@@ -153,6 +153,8 @@ public function mapaVirtual(Viaje $viaje)
 {
 
     try {
+
+       // $reserva = Reserva::with('estado_reserva')->findOrFail($reservaId);
         $viaje = $this->service->comenzarViaje($reservaId);
 
         return redirect()->route('viajes.mapa', $viaje->id)

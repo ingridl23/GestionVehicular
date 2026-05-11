@@ -22,9 +22,10 @@ Route::middleware(['auth', 'permission:ver_todos_usuarios|ver_personal_dependenc
         ->name('admin.usuarios.index');
 });
 
+
 Route::middleware(['auth'])->group(function () {
 
-    // Dashboard
+   // Dashboard
   //  Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard');
 
     // Alertas
@@ -49,14 +50,14 @@ Route::middleware(['auth'])->group(function () {
         ->middleware('permission:ver_personal_dependencia')
         ->name('personal.index');
 
-    /*************************************  PERFIL DE USUARIO   ******************************* */
+/*************************************  PERFIL DE USUARIO   ******************************* */
 
     // Ver mi perfil (usuario logueado)
     Route::get('/profile', [UserController::class, 'myProfile'])->name('profile.show');
 
     // Actualizar mi perfil
     Route::put('/profile', [UserController::class, 'updateProfile'])->name('profile.update');
-Route::post('/profile/photo', [UserController::class, 'updatePhoto'])
+    Route::post('/profile/photo', [UserController::class, 'updatePhoto'])
     ->name('profile.updatePhoto');
     // Ver perfil de otro usuario (requiere permisos)
     Route::get('/profile/{usuario}', [UserController::class, 'show'])->name('profile.view');
@@ -76,21 +77,21 @@ Route::post('/profile/photo', [UserController::class, 'updatePhoto'])
    Route::post('/viajes/{viaje}/finalizar', [ViajeController::class, 'finalizarViaje'])
     ->name('viajes.finalizaradmin');
 
-  /*  Route::post('/viajes/finalizar/{viaje}', [ViajeController::class, 'finalizar'])
-  ->name('viajes.finalizar');*/
-     /********************************** VIAJES  **********************************/
+    /********************************** VIAJES  **********************************/
 
-Route::get('/viajes', [ViajeController::class, 'index'])
+    Route::get('/viajes', [ViajeController::class, 'index'])
     ->name('viajes.index');
 
-Route::get('/viajes/{viaje}', [ViajeController::class, 'show'])
+    Route::get('/viajes/{viaje}', [ViajeController::class, 'show'])
     ->name('viajes.show');
 
-Route::get('/viajes/{viaje}/mapa', [ViajeController::class, 'mapaVirtual'])
+    Route::get('/viajes/{viaje}/mapa', [ViajeController::class, 'mapaVirtual'])
     ->name('viajes.mapa');
 
-Route::post('/viajes/{reserva}/comenzar', [ViajeController::class, 'comenzarViaje'])
+    Route::post('/viajes/{reserva}/comenzar', [ViajeController::class, 'comenzarViaje'])
     ->name('viajes.comenzar');
+     Route::post('/viajes/finalizar/{viaje}', [ViajeController::class, 'finalizar'])
+    ->name('viajes.finalizar');
 
 
 
