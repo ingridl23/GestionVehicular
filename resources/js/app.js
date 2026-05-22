@@ -5,6 +5,7 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import Alpine from 'alpinejs';
 
 
+import '.alerta.js';
 import './calculadora';
 import './loader.js';
 import './reportes';

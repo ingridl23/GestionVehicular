@@ -201,4 +201,4 @@
     </div>
 </div>
 @endsection
-@vite('resources/js/alertas/alerta.js')
+
