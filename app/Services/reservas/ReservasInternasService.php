@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\reservas;
+namespace App\Services\Reservas;
 use App\Models\Dependencia;
 use App\Models\EstadosReserva;
 use App\Models\Reserva;

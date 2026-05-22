@@ -1,5 +1,5 @@
 <?php
-namespace App\Services\reservas;
+namespace App\Services\Reservas;
 use App\Notifications\UsuarioModificadoNotification;
 use App\Notifications\ReservaCaducada;
 use App\Contracts\ReservaServiceInterface;

@@ -1,8 +1,8 @@
 import './bootstrap';
 // Importar Alpine.js
 import collapse from '@alpinejs/collapse';
+import '@fortawesome/fontawesome-free/css/all.min.css';
 import Alpine from 'alpinejs';
-
 
 
 import './calculadora';
