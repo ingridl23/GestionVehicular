@@ -99,12 +99,12 @@ function eliminarFoto() {
 
                 <!-- Info -->
                 <div class="flex-1 text-center md:text-left">
-                    <h2 class="text-3xl font-bold text-white mb-2">
+                  <h2 class="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-2 break-words text-center md:text-left">
                         {{ $usuario->name }} {{ $usuario->lastname }}
                     </h2>
 
                     @if($usuario->roles->isNotEmpty())
-                        <p class="text-blue-100 text-lg mb-3">
+                        <p class="text-blue-100 text-lg mb-3 break-words">
                             {{ $usuario->roles->first()->name }}
                         </p>
                     @endif
@@ -147,7 +147,7 @@ function eliminarFoto() {
                             <input type="text" name="name" value="{{ old('name', $usuario->name) }}" required
                                 class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                         @else
-                            <p class="text-gray-900 dark:text-white">{{ $usuario->name }}</p>
+                            <p class="text-gray-900 dark:text-white break-words">{{ $usuario->name }} </p>
                         @endif
                     </div>
 
@@ -160,7 +160,7 @@ function eliminarFoto() {
                             <input type="text" name="lastname" value="{{ old('lastname', $usuario->lastname) }}" required
                                 class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                         @else
-                            <p class="text-gray-900 dark:text-white">{{ $usuario->lastname }}</p>
+                            <p class="text-gray-900 dark:text-white break-words">{{ $usuario->lastname }}</p>
                         @endif
                     </div>
 
@@ -173,7 +173,7 @@ function eliminarFoto() {
                             <input type="email" name="email" value="{{ old('email', $usuario->email) }}" required
                                 class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                         @else
-                            <p class="text-gray-900 dark:text-white">{{ $usuario->email }}</p>
+                            <p class="text-gray-900 dark:text-white break-words">{{ $usuario->email }}</p>
                         @endif
                     </div>
 
@@ -186,7 +186,7 @@ function eliminarFoto() {
                             <input type="text" name="legajo" value="{{ old('legajo', $usuario->legajo) }}"
                                 class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                         @else
-                            <p class="text-gray-900 dark:text-white">{{ $usuario->legajo ?? 'N/A' }}</p>
+                            <p class="text-gray-900 dark:text-white break-words">{{ $usuario->legajo ?? 'N/A' }}</p>
                         @endif
                     </div>
 
@@ -200,7 +200,7 @@ function eliminarFoto() {
                             <input type="date" name="fecha_emision" value="{{ old('fecha_emision', $usuario->carnet?->fecha_emision) }}"
                                 class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                         @else
-                            <p class="text-gray-900 dark:text-white">{{ $usuario->carnet?->fecha_emision->format('d/m/Y') ?? 'N/A' }}</p>
+                            <p class="text-gray-900 dark:text-white break-words">{{ $usuario->carnet?->fecha_emision->format('d/m/Y') ?? 'N/A' }}</p>
 
                         @endif
 
@@ -277,11 +277,11 @@ function eliminarFoto() {
                                 <i class="fas fa-calendar-check text-white text-xl"></i>
                             </div>
                             <div>
-                                <p class="text-2xl font-bold text-gray-900 dark:text-white">
+                                <p class="text-2xl font-bold text-gray-900 dark:text-white break-words">
 
                                     {{$reservas_count ?? 0 }}
                                 </p>
-                                <p class="text-sm text-gray-600 dark:text-gray-400">Reservas</p>
+                                <p class="text-sm text-gray-600 dark:text-gray-400  break-words">Reservas</p>
                             </div>
                         </div>
                     </div>
@@ -292,7 +292,7 @@ function eliminarFoto() {
                                 <i class="fas fa-car text-white text-xl"></i>
                             </div>
                             <div>
-                                <p class="text-2xl font-bold text-gray-900 dark:text-white">
+                                <p class="text-2xl font-bold text-gray-900 dark:text-white break-words">
                                     {{ $viajes_count ?? 0 }}
                                 </p>
                                 <p class="text-sm text-gray-600 dark:text-gray-400">Viajes</p>
@@ -306,7 +306,7 @@ function eliminarFoto() {
                                 <i class="fas fa-clock text-white text-xl"></i>
                             </div>
                             <div>
-                                <p class="text-2xl font-bold text-gray-900 dark:text-white">
+                                <p class="text-1xl font-bold text-gray-900 dark:text-white break-words">
                                     {{ $usuario->created_at->format('d/m/Y') }}
                                 </p>
                                 <p class="text-sm text-gray-600 dark:text-gray-400">Miembro desde</p>

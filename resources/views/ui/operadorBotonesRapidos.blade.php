@@ -55,9 +55,12 @@
     No tenés viajes asignados para hoy
 </p>
 @endif
+
+
 <section class="flex gap-3 mb-2">
 
 
+ <div class="flex-1 flex flex-col items-center">
 
 
     {{-- INICIAR VIAJE --}}
@@ -67,23 +70,29 @@
         @csrf
         <button
             type="{{ $puedeIniciar ? 'submit' : 'button' }}"
-            class="btn-iniciar w-full {{ !$puedeIniciar ? 'opacity-50 cursor-not-allowed' : '' }}"
+            class="btn-iniciar flex items-center justify-center  {{ !$puedeIniciar ? 'opacity-50 cursor-not-allowed' : '' }}"
             @if(!$puedeIniciar) disabled @endif>
-            <i class="fas fa-play mr-2"></i>
-             <p class="text-xs text-gray-600 dark:text-gray-400"> Iniciar viaje</p>
+            <i class="fas fa-play"></i>
         </button>
-    </form>
 
+        <p class="text-xs text-center text-gray-600 dark:text-gray-400"> Iniciar viaje</p>
+
+    </form>
+  </div>
     {{-- FINALIZAR VIAJE --}}
+    <div class="flex-1 flex flex-col items-center">
+
     <button
         type="button"
         id="btnFinalizar"
-        class="btn-finalizar flex-1 {{ !$puedeFinalizar ? 'opacity-60 cursor-not-allowed' : '' }}"
+        class="btn-finalizar  flex items-center justify-center  {{ !$puedeFinalizar ? 'opacity-60 cursor-not-allowed' : '' }}"
         @if(!$puedeFinalizar) disabled @endif>
-        <i class="fas fa-flag-checkered mr-2"></i>
-     <p class="text-xs text-gray-800 dark:text-gray-400">  Finalizar viaje</p>
+        <i class="fas fa-flag-checkered"></i>
     </button>
 
+
+    <p class="text-xs text-center text-gray-800 dark:text-gray-400">  Finalizar viaje</p>
+    </div>
 </section>
 
 
