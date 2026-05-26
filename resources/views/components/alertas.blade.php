@@ -200,5 +200,8 @@
         </button>
     </div>
 </div>
+
+@vite(['resources/js/alertas/alerta.js'])
+
 @endsection
 
