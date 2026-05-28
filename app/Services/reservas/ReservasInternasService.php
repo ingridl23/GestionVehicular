@@ -12,8 +12,8 @@ use App\Services\Reservas\BaseReservasServices;
  * @description  Service dedicado a logica de reservas internas o de una misma dependencia padre dentro del sistema, siguiendo reglas y metodos heredados de BaseReservasService y caracteristicas validadas de negocio
  * como dependencia,estado del vehiculo  y rol del usuario.
  */
-class ReservasInternasService extends BaseReservasServices{
 
+class ReservasInternasService extends BaseReservasServices{
 
     public function verReservas(){
         $rol = $this->rol();
