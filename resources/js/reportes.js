@@ -1,5 +1,12 @@
 console.log("JS cargado");
 
+function setText(id, value) {
+    const el = document.getElementById(id);
+
+    if (el) {
+        el.textContent = value;
+    }
+}
 document.addEventListener('DOMContentLoaded', () => {
 
     // ===============================
@@ -108,7 +115,6 @@ document.addEventListener('DOMContentLoaded', () => {
         renderMensajes();
     }
 
-
     // ===============================
     // Seleccionar reporte
     // ===============================
@@ -139,24 +145,58 @@ document.addEventListener('DOMContentLoaded', () => {
             reporteSeleccionado.classList.remove('hidden');
         }
 
+
+        setText(
+            'chatAvatar',
+            reporteActivo.usuario_nombre.substring(0, 2).toUpperCase()
+        );
+
+        setText('chatUsuario', reporteActivo.usuario_nombre);
+
+        setText('chatTitulo', reporteActivo.titulo);
+
+        setText(
+            'chatEntidad',
+            `${reporteActivo.entidad_tipo} #${reporteActivo.entidad_id}`
+        );
+
+
+        /*
         document.getElementById('chatAvatar').textContent =
             reporteActivo.usuario_nombre.substring(0, 2).toUpperCase();
         document.getElementById('chatUsuario').textContent = reporteActivo.usuario_nombre;
         document.getElementById('chatTitulo').textContent = reporteActivo.titulo;
         document.getElementById('chatEntidad').textContent =
             `${reporteActivo.entidad_tipo} #${reporteActivo.entidad_id}`;
+*/
+        //  document.getElementById('selectEstado').value = reporteActivo.estado;
+        const selectEstado = document.getElementById('selectEstado');
 
-        document.getElementById('selectEstado').value = reporteActivo.estado;
-
+        if (selectEstado) {
+            selectEstado.value = reporteActivo.estado;
+        }
         renderMensajes();
         scrollChatAbajo();
     };
 
+    /**********************************/
+    //// scrol chat  //////////////
+    /**********************************/
+
+
     function scrollChatAbajo() {
         const chat = document.getElementById('chatBody');
-        chat.scrollTop = chat.scrollHeight;
-    }
 
+        if (chat) {
+            chat.scrollTop = chat.scrollHeight;
+        }
+    }
+    /*
+        function scrollChatAbajo() {
+            const chat = document.getElementById('chatBody');
+            chat.scrollTop = chat.scrollHeight;
+        }
+    */
 
     // ===============================
     // Renderizar mensajes
@@ -216,11 +256,16 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
     `;
         });
-
+        /*
+                requestAnimationFrame(() => {
+                    body.scrollTop = body.scrollHeight;
+                });
+        */
         requestAnimationFrame(() => {
-            body.scrollTop = body.scrollHeight;
+            if (body) {
+                body.scrollTop = body.scrollHeight;
+            }
         });
-
 
     }
 
@@ -270,14 +315,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnEnviar = document.getElementById('btnEnviarMensaje');
     const errorMsg = document.getElementById('mensajeError');
 
-    btnEnviar.addEventListener('click', enviarMensaje);
+    if (btnEnviar) {
+        btnEnviar.addEventListener('click', enviarMensaje);
+    }
 
-    textarea.addEventListener('keydown', e => {
-        if (e.key === 'Enter' && !e.shiftKey) {
-            e.preventDefault();
-            enviarMensaje();
-        }
-    });
+    if (textarea) {
+
+        textarea.addEventListener('keydown', e => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                enviarMensaje();
+            }
+        });
+    }
 
     function enviarMensaje() {
         if (!reporteActivo) {
@@ -289,11 +339,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const mensaje = textarea.value.trim();
 
         if (!mensaje) {
-            errorMsg.classList.remove('hidden');
+            if (errorMsg) {
+                errorMsg.classList.remove('hidden');
+            }
             return;
         }
 
-        errorMsg.classList.add('hidden');
+        if (errorMsg) {
+            errorMsg.classList.add('hidden');
+        }
+        btnEnviar.disabled = true;
+
         fetch(`/${window.BASE_REPORTES_URL}/reportes/${reporteActivo.id}/comentarios`, {
 
                 method: 'POST',
@@ -326,8 +382,11 @@ document.addEventListener('DOMContentLoaded', () => {
         })
 
         .catch(() => {
-            alert('No se pudo enviar el mensaje');
-        });
+                alert('No se pudo enviar el mensaje');
+            })
+            .finally(() => {
+                btnEnviar.disabled = false;
+            });
     }
 
 
