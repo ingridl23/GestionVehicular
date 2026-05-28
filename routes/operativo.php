@@ -84,7 +84,6 @@ Route::get('/viajes/{viaje}', [ViajeController::class, 'show'])
     ->name('viajes.show');
 
 
-
 Route::post('/viajes/{reserva}/comenzar', [ViajeController::class, 'comenzarViaje'])
     ->name('viajes.comenzar');
 

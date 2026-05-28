@@ -5,6 +5,7 @@ use App\Models\Dependencia;
 use App\Models\EstadosReserva;
 use App\Models\Reserva;
 use App\Models\Vehiculo;
+use App\Services\Reservas\BaseReservasServices;
 
 /**
  * @brief Service extendido de @BaseReservasServices , hereda logica de negocio inicial para reservas internas

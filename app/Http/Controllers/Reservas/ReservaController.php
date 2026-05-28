@@ -1,13 +1,12 @@
 <?php
 
 namespace App\Http\Controllers\Reservas;
-
 use App\Http\Requests\FiltroReservasRequest;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\ReservasExport;
 use App\Models\Reserva;
 use App\Services\Reservas\ReservasInternasService;
-
+use App\Http\Controllers\Reservas\BaseReservaController;
 use Illuminate\Http\Request;
 
 /**

@@ -9,8 +9,8 @@ use App\Http\Controllers\ViajeController;
 use App\Http\Controllers\HomeController;
 use App\Models\Viaje;
 use App\Http\Controllers\Reservas\PrestamoController;
-use App\Http\Controllers\Reservas\ReservaController as ReservaController;
-use App\Services\CombustibleApiService;
+use App\Http\Controllers\Reservas\ReservaController;
+//use App\Services\CombustibleApiService;
 
 // Ruta raíz redirige al login
 Route::get('/', [HomeController::class, 'inicio']);
@@ -169,7 +169,7 @@ Route::post('/alertas/{id}/resolver', [AlertaController::class, 'resolver']);
     /*************************************  RESERVAS GENERAL   **********************************/
 
     //Aca se declararon las rutas que puede acceder todos los usuarios (independientemente del rol)
-    //Las especificas por rol se declararon en AdminGeneral.php
+    //Las especificas por rol se declararon en AdminGeneral.php / operativo.php / adminDependencia.php
 
     Route::get('/listado-reservas', [ReservaController::class, 'verReservas'])->middleware('permission:ver_reservas_internas')->name('reservas.internas');
     Route::get('/listado-prestamos', [PrestamoController::class, 'verReservas'])->middleware('permission:ver_reservas_prestamos')->name('reservas.prestamos');
@@ -211,12 +211,12 @@ Route::post('/alertas/{id}/resolver', [AlertaController::class, 'resolver']);
 
 });
 
-
+/*
 // RUTA DE PRUEBA API
 Route::get('/test-combustible', function (CombustibleApiService $service) {
     return response()->json([
         'resultado' => $service->obtenerPrecioActual()
     ]);
 })->name('test.combustible');
-
+*/
 

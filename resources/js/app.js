@@ -4,8 +4,7 @@ import collapse from '@alpinejs/collapse';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import Alpine from 'alpinejs';
 
-
-//import './alertas/alerta.js'; hace loop en loader  por eso lo comento
+import './alerta.js';
 import './calculadora';
 import './loader.js';
 import './reportes';

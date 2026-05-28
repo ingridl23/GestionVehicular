@@ -4,7 +4,8 @@ namespace App\Http\Controllers\Reservas;
 use App\Http\Requests\FiltroReservasRequest;
 use App\Models\Dependencia;
 use App\Models\Reserva;
-use App\Services\reservas\ReservasExternasService;
+use App\Services\Reservas\ReservasExternasService;
+use App\Http\Controllers\Reservas\BaseReservaController;
 
 /**
  * @class PrestamoController
