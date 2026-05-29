@@ -55,4 +55,23 @@ class ReservaFormRequest extends FormRequest
             'id_dependencia.exists'   => 'La dependencia seleccionada no existe.',
         ];
     }
+
+
+    /** funcion parche para no cambiar todo el backend de reservas solo cambia el input de calendario con fecha y hora separadas */
+    protected function prepareForValidation()
+{
+    if ($this->fecha_inicio_fecha && $this->fecha_inicio_hora) {
+        $this->merge([
+            'fecha_inicio' =>
+                $this->fecha_inicio_fecha . ' ' . $this->fecha_inicio_hora
+        ]);
+    }
+
+    if ($this->fecha_fin_fecha && $this->fecha_fin_hora) {
+        $this->merge([
+            'fecha_fin' =>
+                $this->fecha_fin_fecha . ' ' . $this->fecha_fin_hora
+        ]);
+    }
+}
 }

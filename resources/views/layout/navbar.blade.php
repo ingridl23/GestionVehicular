@@ -43,13 +43,38 @@
             @endif
         </button>
 
-        <!-- Dropdown -->
+        <!-- Overlay mobile -->
+        <div
+            x-show="open"
+            x-transition.opacity
+            class="fixed inset-0 bg-black/40 z-40 md:hidden"
+            @click="open = false"
+        ></div>
+
+
+        <!-- Dropdown / Panel -->
+        <div
+            x-show="open"
+            @click.away="open = false"
+            x-transition
+            class="
+                fixed top-16 left-2 right-2 z-50
+                max-h-[80vh] overflow-y-auto
+                bg-white dark:bg-gray-800
+                shadow-xl rounded-xl border dark:border-gray-700
+
+                md:absolute md:top-auto md:left-auto md:right-0
+                md:mt-2 md:w-80
+            "
+        >
+
+        <!-- Dropdown old
         <div
             x-show="open"
             @click.away="open = false"
             x-transition
             class="absolute right-0 mt-2 w-80 bg-white dark:bg-gray-800 shadow-xl rounded-lg z-50 border dark:border-gray-700" >
-
+        -->
             <div class="p-3 font-semibold text-gray-700 dark:text-gray-200 border-b">
                 Notificaciones
             </div>

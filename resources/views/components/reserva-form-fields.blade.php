@@ -7,7 +7,7 @@
   'dependencias',
 ])
 
-  <div class="space-y-12">
+                      <div class="space-y-12">
                             <div class="border-b border-gray-200 dark:border-white/10 pb-12">
                                 <h2 class="text-base font-semibold text-gray-900 dark:text-white">
                                     Período de la reserva
@@ -26,11 +26,28 @@
                                         <div class="mt-2">
                                             <div class="flex items-center rounded-md bg-white dark:bg-white/5
                                                 border border-gray-300 dark:border-white/10 focus-within:ring-2 focus-within:ring-indigo-500">
-                                                <input type="datetime-local" name="fecha_inicio" id="fecha_inicio"
-                                                    class="block w-full bg-transparent py-2 px-3
-                                                    text-gray-900 dark:text-white
-                                                    placeholder:text-gray-400
-                                                    focus:outline-none sm:text-sm" value="{{ old('fecha_inicio', $reserva?->fecha_inicio_reserva) }}" >
+
+
+                                  <div class="grid grid-cols-2 gap-2">
+
+                                 <input
+                                   type="date"
+                                   name="fecha_inicio_fecha"
+                                   class="w-full rounded-md border border-gray-300
+                                         bg-white dark:bg-white/5
+                                         text-gray-900 dark:text-white
+                                           py-2 px-3 text-sm"
+                                            >
+
+                                          <input
+                                           type="time"
+                                           name="fecha_inicio_hora"
+                                           class="w-full rounded-md border border-gray-300
+                                                bg-white dark:bg-white/5
+                                                text-gray-900 dark:text-white
+                                                  py-2 px-3 text-sm" >
+
+</div>
                                             </div>
                                         </div>
                                         @error('fecha_inicio')
@@ -46,9 +63,25 @@
                                         <div class="mt-2">
                                             <div class="flex items-center rounded-md bg-white dark:bg-white/5
                                                 border border-gray-300 dark:border-white/10 focus-within:ring-2 focus-within:ring-indigo-500">
-                                                <input type="datetime-local" name="fecha_fin" id="fecha_fin"
-                                                    class="block w-full bg-transparent py-2 px-3 text-gray-900 dark:text-white
-                                                    placeholder:text-gray-400 focus:outline-none sm:text-sm" value="{{ old('fecha_fin', $reserva?->fecha_fin_reserva) }}" >
+                                                                        <div class="grid grid-cols-2 gap-2">
+
+                                 <input
+                                   type="date"
+                                   name="fecha_fin_fecha"
+                                   class="w-full rounded-md border border-gray-300
+                                         bg-white dark:bg-white/5
+                                         text-gray-900 dark:text-white
+                                           py-2 px-3 text-sm"
+                                            >
+
+                                          <input
+                                           type="time"
+                                           name="fecha_fin_hora"
+                                           class="w-full rounded-md border border-gray-300
+                                                bg-white dark:bg-white/5
+                                                text-gray-900 dark:text-white
+                                                  py-2 px-3 text-sm" >
+
                                             </div>
                                         </div>
                                         @error('fecha_fin')
@@ -84,26 +117,31 @@
                                     </label>
                                     <div class="mt-2 relative">
 
-                                        <select id="vehiculo" name="id_vehiculo" class="w-full appearance-none rounded-md
-                                            bg-white dark:bg-white/5 text-gray-900 dark:text-white
-                                            border border-gray-300 dark:border-white/10 py-2 pl-3 pr-8
-                                            focus:ring-2 focus:ring-indigo-500 sm:text-sm *:bg-white dark:*:bg-gray-800">
+                                        <select id="vehiculo" name="id_vehiculo"
+                                         class="w-full text-sm truncate  appearance-none rounded-md
+                                              bg-white dark:bg-white/5
+                                                text-base md:text-sm
+                                              text-gray-900 dark:text-white
+                                                border border-gray-300 dark:border-white/10
+                                                py-2 pl-3 pr-8
+                                                focus:ring-2 focus:ring-indigo-500 *:bg-white dark:*:bg-gray-800">
+
                                             <option value="" @selected(old('id_vehiculo', $reserva?->id_vehiculo) === null)>Seleccionar</option>
                                             @foreach ($vehiculos as $vehiculo)
                                                 @if($vehiculo->estadoVehiculo->estado != 'DISPONIBLE')
                                                     <option value="" disabled class="text-gray-400">
                                                         {{ $vehiculo->dominio }} {{ $vehiculo->marca }}
-                                                        {{ $vehiculo->modelo }} {{ $vehiculo->anio }} (Pertenece: {{$vehiculo->nombre}} - {{$vehiculo->estado}})
+                                                        {{ $vehiculo->modelo }}- {{$vehiculo->nombre}} - {{$vehiculo->estado}}
                                                     </option>
                                                 @elseif($ubicacion && $ubicacion == 'externa' && $vehiculo->habilitado_prestamo == false)
                                                     <option value="" disabled class="text-gray-400">
                                                         {{ $vehiculo->dominio }} {{ $vehiculo->marca }}
-                                                        {{ $vehiculo->modelo }} {{ $vehiculo->anio }} (Pertenece: {{$vehiculo->nombre}} - El vehículo no se encuentra habilitado para préstamo)
+                                                        {{ $vehiculo->modelo }}-{{$vehiculo->nombre}} -no habilitado su préstamo
                                                     </option>
                                                 @else
                                                     <option value="{{ $vehiculo->id }}" @selected(old('id_vehiculo', $reserva?->id_vehiculo) == $vehiculo->id)>
                                                         {{ $vehiculo->dominio }} {{ $vehiculo->marca }}
-                                                        {{ $vehiculo->modelo }} {{ $vehiculo->anio }} (Pertenece: {{$vehiculo->nombre}})
+                                                        {{ $vehiculo->modelo }}- {{$vehiculo->nombre}}
                                                     </option>
                                                 @endif
                                             @endforeach
@@ -128,11 +166,13 @@
                                     </label>
                                     <div class="mt-2 relative">
                                         <select id="usuario" name="id_usuario"
-                                            class="w-full appearance-none rounded-md
-                                            bg-white dark:bg-white/5 text-gray-900 dark:text-white
-                                            border border-gray-300 dark:border-white/10 py-2 pl-3 pr-8
-                                            focus:ring-2 focus:ring-indigo-500 sm:text-sm
-                                            *:bg-white dark:*:bg-gray-800">
+                                            class="w-full  truncate appearance-none rounded-md
+                                                 bg-white dark:bg-white/5
+                                                   text-base md:text-sm
+                                                 text-gray-900 dark:text-white
+                                                   border border-gray-300 dark:border-white/10
+                                                   py-2 pl-3 pr-8
+                                                   focus:ring-2 focus:ring-indigo-500 *:bg-white dark:*:bg-gray-800">
 
                                             <option value=""
                                                 @selected(old('id_usuario', $reserva?->id_usuario) === null)>
@@ -143,12 +183,12 @@
                                                 @if(!$usuario->carnet_vencido)
                                                     <option value="{{ $usuario->id }}"
                                                         @selected(old('id_usuario', $reserva?->id_usuario) == $usuario->id)>
-                                                        {{ $usuario->name }} {{ $usuario->lastname }} - Oficina: {{$usuario->nombre}}
+                                                        {{ $usuario->name }} {{ $usuario->lastname }}- {{$usuario->nombre}}
                                                     </option>
                                                 @else
                                                     <option disabled class="text-gray-400">
-                                                        {{ $usuario->name }} {{ $usuario->lastname }} - Oficina: {{$usuario->nombre}}
-                                                        (Carnet vencido / Sin licencia)
+                                                        {{ $usuario->name }}- Oficina: {{$usuario->nombre}}
+                                                        (conductor/a no habilitado/a)
                                                     </option>
                                                 @endif
                                             @endforeach
@@ -172,10 +212,13 @@
                                     </label>
                                     <div class="mt-2 relative">
                                         <select id="dependencia" name="id_dependencia"
-                                            class="w-full appearance-none rounded-md
-                                            bg-white dark:bg-white/5 text-gray-900 dark:text-white
-                                            border border-gray-300 dark:border-white/10 py-2 pl-3 pr-8
-                                            focus:ring-2 focus:ring-indigo-500 sm:text-sm
+                                            class="w-full text-sm truncate appearance-none rounded-md
+                                                   bg-white dark:bg-white/5
+                                                    md:text-sm
+                                                 text-gray-900 dark:text-white
+                                                   border border-gray-300 dark:border-white/10
+                                                   py-2 pl-3 pr-8
+                                                   focus:ring-2 focus:ring-indigo-500
                                             *:bg-white dark:*:bg-gray-800">
 
                                             <option value=""
@@ -191,7 +234,7 @@
                                                     </option>
                                                 @else
                                                     <option disabled class="text-gray-400">
-                                                        {{ $dependencia->nombre }} (No se encuentra activa)
+                                                        {{ $dependencia->nombre }} - inactiva
                                                     </option>
                                                 @endif
                                             @endforeach
@@ -209,7 +252,4 @@
                                 </div>
                             </div>
                         </div>
-
-
-
 </div>

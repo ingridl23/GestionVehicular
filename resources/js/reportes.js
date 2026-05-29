@@ -1,4 +1,4 @@
-console.log("JS cargado");
+console.log("JS reportescargado");
 
 function setText(id, value) {
     const el = document.getElementById(id);
@@ -334,7 +334,7 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('Seleccioná un reporte primero');
             return;
         }
-        console.log("push desde enviarMensaje");
+        // console.log("message successfuly sent");
 
         const mensaje = textarea.value.trim();
 
@@ -453,7 +453,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         document.getElementById('sinSeleccion').classList.remove('hidden');
                     }
 
-                    console.log("Reporte eliminado correctamente");
+                    //  console.log("Reporte eliminado correctamente");
 
                 } else {
                     alert(data.message || 'No se pudo eliminar el reporte');

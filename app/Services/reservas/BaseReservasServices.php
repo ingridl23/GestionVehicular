@@ -333,8 +333,8 @@ public function procesarReservasCaducadas()
 
 
     public function crearReserva($request){
-        $fecha_inicio = Carbon::createFromFormat('Y-m-d\TH:i', $request->input('fecha_inicio'));
-        $fecha_fin = Carbon::createFromFormat('Y-m-d\TH:i', $request->input('fecha_fin'));
+       $fecha_inicio = Carbon::parse($request->fecha_inicio);
+       $fecha_fin = Carbon::parse($request->fecha_fin);
         $id_vehiculo = $request->id_vehiculo;
         $id_usuario = $request->id_usuario;
         $id_dependencia_solicitante = $request->id_dependencia;
@@ -390,8 +390,8 @@ $conductor?->notify(new UsuarioModificadoNotification(
 
 
     public function editarReserva($request, $id){
-        $fecha_inicio = Carbon::createFromFormat('Y-m-d\TH:i', $request->input('fecha_inicio'));
-        $fecha_fin = Carbon::createFromFormat('Y-m-d\TH:i', $request->input('fecha_fin'));
+        $fecha_inicio = Carbon::parse($request->fecha_inicio);
+        $fecha_fin = Carbon::parse($request->fecha_fin);
         $id_vehiculo = $request->id_vehiculo;
         $id_usuario = $request->id_usuario;
         $reserva = Reserva::findOrFail($id);
