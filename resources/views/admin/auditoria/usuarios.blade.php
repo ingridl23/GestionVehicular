@@ -247,7 +247,7 @@
     </div>
 
 </div>
-
+<!--  Ver este modal porque no funciona en produccion en admin general (en nivel de dependencia funciona pero general no) -->
 <!-- Modal para crear/editar usuario -->
 <div id="userModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
     <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white dark:bg-gray-800">
