@@ -631,7 +631,8 @@ $imagen = ImagenProfile::create([
  */
     public function destroy(User $usuario)
     {
-        Gate::authorize('deleteUser', $usuario);
+
+        Gate::authorize('delete', $usuario);
 
         // No permitir eliminar el propio usuario
         if ($usuario->id === Auth::id()) {
@@ -698,7 +699,7 @@ $imagen = ImagenProfile::create([
         else{
             $puedeEditar = false;
 
-            return view('auth.profileOperativo', compact('usuario','dependencias','esAdmin','puedeEditar', 'puedeEditarFoto','reservas_count'));
+            return view('auth.profileOperativo', compact('usuario','dependencias','esAdmin','puedeEditar', 'puedeEditarFoto','reservas_count','viajes_count'));
         }
     }
 

@@ -1,6 +1,6 @@
 @extends('layout.app')
 
-
+<!--resources/views/admin/auditoria/usuarios.blade.php-->
 @section('page-title', 'Administración de Usuarios')
 @section('page-description', 'Gestión de Usuarios del sistema')
 
@@ -20,8 +20,7 @@
         @can('crear_usuario')
         <button
             onclick="openUserCreateModal()"
-            class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors"
-        >
+            class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors">
             <i class="fas fa-plus"></i>
             Crear Usuario
         </button>
@@ -208,7 +207,7 @@
                                     <i class="fas fa-eye"></i>
                                 </a>
 
-                                @can('editar_usuarios')
+                                @can('editar_usuario')
                                 <button
                                     onclick="openEditModal({{ $usuario->id }})"
                                     class="text-yellow-600 hover:text-yellow-900 dark:text-yellow-400 dark:hover:text-yellow-300"
@@ -217,7 +216,7 @@
                                 </button>
                                 @endcan
 
-                                @can('eliminar_usuarios')
+                                @can('eliminar_usuario')
                                 <button
                                     onclick="confirmDelete({{ $usuario->id }})"
                                     class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300"
@@ -247,7 +246,7 @@
     </div>
 
 </div>
-<!--  Ver este modal porque no funciona en produccion en admin general (en nivel de dependencia funciona pero general no) -->
+
 <!-- Modal para crear/editar usuario -->
 <div id="userModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
     <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white dark:bg-gray-800">
@@ -346,8 +345,46 @@
         </div>
     </div>
 </div>
+<div id="deleteModal"
+    class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
 
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-md p-6">
 
+        <div class="flex items-center gap-3 mb-4">
+            <i class="fas fa-triangle-exclamation text-red-500 text-2xl"></i>
+            <h3 class="text-lg font-bold text-gray-900 dark:text-white">
+                Confirmar eliminación
+            </h3>
+        </div>
 
+        <p class="text-gray-600 dark:text-gray-300 mb-6">
+            ¿Estás seguro de que deseas eliminar este usuario?
+            Esta acción no se puede deshacer.
+        </p>
+
+        <div class="flex justify-end gap-3">
+            <button
+                id="cancelDeleteBtn"
+                class="px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded">
+                Cancelar
+            </button>
+
+            <button
+                id="confirmDeleteBtn"
+                class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded">
+                Eliminar
+            </button>
+        </div>
+
+    </div>
+</div>
+
+<script>
+window.USER_ROUTES = {
+    store: @json(route('admin.usuarios.store')),
+    updateBase: @json(url('/admin/usuarios')),
+    deleteBase: @json(url('/admin/usuarios'))
+};
+</script>
 
 @endsection

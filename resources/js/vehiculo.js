@@ -49,12 +49,12 @@ document.addEventListener('DOMContentLoaded', function() {
             headers['X-CSRF-TOKEN'] = csrfToken;
 
         }
-
-        console.log('Filtros:', {
-            searchTerm,
-            filterDependencia,
-            filterEstado
-        });
+        /*
+                console.log('Filtros:', {
+                    searchTerm,
+                    filterDependencia,
+                    filterEstado
+                });*/
         if (filterDependencia === '') params.delete('dependencia_id');
         if (filterEstado === '') params.delete('estado_vehiculo_id');
 

@@ -52,42 +52,42 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     async function fetchReservas(page = 1) {
-    filtrosActuales.page = page;
+        filtrosActuales.page = page;
 
-    try {
-        const res = await fetch(currentUrl, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json",
-                "X-CSRF-TOKEN": window.csrfToken,
-            },
-            body: JSON.stringify(filtrosActuales),
-        });
+        try {
+            const res = await fetch(currentUrl, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json",
+                    "X-CSRF-TOKEN": window.csrfToken,
+                },
+                body: JSON.stringify(filtrosActuales),
+            });
 
-        if (!res.ok) {
-            throw new Error("Error HTTP: " + res.status);
+            if (!res.ok) {
+                throw new Error("Error HTTP: " + res.status);
+            }
+
+            const data = await res.json();
+
+            mostrarResultado(data.data, data.ids ? data.ids : []);
+            renderPaginacion(data.meta);
+
+        } catch (err) {
+            console.error(err);
         }
-
-        const data = await res.json();
-
-        mostrarResultado(data.data, data.ids ?? []);
-        renderPaginacion(data.meta);
-
-    } catch (err) {
-        console.error(err);
     }
-}
 
     function vistaActual() {
-        return window.matchMedia("(min-width: 768px)").matches
-            ? "tabla"
-            : "lista";
+        return window.matchMedia("(min-width: 768px)").matches ?
+            "tabla" :
+            "lista";
     }
 
     function mostrarResultado(reservas, ids = null) {
         const { permissions: PERMISSIONS, routes: ROUTES } =
-            window.RESERVAS_CONFIG;
+        window.RESERVAS_CONFIG;
 
         let view = vistaActual();
 
@@ -143,40 +143,40 @@ document.addEventListener("DOMContentLoaded", () => {
                     `;
                 }
 
-                if(window.APP_CONFIG.ubicacion == "interna" || ids.includes(res.id_dependencia_solicitante)){
+                if (window.APP_CONFIG.ubicacion == "interna" || ids.includes(res.id_dependencia_solicitante)) {
 
-                if (PERMISSIONS.editar) {
-                    if (
-                        res.estado_reserva.estado != "RECHAZADA" &&
-                        res.estado_reserva.estado != "CANCELADA" &&
-                        res.estado_reserva.estado != "FINALIZADA"
-                    ) {
-                        acciones += `
+                    if (PERMISSIONS.editar) {
+                        if (
+                            res.estado_reserva.estado != "RECHAZADA" &&
+                            res.estado_reserva.estado != "CANCELADA" &&
+                            res.estado_reserva.estado != "FINALIZADA"
+                        ) {
+                            acciones += `
                         <a href="${ROUTES.editar.replace(":id", res.id)}"
                         class="text-yellow-600 hover:text-yellow-900 dark:text-yellow-400 dark:hover:text-yellow-300"
                         title="Editar">
                             <i class="fas fa-edit"></i>
                         </a>
                     `;
+                        }
                     }
-                }
 
-                if (PERMISSIONS.cancelar) {
-                    if (
-                        res.estado_reserva.estado != "RECHAZADA" &&
-                        res.estado_reserva.estado != "CANCELADA" &&
-                        res.estado_reserva.estado != "FINALIZADA"
-                    ) {
-                        acciones += `
+                    if (PERMISSIONS.cancelar) {
+                        if (
+                            res.estado_reserva.estado != "RECHAZADA" &&
+                            res.estado_reserva.estado != "CANCELADA" &&
+                            res.estado_reserva.estado != "FINALIZADA"
+                        ) {
+                            acciones += `
                         <button command="show-modal" commandfor="dialog-cancelar" data-id="${res.id}"
                                 class="btn-cancelar text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300"
                                 title="Cancelar" >
                                 <i class="fa fa-times"></i>
                             </button>
                     `;
+                        }
                     }
-                }
-                                    
+
                 }
             } else {
                 if (PERMISSIONS.ver) {
@@ -309,33 +309,36 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function crearBoton(texto, page) {
-    const btn = document.createElement("button");
-    btn.textContent = texto;
-    btn.onclick = () => fetchReservas(page);
-    return btn;
-}
+        const btn = document.createElement("button");
+        btn.textContent = texto;
+        btn.onclick = () => fetchReservas(page);
+        return btn;
+    }
 
     let botonMostrarFiltros = document.getElementById("mostrarFiltros");
-    botonMostrarFiltros.addEventListener("click", () => {
-        let filtros = document.getElementById("filtros");
-        if (filtros.classList.contains("hidden")) {
-            filtros.classList.remove("hidden");
-            botonMostrarFiltros.innerHTML = "Cerrar filtros";
 
-            requestAnimationFrame(() => {
-                filtros.classList.remove("opacity-0", "-translate-y-4");
-                filtros.classList.add("opacity-100", "translate-y-0");
-            });
-        } else {
-            filtros.classList.remove("opacity-100", "translate-y-0");
-            filtros.classList.add("opacity-0", "-translate-y-4");
+    if (botonMostrarFiltros) {
+        botonMostrarFiltros.addEventListener("click", () => {
+            let filtros = document.getElementById("filtros");
+            if (filtros.classList.contains("hidden")) {
+                filtros.classList.remove("hidden");
+                botonMostrarFiltros.innerHTML = "Cerrar filtros";
 
-            setTimeout(() => {
-                filtros.classList.add("hidden");
-            }, 300);
-            botonMostrarFiltros.innerHTML = "Filtros";
-        }
-    });
+                requestAnimationFrame(() => {
+                    filtros.classList.remove("opacity-0", "-translate-y-4");
+                    filtros.classList.add("opacity-100", "translate-y-0");
+                });
+            } else {
+                filtros.classList.remove("opacity-100", "translate-y-0");
+                filtros.classList.add("opacity-0", "-translate-y-4");
+
+                setTimeout(() => {
+                    filtros.classList.add("hidden");
+                }, 300);
+                botonMostrarFiltros.innerHTML = "Filtros";
+            }
+        });
+    }
 
     // LIMPIAR FILTROS
 
@@ -385,31 +388,34 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let botonTodas = document.getElementById("filtroPrestamoTodos");
 
-    botonTodas.addEventListener("click", ()=>{
-        let busqueda = form.dataset.busqueda;
+    if (botonTodas) {
+        botonTodas.addEventListener("click", () => {
+            let busqueda = form.dataset.busqueda;
 
-        if (busqueda == "interna") {
-            currentUrl = "/filtrar-reservas-internas";
-        } else {
-            currentUrl = "/filtrar-reservas-externas";
-        }
+            if (busqueda == "interna") {
+                currentUrl = "/filtrar-reservas-internas";
+            } else {
+                currentUrl = "/filtrar-reservas-externas";
+            }
 
-        fetchReservas(1);
-    })
+            fetchReservas(1);
+        })
+    }
 
+    if (botonInterno) {
+        botonInterno.addEventListener("click", () => {
+            currentUrl = "/filtrar-prestamos-internos";
+            filtrosActuales = {};
+            fetchReservas(1);
+        });
+    }
 
-
-    botonInterno.addEventListener("click", () => {
-        currentUrl = "/filtrar-prestamos-internos";
-        filtrosActuales = {};
-        fetchReservas(1);
-    });
-
-    botonExterno.addEventListener("click", () => {
-        currentUrl = "/filtrar-prestamos-externos";
-        filtrosActuales = {};
-        fetchReservas(1);
-    });
-
+    if (botonExterno) {
+        botonExterno.addEventListener("click", () => {
+            currentUrl = "/filtrar-prestamos-externos";
+            filtrosActuales = {};
+            fetchReservas(1);
+        });
+    }
 
 });

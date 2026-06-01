@@ -122,6 +122,11 @@ Route::get('/api/viajes/{viaje}/coordenadas', function (Viaje $viaje) {
             ->middleware('permission:crear_usuario')
             ->name('usuarios.store');
 
+            Route::put('/usuarios/{usuario}', [UserController::class, 'update'])
+        ->name('usuarios.update');
+
+    Route::delete('/usuarios/{usuario}', [UserController::class, 'destroy'])
+        ->name('usuarios.destroy');
     });
 
 

@@ -51,6 +51,9 @@ class UserPolicy
         if ($user->hasRole('Administrador de Dependencia')) {
             return $objetivo->id_dependencia === $user->id_dependencia;
         }
+        if($user->hasRole('Administrador General')){
+            return true;
+        }
 
         return false;
     }
@@ -82,6 +85,9 @@ class UserPolicy
             return $objetivo->id_dependencia === $user->id_dependencia
                 && $user->can('editar_personal_dependencia');
         }
+        if($user->hasRole('Administrador General')){
+            return true;
+        }
 
         return false;
     }
@@ -91,9 +97,13 @@ class UserPolicy
      */
     public function delete(User $user, User $objetivo): bool
     {
+
         if ($user->hasRole('Administrador de Dependencia')) {
             return $objetivo->id_dependencia === $user->id_dependencia
                 && $user->can('eliminar_personal_dependencia');
+        }
+        if($user->hasRole('Administrador General')){
+            return true;
         }
 
         return false;
