@@ -16,7 +16,7 @@
          ])
 
 
-@vite('resources/css/viaje-admin.css')
+
 <div class="vt-wrap" id="viajes-wrapper" data-view="tabla">
 
   {{-- ── Chips de filtro rápido ── --}}

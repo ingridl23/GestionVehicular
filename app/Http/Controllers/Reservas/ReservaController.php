@@ -24,8 +24,6 @@ use Illuminate\Http\Request;
  */
 
 
-
-
 class ReservaController extends BaseReservaController{
 
 

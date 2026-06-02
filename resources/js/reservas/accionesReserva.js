@@ -113,19 +113,24 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
                 //const botonAceptar = document.querySelector('.botonAprobarReserva');
 
-                ConfirmReserva = document.getElementById('parrafo-confirmacion');
+                const ConfirmReserva = document.getElementById('parrafo-confirmacion');
                 if (data.success) {
 
                     ConfirmReserva.textContent = data.message;
+                    dialog.showModal();
 
-                    window.location.reload();
+                    dialog.addEventListener('close', () => {
+                        window.location.reload();
+                    }, { once: true });
                 } else {
                     ConfirmReserva.textContent = data.message ? data.message : 'No se pudo aprobar la reserva.';
                 }
 
             } catch (err) {
                 console.error(err);
-                ConfirmReserva('Error al procesar la solicitud.');
+                if (confirmReserva) {
+                    confirmReserva.textContent = 'Error al procesar la solicitud.';
+                }
             }
         });
     }
