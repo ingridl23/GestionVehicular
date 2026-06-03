@@ -74,28 +74,65 @@
             @else
         <!-- BOTÓN ELIMINAR FOTO -->
         <button type="button"
-                onclick="eliminarFoto()"
+                onclick="document.getElementById('confirmDialog').showModal()"
                 class="absolute bottom-0 right-0 bg-red-600 text-white p-2 rounded-full hover:bg-red-700">
             <i class="fas fa-trash"></i>
         </button>
-        <script>
-function eliminarFoto() {
-    if (confirm('¿Eliminar foto de perfil?')) {
+
+    @endif
+        @endif
+
+    </div>
+</form>
+
+<!-- *************************** dialog de confirmacion eliminar foto ****************************************-->
+<dialog id="confirmDialog" class="rounded-lg p-6 bg-white dark:bg-gray-800">
+    <p class="text-lg text-gray-900 dark:text-white">¿Estás seguro de que deseas eliminar la foto de perfil?</p>
+    <div class="flex justify-end gap-4 mt-4">
+        <button type="button" onclick="document.getElementById('confirmDialog').close()" class="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 dark:bg-gray-600 dark:text-white dark:hover:bg-gray-500">
+            Cancelar
+        </button>
+        <button type="button" onclick="eliminarFoto()" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700">
+            Eliminar
+        </button>
+    </div>
+</dialog>
+
+<!--********************* dialog de eliminacion exitosa ********************************************* -->
+<dialog id="successDialog" class="rounded-lg p-6 bg-white dark:bg-gray-800">
+    <p class="text-lg text-gray-900 dark:text-white">Foto de perfil eliminada exitosamente.</p>
+    <div class="flex justify-end mt-4">
+        <button type="button" onclick="document.getElementById('successDialog').close()" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+            Aceptar
+        </button>
+    </div>
+</dialog>
+
+{{--######################  SCRIPT DE ELIMINAR LA IMAGEN DEL PERFIL  ###########################--}}
+<script>
+
+    // Manejar eliminación de foto -->
+
+    function eliminarFoto() {
+
         fetch("{{ route('operativo.usuario.eliminarImagen', $usuario->id) }}", {
             method: 'DELETE',
             headers: {
                 'X-CSRF-TOKEN': '{{ csrf_token() }}'
             }
-        }).then(() => location.reload());
+        })
+
+        const successDialog = document.getElementById('successDialog');
+        successDialog.showModal();
+
+        successDialog.addEventListener('close', () => {
+                location.reload();
+            })
+            .then(() => location.reload());
     }
-}
-</script>
-    @endif
-        @endif
+    </script>
 
-
-    </div>
-</form>
+{{-- ************************************************************************************************************* --}}
 
                 <!-- Info -->
                 <div class="flex-1 text-center md:text-left">
@@ -122,12 +159,12 @@ function eliminarFoto() {
             </div>
         </div>
 
-        <!-- Profile Body -->
+        <!-- ########### Profile Body ##################-->
         <form id="formPerfil" action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data"  class="p-6">
             @csrf
             @method('PUT')
 
-            <!-- Información Personal -->
+            <!--********** Información Personal ***********-->
             <div class="mb-8">
                 <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
                     <i class="fas fa-user text-blue-600"></i>
@@ -138,7 +175,7 @@ function eliminarFoto() {
 
 
 
-                    <!-- Nombre -->
+                    <!--** Nombre **-->
                     <div>
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                             Nombre
@@ -151,7 +188,7 @@ function eliminarFoto() {
                         @endif
                     </div>
 
-                    <!-- Apellido -->
+                    <!--** Apellido **-->
                     <div>
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                             Apellido
@@ -164,7 +201,7 @@ function eliminarFoto() {
                         @endif
                     </div>
 
-                    <!-- Email -->
+                    <!--** Email **-->
                     <div>
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                             Email
@@ -177,7 +214,7 @@ function eliminarFoto() {
                         @endif
                     </div>
 
-                    <!-- Legajo -->
+                    <!--** Legajo **-->
                     <div>
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                             Legajo

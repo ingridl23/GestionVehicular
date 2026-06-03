@@ -108,4 +108,5 @@ if (cancelBtn) {
 
         userToDelete = null;
     });
+
 }
