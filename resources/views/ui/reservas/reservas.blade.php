@@ -229,6 +229,8 @@
   </div>
 </dialog>
 
+
+{{--  SCRIPT DE PROPS DE RUTAS PARA ENVIO Y REDIRECIONAMIENTO FETCH  --}}
 <script>
   window.RESERVAS_CONFIG = {
     permissions: {

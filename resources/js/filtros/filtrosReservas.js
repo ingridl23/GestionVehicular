@@ -14,7 +14,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let htmlCopiaContenedorTabla = contenedor.innerHTML;
     let htmlCopiaContenedorLista = contenedor_lista.innerHTML;
-
+    if (!form) {
+        return;
+    }
     form.addEventListener("submit", (e) => {
         e.preventDefault();
 
@@ -344,44 +346,45 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let botonLimpiar = document.getElementById("limpiarFiltros");
 
-    botonLimpiar.addEventListener("click", () => {
-        // Limpiar inputs
-        document
-            .querySelectorAll(
-                "#formFiltrosReservas input, #formFiltrosReservas select",
-            )
-            .forEach((el) => {
-                if (el.tagName === "SELECT") {
-                    el.value = "default";
-                } else {
-                    el.value = "";
-                }
-            });
+    if (botonLimpiar) {
+        botonLimpiar.addEventListener("click", () => {
+            // Limpiar inputs
+            document
+                .querySelectorAll(
+                    "#formFiltrosReservas input, #formFiltrosReservas select",
+                )
+                .forEach((el) => {
+                    if (el.tagName === "SELECT") {
+                        el.value = "default";
+                    } else {
+                        el.value = "";
+                    }
+                });
 
-        // Ocultar resultados JS
-        document.getElementById("contenedor-js").style.display = "none";
+            // Ocultar resultados JS
+            document.getElementById("contenedor-js").style.display = "none";
 
-        // Mostrar contenido del servidor
-        document.querySelector(".contenedor-servidor").style.display = "flex";
-        document
-            .getElementById("contenedor-general")
-            .classList.remove("md:hidden");
+            // Mostrar contenido del servidor
+            document.querySelector(".contenedor-servidor").style.display = "flex";
+            document
+                .getElementById("contenedor-general")
+                .classList.remove("md:hidden");
 
-        // Limpiar contenedores JS
+            // Limpiar contenedores JS
 
-        document.getElementById("contenedor-reservas").innerHTML =
-            htmlCopiaContenedorTabla;
-        document.getElementById("contenedor-reservas-listas").innerHTML =
-            htmlCopiaContenedorLista;
+            document.getElementById("contenedor-reservas").innerHTML =
+                htmlCopiaContenedorTabla;
+            document.getElementById("contenedor-reservas-listas").innerHTML =
+                htmlCopiaContenedorLista;
 
-        // Ocultar mensaje “No hay reservas”
-        textoNoReservas.classList.add("hidden");
-        textoNoReservas.classList.remove("block");
+            // Ocultar mensaje “No hay reservas”
+            textoNoReservas.classList.add("hidden");
+            textoNoReservas.classList.remove("block");
 
-        // Resetear paginación JS
-        document.getElementById("paginacion").innerHTML = "";
-    });
-
+            // Resetear paginación JS
+            document.getElementById("paginacion").innerHTML = "";
+        });
+    }
 
     let botonExterno = document.getElementById("filtroPrestamoExterno");
     let botonInterno = document.getElementById("filtroPrestamoInterno");
