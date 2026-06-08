@@ -18,7 +18,8 @@ document.addEventListener("DOMContentLoaded", () => {
             if (!reservaIdCancelar) return;
             //  cerrar el dialogo de confirmación
             const dialogCancelar = document.getElementById('dialog-cancelar');
-            if (dialogCancelar) dialogCancelar.close();
+            if (dialogCancelar)
+                dialogCancelar.close();
 
             cancelarReserva(reservaIdCancelar);
         });
@@ -114,18 +115,22 @@ document.addEventListener("DOMContentLoaded", () => {
                 //const botonAceptar = document.querySelector('.botonAprobarReserva');
 
                 const ConfirmReserva = document.getElementById('parrafo-confirmacion');
-                if (data.success) {
 
-                    ConfirmReserva.textContent = data.message;
-                    dialog.showModal();
+                if (ConfirmReserva) {
 
-                    dialog.addEventListener('close', () => {
-                        window.location.reload();
-                    }, { once: true });
-                } else {
-                    ConfirmReserva.textContent = data.message ? data.message : 'No se pudo aprobar la reserva.';
+
+                    if (data.success) {
+
+                        ConfirmReserva.textContent = data.message;
+                        dialog.showModal();
+
+                        dialog.addEventListener('close', () => {
+                            window.location.reload();
+                        }, { once: true });
+                    } else {
+                        ConfirmReserva.textContent = data.message ? data.message : 'No se pudo aprobar la reserva.';
+                    }
                 }
-
             } catch (err) {
                 console.error(err);
                 if (confirmReserva) {

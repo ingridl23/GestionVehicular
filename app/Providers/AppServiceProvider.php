@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Auth;
 use App\Integrations\Gps\Contracts\GpsProviderInterface;
 use App\Integrations\Gps\GestyaProvider;
+use Illuminate\Support\Facades\URL;
 class AppServiceProvider extends ServiceProvider
 {
     public function register(): void
@@ -18,6 +19,7 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+          URL::forceScheme('https');  //Nos aseguramos de que el protocolo sea https
         // Para el navbar y layout PRINCIPAL (admin)
         View::composer(['layout.navbar', 'layout.app'], function ($view) {
 
