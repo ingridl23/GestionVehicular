@@ -10,23 +10,24 @@ use App\Http\Controllers\HomeController;
 use App\Models\Viaje;
 use App\Http\Controllers\Reservas\PrestamoController;
 use App\Http\Controllers\Reservas\ReservaController;
+//use App\Http\Controllers\Auth\PasswordResetLinkController;
 //use App\Services\CombustibleApiService;
-
 // Ruta raíz redirige al login
-Route::get('/', [HomeController::class, 'inicio']);
+    Route::get('/', [HomeController::class, 'inicio']);
 
+//Route::get('/reset-password',[PasswordResetLinkController::class, 'create'])->name('password.reset');
 
 // *******************  RUTAS PROTEGIDAS (requieren autenticación)   **************************
-Route::middleware(['auth', 'permission:ver_todos_usuarios|ver_personal_dependencia'])->group(function () {
+    Route::middleware(['auth', 'permission:ver_todos_usuarios|ver_personal_dependencia'])->group(function () {
     Route::get('/admin/usuarios', [UserController::class, 'index'])
         ->name('admin.usuarios.index');
-});
+    });
 
 
-Route::middleware(['auth'])->group(function () {
+    Route::middleware(['auth'])->group(function () {
 
-   // Dashboard
-  //  Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard');
+     // Dashboard
+    //  Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard');
 
     // Alertas
     Route::get('/alertas/recientes', [AlertaController::class, 'recientes']);
@@ -34,7 +35,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/alertas/{tipo}/{id}', [AlertaController::class, 'porEntidad'])->name('alertas.porEntidad');
 
     // Auditoría y dashboard
-   Route::get('/auditoria', [UserController::class, 'dashboard'])->name('auditoria.index');
+    Route::get('/auditoria', [UserController::class, 'dashboard'])->name('auditoria.index');
 
 
     // Vehículos
@@ -77,7 +78,6 @@ Route::middleware(['auth'])->group(function () {
    Route::post('/viajes/{viaje}/finalizar', [ViajeController::class, 'finalizarViaje'])
     ->name('viajes.finalizaradmin');
 
-    /********************************** VIAJES  **********************************/
 
     Route::get('/viajes', [ViajeController::class, 'index'])
     ->name('viajes.index');
@@ -90,12 +90,10 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/viajes/{reserva}/comenzar', [ViajeController::class, 'comenzarViaje'])
     ->name('viajes.comenzar');
-     Route::post('/viajes/finalizar/{viaje}', [ViajeController::class, 'finalizar'])
+    Route::post('/viajes/finalizar/{viaje}', [ViajeController::class, 'finalizar'])
     ->name('viajes.finalizar');
 
-
-
-Route::get('/api/viajes/{viaje}/coordenadas', function (Viaje $viaje) {
+    Route::get('/api/viajes/{viaje}/coordenadas', function (Viaje $viaje) {
     return response()->json(
         $viaje->coordenadas()
               ->latest('fecha_hora')
@@ -104,9 +102,9 @@ Route::get('/api/viajes/{viaje}/coordenadas', function (Viaje $viaje) {
     );
 });
 
-   /********************************** Rutas de dependencia ************************************************/
 
-    Route::prefix('dependencia')->name('dependencia.')->group(function () {
+   /********************************** Rutas de dependencia ************************************************/
+        Route::prefix('dependencia')->name('dependencia.')->group(function () {
 
         // Préstamos
         Route::get('/prestamos', [ReservaController::class, 'prestamos'])
@@ -122,54 +120,48 @@ Route::get('/api/viajes/{viaje}/coordenadas', function (Viaje $viaje) {
             ->middleware('permission:crear_usuario')
             ->name('usuarios.store');
 
-            Route::put('/usuarios/{usuario}', [UserController::class, 'update'])
+        Route::put('/usuarios/{usuario}', [UserController::class, 'update'])
         ->name('usuarios.update');
 
-    Route::delete('/usuarios/{usuario}', [UserController::class, 'destroy'])
+        Route::delete('/usuarios/{usuario}', [UserController::class, 'destroy'])
         ->name('usuarios.destroy');
-    });
+       });
 
 
 
-    Route::middleware(['auth', 'role:Administrador de Dependencia'])
-    ->prefix('dependencia')
-    ->name('dependencia.')
-    ->group(function () {
+        Route::middleware(['auth', 'role:Administrador de Dependencia'])
+         ->prefix('dependencia')
+         ->name('dependencia.')
+         ->group(function () {
 
         Route::get('/reportes', [ReporteController::class, 'index'])
             ->middleware('permission:ver_reportes_dependencia')
             ->name('reportes.index');
+       });
 
 
-});
+   /*********************************************** ALERTAS ****************************************** */
+
+       Route::post('/alertas/resolver-multiples', [AlertaController::class, 'resolverMultiples']);
+       Route::post('/alertas/resolver-todas', [AlertaController::class, 'resolverTodas']);
+       Route::get('/alertas/{id}', [AlertaController::class, 'show']);
+       Route::post('/alertas/{id}/resolver', [AlertaController::class, 'resolver']);
 
 
-/*********************************************** ALERTAS ****************************************** */
-
-Route::post('/alertas/resolver-multiples', [AlertaController::class, 'resolverMultiples']);
-Route::post('/alertas/resolver-todas', [AlertaController::class, 'resolverTodas']);
-Route::get('/alertas/{id}', [AlertaController::class, 'show']);
-
-Route::post('/alertas/{id}/resolver', [AlertaController::class, 'resolver']);
-
-
-
- /*********************************************************************************************/
+    /*********************************************************************************************/
     /***************************  NOTIFICACIONES *************************************************/
     /*********************************************************************************************/
 
 
-   Route::post('/notificaciones/{id}/leer', function ($id) {
-    $notificacion = auth()->user()
+       Route::post('/notificaciones/{id}/leer', function ($id) {
+         $notificacion = auth()->user()
         ->unreadNotifications()
         ->where('id', $id)
         ->firstOrFail();
 
-
-    $notificacion->markAsRead();
-
-    return response()->json(['success' => true]);
-})->middleware('auth')->name('notificaciones.leer');
+        $notificacion->markAsRead();
+         return response()->json(['success' => true]);
+        })->middleware('auth')->name('notificaciones.leer');
 
     /*************************************  RESERVAS GENERAL   **********************************/
 
@@ -211,8 +203,6 @@ Route::post('/alertas/{id}/resolver', [AlertaController::class, 'resolver']);
 
     Route::get('/export/reportes', [ReporteController::class, 'export'])
         ->name('reportes.export');
-
-
 
 });
 

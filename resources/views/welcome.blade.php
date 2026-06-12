@@ -1,12 +1,10 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-       <link rel="icon" href="{{ asset('assets/iconos/iconoweb.png') }}" type="image/png">
-
+    <link rel="icon" href="{{ asset('assets/iconos/iconoweb.png') }}" type="image/png">
     <title>Login - Gestión Vehicular</title>
     @vite(['resources/css/app.css','resources/js/app.js'])
 </head>
@@ -15,8 +13,9 @@
     <div class="min-h-screen w-full flex items-center justify-center bg-cover bg-center bg-flota">
         <div class="relative max-w-lg w-full text-center px-4">
 
+
             <div class="flex justify-center pb-6">
-                <img src="{{ asset('assets/iconos/logo.png') }}" alt="Logo Tres Arroyos" alt="Logo Tres Arroyos" class="w-60 h-auto">
+                <img src="{{ asset('assets/iconos/logo.png') }}" alt="Logo Tres Arroyos" class="w-60 h-auto">
             </div>
 
             <!-- TÍTULO -->
@@ -117,13 +116,12 @@
                     </button>
 
                     <!-- LINK RECUPERAR CONTRASEÑA -->
-                    @if (Route::has('password.request'))
+
                         <a href="{{ route('password.request') }}" class="block mt-3 text-sm text-blue-700 hover:underline">
                             ¿Olvidaste tu contraseña?
                         </a>
-                    @endif
-                </form>
 
+                </form>
             </div>
         </div>
     </div>

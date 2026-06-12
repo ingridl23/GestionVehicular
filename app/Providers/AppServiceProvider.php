@@ -19,7 +19,7 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-          URL::forceScheme('https');  //Nos aseguramos de que el protocolo sea https
+        //  URL::forceScheme('https');  //Nos aseguramos de que el protocolo sea https
         // Para el navbar y layout PRINCIPAL (admin)
         View::composer(['layout.navbar', 'layout.app'], function ($view) {
 
