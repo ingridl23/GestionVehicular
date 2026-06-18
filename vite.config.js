@@ -21,13 +21,20 @@ export default defineConfig({
                 'resources/js/loader.js',
                 'resources/js/simulador.js',
                 'resources/js/alerta.js',
-                'calculadora.js',
+                'resources/js/bootstrap.js',
                 'resources/js/calculadora.js',
                 'resources/js/Campana.js',
                 'resources/js/perfilGestionVehicular.js',
                 'resources/js/users-modal.js',
                 'resources/js/vehiculo-debug.js',
-                'resources/js/viajeModal.js'
+                'resources/js/viajeModal.js',
+                'resources/css/loader.css',
+                'resources/css/simulador.css',
+                'resources/css/viaje-admin.css',
+                'resources/css/viaje-operativo.css',
+                'resources/css/viaje-operativo-partial.css',
+                'public/css/operador.css'
+
 
             ],
             refresh: true,
