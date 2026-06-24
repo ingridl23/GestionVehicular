@@ -1,9 +1,10 @@
 @extends('layout.app')
 
-@push('scripts')
-<script type="module" src="{{ Vite::asset('resources/js/filtros/filtrosReservas.js') }}"></script>
-<script type="module" src="{{ Vite::asset('resources/js/reservas/accionesReserva.js') }}"></script>
-@endpush
+@vite([
+    'resources/js/filtros/filtrosReservas.js',
+    'resources/js/reservas/accionesReserva.js',
+    'resources/css/filtrosReservas.css',
+])
 @section('page-title', 'Administración de Reservas')
 @section('page-description', 'Gestión de reservas del sistema')
 
