@@ -315,16 +315,16 @@ $ultimosUsuarios = User::with('dependencia')
         //Gate::authorize('createUser', User::class);
         Gate::authorize('createUser', [User::class, $request->id_dependencia]);
         $data = $request->validate([
-            'name' => 'required|string|max:100',
-            'lastname' => 'required|string|max:100',
-            'legajo' => 'nullable|string|max:20',
-            'email' => 'required|email|unique:user',
-            'password' => 'required|min:8',
-            'id_dependencia' => 'required|exists:dependencia,id',
-            'role' => 'required|string|exists:roles,name',
-            'fecha_emision' => 'required|date',
+            'name'              => 'required|string|max:100',
+            'lastname'          => 'required|string|max:100',
+            'legajo'            => ['nullable', 'string', 'max:20', Rule::unique('user', 'legajo')],
+            'email'             => 'required|email|unique:user',
+            'password'          => 'required|min:8',
+            'id_dependencia'    => 'required|exists:dependencia,id',
+            'role'              => 'required|string|exists:roles,name',
+            'fecha_emision'     => 'required|date',
             'fecha_vencimiento' => 'required|date|after:fecha_emision',
-            'vigente' => 'required|in:true,false',
+            'vigente'           => 'required|in:true,false',
         ]);
 
         try{
@@ -343,6 +343,10 @@ $ultimosUsuarios = User::with('dependencia')
 
 
                 } catch (\Exception $e) {
+                    \Illuminate\Support\Facades\Log::error('Error al crear usuario: ' . $e->getMessage(), [
+                        'data' => $data,
+                        'trace' => $e->getTraceAsString(),
+                    ]);
                     $mensajes = [
                         'titulo' => '¡Error!',
                         'detalle' => 'Error al crear el usuario, intente nuevamente.'
@@ -710,48 +714,30 @@ $imagen = ImagenProfile::create([
 
     public function updateProfile(Request $request)
     {
-       $usuario = Auth::user();
+        $usuario = Auth::user();
 
-    $validated = $request->validate([
-        'name' => ['required', 'string', 'max:100'],
-        'lastname' => ['required', 'string', 'max:100'],
-        'email' => [
-            'required',
-            'email',
-            Rule::unique('user', 'email')->ignore($usuario->id),
-        ],
-        'legajo' => [
-            'nullable',
-            'string',
-            'max:20',
-            Rule::unique('user', 'legajo')->ignore($usuario->id),
-        ],
-        'foto' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+        $rules = [
+            'name'     => ['required', 'string', 'max:100'],
+            'lastname' => ['required', 'string', 'max:100'],
+            'email'    => ['required', 'email', Rule::unique('user', 'email')->ignore($usuario->id)],
+            'legajo'   => ['nullable', 'string', 'max:20', Rule::unique('user', 'legajo')->ignore($usuario->id)],
+            'foto'     => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+        ];
 
-
-    ]);
-
-        // Solo admin puede cambiar dependencia
         if ($usuario->hasRole('Administrador General')) {
             $rules['id_dependencia'] = 'sometimes|exists:dependencia,id';
-            }
+        }
 
-            $validated = $request->validate($rules);
+        $validated = $request->validate($rules);
 
-
-
-        // Si no es admin, remover campo de dependencia si viene
         if (!$usuario->hasRole('Administrador General')) {
             unset($validated['id_dependencia']);
         }
 
+        $usuario->update($validated);
 
-// SIEMPRE se ejecuta
-$usuario->update($validated);
-
-return redirect()->route('profile.show')
-    ->with('success', 'Perfil actualizado correctamente');
-
+        return redirect()->route('profile.show')
+            ->with('success', 'Perfil actualizado correctamente');
     }
 
 

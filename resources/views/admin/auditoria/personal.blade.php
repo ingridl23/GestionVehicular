@@ -269,9 +269,9 @@
 
                     <div>
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Contraseña</label>
-                        <input type="password" name="password" id="passwordField"
+                        <input type="password" name="password" id="passwordField" minlength="8"
                             class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                        <p class="text-xs text-gray-500 mt-1">Dejar en blanco para mantener la actual</p>
+                        <p class="text-xs text-gray-500 mt-1">Mínimo 8 caracteres. Dejar en blanco para mantener la actual</p>
                     </div>
 
                     <div>
@@ -331,9 +331,7 @@
     </div>
 </div>
 
- <div class="contenedor_loader">
-        <div class="loader"></div>
-    </div>
+
 <div id="deleteModal"
     class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
 
