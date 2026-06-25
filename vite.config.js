@@ -6,8 +6,12 @@ export default defineConfig({
         laravel({
             input: [
                 'resources/css/app.css',
-                'resources/css/viaje-operativo.css',
                 'resources/css/filtrosReservas.css',
+                'resources/css/loader.css',
+                'resources/css/simulador.css',
+                'resources/css/viaje-admin.css',
+                'resources/css/viaje-operativo.css',
+                'resources/css/viaje-operativo-partial.css',
                 'resources/js/app.js',
                 'resources/js/filtros/filtrosReservas.js',
                 'resources/js/filtros/filtrosDependencias.js',
@@ -27,13 +31,7 @@ export default defineConfig({
                 'resources/js/perfilGestionVehicular.js',
                 'resources/js/users-modal.js',
                 'resources/js/vehiculo-debug.js',
-                'resources/js/viajeModal.js',
-                'resources/css/loader.css',
-                'resources/css/simulador.css',
-                'resources/css/viaje-admin.css',
-                'resources/css/viaje-operativo.css',
-                'resources/css/viaje-operativo-partial.css',
-                'public/css/operador.css'
+                'resources/js/viajeModal.js'
 
 
             ],

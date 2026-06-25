@@ -6,16 +6,13 @@ import Alpine from 'alpinejs';
 
 import './alerta.js';
 import './calculadora';
-import './filtros/filtrosReservas.js';
 
 import './reportes';
-import './simulador';
 import {
     closeUserModal,
     openEditModal,
     openUserCreateModal
 } from './users-modal';
-import './vehiculo';
 
 window.openUserCreateModal = openUserCreateModal;
 window.openEditModal = openEditModal;

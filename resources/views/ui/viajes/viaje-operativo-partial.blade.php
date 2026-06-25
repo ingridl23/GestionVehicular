@@ -26,9 +26,6 @@
     };
 @endphp
 
-{{-- ── ESTILOS (scoped a esta sección) ── --}}
-
-@vite(['resources/css/app.css','resources/js/app.js'])
 {{-- ══════════════════════════════════════════════════
      TARJETA PRINCIPAL DE VIAJE
 ═══════════════════════════════════════════════════ --}}
