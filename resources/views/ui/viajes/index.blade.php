@@ -48,35 +48,175 @@ $mostrarAcciones = $mostrarAcciones ?? true;
     {{-- ADMINS --}}
 @hasanyrole('Administrador General|Administrador de Dependencia|Jefe de Area')
 
+    {{-- Tarjeta: mi viaje activo cuando el admin es conductor --}}
+    @if(isset($viajePropio) && $viajePropio)
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md border-l-4 border-orange-500 mb-6 overflow-hidden">
+        <div class="flex items-center justify-between p-4 bg-orange-50 dark:bg-orange-900/20">
+            <div>
+                <p class="text-xs font-bold uppercase tracking-wide text-orange-600 dark:text-orange-400">Mi viaje en curso</p>
+                <p class="font-bold text-gray-900 dark:text-white">Reserva #{{ $viajePropio->reserva->id ?? '—' }}</p>
+            </div>
+            <span class="flex items-center gap-1.5 text-xs font-semibold text-orange-700 dark:text-orange-300 bg-orange-100 dark:bg-orange-900/40 px-3 py-1 rounded-full">
+                <span class="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse inline-block"></span> En curso
+            </span>
+        </div>
+        <div class="p-4">
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 text-sm mb-4">
+                <div>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">Vehículo</p>
+                    <p class="font-bold font-mono text-gray-900 dark:text-white">{{ $viajePropio->vehiculo?->dominio ?? '—' }}</p>
+                </div>
+                <div>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">Inicio del viaje</p>
+                    <p class="font-semibold text-gray-900 dark:text-white">{{ $viajePropio->fecha_inicio->format('d/m/Y H:i') }}</p>
+                </div>
+                <div>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">KM al salir</p>
+                    <p class="font-semibold text-gray-900 dark:text-white">{{ number_format($viajePropio->kilometros_inicio ?? 0, 0, ',', '.') }} km</p>
+                </div>
+            </div>
+            <div class="flex flex-col sm:flex-row gap-2">
+                <a href="{{ route('viajes.mapa', $viajePropio->id) }}"
+                   class="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-medium
+                          bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300
+                          hover:bg-blue-100 dark:hover:bg-blue-900/50 border border-blue-200 dark:border-blue-800 transition">
+                    <i class="fas fa-map-marked-alt"></i> Regresar al mapa
+                </a>
+                <button type="button"
+                        onclick="document.getElementById('modal-finalizar-admin').style.display='flex'"
+                        class="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-medium
+                               bg-orange-500 hover:bg-orange-600 text-white transition">
+                    <i class="fas fa-flag-checkered"></i> Detener viaje
+                </button>
+            </div>
+        </div>
+    </div>
+
+    {{-- Modal bottom-sheet: Finalizar viaje (admin) --}}
+    <div id="modal-finalizar-admin"
+         style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9999;align-items:flex-end;justify-content:center;"
+         onclick="if(event.target===this) this.style.display='none'">
+        <div class="bg-white dark:bg-gray-800 w-full max-w-lg rounded-t-2xl p-6"
+             style="max-height:85vh;overflow-y:auto;">
+            <div class="w-8 h-1 bg-gray-200 dark:bg-gray-600 rounded-full mx-auto mb-4"></div>
+            <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-1">Finalizar viaje</h3>
+            <p class="text-sm text-gray-500 dark:text-gray-400 mb-5">Completá los datos para cerrar el recorrido</p>
+            <form method="POST" action="{{ route('viajes.finalizaradmin', $viajePropio->id) }}">
+                @csrf
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Kilómetros finales</label>
+                        <input type="number" name="kilometros_fin" required min="0"
+                               class="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg px-3 py-2.5 text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Estado nafta final</label>
+                        <select name="id_estado_nafta_fin" required
+                                class="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg px-3 py-2.5 text-sm">
+                            <option value="">Seleccione estado</option>
+                            @foreach($estadosNafta as $estado)
+                                <option value="{{ $estado->id }}">{{ $estado->estado }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                            Observaciones <span class="text-gray-400 font-normal">*Opcional</span>
+                        </label>
+                        <textarea name="observaciones" rows="2" style="resize:none"
+                                  class="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg px-3 py-2.5 text-sm"
+                                  placeholder="Ej: sin novedades, entregué llaves en recepción…"></textarea>
+                    </div>
+                    @if($viajePropio->vehiculo && !$viajePropio->vehiculo->control_satelital)
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                            Dirección de estacionamiento <span class="text-gray-400 font-normal">(solo sin GPS)</span>
+                        </label>
+                        <select name="id_direccion"
+                                class="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg px-3 py-2.5 text-sm">
+                            <option value="">Seleccionar dirección</option>
+                            @foreach($direcciones as $dir)
+                                <option value="{{ $dir->id }}">{{ $dir->calle }} {{ $dir->altura }} - {{ $dir->ciudad }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    @endif
+                </div>
+                <button type="submit"
+                        class="w-full mt-6 py-3 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-xl text-sm transition">
+                    <i class="fas fa-flag-checkered mr-1"></i> Confirmar finalización
+                </button>
+            </form>
+            <button type="button"
+                    onclick="document.getElementById('modal-finalizar-admin').style.display='none'"
+                    class="w-full mt-2 py-2.5 text-sm text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition">
+                Cancelar
+            </button>
+        </div>
+    </div>
+    @endif
+
     @if($reservasPendientesAdmin->isNotEmpty())
-        <div class="hidden md:block">
+        <div class="mb-6">
             <x-tabla-reservas-admin-pendientes
                 :reservas="$reservasPendientesAdmin"
             />
         </div>
-
-@endif
- @if($viajesEnCurso->isNotEmpty())
-    <div class="hidden md:block mt-6">
-        <x-tabla-viajes-en-curso-admin
-            :viajes="$viajesEnCurso"
-        />
-    </div>
     @endif
 
-    {{-- Mensaje vacío solo si no hay nada --}}
+    @if($viajesEnCurso->isNotEmpty())
+        <div class="mb-6">
+            <x-tabla-viajes-en-curso-admin
+                :viajes="$viajesEnCurso"
+            />
+        </div>
+    @endif
 
-     @if($reservasPendientesAdmin->isEmpty() && $viajesEnCurso->isEmpty())
+    {{-- Historial de viajes (incluye finalizados, cancelados, en curso) --}}
+    @if($viajes->isNotEmpty())
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md border border-gray-100 dark:border-gray-700 mb-4">
+        <div class="flex items-center justify-between p-5 border-b border-gray-100 dark:border-gray-700">
+            <div>
+                <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Historial de viajes</h2>
+                <p class="text-sm text-gray-500 dark:text-gray-400">
+                    Total: <span class="font-semibold text-gray-700 dark:text-gray-300">{{ $viajes->total() }}</span> registros
+                </p>
+            </div>
+        </div>
+        <div class="p-5">
+            <div class="hidden md:block">
+                <x-tabla-viajes-desktop
+                    :viajes="$viajes"
+                    :ubicacion="null"
+                    :mostrarAcciones="true"
+                />
+            </div>
+            <div class="block md:hidden">
+                <x-lista-viajes-mobile
+                    :viajes="$viajes"
+                    :ubicacion="null"
+                    :mostrarAcciones="true"
+                />
+            </div>
+        </div>
+    </div>
+
+    @if($viajes->hasPages())
+    <div class="flex justify-center mt-4 mb-2">
+        {{ $viajes->links('vendor.pagination.simple-pagination') }}
+    </div>
+    @endif
+    @endif
+
+    {{-- Mensaje vacío solo si no hay absolutamente nada --}}
+    @if((!isset($viajePropio) || !$viajePropio) && $reservasPendientesAdmin->isEmpty() && $viajesEnCurso->isEmpty() && $viajes->isEmpty())
         <div class="flex flex-col items-center justify-center py-24 text-gray-400 dark:text-gray-600">
             <i class="fas fa-route text-5xl mb-4 opacity-30"></i>
             <p class="text-base">No hay viajes registrados</p>
         </div>
     @endif
-  <div class="flex justify-center mt-6">
-        {{ $viajes->links('vendor.pagination.simple-pagination') }}
-      </div>
 
-          @endhasanyrole
+@endhasanyrole
 
 {{-- Operativos --}}
 @hasrole('Operativo')

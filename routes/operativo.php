@@ -67,10 +67,6 @@ Route::post(
        Route::get('/reservas/form', [ReservaController::class, 'mostrarFormulario'])->name('reservas-form');
         Route::post('/reserva/create', [ReservaController::class, 'crearReserva'])->name('reservar');
 
-        //ver formulario de edicion de una reserva seleccionada
-         Route::get('/reserva/update/', [ReservaController::class, 'mostrarFormularioUpdate'])->name('reserva-form-update');
-         //actualizar reserva
-          Route::post('/reserva/update', [ReservaController::class, 'editarReserva'])->name('actualizar-reserva');
        // get filtrarReservasInternas
       Route::get('/reservas/filtro', [ReservaController::class, 'filtrarReservasInternas'])->name('filtrar-reservas-int');
     /**********************************Viajes Para Operativos ****************************************************************** */

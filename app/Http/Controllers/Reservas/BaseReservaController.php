@@ -56,7 +56,7 @@ protected function configurarBotones(string $contexto, string $ubicacion): array
             ],
             'configEditar' => [
                 'can' => 'actualizar_reserva_interna',
-                'route' => route('operativo.reserva-form-update', ':id'),
+                'route' => route('operativo.editar-conductor', ':id'),
             ],
         ];
     }
@@ -284,7 +284,7 @@ protected function configurarBotones(string $contexto, string $ubicacion): array
         $sortOrder = $request->input('sort_order', 'asc');
 
         $allowedSorts = ['fecha_inicio_reserva', 'fecha_reserva'];
-        $allowedOrders = ['asc', 'des'];
+        $allowedOrders = ['asc', 'desc'];
 
         if (!in_array($sortField, $allowedSorts)) {
             $sortField = 'fecha_inicio';

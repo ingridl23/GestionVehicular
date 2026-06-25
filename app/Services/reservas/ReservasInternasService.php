@@ -146,9 +146,7 @@ class ReservasInternasService extends BaseReservasServices{
     $reserva = Reserva::findOrFail($id);
     $datos = $this->datosForm();
 
-    $formAction = auth()->user()->hasRole('Operativo')
-        ? route('operativo.actualizar-reserva', $id)
-        : route('admin.reservas.internas.editar', $id);
+    $formAction = route('admin.reservas.internas.editar', $id);
 
     return [
         'vehiculos'     => $datos['vehiculos'],
@@ -163,7 +161,7 @@ class ReservasInternasService extends BaseReservasServices{
 
 
     public function obtenerEstadoReserva(){
-        $id_estado_reserva = EstadosReserva::where("estado", "SOLICITADA")->value('id');
+        $id_estado_reserva = EstadosReserva::where("estado", "APROBADA")->value('id');
         return $id_estado_reserva;
 
 

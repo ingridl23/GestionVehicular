@@ -52,15 +52,13 @@ class ViajeController extends Controller
             ->latest();
 
         if ($user->hasRole('Operativo')) {
-            // Solo sus viajes
             $query->whereHas('reserva', fn($q) => $q->where('id_usuario', $user->id));
-        } elseif ($user->hasAnyRole(['Administrador de Dependencia', 'Jefe de Area', 'Administrador General'])) {
-            // Viajes de su dependencia
+        } elseif ($user->hasAnyRole(['Administrador de Dependencia', 'Jefe de Area'])) {
             $query->whereHas('reserva', function ($q) use ($user) {
                 $q->where('id_dependencia_duena', $user->dependencia?->id);
             });
         }
-        // Administrador General: ve todos (sin filtro adicional)
+        // Administrador General: sin filtro, ve todos los viajes
 
      $viajes = $query->paginate(10);
 
@@ -85,20 +83,41 @@ class ViajeController extends Controller
 
         $direcciones = Direcciones::all();
 
-$reservasPendientesAdmin = Reserva::with(['vehiculo', 'usuario', 'estado_reserva'])
-    ->where('id_usuario', $user->id)
-    ->whereHas('estado_reserva', fn($q) => $q->where('estado', 'APROBADA'))
-    ->get();
-$viajesEnCursoQuery = Viaje::with([
-    'vehiculo',
-    'reserva.usuario',
-    'reserva.estado_reserva'
-])->whereNull('fecha_fin')
-  ->whereHas('reserva', fn($q) =>
-      $q->where('id_usuario', $user->id)
-  );
+        // Reservas aprobadas sin viaje iniciado — scope según rol
+        $reservasPendientesAdminQ = Reserva::with(['vehiculo', 'usuario', 'estado_reserva'])
+            ->whereHas('estado_reserva', fn($q) => $q->where('estado', 'APROBADA'))
+            ->whereNotExists(fn($q) =>
+                $q->select('id')->from('viaje')
+                  ->whereColumn('viaje.id_reserva', 'reserva.id')
+                  ->whereNull('viaje.fecha_fin')
+            );
+        if ($user->hasAnyRole(['Administrador de Dependencia', 'Jefe de Area'])) {
+            $reservasPendientesAdminQ->where('id_dependencia_duena', $user->dependencia?->id);
+        } elseif ($user->hasRole('Operativo')) {
+            $reservasPendientesAdminQ->where('id_usuario', $user->id);
+        }
+        $reservasPendientesAdmin = $reservasPendientesAdminQ->get();
 
-$viajesEnCurso = $viajesEnCursoQuery->get();
+        // Viajes en curso — scope según rol
+        $viajesEnCursoQ = Viaje::with(['vehiculo', 'reserva.usuario', 'reserva.estado_reserva'])
+            ->whereNull('fecha_fin');
+        if ($user->hasAnyRole(['Administrador de Dependencia', 'Jefe de Area'])) {
+            $viajesEnCursoQ->whereHas('reserva', fn($q) =>
+                $q->where('id_dependencia_duena', $user->dependencia?->id)
+            );
+        } elseif ($user->hasRole('Operativo')) {
+            $viajesEnCursoQ->whereHas('reserva', fn($q) => $q->where('id_usuario', $user->id));
+        }
+        $viajesEnCurso = $viajesEnCursoQ->get();
+
+        // Viaje propio activo (cuando el admin también es conductor)
+        $viajePropio = null;
+        if (!$user->hasRole('Operativo')) {
+            $viajePropio = Viaje::with(['vehiculo', 'reserva.usuario'])
+                ->whereNull('fecha_fin')
+                ->whereHas('reserva', fn($q) => $q->where('id_usuario', $user->id))
+                ->first();
+        }
 
         return view('ui.viajes.index', compact(
             'viajes',
@@ -108,7 +127,8 @@ $viajesEnCurso = $viajesEnCursoQuery->get();
             'estados_filtros',
             'direcciones',
             'reservasPendientesAdmin',
-            'viajesEnCurso'
+            'viajesEnCurso',
+            'viajePropio'
         ));
     }
 

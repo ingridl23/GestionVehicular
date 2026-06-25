@@ -78,6 +78,11 @@ class Reserva extends Model
     return $this->hasOne(Viaje::class, 'id_reserva');
 }
 
+    public function viajeActivo()
+    {
+        return $this->hasOne(Viaje::class, 'id_reserva')->whereNull('fecha_fin');
+    }
+
 
     /**
      * Scope que filtra las reservas internas pertenecientes al árbol

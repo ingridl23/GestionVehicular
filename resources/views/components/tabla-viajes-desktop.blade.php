@@ -7,13 +7,14 @@
        $ubicacion       → string|null
        $mostrarAcciones → bool
      ============================================================ --}}
-     @props([
-         'viajes',
-         'configEditar' => null,
-         'ids'          => null,
-         'ubicacion'    => null,
-         'mostrarAcciones',
-         ])
+@vite('resources/css/viaje-admin.css')
+@props([
+    'viajes',
+    'configEditar' => null,
+    'ids'          => null,
+    'ubicacion'    => null,
+    'mostrarAcciones',
+])
 
 
 

@@ -191,7 +191,7 @@ abstract class BaseReservasServices implements ReservaServiceInterface{
 
     protected function obtenerDatosVerReservas(){
 
-        $query = Reserva::with('estado_reserva', 'vehiculo', 'usuario', 'dependencia_solicitante')
+        $query = Reserva::with('estado_reserva', 'vehiculo', 'usuario', 'dependencia_solicitante', 'viajeActivo')
          ->orderByRaw("
             CASE (
             SELECT estado
@@ -206,7 +206,7 @@ abstract class BaseReservasServices implements ReservaServiceInterface{
                 WHEN 'RECHAZADA' THEN 6
                 ELSE 99
             END
-        ")->orderBy('fecha_inicio_reserva');
+        ")->orderBy('fecha_inicio_reserva', 'desc');
         return($query);
     }
 
@@ -385,6 +385,7 @@ $conductor?->notify(new UsuarioModificadoNotification(
     'Te asignaron una reserva para el ' . $fecha_inicio->format('d/m/Y H:i'),
     'info'
 ));
+        return null;
     }
 
 
@@ -546,7 +547,7 @@ $conductor_reasignado?->notify(
         // ===============================
         $usuarioQuery = Reserva::join('estados_reservas', 'estados_reservas.id', '=', 'reserva.id_estado_reserva')
             ->where('id_usuario', $id_usuario)
-            ->whereIn('estados_reservas.estado', ['APROBADA', 'EN_CURSO', 'PENDIENTE','RECHAZADA','FINALIZADA'])
+            ->whereIn('estados_reservas.estado', ['APROBADA', 'EN_CURSO', 'SOLICITADA', 'PENDIENTE'])
             ->where(function ($q) use ($fecha_inicio, $fecha_fin) {
                 $q->where('fecha_inicio_reserva', '<', $fecha_fin)
                 ->where('fecha_fin_reserva', '>', $fecha_inicio);

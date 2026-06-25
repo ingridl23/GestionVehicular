@@ -169,6 +169,7 @@ use App\Http\Controllers\Reservas\ReservaController;
     //Las especificas por rol se declararon en AdminGeneral.php / operativo.php / adminDependencia.php
 
     Route::get('/listado-reservas', [ReservaController::class, 'verReservas'])->middleware('permission:ver_reservas_internas')->name('reservas.internas');
+    Route::patch('/reserva/{id}/devolver', [ReservaController::class, 'finalizarReserva'])->name('reservas.devolver');
     Route::get('/listado-prestamos', [PrestamoController::class, 'verReservas'])->middleware('permission:ver_reservas_prestamos')->name('reservas.prestamos');
 
     Route::get('/listado-reservas/{id}', [ReservaController::class, 'show'])->name('reservas.reserva'); //Vista individual

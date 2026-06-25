@@ -5,6 +5,9 @@ use App\Http\Requests\FiltroReservasRequest;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\ReservasExport;
 use App\Models\Reserva;
+use App\Models\EstadosReserva;
+use App\Models\EstadosVehiculo;
+use App\Models\Viaje;
 use App\Services\Reservas\ReservasInternasService;
 use App\Http\Controllers\Reservas\BaseReservaController;
 use Illuminate\Http\Request;
@@ -92,8 +95,23 @@ public function show($id)
   public function misReservas(){
     $this->authorize('viewAny', Reserva::class);
 
-    $reservas = Reserva::where('id_usuario', auth()->id())
-        ->orderBy('fecha_inicio_reserva')
+    $reservas = Reserva::with(['estado_reserva', 'vehiculo', 'usuario', 'dependencia_solicitante', 'viajeActivo'])
+        ->where('id_usuario', auth()->id())
+        ->orderByRaw("
+            CASE (
+                SELECT estado FROM estados_reservas
+                WHERE estados_reservas.id = reserva.id_estado_reserva
+            )
+                WHEN 'APROBADA'   THEN 1
+                WHEN 'EN_CURSO'   THEN 2
+                WHEN 'SOLICITADA' THEN 3
+                WHEN 'FINALIZADA' THEN 4
+                WHEN 'CANCELADA'  THEN 5
+                WHEN 'RECHAZADA'  THEN 6
+                ELSE 99
+            END
+        ")
+        ->orderBy('fecha_inicio_reserva', 'desc')
         ->paginate(10);
    $botones = $this->configurarBotones('usuario', 'interna');
 
@@ -222,6 +240,37 @@ $data = array_merge(
         ->route('reservas.internas');
     }
 
+
+    /**
+     * Devuelve el vehículo cerrando la reserva (APROBADA → FINALIZADA).
+     * Solo aplica cuando no hay viaje activo en curso.
+     */
+    public function finalizarReserva($id)
+    {
+        $reserva = Reserva::with(['vehiculo', 'estado_reserva'])->findOrFail($id);
+
+        if (auth()->user()->hasRole('Operativo') && $reserva->id_usuario !== auth()->id()) {
+            abort(403);
+        }
+
+        if ($reserva->id_estado_reserva !== EstadosReserva::APROBADA) {
+            return back()->withErrors(['error' => 'Solo se puede devolver un vehículo con reserva aprobada.']);
+        }
+
+        $tieneViajeActivo = Viaje::where('id_reserva', $id)->whereNull('fecha_fin')->exists();
+        if ($tieneViajeActivo) {
+            return back()->withErrors(['error' => 'Hay un viaje en curso. Finalizalo antes de devolver el vehículo.']);
+        }
+
+        $reserva->update(['id_estado_reserva' => EstadosReserva::FINALIZADA]);
+
+        $idDisponible = EstadosVehiculo::where('estado', 'DISPONIBLE')->value('id');
+        $reserva->vehiculo->update(['id_estado_vehiculo' => $idDisponible]);
+
+        $ruta = auth()->user()->hasRole('Operativo') ? 'operativo.mis-reservas' : 'reservas.internas';
+
+        return redirect()->route($ruta)->with('success', 'Vehículo devuelto correctamente.');
+    }
 
 // permission: autorizar_reservas_internas
 public function autorizarReserva($id) {

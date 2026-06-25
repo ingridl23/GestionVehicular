@@ -156,9 +156,15 @@ class ViajeService
                 'monto' => $monto
             ]);
 
-            // Finalizar reserva
-            $viaje->reserva->update([
-                'id_estado_reserva' => EstadosReserva::FINALIZADA
+            // Si la ventana horaria de la reserva sigue vigente → APROBADA (permite otro viaje)
+            // Si ya venció o no tiene fecha fin → FINALIZADA
+            $reserva = $viaje->reserva;
+            $dentroDeVentana = $reserva->fecha_fin_reserva && $reserva->fecha_fin_reserva->isFuture();
+
+            $reserva->update([
+                'id_estado_reserva' => $dentroDeVentana
+                    ? EstadosReserva::APROBADA
+                    : EstadosReserva::FINALIZADA,
             ]);
 
            // Liberar vehículo

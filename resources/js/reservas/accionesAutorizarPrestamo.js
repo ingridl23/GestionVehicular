@@ -102,11 +102,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
         } catch (err) {
             console.error(err);
-            const dialog = document.getElementById('dialog-confirm-cancelacion');
-            const parrafo = document.getElementById('parrafo-cancelacion');
+            const dialog = document.getElementById('dialog-confirm-aceptacion');
+            const parrafo = document.getElementById('parrafo-aceptacion');
 
             if (dialog && parrafo) {
-                parrafo.textContent = "Ocurrió un error al rechazar el préstamo";
+                parrafo.textContent = "Ocurrió un error al autorizar el préstamo";
                 dialog.showModal();
             }
         }

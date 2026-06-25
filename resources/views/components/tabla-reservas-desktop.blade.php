@@ -68,7 +68,7 @@
 
           @if($mostrarAcciones)
           <td class="px-6 py-8 whitespace-nowrap text-gray-900 dark:text-white">
-            <div class="flex justify-start gap-4">
+            <div class="flex justify-start items-baseline gap-4">
 
               @canany(['ver_reservas_internas', 'ver_reservas_prestamos'])
               <a href="{{ route('reservas.reserva', $reserva->id) }}"
@@ -114,6 +114,18 @@
                 @endif
                 @endrole
 
+                {{-- Devolver vehículo: reserva APROBADA sin viaje activo --}}
+                @if($reserva->estado_reserva->estado === 'APROBADA' && !$reserva->viajeActivo)
+                <form method="POST" action="{{ route('reservas.devolver', $reserva->id) }}" class="inline">
+                  @csrf @method('PATCH')
+                  <button type="submit"
+                    class="text-teal-600 hover:text-teal-900 dark:text-teal-400 dark:hover:text-teal-300"
+                    title="Devolver vehículo / Cerrar reserva">
+                    <i class="fas fa-parking"></i>
+                  </button>
+                </form>
+                @endif
+
                 @canany(['cancelar_reserva_interna', 'cancelar_prestamo'])
                 @if(!in_array($reserva->estado_reserva->estado, ['CANCELADA','RECHAZADA','FINALIZADA']))
                 <button command="show-modal" commandfor="dialog-cancelar" data-id="{{$reserva->id}}"
@@ -143,7 +155,7 @@
           @else
           {{-- Aprobar prestamos --}}
           <td class="px-6 py-8 whitespace-nowrap text-gray-900 dark:text-white">
-            <div class="flex justify-start gap-4">
+            <div class="flex justify-start items-baseline gap-4">
 
               @can('ver_solicitudes_prestamos')
               <a href="{{ route('reservas.reserva', $reserva->id) }}"

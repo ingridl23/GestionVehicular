@@ -99,6 +99,18 @@
                 @endif
                 @endrole
 
+                {{-- Devolver vehículo: reserva APROBADA sin viaje activo --}}
+                @if($reserva->estado_reserva->estado === 'APROBADA' && !$reserva->viajeActivo)
+                <form method="POST" action="{{ route('reservas.devolver', $reserva->id) }}" class="inline">
+                    @csrf @method('PATCH')
+                    <button type="submit"
+                        class="inline-flex items-center gap-1 rounded-md border border-teal-600 px-3 py-2 text-teal-600 hover:bg-teal-600 hover:text-white dark:border-teal-400 dark:text-teal-400 dark:hover:bg-teal-500"
+                        title="Devolver vehículo / Cerrar reserva">
+                        <i class="fas fa-parking"></i>
+                    </button>
+                </form>
+                @endif
+
                 @canany(['cancelar_reserva_interna', 'cancelar_prestamo'])
                 @if(!in_array($reserva->estado_reserva->estado, ['CANCELADA','RECHAZADA','FINALIZADA']))
                 <button command="show-modal" commandfor="dialog-cancelar" data-id="{{$reserva->id}}"
