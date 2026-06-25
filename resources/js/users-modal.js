@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     */
 
 });
-
+console.log('USERS MODAL CARGADO');
 
 
 export function openUserCreateModal() {

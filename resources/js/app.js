@@ -6,7 +6,8 @@ import Alpine from 'alpinejs';
 
 import './alerta.js';
 import './calculadora';
-import './loader.js';
+import './filtros/filtrosReservas.js';
+
 import './reportes';
 import './simulador';
 import {
