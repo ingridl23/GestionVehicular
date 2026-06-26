@@ -1,0 +1,1 @@
+document.addEventListener("DOMContentLoaded",()=>{const e=document.querySelector(".contenedor_loader");e&&(e.style.opacity=1,e.style.visibility="visible",console.log("loader ejecutado"),setTimeout(()=>{e.style.opacity=0,e.style.visibility="hidden"},500))});
