@@ -172,8 +172,6 @@
     };
 </script>
 
-{{--
 @vite(['resources/js/vehiculo.js'])
---}}
 @endpush
 @endsection
