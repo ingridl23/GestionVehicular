@@ -24,14 +24,14 @@
         color="green"
     />
 
+
     <x-stat-card
         title="Reportes Pendientes"
           value="{{$reportesp}}"
         icon="fa-file-alt"
 
 
-        color="yellow"
-    />
+        color="yellow"/>
 
         <x-stat-card
         title="Reportes Abiertos"
@@ -42,9 +42,6 @@
         color="yellow"
     />
 
-
-
-
 </div>
 
 <!-- Vehicle Status Overview -->
@@ -52,8 +49,6 @@
     <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Estado de Vehículos</h2>
 
     <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
-
-
 
         <!-- Disponible -->
         <div class="text-center p-4 bg-green-50 dark:bg-green-900/10 rounded-lg">
@@ -82,7 +77,6 @@
             <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Reservados</p>
         </div>
 
-
         <!-- Mantenimiento -->
         <div class="text-center p-4 bg-orange-50 dark:bg-orange-900/10 rounded-lg">
             <div class="w-12 h-12 bg-orange-100 dark:bg-orange-900/20 rounded-full flex items-center justify-center mx-auto mb-3">
@@ -100,7 +94,6 @@
             <p class="text-2xl font-bold text-gray-900 dark:text-white">{{$baja}}</p>
             <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Fuera de Servicio</p>
         </div>
-
     </div>
 </div>
 
@@ -128,7 +121,6 @@
     </div>
             </a>
         </div>
-
 
         <div class="space-y-3">
             @forelse($ultimosVehiculos as $vehiculo)
@@ -382,8 +374,51 @@
     </div>
 
 
+<!--Viajes registrados recientemente -->
+
+ <!-- Recent System for Reports -->
+    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6">
+        <div class="flex items-center justify-between mb-4">
+            <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Viajes registrados recientemente</h2>
+          <div class="flex gap-3">
+        <a href="{{ route('viajes.export') }}"
+           title="Descargar a formato Excel "
+           class="text-sm text-green-600 dark:text-green-400 hover:underline flex items-center gap-1">
+
+            <i class="fas fa-download"></i>
+        </a>
+
+        <a href="{{ route('viajes.index') }}"
+           class="text-sm text-blue-600 dark:text-blue-400 hover:underline">
+           Ver todos
+        </a>
+    </div>
+        </div>
 
 
+        <div class="space-y-3">
+            @forelse($ultimosViajes as $viaje)
+                <div class="flex items-center gap-4 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700/50">
+
+                    <div class="w-12 h-12 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-user text-gray-600 dark:text-gray-400"></i>
+                    </div>
+
+                    <div class="flex-1">
+                        <p class="text-sm font-medium text-gray-900 dark:text-white"> {{ $viaje->titulo }} </p>
+                        <p class="text-xs text-gray-500 dark:text-gray-400"> {{ Str::limit($viaje->descripcion, 50) }} </p>
+                         <p class="text-xs text-gray-400 mt-1"> {{ $viaje->usuario?->name }} • {{ $viaje->created_at->format('d/m/Y H:i') }} </p>
+
+                    </div>
+
+                </div>
+            @empty
+                <p class="text-sm text-gray-500 dark:text-gray-400">
+                    No hay reportes enviados recientemente
+                </p>
+            @endforelse
+        </div>
+    </div>
 
 
 

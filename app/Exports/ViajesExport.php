@@ -10,17 +10,11 @@ use Carbon\Carbon;
 
 class ViajesExport implements FromCollection, WithHeadings, WithMapping
 {
-    protected $viajes;
-
-    public function __construct($viajes)
-    {
-        $this->viajes = $viajes;
-    }
-
     public function collection()
     {
-        /**Porque un vehículo puede haberse creado hace 2 años pero tener viajes hoy.*/
-       return Viaje::where('fecha_inicio', '>=', now()->subMonths(4))->get();
+        return Viaje::where('fecha_inicio', '>=', now()->subMonths(4))
+            ->with('ultimaCoordenada')
+            ->get();
     }
 
     public function headings(): array
@@ -62,6 +56,5 @@ class ViajesExport implements FromCollection, WithHeadings, WithMapping
             $viaje->updated_at?->format('Y-m-d'),
         ];
     }
-
 }
 

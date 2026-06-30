@@ -106,6 +106,12 @@ $ultimosUsuarios = User::with('dependencia')
     ->take(5)
     ->get();
 
+$ultimosViajes = Viaje::with('reserva')
+    ->latest()
+    ->take(4)
+    ->get();
+
+
     $vehiculosStats = [
     $total = Vehiculo::count(),
     $disponibles = Vehiculo::whereHas('estadoVehiculo', fn($q) =>
@@ -149,11 +155,11 @@ $ultimosUsuarios = User::with('dependencia')
         }
 
         if ($user->hasRole('Administrador General')) {
-            return view('admin.auditoria.index',array_merge( compact('user','ultimosVehiculos','disponibles','total','reservados','mantenimiento','baja','reportesp','reportesA','ultimasReservas','ultimosVehiculos','ultimosReportes','reservascount','total','disponibles','reservados','mantenimiento','baja','ultimosConductores','ultimosUsuarios'), $datosCalculadora));
+            return view('admin.auditoria.index',array_merge( compact('user','ultimosVehiculos','ultimosViajes','disponibles','total','reservados','mantenimiento','baja','reportesp','reportesA','ultimasReservas','ultimosVehiculos','ultimosReportes','reservascount','total','disponibles','reservados','mantenimiento','baja','ultimosConductores','ultimosUsuarios'), $datosCalculadora));
         }
 
         if ($user->hasAnyRole(['Administrador de Dependencia', 'Jefe de Area'])) {
-            return view('admin.auditoria.index',array_merge( compact('user','stats','alertas','ultimosVehiculos','disponibles','total','reservados','mantenimiento','baja','reportesp','reportesA','ultimasReservas','ultimosVehiculos','ultimosReportes','reservascount','total','disponibles','reservados','mantenimiento','baja','ultimosConductores','ultimosUsuarios'),$datosCalculadora));
+            return view('admin.auditoria.index',array_merge( compact('user','stats','alertas','ultimosViajes','ultimosVehiculos','disponibles','total','reservados','mantenimiento','baja','reportesp','reportesA','ultimasReservas','ultimosVehiculos','ultimosReportes','reservascount','total','disponibles','reservados','mantenimiento','baja','ultimosConductores','ultimosUsuarios'),$datosCalculadora));
         }
 
         abort(403);
