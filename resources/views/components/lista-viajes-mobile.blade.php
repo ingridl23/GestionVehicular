@@ -136,8 +136,8 @@
                   action="{{ route('operativo.viajes.comenzar', $viaje->reserva->id) }}"
                   class="flex-1">
               @csrf
-              <button type="submit" class="vm-btn b-green w-full" title="iniciar viaje">
-                <i class="fas fa-play"></i>iniciar
+              <button type="submit" class="vm-btn b-green" title="Iniciar viaje">
+                <i class="fas fa-play"></i>
               </button>
             </form>
             @endif
@@ -147,8 +147,9 @@
           @if($estadoRaw === 'EN_CURSO')
           <button type="button"
                   class="vm-btn b-amber btn-finalizar-viaje"
-                  data-viaje-id="{{ $viaje->id }}">
-            <i class="fas fa-flag-checkered"></i> Finalizar
+                  data-viaje-id="{{ $viaje->id }}"
+                  title="Finalizar viaje">
+            <i class="fas fa-flag-checkered"></i>
           </button>
           @endif
 
@@ -170,8 +171,9 @@
                     command="show-modal"
                     commandfor="dialog-cancelar"
                     data-id="{{ $viaje->reserva?->id }}"
-                    class="vm-btn b-red btn-cancelar">
-              <i class="fas fa-times"></i> Cancelar
+                    class="vm-btn b-red btn-cancelar"
+                    title="Cancelar reserva">
+              <i class="fas fa-times"></i>
             </button>
             @endif
           @endcanany
