@@ -59,6 +59,9 @@ class PrestamoController extends BaseReservaController{
  * Muestra reservas externas pendientes de autorización.
  *
  * @return \Illuminate\View\View
+ *
+ * permission:ver_solicitudes_prestamos
+ *
  */
     // permission:ver_solicitudes_prestamos
     public function verReservasPendientes(){
@@ -83,6 +86,7 @@ class PrestamoController extends BaseReservaController{
  *
  * @param int $id
  * @return \Illuminate\Http\JsonResponse
+ *
  */
     // permission:autorizar_prestamos
     public function autorizarPrestamo($id){
@@ -118,6 +122,8 @@ class PrestamoController extends BaseReservaController{
  *
  * @param int $id
  * @return \Illuminate\Http\JsonResponse
+ *
+ * permission:rechazar_prestamos
  */
     // permission:rechazar_prestamos
     public function rechazarPrestamo($id){

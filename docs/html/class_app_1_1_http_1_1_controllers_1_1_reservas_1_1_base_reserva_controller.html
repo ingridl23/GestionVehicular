@@ -212,7 +212,14 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Metodo privado para delegar accion de botones en blade segun la sesion del usuario logueado </p>
+<p>Metodo privado para delegar accion de botones en blade segun la sesion del usuario logueado</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">string</td><td class="paramname">$contexto</td><td></td></tr>
+    <tr><td class="paramtype">string</td><td class="paramname">$ubicacion</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -316,6 +323,52 @@ Protected Attributes</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>\Illuminate\Http\JsonResponse </dd></dl>
+<hr  />
+<p> FILTRO POR NOMBRE DE LA DEPENDENCIA SOLICITANTE O POR NOMBRE O APELLIDO DEL CONDUCTOR</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">\Illuminate\Http\Request</td><td class="paramname">$request</td><td></td></tr>
+    <tr><td class="paramtype">\Illuminate\Database\Eloquent\Builder</td><td class="paramname">$query</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>\Illuminate\Database\Eloquent\Builder</dd></dl>
+<p>FILTRO POR EL VEHICULO</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">\Illuminate\Http\Request</td><td class="paramname">$request</td><td></td></tr>
+    <tr><td class="paramtype">\Illuminate\Database\Eloquent\Builder</td><td class="paramname">$query</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>\Illuminate\Database\Eloquent\Builder</dd></dl>
+<p>FILTRO POR FECHA DE INICIO</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">\Illuminate\Http\Request</td><td class="paramname">$request</td><td></td></tr>
+    <tr><td class="paramtype">\Illuminate\Database\Eloquent\Builder</td><td class="paramname">$query</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>\Illuminate\Database\Eloquent\Builder</dd></dl>
+<p>FILTRO POR FECHA DE FIN</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">\Illuminate\Http\Request</td><td class="paramname">$request</td><td></td></tr>
+    <tr><td class="paramtype">\Illuminate\Database\Eloquent\Builder</td><td class="paramname">$query</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>\Illuminate\Database\Eloquent\Builder</dd></dl>
+<p>ORDENAMIENTO</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">\Illuminate\Http\Request</td><td class="paramname">$request</td><td></td></tr>
+    <tr><td class="paramtype">\Illuminate\Database\Eloquent\Builder</td><td class="paramname">$query</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>\Illuminate\Database\Eloquent\Builder</dd></dl>
 
 </div>
 </div>

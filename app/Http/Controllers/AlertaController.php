@@ -5,7 +5,7 @@ use App\Models\Alerta;
 use Illuminate\Http\JsonResponse;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
-use App\Enums\TipoAlerta;
+
 /**
  * @class AlertaController
  * @brief Controlador encargado de la gestión de alertas del sistema.
@@ -29,13 +29,16 @@ use App\Enums\TipoAlerta;
  *
  * @package App\Http\Controllers
  */
+
 class AlertaController extends Controller
 {
-    /**
-     * Mostrar vista de alertas
-     */
 
-    /**
+/**
+ * Mostrar vista de alertas
+*/
+
+
+/**
  * Mostrar vista principal de alertas activas.
  *
  * Obtiene todas las alertas activas y genera estadísticas
@@ -113,6 +116,10 @@ class AlertaController extends Controller
 
     /**
      * API: Alertas por entidad
+     * @param string $tipo
+     * @param int $id
+     * @return JsonResponse
+     *
      */
     public function porEntidad(string $tipo, int $id): JsonResponse
     {
@@ -124,9 +131,14 @@ class AlertaController extends Controller
         return response()->json($alertas);
     }
 
+
     /**
-     * Resolver/marcar alerta como leída
+     * "Resolver/marcar alerta como leída"
+     * @param int $id
+     * @return JsonResponse
+     *
      */
+
     public function resolver(int $id): JsonResponse
     {
         $alerta = Alerta::findOrFail($id);
@@ -141,6 +153,14 @@ class AlertaController extends Controller
             'message' => 'Alerta resuelta correctamente'
         ]);
     }
+
+    /**
+     * Resolver multiples alertas
+     * @param Request $request
+     * @return JsonResponse
+     *
+     *
+     */
 public function resolverMultiples(Request $request): JsonResponse
 {
     $ids = $request->input('ids', []);
@@ -163,6 +183,14 @@ public function resolverMultiples(Request $request): JsonResponse
     ]);
 }
 
+
+/**
+ * Resolver todas las alertas
+ * @return JsonResponse
+ *
+ *
+ */
+
 public function resolverTodas(): JsonResponse
 {
     Alerta::where('activa', true)->update([
@@ -175,6 +203,13 @@ public function resolverTodas(): JsonResponse
     ]);
 }
 
+
+/**
+ * Muestra una alerta
+ * @param int $id
+ * @return JsonResponse
+ *
+ */
 public function show(int $id): JsonResponse
 {
     $alerta = Alerta::findOrFail($id);
@@ -197,34 +232,5 @@ public function show(int $id): JsonResponse
         'dependencia' => $dependencia,
     ]);
 }
-    /**
-     * Obtener ícono según tipo de alerta
-     */
-    /*
-    private function getIcono(string $tipo): string
-    {
-        return match($tipo) {
-            'licencia_vencimiento' => 'fa-id-card',
-            'vehiculo_fuera_servicio' => 'fa-car-crash',
-            'reserva_rechazada' => 'fa-calendar-times',
-            'mantenimiento_pendiente' => 'fa-wrench',
-            'combustible_bajo' => 'fa-gas-pump',
-            default => 'fa-bell'
-        };
-    }
 
-    /**
-     * Obtener color según tipo de alerta
-     *//*
-    private function getColor(string $tipo): string
-    {
-        return match($tipo) {
-            'licencia_vencimiento' => 'yellow',
-            'vehiculo_fuera_servicio' => 'red',
-            'reserva_rechazada' => 'orange',
-            'mantenimiento_pendiente' => 'blue',
-            'combustible_bajo' => 'yellow',
-            default => 'blue'
-        };
-    }*/
 }

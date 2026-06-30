@@ -42,6 +42,9 @@ class Reportes extends Model
     ];
 /**
  * Relacion: de Reportes puede venir de un usuario
+ * @param int $id
+ * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+ *
  */
     public function usuario()
     {
@@ -49,6 +52,8 @@ class Reportes extends Model
     }
 /**
  * Reportes puede tener muchos comentarios
+ * @return \Illuminate\Database\Eloquent\Relations\HasMany
+ *
  */
     public function comentarios()
     {
@@ -56,13 +61,18 @@ class Reportes extends Model
     }
 /**
  * metodo de si esta pendiente me devuelve true o false para posteriormente usar esa validacion en un controller
+ * @return bool
+ *
  */
      public function isPendiente(): bool
     {
         return $this->estado === EstadoReporte::PENDIENTE;
     }
+
 /**
  * metodo para saber si fue atendido el reporte y utilizar como validacion posteriormente en un controller
+ * @return bool
+ *
  */
     public function isAtendido(): bool
     {
@@ -72,7 +82,9 @@ class Reportes extends Model
 
 /**
  *  metodo para saber si fue cerrado el reporte y utilizar como validacion posteriormente en un controller
- */
+ * @return bool
+ *
+*/
     public function isCerrado():bool{
         return $this->estado === EstadoReporte::CERRADO;
     }

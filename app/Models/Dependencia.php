@@ -73,6 +73,8 @@ class Dependencia extends Model
 
     /**
      * Metodo para obtner del arbol jerarquico los id de dependencias hijas
+     * @return array
+     *
      */
     public function obtenerIdsHijas(): array
     {
@@ -89,6 +91,8 @@ class Dependencia extends Model
 
     /**
      * Scope de informacion para dependencias internas / hijas
+     * @return \Illuminate\Database\Eloquent\Builder
+     *
      */
     public function scopeObtenerDependenciasInternas($query, $id_dependencia){
 
@@ -112,6 +116,8 @@ class Dependencia extends Model
 
     /**
      * Metodo para obtener las dependencias padres/bases del arbol de jerarquia de oficinas
+     * @return array
+     *
      */
 
     public static function obtenerTodosLosPadres(){
@@ -122,7 +128,9 @@ class Dependencia extends Model
 
     /**
      * Metodo que permite filtrar dependencias que pueden ser desactivas y asi validar su lugar en el arbol jerarquico y en el uso del sistema.
-     */
+    * @return ?string
+
+    */
     public function puedeSerDesactivada() : ?string{
         // Hijas activas
         if ($this->dependenciasHijas()

@@ -5,6 +5,7 @@ var class_app_1_1_services_1_1_reservas_1_1_reservas_internas_service =
     [ "datosParaFormCrear", "class_app_1_1_services_1_1_reservas_1_1_reservas_internas_service.html#a5a5a8f555b3ea164b16032f30d54bf26", null ],
     [ "datosParaFormEditar", "class_app_1_1_services_1_1_reservas_1_1_reservas_internas_service.html#a454524ec68a3c1028e78837effd62aa8", null ],
     [ "obtenerEstadoReserva", "class_app_1_1_services_1_1_reservas_1_1_reservas_internas_service.html#a91ecfdf27d9fffc67656d47772d8209b", null ],
+    [ "reservasParaExport", "class_app_1_1_services_1_1_reservas_1_1_reservas_internas_service.html#aff8f55bb3f4e676470817ea0ea960eed", null ],
     [ "valoresParametrosValidaciones", "class_app_1_1_services_1_1_reservas_1_1_reservas_internas_service.html#a6c8b8372520f0fe0fdb7135b0594781e", null ],
     [ "verReservas", "class_app_1_1_services_1_1_reservas_1_1_reservas_internas_service.html#a217203c5101b376a3faccac3fe899751", null ]
 ];

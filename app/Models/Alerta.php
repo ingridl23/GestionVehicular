@@ -37,7 +37,6 @@ class Alerta extends Model
         'fecha_resuelta'
     ];
 
-
     protected $casts = [
         'activa' => 'boolean',
         'fecha_generada' => 'datetime',
@@ -47,7 +46,11 @@ class Alerta extends Model
     /**
      * Relación polimórfica con la entidad
      * (puede ser vehiculo, reserva, usuario, dependencia, etc.)
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
+     *
      */
+
     public function entidad(): MorphTo
     {
         return $this->morphTo('entidad', 'entidad_tipo', 'entidad_id');
@@ -55,6 +58,8 @@ class Alerta extends Model
 
     /**
      * Relación específica con vehículo
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     *
      */
     public function vehiculo(): BelongsTo
     {
@@ -64,7 +69,11 @@ class Alerta extends Model
 
     /**
      * Relación específica con reserva
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     *
+     *
      */
+
     public function reserva(): BelongsTo
     {
         return $this->belongsTo(\App\Models\Reserva::class, 'entidad_id')
@@ -73,6 +82,8 @@ class Alerta extends Model
 
     /**
      * Relación específica con usuario
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     *
      */
     public function usuario(): BelongsTo
     {
@@ -82,6 +93,8 @@ class Alerta extends Model
 
     /**
      * Relación específica con dependencia
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     *
      */
     public function dependencia(): BelongsTo
     {
@@ -91,6 +104,9 @@ class Alerta extends Model
 
     /**
      * Scope para alertas activas
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     *
      */
     public function scopeActivas($query)
     {
@@ -99,6 +115,10 @@ class Alerta extends Model
 
     /**
      * Scope para alertas por tipo
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param string $tipo
+     * @return \Illuminate\Database\Eloquent\Builder
+     *
      */
     public function scopePorTipo($query, string $tipo)
     {
@@ -107,6 +127,11 @@ class Alerta extends Model
 
     /**
      * Scope para alertas por entidad
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param string $tipo
+     * @param int $id
+     * @return \Illuminate\Database\Eloquent\Builder
+     *
      */
     public function scopePorEntidad($query, string $tipo, int $id)
     {
@@ -116,6 +141,9 @@ class Alerta extends Model
 
     /**
      * Obtener ícono según tipo de alerta
+     * @return string
+     *
+     *
      */
     public function getIconoAttribute(): string
     {

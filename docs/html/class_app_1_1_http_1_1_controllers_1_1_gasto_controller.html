@@ -212,6 +212,19 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 <p>Exporta los gastos de los últimos 6 meses en formato Excel.</p>
 <dl class="section return"><dt>Returns</dt><dd>\Symfony\Component\HttpFoundation\BinaryFileResponse </dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname"></td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Illuminate\Auth\Access\AuthorizationException </p><dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname"></td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<p>PhpOffice\PhpSpreadsheet\Exception </p>
 
 </div>
 </div>
@@ -231,7 +244,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 <p>Prepara los datos necesarios para la sección de calculadora en el dashboard.</p>
 <p>Se puede llamar desde HistorialController así:</p>
-<p>use <a class="el" href="namespace_app.html">App</a>\Http\Controllers\GastoController; ... $datosCalculadora = (new GastoController)-&gt;getDatosCalculadora(); return view('auditoria.index', array_merge($datos, $datosCalculadora));</p>
+<p>use <a class="el" href="namespace_app.html" title="Clase encargada de importar usuarios desde un archivo Excel.">App</a>\Http\Controllers\GastoController; ... $datosCalculadora = (new GastoController)-&gt;getDatosCalculadora(); return view('auditoria.index', array_merge($datos, $datosCalculadora));</p>
 <dl class="section return"><dt>Returns</dt><dd>array </dd></dl>
 
 </div>
@@ -250,7 +263,7 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Devuelve el listado completo de gastos.</p>
+<p>INDEX Devuelve el listado completo de gastos.</p>
 <p>Incluye la relación con el viaje asociado. Requiere autorización 'viewAny'. Columna 1 — Formulario manual: litros, precio/litro y km opcionales. La lógica replica exactamente CalculoGastoService::calcularMonto() (litros × precio). Si $precioLitroActual viene del controller, se precarga automáticamente con un botón "Usar precio actual". Columna 2 — Resultado: muestra el monto estimado con detalle. Si se cargan km, calcula además costo por km y consumo en L/100km. Columna 3 — Estadísticas: consume $resumenGastos que ya devuelve tu GastoController::resumen(). Mientras no lo pases, muestra placeholders con el nombre de la variable para que sepas qué agregar.</p>
 <dl class="section return"><dt>Returns</dt><dd>\Illuminate\Http\JsonResponse Lista de gastos. </dd></dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
@@ -316,7 +329,7 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Devuelve estadísticas generales de los gastos registrados.</p>
+<p>RESUMEN Devuelve estadísticas generales de los gastos registrados.</p>
 <p>Calcula:</p><ul>
 <li>Cantidad total de gastos</li>
 <li>Suma total</li>
@@ -332,8 +345,7 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<p>Illuminate\Auth\Access\AuthorizationException Devuelve estadísticas generales de los gastos registrados.</p>
-<p>Calcula cantidad, suma total, promedio, máximo y mínimo. Requiere autorización 'viewResumen'.</p>
+<p>Illuminate\Auth\Access\AuthorizationException Requiere autorización 'viewResumen'.</p>
 <dl class="section return"><dt>Returns</dt><dd>JsonResponse Estadísticas agregadas. </dd></dl>
 
 </div>
@@ -356,7 +368,7 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Obtiene el gasto asociado a un viaje específico.</p>
+<p>SHOW Obtiene el gasto asociado a un viaje específico.</p>
 <p>Busca el gasto por id_viaje. Si no existe, devuelve error 404.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">

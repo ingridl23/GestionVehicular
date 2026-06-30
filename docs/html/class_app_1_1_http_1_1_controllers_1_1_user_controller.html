@@ -233,6 +233,13 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>\Illuminate\Http\RedirectResponse </dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname"></td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Illuminate\Auth\Access\AuthorizationException </p>
 
 </div>
 </div>
@@ -250,6 +257,13 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>DESTRUIR IMAGEN </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">int</td><td class="paramname">$id</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>\Illuminate\Http\RedirectResponse </dd></dl>
 
 </div>
 </div>
@@ -267,7 +281,13 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Mostrar formulario de edición </p>
+<p>Mostrar formulario de edición </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">\App\Models\User</td><td class="paramname">$usuario</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>\Illuminate\View\View </dd></dl>
 
 </div>
 </div>
@@ -315,6 +335,7 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Exportar usuarios registrados </p><dl class="section return"><dt>Returns</dt><dd>\Symfony\Component\HttpFoundation\BinaryFileResponse </dd></dl>
 
 </div>
 </div>
@@ -332,6 +353,8 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Exportar conductores asignados</p>
+<dl class="section return"><dt>Returns</dt><dd>\Symfony\Component\HttpFoundation\BinaryFileResponse </dd></dl>
 
 </div>
 </div>
@@ -349,7 +372,13 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>IMPORTAR USUARIOS MASIVAMENTE DESDE UN EXCEL O CARPETA DE EXCEL </p>
+<p>IMPORTAR USUARIOS MASIVAMENTE DESDE UN EXCEL O CARPETA DE EXCEL </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">\Illuminate\Http\Request</td><td class="paramname">$request</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>\Illuminate\Http\RedirectResponse </dd></dl>
 
 </div>
 </div>
@@ -398,7 +427,8 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Ver mi perfil (usuario logueado) Solo el administrador general puede cambiar sus datos, los demas solo pueden ver </p>
+<p>Ver mi perfil (usuario logueado) Solo el administrador general puede cambiar sus datos, los demas solo pueden ver</p>
+<dl class="section return"><dt>Returns</dt><dd>\Illuminate\View\View </dd></dl>
 
 </div>
 </div>
@@ -416,7 +446,13 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Mostrar un usuario específico (perfil público) </p>
+<p>Mostrar un usuario específico (perfil público) </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">\App\Models\User</td><td class="paramname">$usuario</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>\Illuminate\View\View </dd></dl>
 
 </div>
 </div>
@@ -528,7 +564,14 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Actualizar mi perfil (usuario logueado) o si el admin selecciona un usuario </p>
+<p>Actualizar mi perfil (usuario logueado) o si el admin selecciona un usuario Solo el administrador general puede cambiar sus datos, los demas solo pueden ver</p>
+<dl class="section return"><dt>Returns</dt><dd>\Illuminate\View\View </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">\Illuminate\Http\Request</td><td class="paramname">$request</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -546,7 +589,14 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Listar usuarios por dependencia </p>
+<p>Listar usuarios por dependencia</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">\Illuminate\Http\Request</td><td class="paramname">$request</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>\Illuminate\View\View </dd></dl>
 
 </div>
 </div>

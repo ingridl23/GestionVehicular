@@ -17,15 +17,34 @@ class ReservaCreada extends Notification  implements ShouldQueue
 
     protected $reserva;
 
+
+    /**
+     * Create a new notification instance.
+     *
+     */
     public function __construct(Reserva $reserva)
     {
         $this->reserva = $reserva;
     }
 
+
+    /**
+     * Get the notification's delivery channels.
+     *
+     */
     public function via($notifiable)
     {
         return ['mail'];
     }
+
+
+    /**
+     * Get the mail representation of the notification.
+     *
+     * @return \Illuminate\Notifications\Messages\MailMessage
+     *
+     */
+
 
     public function toMail($notifiable)
     {
@@ -40,6 +59,10 @@ class ReservaCreada extends Notification  implements ShouldQueue
             ->line('Municipalidad de Tres Arroyos');
     }
 
+    /**
+     * Get the array representation of the notification.
+     *
+     */
     public function toArray($notifiable)
     {
         return [

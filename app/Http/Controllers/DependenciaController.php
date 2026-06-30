@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 use App\Models\Dependencia;
 use Illuminate\Http\Request;
-use App\Http\Requests\FiltroDependenciasRequest;
 use App\Http\Requests\DependenciaRequest;
 use Illuminate\Validation\ValidationException;
 use App\Services\DependenciaService;
@@ -53,7 +52,7 @@ class DependenciaController extends Controller{
 
 
 
-    /**
+/**
  * Mostrar listado general de dependencias.
  *
  * Aplica autorización mediante Policy (vistaGeneral)
@@ -68,9 +67,9 @@ class DependenciaController extends Controller{
  *
  * @throws \Illuminate\Auth\Access\AuthorizationException
  *         Si el usuario no posee permiso para visualizar.
+ // permission = ver dependencias
  */
 
-    // permiso = ver dependencias
     public function verDependencias(){
         $this->authorize('vistaGeneral', Dependencia::class);
         $datos = $this->service->verDependencias();
@@ -99,9 +98,9 @@ class DependenciaController extends Controller{
  *
  * @throws \Illuminate\Auth\Access\AuthorizationException
  *         Si el usuario no posee permisos.
+// permission = ver dependencias
  */
 
-    // permiso = ver dependencias
     public function verDependencia($id){
         $dependencia = $this->service->verDependencia($id);
         $dependencia_autorizar = Dependencia::findOrFail($id);
@@ -112,7 +111,7 @@ class DependenciaController extends Controller{
     }
 
 
-    /**
+/**
  * Eliminar una dependencia del sistema.
  *
  * La operación es gestionada por la capa de servicio.
@@ -166,11 +165,10 @@ class DependenciaController extends Controller{
  * @return mixed Resultado de la actualización.
  *
  * @throws \Illuminate\Validation\ValidationException
+// permiso = ver dependencias
+// Actualiza el estado de la dependencia, alternando entre activa (1) e inactiva (0) según su estado actual.
  */
 
-
-    // permiso = ver dependencias
-    // Actualiza el estado de la dependencia, alternando entre activa (1) e inactiva (0) según su estado actual.
     public function cambiarActivaDependencia($id, Request $request){
 
         $request->validate([
@@ -185,7 +183,7 @@ class DependenciaController extends Controller{
 
 
 
-    /**
+/**
  * Obtener datos necesarios para renderizar el formulario de creación.
  *
  * Si se especifica una dependencia padre, se valida su existencia.
@@ -197,12 +195,10 @@ class DependenciaController extends Controller{
  *
  * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
  * @throws \Illuminate\Auth\Access\AuthorizationException
+// permiso = crear dependencias
+// datosRelacionDependencia = Recupera la información de las tablas relacionadas a la entidad Dependencia
  */
-
-    // permiso = crear dependencias
-    // datosRelacionDependencia = Recupera la información de las tablas relacionadas a la entidad Dependencia
-  public function datosParaCrearDependencia(Request $request)
-{
+  public function datosParaCrearDependencia(Request $request){
     $dependenciaPadre = null;
 
     if ($request->filled('id_dependencia_padre')) {
@@ -236,9 +232,8 @@ class DependenciaController extends Controller{
  * @return \Illuminate\Http\RedirectResponse Redirección al listado.
  *
  * @throws \Illuminate\Auth\Access\AuthorizationException
+// permission = crear dependencias
  */
-
-    // permiso = crear dependencias
   public function crearDependencia(DependenciaRequest $request)
 {
     $dependenciaPadre = null;
@@ -258,7 +253,6 @@ class DependenciaController extends Controller{
         ->with('success', 'La dependencia fue creada correctamente.');
 }
 
-
 /**
  * Obtener datos para el formulario de edición de una dependencia.
  *
@@ -270,11 +264,8 @@ class DependenciaController extends Controller{
  * @return \Illuminate\View\View Vista del formulario de edición.
  *
  * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+  // permission = editar dependencias
  */
-
-
-
-    // permiso = editar dependencias
    public function datosParaEditarDependencia($id){
 
     $dependencia = $this->service->verDependencia($id);
@@ -379,9 +370,9 @@ class DependenciaController extends Controller{
         /* ----------------------
          FILTRO POR DEPENDENCIA PADRE
         ---------------------- */
-        //Obtiene la dependencia por la que se busca (el orWhere) y los sectores donde esta es una jerarquia superior
-        // No incluye las áreas donde esta dependencia actúa como jerarquia indirecta (es decir, niveles inferiores más profundos)
-
+        /**Obtiene la dependencia por la que se busca (el orWhere) y los sectores donde esta es una jerarquia superior
+         * No incluye las áreas donde esta dependencia actúa como jerarquia indirecta (es decir, niveles inferiores más profundos)
+*/
         if (!empty($request->filled('dependencia_padre')) && $request->input('dependencia_padre') != 'default') {
             $dependencia_padre = $request->input('dependencia_padre');
             $query->where(function ($q) use ($dependencia_padre) {
@@ -423,9 +414,8 @@ class DependenciaController extends Controller{
 
         /* ----------------------
          ORDENAMIENTO SEGURO
+         //Campo por el que se ordena
         ---------------------- */
-
-        //Campo por el que se ordena
         $sortField = $request->input('sort_field', 'nombre');
 
         //Como se ordena
@@ -442,11 +432,12 @@ class DependenciaController extends Controller{
             $sortOrder = 'asc';
         }
 
+/* ----------------------
+         Fuerza que la dependencia padre por la cual se filtra aparezca en primer lugar del resultado.
+         El resto de los registros se ordenan por nombre.
+         Si no se filtra por dependencia_padre, TODOS los registros se ordenan por nombre.
+*/
 
-        // Fuerza que la dependencia padre por la cual se filtra aparezca en primer lugar del resultado.
-        // El resto de los registros se ordenan por nombre.
-
-        // Si no se filtra por dependencia_padre, TODOS los registros se ordenan por nombre.
         if(!empty($request->filled('dependencia_padre'))){
 
             $prioridadId = $request->input('dependencia_padre');
@@ -459,8 +450,6 @@ class DependenciaController extends Controller{
         else{
             $query->orderBy("nombre");
         }
-
-
 
         /* ----------------------
          PAGINACIÓN

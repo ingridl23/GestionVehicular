@@ -25,6 +25,5 @@ var searchData=
   ['app_3a_3aservices_22',['Services',['../namespace_app_1_1_services.html',1,'App']]],
   ['app_3a_3aservices_3a_3aalertas_23',['alertas',['../namespace_app_1_1_services_1_1alertas.html',1,'App::Services']]],
   ['app_3a_3aservices_3a_3areservas_24',['Reservas',['../namespace_app_1_1_services_1_1_reservas.html',1,'App::Services']]],
-  ['app_3a_3aservices_3a_3areservas_25',['reservas',['../namespace_app_1_1_services_1_1reservas.html',1,'App::Services']]],
-  ['app_3a_3aview_3a_3acomponents_26',['Components',['../namespace_app_1_1_view_1_1_components.html',1,'App::View']]]
+  ['app_3a_3aview_3a_3acomponents_25',['Components',['../namespace_app_1_1_view_1_1_components.html',1,'App::View']]]
 ];

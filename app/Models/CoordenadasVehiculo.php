@@ -40,10 +40,23 @@ class CoordenadasVehiculo extends Model
         'fecha_hora' => 'datetime'
     ];
 
+    /**
+     *
+     * Relaciones
+ * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+ *
+ */
     public function viaje()
     {
         return $this->belongsTo(Viaje::class,'id_viaje');
     }
+
+    /**
+     *
+     * Relaciones
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     *
+     */
 
     public function vehiculo()
     {

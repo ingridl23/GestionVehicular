@@ -46,38 +46,78 @@ class Reserva extends Model
         'fecha_inicio_reserva' => 'datetime',
         'fecha_fin_reserva' => 'datetime',
     ];
-
-
+/**
+ * Relaciones
+ * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+ * @param int $id
+ *
+ */
     public function vehiculo()
     {
         return $this->belongsTo(Vehiculo::class, 'id_vehiculo');
     }
 
+    /**
+     * Relaciones
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @param int $id
+     *
+     */
     public function estado_reserva()
     {
         return $this->belongsTo(EstadosReserva::class, 'id_estado_reserva');
     }
+    /**
+     * Relaciones
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @param int $id
+     *
+     */
 
     public function dependencia_duena()
     {
         return $this->belongsTo(Dependencia::class, 'id_dependencia_duena');
     }
 
+    /**
+     * Relaciones
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @param int $id
+     *
+     */
     public function dependencia_solicitante()
     {
         return $this->belongsTo(Dependencia::class, 'id_dependencia_solicitante');
     }
+    /**
+     * Relaciones
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @param int $id
+     *
+     */
 
     public function usuario()
     {
         return $this->belongsTo(User::class, 'id_usuario');
     }
 
+    /**
+     * Relación: una reserva puede tener un viaje asociado.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     *
+     */
    public function viaje()
 {
     return $this->hasOne(Viaje::class, 'id_reserva');
 }
 
+/**
+ * Relación: una reserva puede tener un viaje activo asociado.
+ *
+ * @return \Illuminate\Database\Eloquent\Relations\HasOne
+ *
+ */
     public function viajeActivo()
     {
         return $this->hasOne(Viaje::class, 'id_reserva')->whereNull('fecha_fin');
@@ -186,8 +226,6 @@ class Reserva extends Model
         });
     }
 
-
-
     /**
      * Scope que filtra únicamente las reservas internas dentro de la
      * estructura jerárquica de dependencias.
@@ -277,6 +315,14 @@ class Reserva extends Model
 }
 
 
+/**
+ * Scope que filtra únicamente las reservas pendientes.
+ *
+ * @param \Illuminate\Database\Eloquent\Builder $query
+ * @return \Illuminate\Database\Eloquent\Builder
+ *
+ *
+ */
     public function scopePendientes($query){
         return $query->whereHas('estado_reserva', function ($q) {
             $q->where('estado', 'SOLICITADA');

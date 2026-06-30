@@ -105,6 +105,7 @@ $ultimosUsuarios = User::with('dependencia')
     ->latest()
     ->take(5)
     ->get();
+
     $vehiculosStats = [
     $total = Vehiculo::count(),
     $disponibles = Vehiculo::whereHas('estadoVehiculo', fn($q) =>
@@ -288,8 +289,7 @@ $ultimosUsuarios = User::with('dependencia')
     /**
      * Mostrar formulario de creación
      */
-    public function create()
-    {
+    public function create(){
         Gate::authorize('createUsers', User::class);
 
         $dependencias = Dependencia::orderBy('nombre')->get();
@@ -338,10 +338,6 @@ $ultimosUsuarios = User::with('dependencia')
             'enabled' => true,
         ]);
 
-
-
-
-
                 } catch (\Exception $e) {
                     \Illuminate\Support\Facades\Log::error('Error al crear usuario: ' . $e->getMessage(), [
                         'data' => $data,
@@ -361,7 +357,6 @@ $ultimosUsuarios = User::with('dependencia')
         'vigente' => filter_var($data['vigente'], FILTER_VALIDATE_BOOLEAN),
     ]);
 
-
         $user->assignRole($data['role']);
 
   $user->notify(
@@ -374,10 +369,11 @@ $ultimosUsuarios = User::with('dependencia')
             ->with('success', 'Usuario creado correctamente');
 }
 
-
-
     /**
      * Mostrar un usuario específico (perfil público)
+     * @param \App\Models\User $usuario
+     * @return \Illuminate\View\View
+     *
      */
     public function show(User $usuario)
     {
@@ -435,6 +431,9 @@ $ultimosUsuarios = User::with('dependencia')
 
     /**
      * Mostrar formulario de edición
+     * @param \App\Models\User $usuario
+     * @return \Illuminate\View\View
+     *
      */
     public function edit(User $usuario)
     {
@@ -456,6 +455,7 @@ $ultimosUsuarios = User::with('dependencia')
      * @param Request $request, Viene en FormData con la nueva imagen a cargar
      *
      * @return JsonResponse, Envio de estado de la respuesta del fetch
+     *
      */
     public function editarImagenProfile($id, Request $request)
     {
@@ -500,6 +500,14 @@ $imagen = ImagenProfile::create([
 
     return back()->with('success', 'Foto actualizada correctamente');
 }
+
+/**
+ * DESTRUIR IMAGEN
+ * @param int $id
+ * @return \Illuminate\Http\RedirectResponse
+ *
+ *
+ */
 
  public function destroyImage($id)
 {
@@ -632,6 +640,8 @@ $imagen = ImagenProfile::create([
  *
  * @param \App\Models\User $usuario
  * @return \Illuminate\Http\RedirectResponse
+ * @throws \Illuminate\Auth\Access\AuthorizationException
+ *
  */
     public function destroy(User $usuario)
     {
@@ -671,6 +681,10 @@ $imagen = ImagenProfile::create([
     /**
      * Ver mi perfil (usuario logueado)
      * Solo el administrador general puede cambiar sus datos, los demas solo pueden ver
+     *
+     * @return \Illuminate\View\View
+     *
+     *
      */
 
     public function myProfile()
@@ -710,6 +724,11 @@ $imagen = ImagenProfile::create([
 
     /**
      * Actualizar mi perfil (usuario logueado) o si el admin selecciona un usuario
+     * Solo el administrador general puede cambiar sus datos, los demas solo pueden ver
+     *
+     * @return \Illuminate\View\View
+     * @param \Illuminate\Http\Request $request
+     *
      */
 
     public function updateProfile(Request $request)
@@ -744,6 +763,10 @@ $imagen = ImagenProfile::create([
 
     /**
      * Listar usuarios por dependencia
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\View\View
+     *
      */
 
     public function usuariosPorDependencia(Request $request)
@@ -777,6 +800,7 @@ $imagen = ImagenProfile::create([
  *
  * @param \App\Models\User $usuario
  * @return \Illuminate\Http\RedirectResponse
+ *
  */
     public function toggleEnabled(User $usuario)
     {
@@ -792,6 +816,12 @@ $imagen = ImagenProfile::create([
     }
 
 
+    /**
+     * Exportar usuarios registrados
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     *
+     */
+
 public function export()
 {
     return Excel::download(
@@ -800,6 +830,13 @@ public function export()
     );
 }
 
+
+/**
+ * Exportar conductores asignados
+ *
+ * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+ *
+ */
 public function exportConductores()
 {
     return Excel::download(
@@ -808,7 +845,11 @@ public function exportConductores()
     );
 }
 
-/**IMPORTAR USUARIOS MASIVAMENTE DESDE UN EXCEL O CARPETA DE EXCEL */
+/**IMPORTAR USUARIOS MASIVAMENTE DESDE UN EXCEL O CARPETA DE EXCEL
+ * @param \Illuminate\Http\Request $request
+ * @return \Illuminate\Http\RedirectResponse
+ *
+*/
 
 
 public function importar(Request $request)

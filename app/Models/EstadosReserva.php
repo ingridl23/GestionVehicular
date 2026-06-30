@@ -6,6 +6,19 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+
+/**
+ * @class EstadosReserva
+ *
+ * Representa un carnet  de conducir dentro del sistema en relacion a un usuario existente.
+ *
+ * @package App\Models
+ * @property int $id Identificador único
+ * @property string $estado Nombre de la categoria
+ *
+ * @mixin \Illuminate\Database\Eloquent\Builder
+ *
+ */
 class EstadosReserva extends Model
 {
     protected $table = 'estados_reservas';

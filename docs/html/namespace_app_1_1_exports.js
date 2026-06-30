@@ -2,6 +2,7 @@ var namespace_app_1_1_exports =
 [
     [ "ConductoresExport", "class_app_1_1_exports_1_1_conductores_export.html", "class_app_1_1_exports_1_1_conductores_export" ],
     [ "GastosExport", "class_app_1_1_exports_1_1_gastos_export.html", "class_app_1_1_exports_1_1_gastos_export" ],
+    [ "ReportesExport", "class_app_1_1_exports_1_1_reportes_export.html", "class_app_1_1_exports_1_1_reportes_export" ],
     [ "ReservasExport", "class_app_1_1_exports_1_1_reservas_export.html", "class_app_1_1_exports_1_1_reservas_export" ],
     [ "UsuariosExport", "class_app_1_1_exports_1_1_usuarios_export.html", "class_app_1_1_exports_1_1_usuarios_export" ],
     [ "VehiculosExport", "class_app_1_1_exports_1_1_vehiculos_export.html", "class_app_1_1_exports_1_1_vehiculos_export" ],

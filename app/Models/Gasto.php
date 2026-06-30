@@ -39,14 +39,35 @@ class Gasto extends Model
         'fecha_calculo'
     ];
 
+
+    /**
+     * Relación: un gasto pertenece a un usuario.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     *
+     */
     public function user() {
         return $this->belongsTo(User::class, 'id_usuario');
     }
+
+    /**
+     * Relación: un gasto pertenece a un viaje.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     *
+     */
     public function viajes()
     {
         return $this->belongsTo(Viaje::class, 'id_viaje');
     }
 
+
+    /**
+     * Relación: un gasto pertenece a un estado de nafta.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     *
+     */
     public function estadoNafta()
     {
         return $this->belongsTo(EstadosNafta::class, 'id_estado_nafta');

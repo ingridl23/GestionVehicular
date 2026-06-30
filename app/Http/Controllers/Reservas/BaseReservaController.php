@@ -43,6 +43,10 @@ abstract class BaseReservaController extends Controller
 
 /**
  * Metodo privado para delegar accion de botones en blade segun la sesion del usuario logueado
+ *
+ * @param string $contexto
+ * @param string $ubicacion
+ *
  */
 protected function configurarBotones(string $contexto, string $ubicacion): array
 {
@@ -132,6 +136,8 @@ protected function configurarBotones(string $contexto, string $ubicacion): array
     return view('ui.reservas.reserva', compact('reserva'));
     }
 
+
+
 /**
  * Cancela una reserva existente.
  *
@@ -153,10 +159,11 @@ protected function configurarBotones(string $contexto, string $ubicacion): array
         ]);
     }
 
-    /**
+/**
  * Muestra el formulario de creación de reserva.
  *
  * Requiere autorización previa.
+ *
  *
  * @return \Illuminate\View\View
  */
@@ -174,14 +181,12 @@ protected function configurarBotones(string $contexto, string $ubicacion): array
  * @return \Illuminate\View\View
  */
 
-
     //permiso = 'actualizar_prestamo' || 'actualizar_reserva_interna'
     public function mostrarFormularioUpdate($id)
     {
         //$this->authorize('actualizar', $reserva);
         return view('ui.reservas.formularios.editar', $this->service->datosParaFormEditar($id));
     }
-
 
     /**
      * Aplica filtros dinámicos a la consulta de reservas según los parámetros
@@ -209,10 +214,15 @@ protected function configurarBotones(string $contexto, string $ubicacion): array
     // permiso = filtrar_reservas_internas || filtrar_prestamos
     public function filtrarReservas($request, $query){
 
-        /* ----------------------
-         FILTRO POR NOMBRE DE LA DEPENDENCIA SOLICITANTE O POR NOMBRE O APELLIDO DEL CONDUCTOR
-        ---------------------- */
-
+/** ----------------------
+ FILTRO POR NOMBRE DE LA DEPENDENCIA SOLICITANTE O POR NOMBRE O APELLIDO DEL CONDUCTOR
+ *
+ * @param \Illuminate\Http\Request $request
+ * @param \Illuminate\Database\Eloquent\Builder $query
+ * @return \Illuminate\Database\Eloquent\Builder
+ *
+ *
+ */
         //filled se fija que exista y no este vacio
         if ($request->filled('nombre')) {
 
@@ -239,6 +249,11 @@ protected function configurarBotones(string $contexto, string $ubicacion): array
 
         /* ----------------------
          FILTRO POR EL ESTADO DE LA RESERVA
+         ordena por estado de la reserva
+
+         @param \Illuminate\Http\Request $request
+         @param \Illuminate\Database\Eloquent\Builder $query
+         @return \Illuminate\Database\Eloquent\Builder
         ---------------------- */
 
         if ($request->filled('estado') && $request->input('estado') != 'default') {
@@ -250,6 +265,17 @@ protected function configurarBotones(string $contexto, string $ubicacion): array
          VEHICULO
         ---------------------- */
 
+        /**
+         * FILTRO POR EL VEHICULO
+         *
+         * @param \Illuminate\Http\Request $request
+         * @param \Illuminate\Database\Eloquent\Builder $query
+         * @return \Illuminate\Database\Eloquent\Builder
+         *
+         *
+         */
+
+
         if ($request->filled('vehiculo') && $request->input('vehiculo') != 'default') {
             $vehiculo = $request->input('vehiculo');
             $query->where('id_vehiculo', $vehiculo);
@@ -258,6 +284,16 @@ protected function configurarBotones(string $contexto, string $ubicacion): array
         /* ----------------------
          FECHA DE INICIO
         ---------------------- */
+
+        /**
+         * FILTRO POR FECHA DE INICIO
+         *
+         * @param \Illuminate\Http\Request $request
+         * @param \Illuminate\Database\Eloquent\Builder $query
+         * @return \Illuminate\Database\Eloquent\Builder
+         *
+         *
+         */
 
         if ($request->filled('fecha_inicio') && $request->input('fecha_inicio') != '') {
             $fecha_inicio = $request->input('fecha_inicio');
@@ -268,6 +304,16 @@ protected function configurarBotones(string $contexto, string $ubicacion): array
          FECHA DE FIN
         ---------------------- */
 
+        /**
+         * FILTRO POR FECHA DE FIN
+         *
+         * @param \Illuminate\Http\Request $request
+         * @param \Illuminate\Database\Eloquent\Builder $query
+         * @return \Illuminate\Database\Eloquent\Builder
+         *
+         *
+         */
+
         if ($request->filled('fecha_fin') && $request->input('fecha_fin') != '') {
             $fecha_fin = $request->input('fecha_fin');
             $query->whereDate('fecha_fin_reserva', $fecha_fin);
@@ -276,6 +322,16 @@ protected function configurarBotones(string $contexto, string $ubicacion): array
         /* ----------------------
          ORDENAMIENTO
         ---------------------- */
+
+        /**
+         * ORDENAMIENTO
+         *
+         * @param \Illuminate\Http\Request $request
+         * @param \Illuminate\Database\Eloquent\Builder $query
+         * @return \Illuminate\Database\Eloquent\Builder
+         *
+         *
+         */
 
         //Campo por el que se ordena
         $sortField = $request->input('sort_field', 'fecha_inicio_reserva');

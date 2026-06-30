@@ -205,7 +205,7 @@ Protected Attributes</h2></td></tr>
   </table>
   </dd>
 </dl>
-<p>Illuminate\Validation\ValidationException </p>
+<p>Illuminate\Validation\ValidationException permiso = ver dependencias Actualiza el estado de la dependencia, alternando entre activa (1) e inactiva (0) según su estado actual. </p>
 
 </div>
 </div>
@@ -243,7 +243,7 @@ Protected Attributes</h2></td></tr>
   </table>
   </dd>
 </dl>
-<p>Illuminate\Auth\Access\AuthorizationException </p>
+<p>Illuminate\Auth\Access\AuthorizationException permission = crear dependencias </p>
 
 </div>
 </div>
@@ -282,7 +282,7 @@ Protected Attributes</h2></td></tr>
   </table>
   </dd>
 </dl>
-<p>Illuminate\Auth\Access\AuthorizationException </p>
+<p>Illuminate\Auth\Access\AuthorizationException permiso = crear dependencias datosRelacionDependencia = Recupera la información de las tablas relacionadas a la entidad Dependencia </p>
 
 </div>
 </div>
@@ -315,7 +315,7 @@ Protected Attributes</h2></td></tr>
   </table>
   </dd>
 </dl>
-<p>Illuminate\Database\Eloquent\ModelNotFoundException </p>
+<p>Illuminate\Database\Eloquent\ModelNotFoundException permission = editar dependencias </p>
 
 </div>
 </div>
@@ -433,6 +433,7 @@ Protected Attributes</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>\Illuminate\Http\JsonResponse Resultado paginado. </dd></dl>
+<p>Obtiene la dependencia por la que se busca (el orWhere) y los sectores donde esta es una jerarquia superior No incluye las áreas donde esta dependencia actúa como jerarquia indirecta (es decir, niveles inferiores más profundos)</p>
 
 </div>
 </div>
@@ -472,7 +473,7 @@ Protected Attributes</h2></td></tr>
   </table>
   </dd>
 </dl>
-<p>Illuminate\Auth\Access\AuthorizationException Si el usuario no posee permisos. </p>
+<p>Illuminate\Auth\Access\AuthorizationException Si el usuario no posee permisos. permission = ver dependencias </p>
 
 </div>
 </div>
@@ -504,7 +505,7 @@ Protected Attributes</h2></td></tr>
   </table>
   </dd>
 </dl>
-<p>Illuminate\Auth\Access\AuthorizationException Si el usuario no posee permiso para visualizar. </p>
+<p>Illuminate\Auth\Access\AuthorizationException Si el usuario no posee permiso para visualizar. permission = ver dependencias </p>
 
 </div>
 </div>

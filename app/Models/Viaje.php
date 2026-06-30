@@ -49,40 +49,102 @@ class Viaje extends Model
         'fecha_fin' => 'datetime',
     ];
 
+    /**
+     * Relaciones
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @param int $id
+     *
+     *
+     */
 
     public function vehiculo(){
         return $this->belongsTo(Vehiculo::class, 'id_vehiculo');
     }
 
+    /**
+     * Relaciones
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @param int $id
+     *
+     */
     public function gasto(){
         return $this->hasOne(Gasto::class, 'id_viaje');
     }
+
+
+    /**
+     * Relaciones
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @param int $id
+     *
+     */
 
     public function reserva(){
         return $this->belongsTo(Reserva::class, 'id_reserva');
     }
 
+    /**
+     * Relaciones
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @param int $id
+     *
+     */
    public function estadoNaftaInicio(){
         return $this->belongsTo(EstadosNafta::class, 'id_estado_nafta_inicio');
     }
 
+    /**
+     * Relaciones
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @param int $id
+     *
+     */
     public function estadoNaftaFin(){
         return $this->belongsTo(EstadosNafta::class, 'id_estado_nafta_fin');
     }
 
+    /**
+     * Relaciones
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @param int $id
+     *
+     */
    public function coordenadas()
 {
     return $this->hasMany(CoordenadasVehiculo::class, 'id_viaje');
 }
 
+/**
+ * Relaciones
+ * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+ * @param int $id
+ *
+ *
+ */
 public function ultimaCoordenada()
 {
     return $this->hasOne(CoordenadasVehiculo::class, 'id_viaje')->latest('fecha_hora');
 }
+/**
+ * Relaciones
+ * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+ * @param int $id
+ *
+ *
+ */
 public function direccionActual()
 {
     return $this->belongsTo(Direcciones::class, 'id_direccion_actual');
 }
+
+/**
+ * Relaciones
+ * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+ * @param int $id
+ *
+ *
+ *
+ */
 
 public function getFechaFinFormateadaAttribute()
 {
@@ -90,6 +152,15 @@ public function getFechaFinFormateadaAttribute()
         ? $this->fecha_fin->format('d/m/Y H:i')
         : 'Viaje en curso';
 }
+
+/**
+ * Relaciones
+ * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+ * @param int $id
+ *
+ *
+ *
+ */
 
 public function getEstadoViajeAttribute(): string
 {

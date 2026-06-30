@@ -15,12 +15,13 @@ var searchData=
   ['filtrosreservafields_12',['FiltrosReservaFields',['../class_app_1_1_view_1_1_components_1_1_filtros_reserva_fields.html',1,'App::View::Components']]],
   ['filtrosreservafields_2ephp_13',['FiltrosReservaFields.php',['../_filtros_reserva_fields_8php.html',1,'']]],
   ['finalizada_14',['FINALIZADA',['../class_app_1_1_models_1_1_estados_reserva.html#a28aca2e7db8685b089ef725902e4cfe2',1,'App::Models::EstadosReserva']]],
-  ['finalizarviaje_15',['finalizarViaje',['../class_app_1_1_http_1_1_controllers_1_1_viaje_controller.html#aae8e459ba9d58c26c6d29777bdfaf396',1,'App\Http\Controllers\ViajeController\finalizarViaje()'],['../class_app_1_1_services_1_1_viaje_service.html#a9e0898ea0c8a71b6d8befeb323f26ec4',1,'App\Services\ViajeService\finalizarViaje()']]],
-  ['forcedpasswordcontroller_16',['ForcedPasswordController',['../class_app_1_1_http_1_1_controllers_1_1_auth_1_1_forced_password_controller.html',1,'App::Http::Controllers::Auth']]],
-  ['forcedpasswordcontroller_2ephp_17',['ForcedPasswordController.php',['../_forced_password_controller_8php.html',1,'']]],
-  ['forgotpasswordcontroller_18',['ForgotPasswordController',['../class_app_1_1_http_1_1_controllers_1_1_auth_1_1_forgot_password_controller.html',1,'App::Http::Controllers::Auth']]],
-  ['forgotpasswordcontroller_2ephp_19',['ForgotPasswordController.php',['../_forgot_password_controller_8php.html',1,'']]],
-  ['formularioeditarconductor_20',['formularioEditarConductor',['../class_app_1_1_http_1_1_controllers_1_1_reservas_1_1_reserva_controller.html#a5cd6578767693fb87ac6f2bb83a37567',1,'App::Http::Controllers::Reservas::ReservaController']]],
-  ['fortifyserviceprovider_21',['FortifyServiceProvider',['../class_app_1_1_providers_1_1_fortify_service_provider.html',1,'App::Providers']]],
-  ['fortifyserviceprovider_2ephp_22',['FortifyServiceProvider.php',['../_fortify_service_provider_8php.html',1,'']]]
+  ['finalizarreserva_15',['finalizarReserva',['../class_app_1_1_http_1_1_controllers_1_1_reservas_1_1_reserva_controller.html#ad806a25c7981fdc19cc59b1bda164a82',1,'App::Http::Controllers::Reservas::ReservaController']]],
+  ['finalizarviaje_16',['finalizarViaje',['../class_app_1_1_http_1_1_controllers_1_1_viaje_controller.html#aae8e459ba9d58c26c6d29777bdfaf396',1,'App\Http\Controllers\ViajeController\finalizarViaje()'],['../class_app_1_1_services_1_1_viaje_service.html#a9e0898ea0c8a71b6d8befeb323f26ec4',1,'App\Services\ViajeService\finalizarViaje()']]],
+  ['forcedpasswordcontroller_17',['ForcedPasswordController',['../class_app_1_1_http_1_1_controllers_1_1_auth_1_1_forced_password_controller.html',1,'App::Http::Controllers::Auth']]],
+  ['forcedpasswordcontroller_2ephp_18',['ForcedPasswordController.php',['../_forced_password_controller_8php.html',1,'']]],
+  ['forgotpasswordcontroller_19',['ForgotPasswordController',['../class_app_1_1_http_1_1_controllers_1_1_auth_1_1_forgot_password_controller.html',1,'App::Http::Controllers::Auth']]],
+  ['forgotpasswordcontroller_2ephp_20',['ForgotPasswordController.php',['../_forgot_password_controller_8php.html',1,'']]],
+  ['formularioeditarconductor_21',['formularioEditarConductor',['../class_app_1_1_http_1_1_controllers_1_1_reservas_1_1_reserva_controller.html#a5cd6578767693fb87ac6f2bb83a37567',1,'App::Http::Controllers::Reservas::ReservaController']]],
+  ['fortifyserviceprovider_22',['FortifyServiceProvider',['../class_app_1_1_providers_1_1_fortify_service_provider.html',1,'App::Providers']]],
+  ['fortifyserviceprovider_2ephp_23',['FortifyServiceProvider.php',['../_fortify_service_provider_8php.html',1,'']]]
 ];

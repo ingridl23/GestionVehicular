@@ -115,6 +115,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ac4a81bfb1666c1d73cc7d19fde57e7e8" id="r_ac4a81bfb1666c1d73cc7d19fde57e7e8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac4a81bfb1666c1d73cc7d19fde57e7e8">misReportes</a> ()</td></tr>
 <tr class="memitem:a546666b444a8278a07d1f1f36f241f24" id="r_a546666b444a8278a07d1f1f36f241f24"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a546666b444a8278a07d1f1f36f241f24">misReportesOperativo</a> ()</td></tr>
 <tr class="memitem:a5cad45d86ef3aba07061cf1699504006" id="r_a5cad45d86ef3aba07061cf1699504006"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5cad45d86ef3aba07061cf1699504006">deleteReporte</a> ($id)</td></tr>
+<tr class="memitem:a663f873b5fedf6d01ac8685e4e0527d9" id="r_a663f873b5fedf6d01ac8685e4e0527d9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a663f873b5fedf6d01ac8685e4e0527d9">export</a> ()</td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Controlador encargado de la gestión integral de reportes internos. </p>
@@ -157,7 +158,7 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>\Illuminate\Http\JsonResponse Seguimiento de Comentarios en Reportes </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>\Illuminate\Http\JsonResponse Seguimiento de Comentarios en Reportes Quedo en conocimiento que esta funcionalidad queda sin policy hasta que se resuelva que no reconozce el permiso </dd></dl>
 
 </div>
 </div>
@@ -215,7 +216,7 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<p>Illuminate\Auth\Access\AuthorizationException </p>
+<p>Illuminate\Auth\Access\AuthorizationException Requiere autorización mediante la policy 'iniciar_reporte_interno'. </p>
 
 </div>
 </div>
@@ -249,6 +250,24 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 <p>Illuminate\Database\Eloquent\ModelNotFoundException </p>
+
+</div>
+</div>
+<a id="a663f873b5fedf6d01ac8685e4e0527d9" name="a663f873b5fedf6d01ac8685e4e0527d9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a663f873b5fedf6d01ac8685e4e0527d9">&#9670;&#160;</a></span>export()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">App\Http\Controllers\ReporteController::export </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Permite generar un documento excel con la totalidad de vehiculos y sus datos registrados en el sistema. Posteriormente garantiza a la gestion administrativa de las dependencia un mejor control de segumienwto de uso y gasto de recursos en reservas y posesion de vehiculos y utilizacion real de los empleados. </p><dl class="section return"><dt>Returns</dt><dd>\Symfony\Component\HttpFoundation\BinaryFileResponse </dd></dl>
 
 </div>
 </div>
@@ -340,6 +359,13 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>\Illuminate\View\View </dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname"></td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Illuminate\Auth\Access\AuthorizationException </p>
 
 </div>
 </div>
@@ -377,6 +403,13 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>\Illuminate\Http\RedirectResponse </dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname"></td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Illuminate\Auth\Access\AuthorizationException Requiere autorización mediante la policy 'iniciar_reporte_interno'. </p>
 
 </div>
 </div>

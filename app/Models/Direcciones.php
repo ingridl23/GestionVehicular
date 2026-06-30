@@ -4,7 +4,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Notifications\Notifiable;
 
-
 /**
  * @class Direcciones
  *
@@ -39,6 +38,7 @@ class Direcciones extends Model
      * Relación: una Direccion puede tener muchos vehiculos.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     *
      */
     public function vehiculos() {
         return $this->hasMany(Vehiculo::class);
@@ -63,6 +63,9 @@ class Direcciones extends Model
 
     /**
      * Relacion : obtener localidad vinculada a la direccion
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     *
      */
     public static function obtenerLocalidades(){
         return Direcciones::distinct()->get('ciudad');

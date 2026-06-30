@@ -59,36 +59,79 @@ class Vehiculo extends Model
     'vtv' => 'date',
 ];
 
+/**
+ * Relaciones
+ * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+ * @param int $id
+ *
+ */
     public function dependenciaDuena(){
         return $this->belongsTo(Dependencia::class, 'id_dependencia_duena');
     }
+
+    /**
+     * Relaciones
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @param int $id
+     *
+     *
+     */
+
 
     public function estadoNafta(){
         return $this->belongsTo(EstadosNafta::class, 'id_estado_nafta');
     }
 
+
+    /**
+     * Relaciones
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @param int $id
+     *
+     */
     public function estadoVehiculo(){
         return $this->belongsTo(EstadosVehiculo::class, 'id_estado_vehiculo');
     }
 
-
+/**
+ * Relaciones
+ * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+ * @param int $id
+ *
+ *
+ */
     public function direccionActual() {
         return $this->belongsTo(Direcciones::class, 'id_direccion_actual');
     }
 
+    /**
+     * Relaciones
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @param int $id
+     *
+     */
     public function reservas() {
         return $this->hasMany(Reserva::class,'id_vehiculo');
     }
 
+
+    /**
+     * Relaciones
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @param int $id
+     *
+     */
     public function viajes(){
         return $this->hasMany(Viaje::class, 'id_vehiculo');
     }
 
-
     /**
      * Metodo estatico de control de vtv vigentes en relacion a vehiculos registrados en el sistema. Permite utilizar este dato para
      * generar alertas automaticas dentor del sistema y tomar accion sobre los mismos dependiendo del estado de cada vehiculo.
-     */
+    *
+    * @param int $id
+    *
+    */
     public static function vtv_vigente($id){
         $vehiculo = Vehiculo::find($id);
 

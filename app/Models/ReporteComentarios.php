@@ -31,6 +31,10 @@ class ReporteComentarios extends Model
 
 /**
  * Relacion: de ReporteComentario puede venir de un usuario
+ * @param int $id
+ * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+ *
+ *
  */
     public function usuario()
     {
@@ -41,6 +45,9 @@ class ReporteComentarios extends Model
 
 /**
  * Relacion: de ReporteComentario puede venir de un reporte
+ * @param int $id
+ * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+ *
  */
     public function reporte()
     {

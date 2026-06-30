@@ -1,22 +1,25 @@
 <?php
 
 namespace App\Notifications;
-
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use Illuminate\Support\Facades\Log;
+
 /**
  * @brief Clase para notificar Usuarios sobre acciones
  * Descripcion: Clase desarrolada para la notificacion mediante email y campana de notificaicon a usuarios registrados en el sistema.
  * Garantizando una comunicacion eficiente entre usuarios y tiempo de respuesta ante eventos del sistema.
- */
+
+*/
 
 class UsuarioModificadoNotification extends Notification
 {
     use Queueable;
 
+    /**
+     * Create a new notification instance.
+     *
+     */
      public function __construct(
         public string $mensaje,
         public string $tipo = 'info'
@@ -26,11 +29,17 @@ class UsuarioModificadoNotification extends Notification
      * Get the notification's delivery channels.
      *
      * @return array<int, string>
+     *
      */
     public function via($notifiable)
     {
         return ['database','mail']; // guardado en BD
     }
+
+    /**
+     * Get the mail representation of the notification.
+     *
+     */
 
     public function toDatabase($notifiable): array
     {
@@ -41,6 +50,11 @@ class UsuarioModificadoNotification extends Notification
         ];
     }
 
+
+    /**
+     * Get the mail representation of the notification.
+     *
+     */
     public function toMail($notifiable)
 {
      //   Log::info('Entró a toMail de UsuarioModificadoNotification');

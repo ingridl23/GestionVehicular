@@ -43,6 +43,7 @@ class Carnet extends Model
      * Relación: un carnet pertenece a un usuario.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     *
      */
     public function user() {
         return $this->belongsTo(User::class, 'id_usuario');
@@ -51,6 +52,9 @@ class Carnet extends Model
    /**
     * Permite verificar si el carnet vinculado al usuario esta en fecha para cuando el usuario realice una reserva de un vehiculo
     * se compruebe que esta en condiciones optimas de conducir reglamentariamente.
+    *
+    * @return boolean
+    *
     */
 
     public static function carnetVigente($id){

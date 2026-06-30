@@ -32,6 +32,9 @@ class ReservaFormRequest extends FormRequest
         ];
     }
 
+    /*
+    * Array de obtencion de mensajes para la validacion de reglas
+    */
     public function messages(){
         return [
             'fecha_inicio.required' => 'Debe indicar la fecha y el horario de inicio de la reserva.',

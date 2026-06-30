@@ -4,6 +4,23 @@ use App\Models\User;
 use Maatwebsite\Excel\Row;
 use Maatwebsite\Excel\Concerns\OnEachRow;
 use Illuminate\Support\Facades\Hash;
+
+/**
+ * @class UsuariosImport
+ * @package App\Imports
+ * @brief Clase encargada de importar usuarios desde un archivo Excel
+ * @details Esta clase es responsable de importar usuarios desde un archivo Excel.
+ * La clase implementa la interface OnEachRow de la librería maatwebsite/excel.
+ * @see https://maatwebsite.github.io/excel/docs/3.1/imports
+ * @since 2026
+ * @version 1.0
+ * @author Ingrid Ledesma
+ * @copyright GNU Public License
+ * @license https://maatwebsite.github.io/excel/docs/3.1/imports
+ * @see https://maatwebsite.github.io/excel/docs/3.1/imports
+ * @see https://maatwebsite.github.io/excel/docs/3.1/imports
+ *
+ */
 class UsuariosImport implements OnEachRow
 {
     private $dependencia;
@@ -15,6 +32,16 @@ class UsuariosImport implements OnEachRow
     {
         $this->dependencia = $dependencia;
     }
+
+
+    /**
+     *
+     * @brief Obtiene el rol correspondiente al valor recibido
+     * @details Esta función obtiene el rol correspondiente al valor recibido.
+     * @param $valor El valor del rol.
+     * @return El rol correspondiente al valor recibido.
+     *
+     */
  private function obtenerRol($valor)
     {
         $roles = [
@@ -26,6 +53,15 @@ class UsuariosImport implements OnEachRow
 
         return $roles[$valor] ?? null;
     }
+
+
+    /**
+     * @brief Importa los usuarios desde un archivo Excel
+     * @details Esta función importa los usuarios desde un archivo Excel.
+     * @param Row $row La fila actual del archivo Excel.
+     * @return void
+     *
+     */
      public function onRow(Row $row)
     {
         $fila = $row->toArray();

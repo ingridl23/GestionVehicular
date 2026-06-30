@@ -24,12 +24,17 @@ use Illuminate\Http\Request;
  * - Cambio de conductor
  *
  * @package App\Http\Controllers\Reservas
+ * @since 2026
  */
 
 
 class ReservaController extends BaseReservaController{
 
-
+/**
+ * Constructor.
+ *
+ * @param ReservasInternasService $service Servicio de gestión de reservas internas.
+ */
     public function __construct(ReservasInternasService $service)
     {
         parent::__construct($service);
@@ -40,14 +45,14 @@ class ReservaController extends BaseReservaController{
  * Muestra listado de reservas internas.
  *
  * @return \Illuminate\View\View
+// permission = ver_reservas_internas
  */
-    // permiso = ver_reservas_internas
     public function verReservas(){
         $this->authorize('viewAny', Reserva::class);
         $datos = $this->service->verReservas();
         $botones = $this->configurarBotones('admin', 'interna');
         //dd($botones);
-$data = array_merge(
+  $data = array_merge(
     [
         'reservas' => $datos['reserva'],
         'ids' => null,
@@ -65,6 +70,17 @@ $data = array_merge(
         return view('ui.reservas.reservas', $data);
     }
 
+
+
+  /**
+   * Muestra una reserva
+   *
+   * @param int $id
+   * @return \Illuminate\View\View
+   *
+   * permission = ver_reserva
+   *
+   *  */
 public function show($id)
 {
     $reserva = Reserva::with([
@@ -91,6 +107,8 @@ public function show($id)
 
     /**
      * Muestra reservas propias del usuario que se encuentra logueado
+     * @return \Illuminate\View\View
+     *
      */
   public function misReservas(){
     $this->authorize('viewAny', Reserva::class);
@@ -244,6 +262,12 @@ $data = array_merge(
     /**
      * Devuelve el vehículo cerrando la reserva (APROBADA → FINALIZADA).
      * Solo aplica cuando no hay viaje activo en curso.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\RedirectResponse
+     *
+     * permission = finalizar_reserva
+     *
      */
     public function finalizarReserva($id)
     {
@@ -272,7 +296,17 @@ $data = array_merge(
         return redirect()->route($ruta)->with('success', 'Vehículo devuelto correctamente.');
     }
 
-// permission: autorizar_reservas_internas
+
+    /**
+     * Autoriza una reserva interna.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
+     *
+     * permission: autorizar_reservas_internas
+     *
+     *
+     */
 public function autorizarReserva($id) {
     $this->authorize('authorizeInternalReservation', Reserva::findOrFail($id));
     $resultado = $this->service->autorizarReserva($id);
@@ -299,6 +333,13 @@ public function autorizarReserva($id) {
     ]);
 }
 
+/**
+ * EXPORTAR RESERVAS
+ *
+ * permission: exportar_reservas
+ * permite al usuario exportar las reservas de los ultimos 4 meses
+ *
+ */
 public function exportarReservas()
 {
     $reservas = $this->service->reservasParaExport();

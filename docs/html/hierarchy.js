@@ -80,6 +80,7 @@ var hierarchy =
     [ "FromCollection", null, [
       [ "App\\Exports\\ConductoresExport", "class_app_1_1_exports_1_1_conductores_export.html", null ],
       [ "App\\Exports\\GastosExport", "class_app_1_1_exports_1_1_gastos_export.html", null ],
+      [ "App\\Exports\\ReportesExport", "class_app_1_1_exports_1_1_reportes_export.html", null ],
       [ "App\\Exports\\ReservasExport", "class_app_1_1_exports_1_1_reservas_export.html", null ],
       [ "App\\Exports\\UsuariosExport", "class_app_1_1_exports_1_1_usuarios_export.html", null ],
       [ "App\\Exports\\VehiculosExport", "class_app_1_1_exports_1_1_vehiculos_export.html", null ],
@@ -131,9 +132,9 @@ var hierarchy =
     [ "App\\Services\\ReporteService", "class_app_1_1_services_1_1_reporte_service.html", null ],
     [ "App\\Policies\\ReservaPolicy", "class_app_1_1_policies_1_1_reserva_policy.html", null ],
     [ "App\\Contracts\\ReservaServiceInterface", "interface_app_1_1_contracts_1_1_reserva_service_interface.html", [
-      [ "App\\Services\\reservas\\BaseReservasServices", "class_app_1_1_services_1_1reservas_1_1_base_reservas_services.html", [
+      [ "App\\Services\\Reservas\\BaseReservasServices", "class_app_1_1_services_1_1_reservas_1_1_base_reservas_services.html", [
         [ "App\\Services\\Reservas\\ReservasExternasService", "class_app_1_1_services_1_1_reservas_1_1_reservas_externas_service.html", null ],
-        [ "App\\Services\\reservas\\ReservasInternasService", "class_app_1_1_services_1_1reservas_1_1_reservas_internas_service.html", null ]
+        [ "App\\Services\\Reservas\\ReservasInternasService", "class_app_1_1_services_1_1_reservas_1_1_reservas_internas_service.html", null ]
       ] ]
     ] ],
     [ "ResetsUserPasswords", null, [
@@ -165,6 +166,7 @@ var hierarchy =
     [ "WithHeadings", null, [
       [ "App\\Exports\\ConductoresExport", "class_app_1_1_exports_1_1_conductores_export.html", null ],
       [ "App\\Exports\\GastosExport", "class_app_1_1_exports_1_1_gastos_export.html", null ],
+      [ "App\\Exports\\ReportesExport", "class_app_1_1_exports_1_1_reportes_export.html", null ],
       [ "App\\Exports\\ReservasExport", "class_app_1_1_exports_1_1_reservas_export.html", null ],
       [ "App\\Exports\\UsuariosExport", "class_app_1_1_exports_1_1_usuarios_export.html", null ],
       [ "App\\Exports\\VehiculosExport", "class_app_1_1_exports_1_1_vehiculos_export.html", null ],
@@ -173,6 +175,7 @@ var hierarchy =
     [ "WithMapping", null, [
       [ "App\\Exports\\ConductoresExport", "class_app_1_1_exports_1_1_conductores_export.html", null ],
       [ "App\\Exports\\GastosExport", "class_app_1_1_exports_1_1_gastos_export.html", null ],
+      [ "App\\Exports\\ReportesExport", "class_app_1_1_exports_1_1_reportes_export.html", null ],
       [ "App\\Exports\\ReservasExport", "class_app_1_1_exports_1_1_reservas_export.html", null ],
       [ "App\\Exports\\UsuariosExport", "class_app_1_1_exports_1_1_usuarios_export.html", null ],
       [ "App\\Exports\\VehiculosExport", "class_app_1_1_exports_1_1_vehiculos_export.html", null ],

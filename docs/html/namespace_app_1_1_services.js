@@ -2,7 +2,6 @@ var namespace_app_1_1_services =
 [
     [ "alertas", "namespace_app_1_1_services_1_1alertas.html", "namespace_app_1_1_services_1_1alertas" ],
     [ "Reservas", "namespace_app_1_1_services_1_1_reservas.html", "namespace_app_1_1_services_1_1_reservas" ],
-    [ "reservas", "namespace_app_1_1_services_1_1reservas.html", "namespace_app_1_1_services_1_1reservas" ],
     [ "CalculoGastoService", "class_app_1_1_services_1_1_calculo_gasto_service.html", "class_app_1_1_services_1_1_calculo_gasto_service" ],
     [ "CloudinaryService", "class_app_1_1_services_1_1_cloudinary_service.html", "class_app_1_1_services_1_1_cloudinary_service" ],
     [ "CombustibleApiService", "class_app_1_1_services_1_1_combustible_api_service.html", null ],

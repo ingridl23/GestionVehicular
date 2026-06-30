@@ -37,13 +37,7 @@ use App\Notifications\UsuarioModificadoNotification;
  * @since 2026
  */
 
-class ReporteController extends Controller
-{
-
-
-
-
-
+class ReporteController extends Controller{
 
 /**
  * Muestra el listado de reportes según el nivel de acceso del usuario.
@@ -105,6 +99,8 @@ public function index()
  *
  * @return \Illuminate\View\View
  * @throws \Illuminate\Auth\Access\AuthorizationException
+ *       Requiere autorización mediante la policy
+ *       'iniciar_reporte_interno'.
  */
 
     public function create()
@@ -115,7 +111,7 @@ public function index()
     }
 
 
-    /**
+/**
  * Crea un nuevo reporte interno.
  *
  * Valida título y descripción.
@@ -130,6 +126,9 @@ public function index()
  * @param \Illuminate\Http\Request $request
  * @param \App\Services\ReporteService $service
  * @return \Illuminate\Http\RedirectResponse
+ * @throws \Illuminate\Auth\Access\AuthorizationException
+ *       Requiere autorización mediante la policy
+ *       'iniciar_reporte_interno'.
  */
 
    public function store(Request $request, ReporteService $service)
@@ -172,7 +171,6 @@ foreach ($admins as $admin) {
     ));
 }
 
-
     return redirect()
         ->route('operativo.reportes.index')
         ->with('success', 'Reporte creado correctamente');
@@ -185,6 +183,8 @@ foreach ($admins as $admin) {
  *
  * @param \App\Models\Reportes $reporte
  * @return \Illuminate\View\View
+ * @throws \Illuminate\Auth\Access\AuthorizationException
+ *
  */
 
 
@@ -276,8 +276,8 @@ public function cambiarEstado(Request $request, Reportes $reporte)
  */
 
 
-/**Seguimiento de Comentarios en Reportes */
-// Quedo en conocimiento que esta funcionalidad queda sin policy hasta que se resuelva que no reconozce el permiso
+/**Seguimiento de Comentarios en Reportes
+ Quedo en conocimiento que esta funcionalidad queda sin policy hasta que se resuelva que no reconozce el permiso*/
     public function agregarComentario(Request $request, Reportes $reporte)
     {
      // $this->authorize('commet', $reporte);
@@ -399,6 +399,9 @@ return response()->json([
  * Permite generar un documento excel con la totalidad de vehiculos y sus datos registrados en el sistema.
  * Posteriormente garantiza a la gestion administrativa de las dependencia un mejor control de segumienwto de uso y gasto
  * de recursos en reservas y posesion de vehiculos y utilizacion real de los empleados.
+ * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+ *
+ *
  */
 
 public function export()

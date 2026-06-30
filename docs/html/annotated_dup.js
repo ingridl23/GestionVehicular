@@ -29,6 +29,7 @@ var annotated_dup =
       [ "Exports", "namespace_app_1_1_exports.html", [
         [ "ConductoresExport", "class_app_1_1_exports_1_1_conductores_export.html", "class_app_1_1_exports_1_1_conductores_export" ],
         [ "GastosExport", "class_app_1_1_exports_1_1_gastos_export.html", "class_app_1_1_exports_1_1_gastos_export" ],
+        [ "ReportesExport", "class_app_1_1_exports_1_1_reportes_export.html", "class_app_1_1_exports_1_1_reportes_export" ],
         [ "ReservasExport", "class_app_1_1_exports_1_1_reservas_export.html", "class_app_1_1_exports_1_1_reservas_export" ],
         [ "UsuariosExport", "class_app_1_1_exports_1_1_usuarios_export.html", "class_app_1_1_exports_1_1_usuarios_export" ],
         [ "VehiculosExport", "class_app_1_1_exports_1_1_vehiculos_export.html", "class_app_1_1_exports_1_1_vehiculos_export" ],
@@ -151,11 +152,9 @@ var annotated_dup =
           [ "AlertaVTVService", "class_app_1_1_services_1_1alertas_1_1_alerta_v_t_v_service.html", "class_app_1_1_services_1_1alertas_1_1_alerta_v_t_v_service" ]
         ] ],
         [ "Reservas", "namespace_app_1_1_services_1_1_reservas.html", [
-          [ "ReservasExternasService", "class_app_1_1_services_1_1_reservas_1_1_reservas_externas_service.html", "class_app_1_1_services_1_1_reservas_1_1_reservas_externas_service" ]
-        ] ],
-        [ "reservas", "namespace_app_1_1_services_1_1reservas.html", [
-          [ "BaseReservasServices", "class_app_1_1_services_1_1reservas_1_1_base_reservas_services.html", "class_app_1_1_services_1_1reservas_1_1_base_reservas_services" ],
-          [ "ReservasInternasService", "class_app_1_1_services_1_1reservas_1_1_reservas_internas_service.html", "class_app_1_1_services_1_1reservas_1_1_reservas_internas_service" ]
+          [ "BaseReservasServices", "class_app_1_1_services_1_1_reservas_1_1_base_reservas_services.html", "class_app_1_1_services_1_1_reservas_1_1_base_reservas_services" ],
+          [ "ReservasExternasService", "class_app_1_1_services_1_1_reservas_1_1_reservas_externas_service.html", "class_app_1_1_services_1_1_reservas_1_1_reservas_externas_service" ],
+          [ "ReservasInternasService", "class_app_1_1_services_1_1_reservas_1_1_reservas_internas_service.html", "class_app_1_1_services_1_1_reservas_1_1_reservas_internas_service" ]
         ] ],
         [ "CalculoGastoService", "class_app_1_1_services_1_1_calculo_gasto_service.html", "class_app_1_1_services_1_1_calculo_gasto_service" ],
         [ "CloudinaryService", "class_app_1_1_services_1_1_cloudinary_service.html", "class_app_1_1_services_1_1_cloudinary_service" ],

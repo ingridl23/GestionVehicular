@@ -31,12 +31,7 @@ use Maatwebsite\Excel\Facades\Excel;
  * @since 2026
  */
 
-
-
-
-
-class VehiculoController extends Controller
-{
+class VehiculoController extends Controller{
 
 /**
  * Renderiza la seccion de vehiculos dentro del sistema
@@ -74,8 +69,10 @@ public function sectionVehiculo(){
  *
  * @param \App\Models\Vehiculo $vehiculo
  * @return \Illuminate\Http\JsonResponse
+ *
+ * @throws \Illuminate\Auth\Access\AuthorizationException
+ * CU 2 – Detalle
  */
-    // CU 2 – Detalle
    public function show(Vehiculo $vehiculo): JsonResponse
 {
 $this->authorize('view', $vehiculo);
@@ -123,6 +120,11 @@ $this->authorize('view', $vehiculo);
 /**
  * Permite renderizar el detalle de un vehiculo seleccionado.
  * Segun rol de usuario podra modificar la informaion y el estado del vehiculo.
+ * @param \App\Models\Vehiculo $vehiculo
+ * @return \Illuminate\View\View
+ * @throws \Illuminate\Auth\Access\AuthorizationException
+ *
+ *
  */
 
 public function detalle(Vehiculo $vehiculo)
@@ -138,7 +140,6 @@ public function detalle(Vehiculo $vehiculo)
     ]);
 }
 
-
 /**
  * Permite crear y persistir un vehiculo dentor del sistema
  *
@@ -150,6 +151,10 @@ public function detalle(Vehiculo $vehiculo)
  *
  * @param \App\Models\Vehiculo $vehiculo
  * @return \Illuminate\Http\JsonResponse
+ *
+ * @throws \Illuminate\Auth\Access\AuthorizationException
+ *
+ *
  */
 
     // CU 5 – Crear
@@ -305,6 +310,10 @@ public function detalle(Vehiculo $vehiculo)
 
     /**
      * Metodo inicial para la carga visual de vehiculos
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     *
      */
     public function index(Request $request, VehiculoService $service)
 {
@@ -322,6 +331,7 @@ public function detalle(Vehiculo $vehiculo)
  * @param \App\Models\Vehiculo $vehiculo
  * @param \App\Services\VehiculoService $service
  * @return \Illuminate\Http\JsonResponse
+ *
  */
     // CU 17 – Reasignar
     public function updateAsignacion(Request $request, Vehiculo $vehiculo, VehiculoService $service): JsonResponse
@@ -347,6 +357,7 @@ public function detalle(Vehiculo $vehiculo)
  * @param \App\Models\Vehiculo $vehiculo
  * @param \App\Services\VehiculoService $service
  * @return \Illuminate\Http\JsonResponse
+ *
  */
     // CU 3 – Eliminar
    public function destroy(Vehiculo $vehiculo, VehiculoService $service): JsonResponse
@@ -371,7 +382,9 @@ public function detalle(Vehiculo $vehiculo)
  * Permite generar un documento excel con la totalidad de vehiculos y sus datos registrados en el sistema.
  * Posteriormente garantiza a la gestion administrativa de las dependencia un mejor control de segumienwto de uso y gasto
  * de recursos en reservas y posesion de vehiculos y utilizacion real de los empleados.
+ *
  */
+
 
 public function export()
 {

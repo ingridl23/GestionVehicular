@@ -18,6 +18,8 @@ class DependenciaRequest extends FormRequest
      * Get the validation rules that apply to the request.
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     *
+     *
      */
 
     // VER, DETALLAR
@@ -34,6 +36,10 @@ class DependenciaRequest extends FormRequest
         ];
     }
 
+    /**
+     * Get the error messages for the defined validation rules.
+     *  Array de obtencion de mensajes para la validacion de reglas
+     */
     public function messages()
     {
         return [

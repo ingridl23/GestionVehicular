@@ -55,8 +55,6 @@ class GastoController extends Controller{
 ├── show($viaje)   // gasto de un viaje puntual
 
      */
-
-
     /**importe =
     (litros_consumidos * valor_litro)
 
@@ -108,6 +106,7 @@ class GastoController extends Controller{
     }
 
 /**
+ * SHOW
  * Obtiene el gasto asociado a un viaje específico.
  *
  * Busca el gasto por id_viaje.
@@ -137,9 +136,9 @@ class GastoController extends Controller{
 
     }
 
-//index
 
 /**
+ * INDEX
  * Devuelve el listado completo de gastos.
  *
  * Incluye la relación con el viaje asociado.
@@ -147,8 +146,8 @@ class GastoController extends Controller{
  * Columna 1 — Formulario manual: litros, precio/litro y km opcionales.
  *  La lógica replica exactamente CalculoGastoService::calcularMonto() (litros × precio).
  *  Si $precioLitroActual viene del controller, se precarga automáticamente con un botón "Usar precio actual".
-   Columna 2 — Resultado: muestra el monto estimado con detalle. Si se cargan km, calcula además costo por km y consumo en L/100km.
-   Columna 3 — Estadísticas: consume $resumenGastos que ya devuelve tu GastoController::resumen().
+    Columna 2 — Resultado: muestra el monto estimado con detalle. Si se cargan km, calcula además costo por km y consumo en L/100km.
+    Columna 3 — Estadísticas: consume $resumenGastos que ya devuelve tu GastoController::resumen().
     Mientras no lo pases, muestra placeholders con el nombre de la variable para que sepas qué agregar.
  *
  * @return \Illuminate\Http\JsonResponse Lista de gastos.
@@ -165,6 +164,7 @@ class GastoController extends Controller{
     }
 
 /**
+ * RESUMEN
  * Devuelve estadísticas generales de los gastos registrados.
  *
  * Calcula:
@@ -178,15 +178,6 @@ class GastoController extends Controller{
  *
  * @return \Illuminate\Http\JsonResponse Estadísticas agregadas.
  * @throws \Illuminate\Auth\Access\AuthorizationException
- */
-
-    //resumen
-
-
-    /**
-     * Devuelve estadísticas generales de los gastos registrados.
-     *
-     * Calcula cantidad, suma total, promedio, máximo y mínimo.
      * Requiere autorización 'viewResumen'.
      *
      * @return JsonResponse Estadísticas agregadas.
@@ -257,6 +248,9 @@ class GastoController extends Controller{
      * Exporta los gastos de los últimos 6 meses en formato Excel.
      *
      * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws \PhpOffice\PhpSpreadsheet\Exception
+     *
      */
 
 public function export()

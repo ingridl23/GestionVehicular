@@ -26,12 +26,15 @@ use App\Services\ViajeService;
 class ViajeController extends Controller
 {
    protected ViajeService $service;
-
+/**
+ * CONSTRUCTOR
+ * @var ViajeService
+ *
+ *
+ */
     public function __construct(ViajeService $service )
     {
         $this->service = $service;
-
-
 
     }
 
@@ -40,9 +43,9 @@ class ViajeController extends Controller
      * - Admin/Jefe: ve todos los viajes de su dependencia
      * - Operativo:  ve solo sus propios viajes
      * Además resuelve $reservaActiva y $viajeActivo para los botones del dashboard.
+     *
      */
-    public function index()
-    {
+    public function index(){
 
         $user = auth()->user();
 
@@ -79,7 +82,6 @@ class ViajeController extends Controller
         // ── Variables para filtros (admins) ──
         $vehiculos_filtros = \App\Models\Vehiculo::select('id', 'dominio')->orderBy('dominio')->get();
         $estados_filtros   = \App\Models\EstadosViaje::all();
-
 
         $direcciones = Direcciones::all();
 
@@ -137,6 +139,9 @@ class ViajeController extends Controller
      * Permite que al seleccionar un viaje se pueda visualizar la informacion vinculada al mismo.
      * Detalles: dependencia de origen,usuario asignado,estado del combustible al iniciar el recorrido,estado del combustible al finalizar el recorrido,
      * gasto obtenido una vez finalizado el viaje y la ubicacion actual del vehiculo una vez finalizada la reserva.
+     * @param Viaje $viaje
+     * @return \Illuminate\View\View
+     *
      */
    public function show(Viaje $viaje)
 {
@@ -155,6 +160,12 @@ class ViajeController extends Controller
     return view('ui.viajes.show', compact('viaje', 'estadosNafta','direcciones'));
 }
 
+/**
+ * Mapa virtual de un viaje.
+ * @param Viaje $viaje
+ * @return \Illuminate\View\View
+ *
+ */
 public function mapaVirtual(Viaje $viaje)
 {
     $viaje->load('ultimaCoordenada');
@@ -166,11 +177,9 @@ public function mapaVirtual(Viaje $viaje)
  *
  * @param int $reservaId Identificador de la reserva.
  * @return \Illuminate\Http\RedirectResponse
+ *
  */
-
-
-   public function comenzarViaje($reservaId)
-{
+   public function comenzarViaje($reservaId){
 
     try {
 
@@ -185,20 +194,6 @@ public function mapaVirtual(Viaje $viaje)
     }
 }
 
-/*
-    try {
-        $viaje = $this->service->comenzarViaje($reservaId);
-        return redirect()->route('operativo.viajes.index')
-            ->with('success', 'Viaje #' . $viaje->id . ' iniciado.');
-    }  catch (\Illuminate\Validation\ValidationException $e) {
-        dd(['ValidationException' => $e->errors()]);
-    } catch (\Exception $e) {
-        return redirect()->back()
-            ->withErrors(['error' => $e->getMessage()]);
-    }
-}
-*/
-
 /**
  * Finaliza un viaje activo.
  *
@@ -210,10 +205,8 @@ public function mapaVirtual(Viaje $viaje)
  * @param \Illuminate\Http\Request $request
  * @param int $viajeId
  * @return \Illuminate\Http\RedirectResponse
+ *
  */
-
-
-
     public function finalizarViaje(Request $request, $viajeId)
     {
 
@@ -236,7 +229,6 @@ public function mapaVirtual(Viaje $viaje)
 
     }
 
-
     /**
      * EXPORTAR DATOS A FORMATO EXCEL:
      * Metodo para exportar historial de viajes a formato excel fuera del sistema registrados durante los ultimos 4 meses.
@@ -245,6 +237,7 @@ public function mapaVirtual(Viaje $viaje)
      * @todo "Queda pendiente imnplementar un filtro por fechas para exportaciones, por el momento solo es generado por el sistema el registro de
      * los ultimos 4 meses y en gastos ultimos 6 meses"
      */
+
 
 public function export()
 {
