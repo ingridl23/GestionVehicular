@@ -10,7 +10,7 @@
     <!-- Header -->
     <div class="px-5 py-4 border-b border-gray-200 dark:border-gray-700">
 
-    <a href="{{ route('operativo.reportes.index') }}"> <span  class="text-xs px-4 py-2 bg-gray-100 dark:bg-blue-700 text-gray-600 dark:text-gray-400 rounded-lg"> <-</span> </a>
+    <a href="{{ route('operativo.reportes.index') }}"> <span  class="text-xs px-4 py-2 bg-gray-100 dark:bg-blue-700 text-gray-600 dark:text-gray-400 rounded-lg"> <i class="fas fa-arrow-left"></i></span> </a>
         <span id="chatEntidad"
               class="text-xs px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 rounded-lg">
         </span>

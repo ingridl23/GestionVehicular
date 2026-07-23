@@ -26,12 +26,12 @@ $mostrarAcciones = $mostrarAcciones ?? true;
         <div class="flex gap-2 pt-2">
            @hasanyrole('Operativo')
                 <a  href="{{ route('operativo.dashboard2') }}"class="text-center px-2 py-1 rounded-lg border border-gray-300 text-white  text-center bg-blue-600 hover:bg-blue-700">
-                       <-
+                       <i class="fas fa-arrow-left"></i>
                    </a>
   @endhasanyrole
             @hasanyrole('Administrador General|Administrador de Dependencia|Jefe de Area')
                    <a href="{{ url()->previous() }}"class="text-center px-2 py-1 rounded-lg border border-gray-300 text-white  text-center bg-blue-600 hover:bg-blue-700">
-                       <-
+                       <i class="fas fa-arrow-left"></i>
                    </a>
 
            @endhasanyrole
