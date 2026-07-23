@@ -1,4 +1,4 @@
-@extends('layout.app')
+@extends(auth()->user()->hasRole('Operativo') ? 'layout.appOperativo' : 'layout.app')
 
 @section('page-title', 'Listado de vehículos')
 @section('page-description', 'Gestión de vehículos del sistema')

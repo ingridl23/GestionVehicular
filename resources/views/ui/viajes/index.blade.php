@@ -1,5 +1,5 @@
 {{-- resources/views/ui/viajes/index.blade.php --}}
-@extends('layout.app')
+@extends(auth()->user()->hasRole('Operativo') ? 'layout.appOperativo' : 'layout.app')
 
 @section('page-title', 'Viajes')
 @section('page-description', 'Gestión de recorridos')

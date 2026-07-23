@@ -1,4 +1,4 @@
-@extends('layout.app')
+@extends(auth()->user()->hasRole('Operativo') ? 'layout.appOperativo' : 'layout.app')
 
 @vite([
     'resources/js/filtros/filtrosReservas.js',

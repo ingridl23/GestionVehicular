@@ -4,7 +4,7 @@ $rutaFinalizar = auth()->user()->hasRole('Operativo')
      ? route('operativo.viajes.finalizar', $viaje->id)
      : route('viajes.finalizaradmin', $viaje->id);
  @endphp
-@extends('layout.app')
+@extends(auth()->user()->hasRole('Operativo') ? 'layout.appOperativo' : 'layout.app')
 
 @section('content')
 <div class="max-w-4xl mx-auto p-6">

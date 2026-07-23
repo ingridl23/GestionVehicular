@@ -1,4 +1,4 @@
-@extends('layout.app')
+@extends('layout.appOperativo')
 
 @section('page-title', 'Reportes')
 @section('page-description', 'Seguimiento de mis reportes')

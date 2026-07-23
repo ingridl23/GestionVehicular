@@ -1,5 +1,5 @@
 
- @extends('layout.app')
+ @extends('layout.appOperativo')
 
 @section('page-title', 'Perfil de Usuario')
 @section('page-description', 'Información del usuario')

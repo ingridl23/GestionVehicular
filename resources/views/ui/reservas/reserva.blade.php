@@ -1,4 +1,4 @@
-@extends('layout.app')
+@extends(auth()->user()->hasRole('Operativo') ? 'layout.appOperativo' : 'layout.app')
 
 @section('content')
 <section class="max-w-6xl mx-auto p-2 space-y-6">

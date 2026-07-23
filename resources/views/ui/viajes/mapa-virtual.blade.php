@@ -1,4 +1,4 @@
-@extends('layout.app')
+@extends(auth()->user()->hasRole('Operativo') ? 'layout.appOperativo' : 'layout.app')
 
 @section('content')
 <div id="wrap" class="flex flex-col lg:flex-row gap-4">
