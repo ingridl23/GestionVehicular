@@ -323,7 +323,7 @@ $ultimosViajes = Viaje::with('reserva')
         $data = $request->validate([
             'name'              => 'required|string|max:100',
             'lastname'          => 'required|string|max:100',
-            'legajo'            => ['nullable', 'string', 'max:20', Rule::unique('user', 'legajo')],
+            'legajo'            => ['nullable', 'integer', Rule::unique('user', 'legajo')],
             'email'             => 'required|email|unique:user',
             'password'          => 'required|min:8',
             'id_dependencia'    => 'required|exists:dependencia,id',
@@ -566,8 +566,7 @@ $imagen = ImagenProfile::create([
             'email' => 'required|email|unique:user,email,' . $usuario->id,
             'legajo' => [
             'nullable',
-            'string',
-            'max:20',
+            'integer',
              Rule::unique('user', 'legajo')->ignore($usuario->id),
     ],
             'id_dependencia' => 'required|exists:dependencia,id',
@@ -745,7 +744,7 @@ $imagen = ImagenProfile::create([
             'name'     => ['required', 'string', 'max:100'],
             'lastname' => ['required', 'string', 'max:100'],
             'email'    => ['required', 'email', Rule::unique('user', 'email')->ignore($usuario->id)],
-            'legajo'   => ['nullable', 'string', 'max:20', Rule::unique('user', 'legajo')->ignore($usuario->id)],
+            'legajo'   => ['nullable', 'integer', Rule::unique('user', 'legajo')->ignore($usuario->id)],
             'foto'     => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ];
 

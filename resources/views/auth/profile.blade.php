@@ -141,7 +141,7 @@
                             Legajo
                         </label>
                         @if($puedeEditar)
-                            <input type="text" name="legajo" value="{{ old('legajo', $usuario->legajo) }}"
+                            <input type="number" name="legajo" value="{{ old('legajo', $usuario->legajo) }}"
                                 class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                         @else
                             <p class="text-gray-900 dark:text-white">{{ $usuario->legajo ?? 'N/A' }}</p>
