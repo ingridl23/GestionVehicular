@@ -1,4 +1,4 @@
-console.log('vehiculos.js cargado correctamente');
+//console.log('vehiculos.js cargado correctamente');
 
 
 

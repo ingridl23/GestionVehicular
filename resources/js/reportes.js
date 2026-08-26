@@ -1,4 +1,4 @@
-console.log("JS reportescargado");
+//console.log("JS reportescargado");
 
 function setText(id, value) {
     const el = document.getElementById(id);

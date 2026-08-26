@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-    console.log('alerts success');
+    //console.log('alerts success');
 
     const pageAlertas = document.getElementById('modalAlerta');
 

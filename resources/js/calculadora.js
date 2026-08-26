@@ -3,7 +3,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     if (!document.getElementById('calc-litros')) return;
 
-    console.log('js calculadora cargado');
+    //console.log('js calculadora cargado');
 
     const PRECIO_ACTUAL = window.PRECIO_ACTUAL || null;
 
