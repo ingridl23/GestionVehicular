@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(php -l database/seeders/EventoSeeder.php)",
+      "Bash(awk '$1>1')",
+      "Bash(cp database/seeders/EventoSeeder.php \"C:\\\\Users\\\\Martin\\\\AppData\\\\Local\\\\Temp\\\\EventoSeeder.php.bak\")",
+      "Bash(php \"C:\\\\Users\\\\Martin\\\\AppData\\\\Local\\\\Temp\\\\fix_slugs.php\")",
+      "Bash(php artisan *)",
+      "Bash(php \"C:\\\\Users\\\\Martin\\\\AppData\\\\Local\\\\Temp\\\\check_accent_dupes.php\")",
+      "Bash(node --check resources/js/event-filter.js)",
+      "Bash(npm run *)",
+      "Bash(git check-ignore *)"
+    ],
+    "additionalDirectories": [
+      "C:\\Users\\Martin\\AppData\\Local\\Temp"
+    ]
+  }
+}
